@@ -1,10 +1,10 @@
 
-import datetime
+from datetime import datetime
+import cStringIO as StringIO
 
 import json
-from copy import deepcopy
 
-from flask import Blueprint, request, flash, abort, make_response, render_template, redirect
+from flask import Blueprint, request, flash, abort, make_response, render_template, redirect, send_file
 from flask.ext.login import current_user
 
 from portality.core import app
@@ -14,21 +14,115 @@ import portality.models as models
 blueprint = Blueprint('reports', __name__)
 
 
-# show the options for viewing / downloading generated reports, or perhaps offer building via facetview
-@blueprint.route('/')
+# restrict everything in exports to logged in users who can view admin
+@blueprint.before_request
+def restrict():
+    if current_user.is_anonymous():
+        return redirect('/account/login?next=' + request.path)
+    elif not current_user.view_admin:
+        abort(401)
+
+
+@blueprint.route('/', methods=['GET','POST'])
 def index():
-    return render_template('leaps/exports/index.html')
+    query = json.loads(request.values.get('query','{"query":{"match_all":{}}}'))
+    if 'size' in request.values: query['size'] = request.values['size']
+    selected = json.loads(request.values.get('selected','[]'))
+
+    if request.method == 'GET':
+        return render_template('leaps/exports/index.html', query=json.dumps(query), selected=json.dumps(selected))
+
+    elif request.method == 'POST':
+        keys = request.form.keys()
+        s = models.Student.query(q=query)
+        students = []
+        for i in s.get('hits',{}).get('hits',[]): 
+            if (selected and i['_source']['id'] in selected) or not selected:
+                students.append(i['_source'])
+        
+        del keys['query']
+        del keys['submit']
+        del keys['selected']
+        
+        return download_csv(students,keys)
+
+
+def download_csv(recordlist,keys):
+    # make a csv string of the records
+    csvdata = StringIO.StringIO()
+    firstrecord = True
+    for record in recordlist:
+        # make sure this record has all the keys we would expect
+        for key in keys:
+            if key not in record.keys():
+                record[key] = ""
+        # for the first one, put the keys on the first line, otherwise just newline
+        if firstrecord:
+            fk = True
+            for key in sorted(record.keys()):
+                if key in keys: # ignore keys that have not been selected by the user
+                    if fk:
+                        fk = False
+                    else:
+                        csvdata.write(',')
+                    csvdata.write('"' + key + '"')
+            csvdata.write('\n')
+            firstrecord = False
+        else:
+            csvdata.write('\n')
+        # and then add each record as a line with the keys as chosen by the user
+        firstkey = True
+        for key in sorted(record.keys()):
+            if key in keys:
+                if firstkey:
+                    firstkey = False
+                else:
+                    csvdata.write(',')
+                if key in ['applications','interests','qualifications','experience']:
+                    tidykey = ""
+                    firstline = True
+                    for line in record[key]:
+                        if firstline:
+                            firstline = False
+                        else:
+                            tidykey += '\n'
+                        if key == 'applications':
+                            tidykey += line['level'] + " " + line['subject'] + " at " + line['institution']
+                        elif key == 'interests':
+                            tidykey += line['title'] + " - " + line['brief_description']
+                        elif key =='qualifications':
+                            tidykey += line['year'] + " grade " + line['grade'] + " in " + line['level'] + " " + line['subject']
+                        elif key == 'experience':
+                            tidykey += line['date_from'] + " to " + line['date_to'] + " " + line['title'] + " - " + line['brief_description']
+                else:
+                    if isinstance(record[key],bool):
+                        if record[key]:
+                            tidykey = "true"
+                        else:
+                            tidykey = "false"
+                    else:
+                        tidykey = record[key].replace('"',"'")
+                csvdata.write('"' + tidykey + '"')
+
+    # dump to the browser as a csv attachment
+    csvdata.seek(0)
+    return send_file(
+        csvdata, 
+        mimetype='text/csv',
+         attachment_filename="leaps_export_" + datetime.now().strftime("%d%m%Y%H%M") + ".csv",
+        as_attachment=True
+    )
+            
 
 
 
 
-import cStringIO as StringIO
+
 import reportlab, html5lib
 
 # output the student details to a pdf template
 def pdf():
     pass
-    # only allow for staff
     # get the data for the student - or if no student print a blank pdf
     # get the student pdf template, and run it through the template renderer
 
@@ -41,8 +135,6 @@ def pdf():
 
     #result = StringIO.StringIO()
     #pdf = pisa.pisaDocument(StringIO.StringIO(html.encode("ISO-8859-1", 'ignore')), result,)
-
-    # email the PAE if appropriate
     
     # set the status to show the PAE has been sent, and to whom / why / when
 
@@ -61,19 +153,7 @@ def emailpae(paeform,unique_url="",to=['leaps@ed.ac.uk'],message=""):
     msg.attach('PAE_request.pdf',paeform,'application/pdf')
     msg.send()
 
-# email the leaps admin when a PAE response is received
-def emailadmin(paeid,to=['leaps@ed.ac.uk']):
-    subject = "PAE response received"
-    message = "A response has been received via the online response form.\n\n"
-    message += "You can view the response at:\n\n"
-    message += "https://leapssurvey.org/admin/leaps/pae/" + paeid
-    message += "\n\nThanks!"
-    fromwho = "leaps@ed.ac.uk"
-    msg = EmailMessage(subject, message, fromwho, to, headers={'Reply-To': 'leaps@ed.ac.uk'})
-    msg.send()
 '''
-
-
 
 
 # prep a pae for print / email
@@ -119,54 +199,6 @@ def ppae(request,admin_site):
         return render_to_response('ppae.html',render_vals,RequestContext(request, {}))
         
 
-# pass the export start page for staff only
-def exporter(request,admin_site):
-    if not request.user.is_staff:
-        return HttpResponseForbidden()
-    if request.method == "POST":
-        if request.POST["submit"] == "email":
-            # email the report to someone
-            email = request.POST["emailto"]
-            return "Would email to " + email
-        else:
-            return serialise(request)
-    elif not request.GET["ct"]:
-        return render_to_response('export_front.html',)        
-    else:
-        fields = {}
-        if ContentType.objects.get(pk=request.GET["ct"]).name in ["student","pae"]:
-            sets = ['Student','ExtraAcademicAndCareer','Interest','WorkExperience','Qualification','Application','UnavailableSubject','Interview','School','Pae']
-            ignores = ["student","id","created","last_altered","data_policy_agreement"]
-        else:
-            sets = ['Application']
-            ignores = ["id"]
-        if ContentType.objects.get(pk=request.GET["ct"]).name == "pae":
-            # convert pae IDs to student IDs
-            ids = []
-            for pid in request.GET["ids"].split(','):
-                sid = str(Pae.objects.get(pk=pid).student.id)
-                if sid not in ids:
-                    ids.append(sid)
-            ids = ','.join(ids)
-        else:
-            ids = request.GET["ids"]
-        for group in sets:
-            fields[group] = []
-            model = get_model('leaps',group)
-            for field in model._meta.fields:
-                if field.name not in ignores:
-                    fields[group].append(field.name)
-        render_vals = {
-            'ct':request.GET["ct"],
-            'ctn':ContentType.objects.get(pk=request.GET["ct"]).name,
-            'ids':ids,
-            'inst': request.GET.get('inst',''),
-            'paeids': request.GET.get('ids',''),
-            'getall': request.GET.get('getall',''),
-            'archive': request.GET.get('archive',''),
-            'fields':fields,
-        }
-        return render_to_response('export.html',render_vals,RequestContext(request, {}),)
 
 
 # a function to serialize students to csv
@@ -223,8 +255,6 @@ def serialise(request):
                 else:
                     blank = {}
                 student[model].append(blank)
-#            if model == 'Pae':
-#                cleanstudent[model] = student[model]
             if model+"---all" in request.POST:
                 cleanstudent[model] = student[model]
             else:

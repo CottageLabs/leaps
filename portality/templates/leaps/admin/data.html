@@ -2,13 +2,13 @@
 
 
 {% block options %}
-            <a class="btn btn-success searchtype" data-type="school" href="#">Schools</a>
-            <a class="btn searchtype" data-type="institution" href="#">Institutions</a>
-            <a class="btn searchtype" data-type="level" href="#">School study levels</a>
-            <a class="btn searchtype" data-type="advancedlevel" href="#">Advanced study levels</a>
-            <a class="btn searchtype" data-type="subject" href="#">Subjects</a>
-            <a class="btn searchtype" data-type="grade" href="#">Grades</a>
-            <a class="btn searchtype" data-type="simd" href="#">SIMD</a>
+            <a class="btn btn-success searchtype" data-type="school" href="/admin/data/school">Schools</a>
+            <a class="btn searchtype" data-type="institution" href="/admin/data/institution">Institutions</a>
+            <a class="btn searchtype" data-type="level" href="/admin/data/level">School study levels</a>
+            <a class="btn searchtype" data-type="advancedlevel" href="/admin/data/advancedlevel">Advanced study levels</a>
+            <a class="btn searchtype" data-type="subject" href="/admin/data/subject">Subjects</a>
+            <a class="btn searchtype" data-type="grade" href="/admin/data/grade">Grades</a>
+            <a class="btn searchtype" data-type="simd" href="/admin/data/simd">SIMD</a>
             <a class="btn btn-primary addnew" href="#">Add new <span id="newtype" class="newtype">school</span></a>
             <!--<a class="btn btn-warning bulkload" href="/admin/import">Bulk import <span class="newtype">school</span></a>-->
 
@@ -168,6 +168,7 @@ jQuery(document).ready(function($) {
         paging: {
             size: 50
         },
+        pager_on_top: true,
         pushstate: false,
         default_operator: "AND",
         default_freetext_fuzzify: "*"
@@ -175,7 +176,7 @@ jQuery(document).ready(function($) {
     $('#facetview').facetview(opts);
 
     var searchtype = function(event) {
-        event ? event.preventDefault() : false;
+        //event ? event.preventDefault() : false;
         $('.searchtype').removeClass('btn-success');
         $(this).addClass('btn-success');
         var type = $(this).attr('data-type');
@@ -205,6 +206,11 @@ jQuery(document).ready(function($) {
         window.location = $(this).attr('href') + '/' + newtype
     }
     $('.bulkload').bind('click',bulkload);
+    
+{% if model %}
+    $('[data-type="{{model}}"]').trigger('click');
+{% endif %}
+
 });
 
 </script>

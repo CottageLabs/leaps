@@ -1,3 +1,0 @@
-{% for row in records %}{% if forloop.first %}{% for key,val in row.Student.items %}"{{ key }}",{% endfor %}{% endif %}{% endfor %}
-{% for row in records %}{% for key,val in row.Student.items %}"{{ val }}",{% endfor %}{% for key,val in row.Qualification.items %}"{{ val }}",{% endfor %}
-{% endfor %}

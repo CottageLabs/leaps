@@ -18,7 +18,7 @@ jQuery(document).ready(function() {
     }
     $('#submit').bind('click',verify);
     
-{% if application.pae_reply_received %}
+{% if application.pae_reply_received and not current_user.do_admin %}
     $('input, select, textarea').attr("disabled","disabled");
 {% endif %}
 
@@ -52,7 +52,7 @@ jQuery(document).ready(function() {
         {% endif %}
     
 
-        <form id="paeform" method="POST">
+        <form id="paeform" method="POST" action="">
 
         <div class="well">
             <h1>{{ student.first_name }} {{ student.last_name }}</h1>
@@ -105,29 +105,29 @@ jQuery(document).ready(function() {
 
             <h2>Further information</h2>
             <p>
-            {% if student.first_attending_university == "True" %}
+            {% if student.first_attending_university %}
                 This student is the first from their family attending university<br />
             {% endif %}
-            {% if student.looked_after_child == "True" %}
+            {% if student.looked_after_child %}
                 This student was a looked after child<br />
             {% endif %}
-            {% if student.low_income_family == "True" %}
+            {% if student.low_income_family %}
                 This student is from a low income family<br />
             {% endif %}
-            {% if student.young_carer == "True" %}
+            {% if student.young_carer %}
                 This student is a young carer<br />
             {% endif %}
-            {% if student.law_application == "True" %}
+            {% if student.law_application %}
                 This student is making a law application<br />
             {% endif %}
-            {% if student.early_application == "True" %}
+            {% if student.early_application %}
                 This student is making an early application<br />
             {% endif %}
             {% if student.main_language_at_home %}
                 Main language at home is {{ student.main_language_at_home }}<br>
             {% endif %}
             {% if student.additional_comments != "" %}
-                {{ student.additional_comments|safe }}
+                <strong>LEAPS staff comments:</strong> {{ student.additional_comments|safe }}
             {% endif %}
             </p>
 
@@ -162,9 +162,7 @@ jQuery(document).ready(function() {
                         you enter here will appear on the response <br>
                         forwarded to the student.</strong>
                     </td>
-                    <td><textarea name="conditions" style="width:400px;min-height:200px;">
-                    {{application.conditions}}
-                    </textarea></td>
+                    <td><textarea name="conditions" style="width:400px;min-height:200px;">{{application.conditions}}</textarea></td>
                 </tr>
             </table>
         </div>
@@ -191,7 +189,7 @@ jQuery(document).ready(function() {
         </table>
 
         
-        {% if not application.pae_reply_received %}
+        {% if not application.pae_reply_received or current_user.do_admin %}
         <input style="margin:20px 0 0 30%;" class="btn btn-large btn-primary" type="submit" name="submit" value="submit your response" />
         {% endif %}
         

@@ -3,11 +3,10 @@
 {% block options %}
             <a class="btn btn-primary" href="/admin/student/new">add new student survey</a>
             <a class="btn" href="/admin/forms">Print selected</a>
-            <a class="btn" href="/admin/export">Export selected</a>
+            <a id="export" class="btn" href="/admin/export">Export selected</a>
 
 <!--            <a class="btn" href="#">show records awaiting PAE responses</a>
             <a class="btn" href="#">send PAEs for selected</a>
-            <a class="btn" href="#">export selected records</a>
             <a class="btn btn-danger" href="#">delete selected records</a>-->
 {% endblock %}
 
@@ -16,6 +15,22 @@
 
 <script>
 jQuery(document).ready(function() {
+    var exportthis = function(event) {
+        event.preventDefault();
+        var loc = $(this).attr('href') + '?q=' + JSON.stringify($.fn.facetview.options.querystring);
+        if ( $('#selecttotal').attr('checked') ) {
+            loc += '&size=' + $.fn.facetview.options.rawdata.hits.total;
+        } else if ( !$('#selectall').is(':checked') ) {
+            var selected = [];
+            $('.selectthis').each(function() {
+                $(this).is(':checked') ? selected.push($(this).attr('name').replace("select_","")) : false;
+            });
+            selected.length > 0 ? loc += '&selected=' + JSON.stringify(selected) : false;
+        }
+        window.location = loc;
+    }
+    $('#export').bind('click',exportthis);
+
     var post = function() {
         if ( $('#default_current').length == 0 ) {
             $('body').append('<div id="default_current" style="display:none;"></div>');

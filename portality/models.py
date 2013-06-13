@@ -86,17 +86,34 @@ class Student(DomainObject):
             "experience": []
         }
         
+        thirdquals = []
+        fourthquals = []
+        fifthquals = []
+        sixthquals = []
+        otherquals = []
         for k,v in enumerate(request.form.getlist('qualification_subject')):
             if v is not None and len(v) > 0 and v != " ":
                 try:
-                    rec["qualifications"].append({
+                    qual = {
                         "subject": v,
                         "year": request.form.getlist('qualification_year')[k],
                         "level": request.form.getlist('qualification_level')[k],
                         "grade": request.form.getlist('qualification_grade')[k]
-                    })
+                    }
+                    if qual['year'] == "Third year":
+                        thirdquals.append(qual)
+                    elif qual['year'] == "Fourth year":
+                        fourthquals.append(qual)
+                    elif qual['year'] == "Fifth year":
+                        fifthquals.append(qual)
+                    elif qual['year'] == "Sixth year":
+                        sixthquals.append(qual)
+                    else:
+                        otherquals.append(qual)
                 except:
                     pass
+        rec['qualifications'] = thirdquals + fourthquals + fifthquals + sixthquals + otherquals
+
         for k,v in enumerate(request.form.getlist('interest_title')):
             if v is not None and len(v) > 0 and v != " ":
                 try:
@@ -136,7 +153,13 @@ class Student(DomainObject):
 
         for key in request.form.keys():
             if not key.startswith("qualification_") and not key.startswith("interest_") and not key.startswith("application_") and not key.startswith("experience_") and key not in ['submit']:
-                rec[key] = request.form[key]
+                val = request.form[key]
+                if val == "on":
+                    rec[key] = True
+                elif val == "off":
+                    rec[key] = False
+                else:
+                    rec[key] = val
 
         if self.id is not None: rec['id'] = self.id
         self.data = rec

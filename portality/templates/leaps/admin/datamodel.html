@@ -251,6 +251,7 @@ jQuery(document).ready(function($) {
                 </tr>
             </thead>
             <tbody>
+                {% if record %}
                 {% for contact in record.data.contacts %}
     	        <tr>
             		<td><input style="width:160px;" type="text" name="contact_name" value="{{contact.name}}"></td>
@@ -265,6 +266,7 @@ jQuery(document).ready(function($) {
             		<td style="padding-left:10px;"><input type="text" name="password" placeholder="********"></td>
                 </tr>
                 {% endfor %}
+                {% endif %}
     	        <tr>
             		<td><input style="width:160px;" type="text" name="contact_name"></td>
             		<td><input style="width:180px;" type="text" name="contact_department"></td>

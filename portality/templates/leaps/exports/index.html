@@ -1,10 +1,148 @@
-{% extends "base.html" %}
+{% extends "leaps/admin/admin-base.html" %}
+
+{% block options %}
+
+{% endblock %}
 
 {% block content %}
 
       <div class="row-fluid">
         <div class="span12">
-            <p>Exports stuff goes here</p>
+            <h1>Export student records</h1>
+                        
+            <h2>Which fields do you want to export?</h2>
+            
+            <form action="" method="POST">
+            
+            {% if query %}
+            <input type="hidden" name="query" value="{{query}}">
+            {% endif %}
+
+            {% if selected %}
+            <input type="hidden" name="selected" value="{{selected}}">
+            {% endif %}
+            
+            <p><input class="btn btn-primary" style="float:right;margin-bottom:10px;" type="submit" name="submit" value="Export the records"></p>
+
+	        <table class="table table-bordered">
+	            <thead>
+	                <th>Student details</th>
+	                <th>School details</th>
+	                <th>More information</th>
+	                <th>Interview details</th>
+	            </thead>
+	            <tbody>
+        	        <tr>
+	                    <td><input type="checkbox" name="first_name"> First name</td>
+	                    <td><input type="checkbox" name="year"> Year group</td>
+	                    <td><input type="checkbox" name="qualifications"> Qualifications</td>
+                		<td><input type="checkbox" name="first_attending_university"> First attending university</td>
+                    </tr>
+        	        <tr>
+	                    <td><input type="checkbox" name="last_name"> Last name</td>
+	                    <td><input type="checkbox" name="school"> School</td>
+	                    <td><input type="checkbox" name="applications"> Applications</td>
+                		<td><input type="checkbox" name="law_application"> Law application</td>
+                    </tr>
+        	        <tr>
+	                    <td><input type="checkbox" name="date_of_birth"> Date of birth</td>
+	                    <td><input type="checkbox" name="school_house"> School house</td>
+	                    <td><input type="checkbox" name="interests"> Interests</td>
+                		<td><input type="checkbox" name="early_application"> Early application</td>
+                    </tr>
+        	        <tr>
+	                    <td><input type="checkbox" name="ucas_number"> UCAS number</td>
+	                    <td><input type="checkbox" name="local_authority"> Local authority</td>
+	                    <td><input type="checkbox" name="applications"> Experience</td>
+                		<td><input type="checkbox" name="looked_after_child"> Looked after child</td>
+                    </tr>
+        	        <tr>
+	                    <td><input type="checkbox" name="gender"> Gender</td>
+	                    <td><input type="checkbox" name="leaps_category"> LEAPS category</td>
+                        <td></td>
+                		<td><input type="checkbox" name="low_income_family"> Low income family</td>
+                    </tr>
+        	        <tr>
+	                    <td><input type="checkbox" name="address"> Address</td>
+                        <td><input type="checkbox" name="shep_school"> SHEP school</td>
+	                    <td><input type="checkbox" name="late_decision_to_apply"> Late decision to apply</td>
+                		<td><input type="checkbox" name="young_carer"> Young carer</td>
+                    </tr>
+        	        <tr>
+	                    <td><input type="checkbox" name="post_code"> Post code</td>
+	                    <td><input type="checkbox" name="simd_decile"> SIMD decile</td>
+	                    <td><input type="checkbox" name="had_recent_careers_interview"> Had recent careers interview</td>
+	                    <td><input type="checkbox" name="mothers_occupation"> Mothers occupation</td>
+                    </tr>
+        	        <tr>
+	                    <td><input type="checkbox" name="email"> Email address</td>
+	                    <td><input type="checkbox" name="simd_quintile"> SIMD quintile</td>
+                        <td><input type="checkbox" name="additional_qualifications"> Additional qualifications</td>
+	                    <td><input type="checkbox" name="fathers_occupation"> Fathers occupation</td>
+                    </tr>
+        	        <tr>
+	                    <td><input type="checkbox" name="home_phone"> Home phone</td>
+	                    <td></td>
+                        <td><input type="checkbox" name="issues_affecting_performance"> Issues affecting performance</td>
+                		<td><input type="checkbox" name="hn_only_candidate"> HN only candidate</td>
+                    </tr>
+
+	                <tr>
+	                    <td><input type="checkbox" name="mobile_phone"> Mobile phone</td>
+	                    <td></td>
+                        <td><input type="checkbox" name="career_plans"> Career plans</td>
+	                    <td><input type="checkbox" name="number_of_siblings"> Number of siblings</td>
+                    </tr>
+                    
+                    <tr>
+	                    <td></td>
+	                    <td></td>
+	                    <td></td>
+	                    <td><input type="checkbox" name="place_in_siblings"> Place in siblings</td>
+                    </tr>
+                    
+                    <tr>
+	                    <td></td>
+	                    <td></td>
+	                    <td><input type="checkbox" name="status"> Status</td>
+                		<td><input type="checkbox" name="previous_interview"> Previous interview</td>
+                    </tr>
+
+                    <tr>
+	                    <td></td>
+	                    <td></td>
+	                    <td><input type="checkbox" name="archive"> Archive</td>
+                        <td><input type="checkbox" name="pae_action"> PAE action</td>
+                    </tr>
+
+                    <tr>
+	                    <td></td>
+	                    <td></td>
+	                    <td><input type="checkbox" name="created_date"> Created date</td>
+                		<td><input type="checkbox" name="additional_comments"> Additional comments</td>
+                    </tr>
+
+                    <tr>
+	                    <td></td>
+	                    <td></td>
+	                    <td><input type="checkbox" name="last_updated"> Last updated</td>
+	                    <td><input type="checkbox" name="household_composition"> Household composition</td>
+                    </tr>
+
+        	        <tr>
+	                    <td></td>
+	                    <td></td>
+	                    <td></td>
+	                    <td><input type="checkbox" name="main_language_at_home"> Main language at home</td>
+                    </tr>
+
+                </tbody>
+            </table>
+            
+            <p><input class="btn btn-primary" type="submit" name="submit" value="Export the records"></p>
+            
+            </form>
+
         </div>
 
       </div>

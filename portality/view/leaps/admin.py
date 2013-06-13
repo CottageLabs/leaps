@@ -113,13 +113,16 @@ def student(uuid=None):
     
 # do updating of schools / institutes / courses / pae answers / interview data
 @blueprint.route('/data')
+@blueprint.route('/data/<model>')
 @blueprint.route('/data/<model>/<uuid>', methods=['GET','POST','DELETE'])
 def data(model=None,uuid=None):
     if request.method == 'GET':
         if model is None:
             return render_template('leaps/admin/data.html')
+        elif uuid is None:
+            return render_template('leaps/admin/data.html', model=model)
         else:
-            if uuid == "new" or uuid is None:
+            if uuid == "new":
                 return render_template('leaps/admin/datamodel.html', model=model, record=None)
             else:
                 klass = getattr(models, model[0].capitalize() + model[1:] )
