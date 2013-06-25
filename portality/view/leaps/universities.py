@@ -99,8 +99,8 @@ def pae(appid):
             for appn in student.data['applications']:
                 if appn.get('pae_reply_received',False):
                     complete = False
-            if complete:
-                student.data['status'] = 'paes_complete'
+            if complete and student.data['status'].startswith('paes'):
+                student.data['status'] = 'paes_all_received'
 
             student.save()
 
@@ -152,7 +152,21 @@ def export():
 
 def _get_students(institution):
     # TODO: add a filter so that only those records set as to be wanting PAE responses are shown
-    qry = {'query':{'bool':{'must':[{'term':{'archive'+app.config['FACET_FIELD']:'current'}}]}},'size':10000}
+    qry = {
+        'query':{
+            'bool':{
+                'must':[
+                    {'term':
+                        {'archive'+app.config['FACET_FIELD']:'current'}
+                    },
+                    {'term':
+                        {'_process_paes':True}
+                    }
+                ]
+            }
+        },
+        'size':10000
+    }
     if not isinstance(institution,bool):
         qry['query']['bool']['must'].append({'term':{'applications.institution'+app.config['FACET_FIELD']:institution}})
 

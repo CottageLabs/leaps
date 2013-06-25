@@ -26,11 +26,16 @@ jQuery(document).ready(function() {
         changeYear: true
     }
     $('.datepicker').datepicker(opts);
-    opts.yearRange = "-22:+0";
-    opts.defaultDate = '-17y';
-    opts.minDate = '-22y';
-    opts.maxDate = '-12y';
-    $('.dobdatepicker').datepicker(opts);
+    var dobopts = {
+        inline: true,
+        dateFormat: 'dd/mm/yy',
+        changeYear: true,
+        yearRange: "-22:+0",
+        defaultDate: '-17y',
+        minDate: '-22y',
+        maxDate: '-12y'
+    }
+    $('.dobdatepicker').datepicker(dobopts);
 
     // add / remove rows to list items
     var first = true;
@@ -44,16 +49,34 @@ jQuery(document).ready(function() {
         $(this).closest('tr').siblings().length == 5 ? $(this).hide() : false;
         if ( $(this).closest('tr').siblings().length < 6 ) {
             var row = $(this).closest('tr').prev().clone(true).get(0);
+            $(row).find('.noclone').remove();
             $(row).insertBefore($(this).closest('tr'));
             $(row).find('.delete-row').bind('click',deleterow);
+            $(row).find('select').val("");
+            $(row).find('input').val("");
+            $(row).find('textarea').html("");
+            $(row).find('.datepicker').datepicker("destroy");
+            $(row).find('.datepicker').removeClass("hasDatepicker").removeAttr('id');
+            $(row).find('.datepicker').datepicker(opts);
         }
     }
     var deleterow = function(event) {
         event.preventDefault();
         var row = $(this).closest('tr').clone(true).get(0);
         $(this).closest('tr').siblings().length == 6 ? $(this).closest('tr').siblings().find('.add-row').show() : false;
-        $(this).closest('tr').siblings().length == 1 ? $(row).insertBefore($(this).closest('tr')) : false;
+        if ( $(this).closest('tr').siblings().length == 1 ) {
+            $(row).find('.noclone').remove();
+            $(row).insertBefore($(this).closest('tr'));
+            $(row).find('.delete-row').bind('click',deleterow);
+            $(row).find('select').val("");
+            $(row).find('input').val("");
+            $(row).find('textarea').html("");
+            $(row).find('.datepicker').datepicker("destroy");
+            $(row).find('.datepicker').removeClass("hasDatepicker").removeAttr('id');
+            $(row).find('.datepicker').datepicker(opts);
+        }
         $(this).closest('tr').remove();
+        promptsave();
     }
     $('.add-row').bind('click',addrow);
     $('.delete-row').bind('click',deleterow);
@@ -335,11 +358,16 @@ fieldset{
 	                    <td style="text-align:right;padding:6px 10px 0 0;">Status</td>
                 		<td><select name="status">
                 		    <option>new</option>
-              		        <option{% if record %}{% if record.data.status == "TODO" %} selected="selected"{% endif %}{% endif %}>TODO</option>
-              		        <option{% if record %}{% if record.data.status == "TODO" %} selected="selected"{% endif %}{% endif %}>TODO</option>
-              		        <option{% if record %}{% if record.data.status == "TODO" %} selected="selected"{% endif %}{% endif %}>TODO</option>
-              		        <option{% if record %}{% if record.data.status == "TODO" %} selected="selected"{% endif %}{% endif %}>TODO</option>
-              		        <option{% if record %}{% if record.data.status == "TODO" %} selected="selected"{% endif %}{% endif %}>TODO</option>
+              		        <option{% if record %}{% if record.data.status == "awaiting_interview" %} selected="selected"{% endif %}{% endif %}>awaiting_interview</option>
+              		        <option{% if record %}{% if record.data.status == "interviewed" %} selected="selected"{% endif %}{% endif %}>interviewed</option>
+              		        <option{% if record %}{% if record.data.status == "absent" %} selected="selected"{% endif %}{% endif %}>absent</option>
+              		        <option{% if record %}{% if record.data.status == "contact_required" %} selected="selected"{% endif %}{% endif %}>contact_required</option>
+              		        <option{% if record %}{% if record.data.status == "paes_requested" %} selected="selected"{% endif %}{% endif %}>paes_requested</option>
+              		        <option{% if record %}{% if record.data.status == "paes_in_progress" %} selected="selected"{% endif %}{% endif %}>paes_in_progress</option>
+              		        <option{% if record %}{% if record.data.status == "paes_all_received" %} selected="selected"{% endif %}{% endif %}>paes_all_received</option>
+              		        <option{% if record %}{% if record.data.status == "paes_forwarded" %} selected="selected"{% endif %}{% endif %}>paes_forwarded</option>
+              		        <option{% if record %}{% if record.data.status == "complete" %} selected="selected"{% endif %}{% endif %}>complete</option>
+              		        <option{% if record %}{% if record.data.status == "ignore" %} selected="selected"{% endif %}{% endif %}>ignore</option>
                 		</select></td>
 
 	                    <td style="text-align:right;padding:6px 10px 0 0;">Archive</td>
@@ -516,7 +544,7 @@ fieldset{
                         <th>College / University</th>
                         <th>Subject</th>
                         <th>Level of study</th>
-                        <th>PAE replied / view</th>
+                        {% if record.data['_process_paes'] %}<th>PAE replied / view</th>{% endif %}
                     </tr>
                 </thead>
                 <tbody>
@@ -549,12 +577,24 @@ fieldset{
                                     >{{ opt }}</option>
                     		    {% endfor %}
                     		</select>
+                    		{% for key in app %}
+                    		    {% if key not in ['institution','level','subject'] %}
+                        		    <input class="noclone" type="hidden" name="application_{{key}}" value="{{app[key]}}">
+                    		    {% endif %}
+                    		{% endfor %}
                 		</td>
-                		<td>
-                		    <input type="hidden" name="application_appid" value="{{app.appid}}">
-                		    <span style="margin:5px 5px 0 5px;">{{ app.pae_reply_received }}</span>
-                    		<a target="_blank" class="btn" href="/universities/pae/{{app.appid}}">View &raquo;</a>
+                		{% if record.data['_process_paes'] %}
+                		<td class="noclone">
+                		    <span style="margin:5px 5px 0 5px;">
+                		    {% if app.pae_reply_received %}
+                    		    {{ app.pae_reply_received }}
+                    		 {% else %}
+                    		    No reply yet
+                    		 {% endif %}                		    
+                		    </span>
+                    		<a target="_blank" class="btn" href="/universities/pae/{{app.appid}}">View PAE form &raquo;</a>
                 		</td>
+                		{% endif %}
                     </tr>
                         {% endfor %}
                     {% endif %}
@@ -664,7 +704,8 @@ fieldset{
                 <thead>
                     <tr>
                         <th>Date from</th>
-                        <th>Date to</th>
+                        <th>Date to
+                        <br><span style="font-weight:normal;font-size:10px;">blank if ongoing</span></th>
                         <th>Job title</th>
                         <th>Brief Description</th>
                     </tr>

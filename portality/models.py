@@ -24,7 +24,7 @@ class Student(DomainObject):
             id_ = self.makeid()
             self.data['id'] = id_
 
-        # check for school changes
+        # check for school changes and other things that should persist across saves
         old = Student.pull(self.id)
         if old is not None:
             if old.data.get('school',False) != self.data.get('school',False):
@@ -33,6 +33,8 @@ class Student(DomainObject):
                 self.data['shep_school'] = ""
                 self.data['leaps_category'] = ""
                 self.data['local_authority'] = ""
+            if old.data.get('_process_paes',False) and '_process_paes' not in self.data:
+                self.data['_process_paes'] = old.data.get('_process_paes',False)
         
         self.data['last_updated'] = datetime.now().strftime("%Y-%m-%d %H%M")
 
@@ -43,8 +45,9 @@ class Student(DomainObject):
             self.data['created_date'] = datetime.now().strftime("%Y-%m-%d %H%M")
         
         if 'status' not in self.data or self.data['status'] == "":
-            # TODO: ensure this sets first status to the correct one
             self.data['status'] = 'new'
+        elif self.data['status'].startswith('paes'):
+            self.data['_process_paes'] = True
 
         if 'simd_decile' not in self.data or self.data['simd_decile'] == "":
             s = Simd.pull_by_post_code(self.data['post_code'])
@@ -126,17 +129,33 @@ class Student(DomainObject):
         for k,v in enumerate(request.form.getlist('application_subject')):
             if v is not None and len(v) > 0 and v != " ":
                 try:
-                    try:
-                        appid = request.form.getlist('application_appid')[k]
-                        if appid == "": appid = Student.makeid()
-                    except:
-                        appid = Student.makeid()
-                    rec["applications"].append({
+                    appn = {
                         "subject": v,
                         "institution": request.form.getlist('application_institution')[k],
-                        "level": request.form.getlist('application_level')[k],
-                        "appid":appid
-                    })
+                        "level": request.form.getlist('application_level')[k]
+                    }
+                    try:
+                        appn['appid'] = request.form.getlist('application_appid')[k]
+                        if 'appid' not in appn or appn['appid'] == "": appn['appid'] = Student.makeid()
+                    except:
+                        appn['appid'] = Student.makeid()
+                    try:
+                        appn['pae_reply_received'] = request.form.getlist('application_pae_reply_received')[k]
+                    except:
+                        pass
+                    try:
+                        appn['consider'] = request.form.getlist('application_consider')[k]
+                    except:
+                        pass
+                    try:
+                        appn['conditions'] = request.form.getlist('application_conditions')[k]
+                    except:
+                        pass
+                    try:
+                        appn['summer_school'] = request.form.getlist('application_summer_school')[k]
+                    except:
+                        pass
+                    rec["applications"].append(appn)
                 except:
                     pass
         for k,v in enumerate(request.form.getlist('experience_title')):
