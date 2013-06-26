@@ -358,6 +358,7 @@ fieldset{
 	                    <td style="text-align:right;padding:6px 10px 0 0;">Status</td>
                 		<td><select name="status">
                 		    <option>new</option>
+              		        <option{% if record %}{% if record.data.status == "not_eligible" %} selected="selected"{% endif %}{% endif %}>not_eligible</option>
               		        <option{% if record %}{% if record.data.status == "awaiting_interview" %} selected="selected"{% endif %}{% endif %}>awaiting_interview</option>
               		        <option{% if record %}{% if record.data.status == "interviewed" %} selected="selected"{% endif %}{% endif %}>interviewed</option>
               		        <option{% if record %}{% if record.data.status == "absent" %} selected="selected"{% endif %}{% endif %}>absent</option>
