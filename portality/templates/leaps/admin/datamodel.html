@@ -259,11 +259,13 @@ jQuery(document).ready(function($) {
             		<td><input style="width:120px;" type="text" name="contact_phone" value="{{contact.phone}}"></td>
             		<td>
             		    <input style="width:180px;" type="text" name="contact_email" value="{{contact.email}}">
+            		</td>
+            		<td>
+            		    <input type="text" name="contact_password" placeholder="********">
 	                    {% if current_user.is_super and contact.email %}
 	                    <a class="btn" style="margin-top:-8px;" target="_blank" href="/account/{{contact.email}}" alt="Click to view the LEAPS login account associated with this contact" title="Click to view the LEAPS login account associated with this contact">view &raquo;</a>
 	                    {% endif %}
             		</td>
-            		<td style="padding-left:10px;"><input type="text" name="password" placeholder="********"></td>
                 </tr>
                 {% endfor %}
                 {% endif %}
@@ -272,7 +274,7 @@ jQuery(document).ready(function($) {
             		<td><input style="width:180px;" type="text" name="contact_department"></td>
             		<td><input style="width:120px;" type="text" name="contact_phone"></td>
             		<td><input style="width:180px;" type="text" name="contact_email"></td>
-            		<td style="padding-left:10px;"><input type="text" name="password" placeholder="********"></td>
+            		<td><input type="text" name="contact_password" placeholder="********"></td>
                 </tr>
             </tbody>
         </table>
@@ -281,7 +283,7 @@ jQuery(document).ready(function($) {
  	    <p>Passwords are never displayed. Enter a new password and save to update the associated user account.
         Deleting this record also deletes the associated user accounts.</p>
         <p>Changing the contact email address changes the school login account.
-        If you change this, provide a new password below too - 
+        If you change this, provide a new password too - 
         <span style="color:red;">otherwise the account may be unsafe</span>.</p>
         <p>If there are multiple contacts, there will be multiple associated user accounts, corresponding to each contact email address.</p>
 

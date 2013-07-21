@@ -9,12 +9,7 @@ setup(
         "Flask-Login",
         "Flask-WTF",
         "requests==1.1.0",
-        "markdown",
-        "topia.termextract",
-        "html2text",
-        "pisa",
-        "reportlab",
-        "html5lib"
+        "Flask-WeasyPrint"
     ],
     url = 'http://cottagelabs.com/',
     author = 'Cottage Labs',

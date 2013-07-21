@@ -149,24 +149,17 @@ def data(model=None,uuid=None):
     elif request.method == 'POST':
         if model is not None:
             klass = getattr(models, model[0].capitalize() + model[1:] )
-            newrec = {}
-            for val in request.values:
-                if val not in ["submit"]:
-                    newrec[val] = request.values[val]
-                    # TODO: if school or institution, change contacts list into a contacts object, like student save from form
             if uuid is not None and uuid != "new":
                 rec = klass().pull(uuid)
                 if rec is None:
                     abort(404)
                 else:
-                    newrec['id'] = rec.id
-                    rec.data = newrec
-                    rec.save()
+                    rec.save_from_form(request)
                     flash("Your " + model + " has been updated", "success")
                     return render_template('leaps/admin/datamodel.html', model=model, record=rec)
             else:
-                rec = klass(**newrec)
-                rec.save()
+                rec = klass()
+                rec.save_from_form(request)
                 flash("Your new " + model + " has been created", "success")
                 return redirect(url_for('.data') + '/' + model + '/' + str(rec.id))
         else:

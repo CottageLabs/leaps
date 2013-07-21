@@ -7,6 +7,8 @@ import json
 from flask import Blueprint, request, flash, abort, make_response, render_template, redirect, send_file
 from flask.ext.login import current_user
 
+from flask_weasyprint import HTML, render_pdf
+
 from portality.core import app
 import portality.models as models
 
@@ -114,15 +116,25 @@ def download_csv(recordlist,keys):
     )
             
 
+# print a student as a pdf
+@blueprint.route('/<sid>.pdf', methods=['GET'])
+def pdf(sid):
+    if sid == "new":
+        student = None
+    else:
+        student = models.Student.pull(sid)
+        if student is None: abort(404)
+
+    html = render_template('leaps/admin/student_pdf', record=student)
+    return render_pdf(HTML(string=html))
 
 
 
-
-import reportlab, html5lib
+#import reportlab, html5lib
 
 # output the student details to a pdf template
-def pdf():
-    pass
+#def pdf():
+#    pass
     # get the data for the student - or if no student print a blank pdf
     # get the student pdf template, and run it through the template renderer
 
@@ -198,99 +210,5 @@ def ppae(request,admin_site):
         }
         return render_to_response('ppae.html',render_vals,RequestContext(request, {}))
         
-
-
-
-# a function to serialize students to csv
-def serialise(request):
-    ids = [item for item in request.POST["ids"].split(",")]
-
-    # check in case all were selected
-    if 'archive' in request.POST:
-        archid = request.POST['archive']
-    else:
-        archid = 1
-    if 'getall' in request.POST:
-        if request.POST['getall']:
-            ids = []
-            recs = Student.objects.filter(archive__id__exact=archid)
-            for obj in recs:
-                ids.append(obj.id)
-        
-    students = []
-    for ref in ids:
-        student = student_for_render(ref)
-        cleanstudent = {}
-        for model in student:
-            if not student[model]:
-                if model == 'ExtraAcademicAndCareer':
-                    blank = {
-                        "any_career_plans":"",
-                        "late_decision_to_apply":"",
-                        "had_recent_careers_interview":"",
-                        "any_additional_qualifications":"",
-                        "other_academic_issues":""
-                    }
-                elif model == 'Interview':
-                    blank = {
-                        "first_attending_university":"",
-                        "mothers_occupation":"",
-                        "fathers_occupation":"",
-                        "number_of_siblings":"",
-                        "place_in_siblings":"",
-                        "household_composition":"",
-                        "main_language_at_home":"",
-                        "looked_after_child":"",
-                        "low_income_family":"",
-                        "young_carer":"",
-                        "law_application":"",
-                        "early_application":"",
-                        "previous_interview":"",
-                        "HN_only_candidate":"",
-                        "PAE_action":"",
-                        "additional_comments":"",
-                        "created": "",
-                        "last_altered":""
-                    }
-                else:
-                    blank = {}
-                student[model].append(blank)
-            if model+"---all" in request.POST:
-                cleanstudent[model] = student[model]
-            else:
-                cleanrows = []
-                for row in student[model]:
-                    newrow = {}
-                    for key,value in row.items():
-                        if model+"---"+key in request.POST:
-                            newrow[key] = value
-                    if newrow:
-                        cleanrows.append(newrow)
-                cleanstudent[model] = cleanrows
-#            if model not in cleanstudent.keys():
-#                cleanstudent[model] = student[model]
-        if cleanstudent:
-            students.append(cleanstudent)
-        #students.append(student)
-    
-    # if specific institute filter applied, restrict applications and paes to only that institute
-    inst = request.POST.get('inst',False)
-    if inst:
-        for student in students:
-            filteredapps = []
-            filteredpaes = []
-            for record in student['Application']:
-                if record['institute'] == inst:
-                    filteredapps.append(record)
-            for record in student['Pae']:
-                if record['institute'] == inst:
-                    filteredpaes.append(record)
-            student['Application'] = filteredapps
-            student['Pae'] = filteredpaes
-    
-    response = HttpResponse(render_to_response('student_csv_template',{"students":students}), mimetype='text/csv',)
-    response['Content-Disposition'] = "attachment; filename=report_%s.csv" % datetime.datetime.now().strftime("%d%m%Y")
-    return response
-
 
 

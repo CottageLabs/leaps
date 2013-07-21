@@ -1,0 +1,256 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+    <head>
+        <style type="text/css">
+            @page {
+                size: A4;
+                margin: 1cm;
+            }
+            body{
+                font-size:0.9em;
+            }
+            div{
+                padding:0;
+                margin:0;
+            }
+            h1{
+                padding:2px;
+                margin:0;
+                background-color:#ccc;
+            }
+            h2{
+                padding:2px;
+                margin:10px 0 0 0;
+                background-color:#ccc;
+            }
+            table{
+                border:1px solid #ccc;
+                border-bottom:none;
+                margin:0 0 10px 0;
+                width:100%;
+            }
+            td{
+                border-bottom:1px solid #ccc;
+            }
+            th{
+                padding:2px;
+            }
+        </style>
+    </head>
+    <body>
+
+            <h1>Lothians Equal Access Programme for Schools</h1>
+
+            <h2>Student record details for {{ record.first_name }} {{ record.last_name }}</h2>
+
+            <table>
+                <tr>
+                    <td style="width:30%;">First name</td> <td>{{ record.first_name }}</td>
+                </tr>
+                <tr>
+                    <td style="width:30%;">Last name</td> <td>{{ record.last_name }}</td>
+                </tr>
+                <tr>
+                    <td style="width:30%;">Date of birth</td> <td>{{ record.date_of_birth }}</td>
+                </tr>
+                <tr>
+                    <td style="width:30%;">UCAS number</td> <td>{{ record.ucas_number }}</td>
+                </tr>
+                <tr>
+                    <td style="width:30%;">Gender</td> <td>{{ record.gender }}</td>
+                </tr>
+                <tr>
+                    <td style="width:30%;">School</td> <td>{{ record.school }}</td>
+                </tr>
+                <tr>
+                    <td style="width:30%;">School category</td> <td>{{ record.LEAPS_category }}</td>
+                </tr>
+                <tr>
+                    <td style="width:30%;">Year group</td> <td>{{ record.year_group }}</td>
+                </tr>
+                <tr>
+                    <td style="width:30%;">Email address</td> <td>{{ record.email_address }}</td>
+                </tr>
+                <tr>
+                    <td style="width:30%;">Home phone</td> <td>{{ record.home_phone }}</td>
+                </tr>
+                <tr>
+                    <td style="width:30%;">Mobile phone</td> <td>{{ record.mobile_phone }}</td>
+                </tr>
+                <tr>
+                    <td style="width:30%;">Address</td> <td>{{ record.address }}</td>
+                </tr>
+                <tr>
+                    <td style="width:30%;">Address line 2</td> <td>{{ record.address_line_2 }}</td>
+                </tr>
+                <tr>
+                    <td style="width:30%;">City</td> <td>{{ record.city }}</td>
+                </tr>
+                <tr>
+                    <td style="width:30%;">Region</td> <td>{{ record.region }}</td>
+                </tr>
+                <tr>
+                    <td style="width:30%;">Post code</td> <td>{{ record.post_code }}</td>
+                </tr>
+            </table>
+
+            <h2>EXTRA ACADEMIC AND CAREER INFORMATION</h2>
+            <table style="page-break-after:always">
+                <tr>
+                    <td style="width:30%;">Late decision to apply?</td>
+                    <td>{% if record.late_decision_to_apply == "Yes" %}Yes{% else %}{% if record.late_decision_to_apply == "No" %}No{% else %}Yes/No{% endif %}{% endif %}</td>
+                </tr>
+                <tr>
+                    <td style="width:30%;">Had recent careers interview?</td>
+                    <td>{% if record.had_recent_careers_interview == "Yes" %}Yes{% else %}{% if record.had_recent_careers_interview == "No" %}No{% else %}Yes/No{% endif %}{% endif %}</td>
+                </tr>
+                <tr><td style="width:30%;">Any additional qualifications</td><td>{{ record.any_additional_qualifications }}<br /><br /><br /></td></tr>
+                <tr><td style="width:30%;">Any issues affecting academic performance</td><td>{{ record.other_academic_issues }}<br /><br /><br /></td></tr>
+                <tr><td style="width:30%;">Any career plans</td><td>{{ record.any_career_plans }}<br /><br /><br /></td></tr>
+            </table>
+
+            <h2>INTERESTS</h2>
+            <table style="page-break-after:always">
+                <tr>
+                    <th>Name</th><th>Description</th>
+                </tr>
+                {% for record in record.interests %}
+                    <tr><td style="width:30%;">{{ record.name }}</td><td>{{ record.brief_description }}<br /><br /><br /></td></tr>
+                {% endfor %}
+                <tr><td style="width:30%;"><br /><br /><br /></td><td></td></tr>
+                <tr><td style="width:30%;"><br /><br /><br /></td><td></td></tr>
+                <tr><td style="width:30%;"><br /><br /><br /></td><td></td></tr>
+                <tr><td style="width:30%;"><br /><br /><br /></td><td></td></tr>
+                <tr><td style="width:30%;"><br /><br /><br /></td><td></td></tr>
+            </table> 
+
+            <h2>WORK EXPERIENCE</h2>
+            <table style="page-break-after:always">
+                <tr>
+                    <th>When and what</th>
+                    <th>Description</th>
+                </tr>
+                {% for record in record.experience %}
+                    <tr>
+                        <td style="width:30%;">{{ record.date_from }} to {{ record.date_to }}<br />{{ record.title }}</td>
+                        <td>{{ record.brief_description }}<br /><br /><br /></td>
+                    </tr>
+                {% endfor %}
+                <tr><td style="width:30%;"><br /><br /><br /></td><td></td></tr>
+                <tr><td style="width:30%;"><br /><br /><br /></td><td></td></tr>
+                <tr><td style="width:30%;"><br /><br /><br /></td><td></td></tr>
+                <tr><td style="width:30%;"><br /><br /><br /></td><td></td></tr>
+                <tr><td style="width:30%;"><br /><br /><br /></td><td></td></tr>
+            </table> 
+
+            <h2>QUALIFICATIONS</h2>
+            <table style="page-break-after:always">
+                <tr>
+                    <th>Year</th><th>Subject</th><th>Level</th><th>Grade</th>
+                </tr>
+                {% for record in record.qualifications %}
+                    {% if record.year|lower == "third year" %}
+                        <tr><td>{{ record.year }}</td><td>{{ record.subject }}</td><td>{{ record.level }}</td><td>{{ record.grade }}</td></tr>
+                    {% endif %}
+                {% endfor %}
+                {% for record in record.qualifications %}
+                    {% if record.year|lower == "fourth year" %}
+                        <tr><td>{{ record.year }}</td><td>{{ record.subject }}</td><td>{{ record.level }}</td><td>{{ record.grade }}</td></tr>
+                    {% endif %}
+                {% endfor %}
+                {% for record in record.qualifications %}
+                    {% if record.year|lower == "fifth year" %}
+                        <tr><td>{{ record.year }}</td><td>{{ record.subject }}</td><td>{{ record.level }}</td><td>{{ record.grade }}</td></tr>
+                    {% endif %}
+                {% endfor %}
+                {% for record in record.qualifications %}
+                    {% if record.year|lower == "sixth year" %}
+                        <tr><td>{{ record.year }}</td><td>{{ record.subject }}</td><td>{{ record.level }}</td><td>{{ record.grade }}</td></tr>
+                    {% endif %}
+                {% endfor %}
+                {% for record in record.qualifications %}
+                    {% if record.year|lower != "third year" and record.year|lower != "fourth year" and record.year|lower != "fifth year" and record.year|lower != "sixth year" %}
+                        <tr><td>{{ record.year }}</td><td>{{ record.subject }}</td><td>{{ record.level }}</td><td>{{ record.grade }}</td></tr>
+                    {% endif %}
+                {% endfor %}
+                <tr><td>&nbsp;</td><td></td><td></td><td></td></tr>
+                <tr><td>&nbsp;</td><td></td><td></td><td></td></tr>
+                <tr><td>&nbsp;</td><td></td><td></td><td></td></tr>
+                <tr><td>&nbsp;</td><td></td><td></td><td></td></tr>
+                <tr><td>&nbsp;</td><td></td><td></td><td></td></tr>
+                <tr><td>&nbsp;</td><td></td><td></td><td></td></tr>
+            </table> 
+
+            <h2>POTENTIAL APPLICATIONS</h2>
+            <table style="page-break-after:always">
+                <tr>
+                    <th style="width:20%;">Institution</th><th style="width:20%;">Subject</th><th style="width:10%;">Level</th><th style="width:10%;">Course code</th><th style="width:30%;">Qualifications required</th><th style="width:10%;">PAE</th>
+                </tr>
+                {% for record in record.applications %}
+                    <tr><td>{{ record.institution }}</td><td>{{ record.subject }}</td><td>{{ record.level }}</td><td>{{ record.course_code }}</td><td></td><td></td></tr>
+                {% endfor %}
+                <tr><td>&nbsp;</td><td></td><td></td><td></td><td></td><td></td></tr>
+                <tr><td>&nbsp;</td><td></td><td></td><td></td><td></td><td></td></tr>
+                <tr><td>&nbsp;</td><td></td><td></td><td></td><td></td><td></td></tr>
+                <tr><td>&nbsp;</td><td></td><td></td><td></td><td></td><td></td></tr>
+                <tr><td>&nbsp;</td><td></td><td></td><td></td><td></td><td></td></tr>
+                <tr><td>&nbsp;</td><td></td><td></td><td></td><td></td><td></td></tr>
+            </table> 
+
+            <h2 style="page-break-before:always">INTERVIEW</h2>
+            <table style="page-break-after:always">
+                <tr>
+                    <td style="width:30%;">First attending University?</td> <td>{% if record.first_attending_university == "True" %}Yes{% else %}No{% endif %}</td>
+                </tr>
+                <tr>
+                    <td style="width:30%;">Applying to Law?</td> <td>{% if record.law_application == "True" %}Yes{% else %}No{% endif %}</td>
+                </tr>
+                <tr>
+                    <td style="width:30%;">Applying early?</td> <td>{% if record.early_application == "True" %}Yes{% else %}No{% endif %}</td>
+                </tr>
+                <tr>
+                    <td style="width:30%;">Mothers occupation</td> <td>{{ record.mothers_occupation }}</td>
+                </tr>
+                <tr>
+                    <td style="width:30%;">Fathers occupation</td> <td>{{ record.fathers_occupation }}</td>
+                </tr>
+                <tr>
+                    <td style="width:30%;">Number of siblings</td> <td>{{ record.number_of_siblings }}</td>
+                </tr>
+                <tr>
+                    <td style="width:30%;">Place in siblings</td> <td>{{ record.place_in_siblings }}</td>
+                </tr>
+                <tr>
+                    <td style="width:30%;">Household composition</td> <td>{{ record.household_composition }}</td>
+                </tr>
+                <tr>
+                    <td style="width:30%;">Main language at home</td> <td>{{ record.main_language_at_home }}</td>
+                </tr>
+                <tr>
+                    <td style="width:30%;">Looked after child?</td>
+                    <td>{% if looked_after_child in record %}{% if record.looked_after_child %}Yes{% else %}No{% endif %}{% else %}Yes/No{% endif %}</td>
+                </tr>
+                <tr>
+                    <td style="width:30%;">Low income family?</td>
+                    <td>{% if low_income_family in record %}{% if record.low_income_family %}Yes{% else %}No{% endif %}{% else %}Yes/No{% endif %}</td>
+                </tr>
+                <tr>
+                    <td style="width:30%;">Young carer?</td>
+                    <td>{% if young_carer in record %}{% if record.young_carer %}Yes{% else %}No{% endif %}{% else %}Yes/No{% endif %}</td>
+                </tr>
+                <tr>
+                    <td style="width:30%;">Previous interview in S5?</td>
+                    <td>{% if previous_interview in record %}{% if record.previous_interview %}Yes{% else %}No{% endif %}{% else %}Yes/No{% endif %}</td>
+                </tr>
+                <tr>
+                    <td style="width:30%;">PAE action</td>
+                    <td>{% if PAE_action in record %}{% if record.PAE_action %}Yes{% else %}No{% endif %}{% else %}Yes/No{% endif %}</td>
+                </tr>
+                <tr>
+                    <td colspan="2" style="min-height:60px;">Additional comments<br /><br />{{ record.additional_comments|safe }}</td>
+                </tr>
+            </table>
+
+    </body>
+</html>
+

@@ -268,6 +268,40 @@ class School(DomainObject):
                     exists.delete()
         r = requests.delete(self.target() + self.id)
 
+    def save_from_form(self, request):
+        rec = {
+            "contacts": []
+        }
+        
+        for k,v in enumerate(request.form.getlist('contact_email')):
+            if v is not None and len(v) > 0 and v != " ":
+                try:
+                    rec["contacts"].append({
+                        "name": request.form.getlist('contact_name')[k],
+                        "department": request.form.getlist('contact_department')[k],
+                        "phone": request.form.getlist('contact_phone')[k],
+                        "email": v,
+                        "password": request.form.getlist('contact_password')[k]
+                    })
+                except:
+                    pass
+
+        for key in request.form.keys():
+            if not key.startswith("contact_") and key not in ['submit']:
+                val = request.form[key]
+                if val == "on":
+                    rec[key] = True
+                elif val == "off":
+                    rec[key] = False
+                else:
+                    rec[key] = val
+
+        if len(rec['contacts']) == 0: del rec['contacts']
+        for k, v in rec.items():
+            self.data[k] = v
+        
+        self.save()
+
 
 class Institution(School):
     __type__ = 'institution'
