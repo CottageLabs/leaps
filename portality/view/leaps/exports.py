@@ -40,9 +40,7 @@ def index():
             if (selected and i['_source']['id'] in selected) or not selected:
                 students.append(i['_source'])
         
-        del keys['query']
-        del keys['submit']
-        del keys['selected']
+        keys = [ i for i in keys if i not in ['query','submit','selected']]
         
         return download_csv(students,keys)
 
