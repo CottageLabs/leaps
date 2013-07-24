@@ -6,8 +6,16 @@
 jQuery(document).ready(function($) {
 
 {% if current_user.do_admin %}
+
+    var preprow = function(row) {
+        $(row).find('.noclone').remove();
+        $(row).find('.delete-row').bind('click',deleterow);
+        $(row).find('select').val("");
+        $(row).find('input').val("");
+        $(row).find('textarea').html("");
+    }
+
     // add / remove rows to list items
-    var first = true;
     $('table.multi').find('tbody').children('tr').each(function() {
         $(this).children('td').first().prepend('<a class="btn btn-warning delete-row" style="margin:-10px 2px 0 0;" href="#">delete</a>').children('select, input').addClass('narrow');
     });
@@ -15,22 +23,26 @@ jQuery(document).ready(function($) {
 
     var addrow = function(event) {
         event.preventDefault();
-        $(this).closest('tr').siblings().length == 5 ? $(this).hide() : false;
-        if ( $(this).closest('tr').siblings().length < 6 ) {
+        $(this).closest('tr').siblings().length == 10000 ? $(this).hide() : false;
+        if ( $(this).closest('tr').siblings().length < 10001 ) {
             var row = $(this).closest('tr').prev().clone(true).get(0);
             $(row).insertBefore($(this).closest('tr'));
-            $(row).find('.delete-row').bind('click',deleterow);
+            preprow(row);
         }
     }
     var deleterow = function(event) {
         event.preventDefault();
         var row = $(this).closest('tr').clone(true).get(0);
-        $(this).closest('tr').siblings().length == 6 ? $(this).closest('tr').siblings().find('.add-row').show() : false;
-        $(this).closest('tr').siblings().length == 1 ? $(row).insertBefore($(this).closest('tr')) : false;
+        $(this).closest('tr').siblings().length == 10001 ? $(this).closest('tr').siblings().find('.add-row').show() : false;
+        if ( $(this).closest('tr').siblings().length == 1 ) {
+            $(row).insertBefore($(this).closest('tr'));
+            preprow(row);
+        }
         $(this).closest('tr').remove();
     }
     $('.add-row').bind('click',addrow);
     $('.delete-row').bind('click',deleterow);
+
 {% endif %}
 
 });
@@ -47,6 +59,24 @@ jQuery(document).ready(function($) {
 <div class="row-fluid">
     <div class="span12" id="formholder">
     <form action="" id="datamodel" name="datamodel" method="POST" data-validate="parsley">
+
+        {% if current_user.do_admin and model in ['institution'] %}
+        <table style="width:100%;">
+            <tbody>
+    	        <tr>
+                    <td style="text-align:right;padding:6px 10px 0 0;width:80%;"></td>
+            		<td style="text-align:right;">
+                       	<input class="btn btn-success"  type="submit" name="submit" value="Save">
+                        {% if record %}
+                        <input class="btn btn-danger" type="submit" name="submit" value="Delete">
+                        {% endif %}
+
+            		</td>
+                </tr>
+            </tbody>
+        </table>
+        {% endif %}
+
         <table>
             <tbody>
 
@@ -225,7 +255,7 @@ jQuery(document).ready(function($) {
             		></td>
                 </tr>
 
-            {% elif model in ["level","advancedlevel","grade","subject","year"] %}
+            {% elif model in ["level","advancedlevel","grade","subject","advancedsubject","year"] %}
     	        <tr>
                     <td style="text-align:right;padding:6px 10px 0 0;">{{model}} name</td>
             		<td><input type="text" name="name" data-required="true"
@@ -240,6 +270,7 @@ jQuery(document).ready(function($) {
 
         {% if model in ["school","institution"] %}
         <hr></hr>
+        <h3>Contacts</h3>
         <table class="multi">
             <thead>
                 <tr>
@@ -263,7 +294,7 @@ jQuery(document).ready(function($) {
             		<td>
             		    <input type="text" name="contact_password" placeholder="********">
 	                    {% if current_user.is_super and contact.email %}
-	                    <a class="btn" style="margin-top:-8px;" target="_blank" href="/account/{{contact.email}}" alt="Click to view the LEAPS login account associated with this contact" title="Click to view the LEAPS login account associated with this contact">view &raquo;</a>
+	                    <a class="btn noclone" style="margin-top:-8px;" target="_blank" href="/account/{{contact.email}}" alt="Click to view the LEAPS login account associated with this contact" title="Click to view the LEAPS login account associated with this contact">view &raquo;</a>
 	                    {% endif %}
             		</td>
                 </tr>
@@ -279,17 +310,45 @@ jQuery(document).ready(function($) {
             </tbody>
         </table>
 
-        <hr></hr>
- 	    <p>Passwords are never displayed. Enter a new password and save to update the associated user account.
-        Deleting this record also deletes the associated user accounts.</p>
-        <p>Changing the contact email address changes the school login account.
+ 	    <p style="margin-left:60px;">Passwords are never displayed. Enter a new password and save to update the associated user account.
+        Deleting this record also deletes the associated user accounts.<br>
+        Changing the contact email address changes the school login account.
         If you change this, provide a new password too - 
-        <span style="color:red;">otherwise the account may be unsafe</span>.</p>
-        <p>If there are multiple contacts, there will be multiple associated user accounts, corresponding to each contact email address.</p>
+        <span style="color:red;">otherwise the account may be unsafe</span>.<br>
+        If there are multiple contacts, there will be multiple associated user accounts, corresponding to each contact email address.</p>
 
         <hr></hr>
-
         
+        {% endif %}
+
+        {% if model in ["institution"] %}
+        <h3>List of subjects available at this institution <small>as approved by the institution (if they have provided any)</small></h3>
+        <table class="multi">
+            <thead>
+                <tr>
+                    <th>Level</th>
+                    <th>Subject</th>
+                    <th>Course Code</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% if record %}
+                {% for subject in record.data.subjects %}
+    	        <tr>
+            		<td><input style="width:160px;" type="text" name="subject_level" value="{{subject.level}}"></td>
+            		<td><input style="width:180px;" type="text" name="subject_name" value="{{subject.name}}"></td>
+            		<td><input style="width:120px;" type="text" name="subject_coursecode" value="{{subject.coursecode}}"></td>
+                </tr>
+                {% endfor %}
+                {% endif %}
+    	        <tr>
+            		<td><input style="width:160px;" type="text" name="subject_level"></td>
+            		<td><input style="width:180px;" type="text" name="subject_name"></td>
+            		<td><input style="width:120px;" type="text" name="subject_coursecode"></td>
+                </tr>
+            </tbody>
+        </table> 
+        <hr></hr>
         {% endif %}
  
         {% if current_user.do_admin %}

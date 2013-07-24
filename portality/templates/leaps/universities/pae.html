@@ -35,6 +35,13 @@ jQuery(document).ready(function() {
 <div class="row-fluid">
     <div class="span12">
 
+        <p>
+        {% if current_user.do_admin %}
+        <a class="btn" href="/admin/student/{{student.id}}">View student record</a> 
+        {% endif %}
+        <a class="btn" href="/universities/pae/{{application.appid}}.pdf">Print this PAE form</a>
+        </p>
+
         <h1>Lothians Equal Access Programme for Schools</h1>
         <h2>Pre-Application Enquiry Form</h2>
 

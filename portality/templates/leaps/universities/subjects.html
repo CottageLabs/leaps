@@ -1,0 +1,134 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<script>
+jQuery(document).ready(function() { 
+    var preprow = function(row) {
+        $(row).find('.noclone').remove();
+        $(row).find('.delete-row').bind('click',deleterow);
+        $(row).find('select').val("");
+        $(row).find('input').val("");
+        $(row).find('textarea').html("");
+    }
+
+    // add / remove rows to list items
+    $('table.multi').find('tbody').children('tr').each(function() {
+        $(this).children('td').first().prepend('<a class="btn btn-warning delete-row" style="margin:-10px 2px 0 0;" href="#">delete</a>').children('select, input').addClass('narrow');
+    });
+    $('table.multi').find('tbody').append('<tr><td><a class="btn btn-success add-row" href="#">add</a></td></tr>');
+
+    var addrow = function(event) {
+        event.preventDefault();
+        $(this).closest('tr').siblings().length == 10000 ? $(this).hide() : false;
+        if ( $(this).closest('tr').siblings().length < 10001 ) {
+            var row = $(this).closest('tr').prev().clone(true).get(0);
+            $(row).insertBefore($(this).closest('tr'));
+            preprow(row);
+        }
+    }
+    var deleterow = function(event) {
+        event.preventDefault();
+        var row = $(this).closest('tr').clone(true).get(0);
+        $(this).closest('tr').siblings().length == 10001 ? $(this).closest('tr').siblings().find('.add-row').show() : false;
+        if ( $(this).closest('tr').siblings().length == 1 ) {
+            $(row).insertBefore($(this).closest('tr'));
+            preprow(row);
+        }
+        $(this).closest('tr').remove();
+    }
+    $('.add-row').bind('click',addrow);
+    $('.delete-row').bind('click',deleterow);
+
+    var uploadarea = function(event) {
+        $('#uploadarea').toggle();
+    };
+    $('#uploadoption').bind('click',uploadarea);
+
+}); 
+</script>
+
+    <div class="row-fluid">
+        <div class="span12">
+            <p style="text-align:right;">
+                <a class="btn btn-primary" href="/universities">Back to PAEs</a>
+                <a class="btn" href="/account/logout">Logout</a>
+            </p>
+        </div>
+    </div>
+
+    <div class="row-fluid">
+        <div class="span12">
+            <div class="hero-unit">
+                <h1>{{ institution.data.name }}</h1>
+
+                {% if institution.data.subjects|length == 0 %}
+                <p>Your institution has not provided an approved list of subjects that you offer. Therefore, students completing the LEAPS survey form will be presented with a generic list of subjects to choose from. If you wish to ensure that students can only choose subjects that your institution offers, then you should provide an approved list below. NOTE however that once you provide an approved list, students will ONLY be able to select subjects at your institution from said list, so you should ensure it remains comprehensive and up to date.</p>
+                {% else %}
+                <p>Your current list of approved subjects that students completing the LEAPS survey will be presented with is shown below. You can edit or delete any subject, or add new ones. NOTE that students can ONLY select from this list, so you should ensure it is complete. If you no longer wish to maintain this list then you should delete every subject from it; after doing so, students will be presented with a generic subject list instead.</p>
+                {% endif %}
+                <p>Alternatively, you can <a id="uploadoption" href="#uploader">upload a file of subjects.</a></p>
+            </div>
+        </div>
+    </div>
+
+    <a name="uploader"></a>
+    <div id="uploadarea" class="row-fluid" style="display:none;">
+        <div class="span12">
+            <div class="well">
+                <h2>File upload</h2>
+                <p>CSV files can be saved from Microsoft Excel, for example. The name of the file you upload must end with the .csv extension - not .xls or anything else. NOTE that such files must be correctly formatted - you must have a first column containing subject levels (e.g. MA, BA, BSc), a second column containing subject names, and a third column containing subject course codes. Subject names are mandatory but levels and course codes are optional - e.g. you could leave those cells blank in your spreadsheet, but you should still maintain the columns even if they are empty. The first line of your file must contain the following column headers in correct order - "level", "name", "coursecode".</p>
+                <p>JSON format is also acceptable, if you know how to provide one. End the filename with .json, and ensure the file contains a JSON list of objects, where each object must have a "name" key and can optionally also have a "level" and "coursecode".</p>
+
+                <form action="/admin/import/subjects" method="POST" enctype="multipart/form-data">
+                <p><input type="hidden" name="deleteall" value="true"></p>
+                <p><input type="file" name="upfile"></p>
+                <p><input class="btn" type="submit" name="submit" value="Import" /></p>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="row-fluid">
+        <div class="span12">
+            <form method="POST" action="">
+
+                <div style="text-align:right;">
+                    <input class="btn btn-primary" type="submit" name="submit" value="Save changes">
+                </div>
+
+                <table class="multi">
+                    <thead>
+                        <tr>
+                            <th>Level (optional)</th>
+                            <th>Subject name (required)</th>
+                            <th>Course code (optional)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for subject in institution.data.subjects %}
+                        <tr>
+                            <td><input type="text" name="subject_level" value="{{ subject.level }}"></td>
+                            <td><input type="text" name="subject_name" value="{{ subject.name }}"></td>
+                            <td><input type="text" name="subject_coursecode" value="{{ subject.coursecode }}"></td>
+                        </tr>
+                        {% endfor %}
+                        <tr>
+                            <td><input type="text" name="subject_level"></td>
+                            <td><input type="text" name="subject_name"></td>
+                            <td><input type="text" name="subject_coursecode"></td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div style="text-align:right;">
+                    <input class="btn btn-primary" type="submit" name="submit" value="Save changes">
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+{% endblock %}

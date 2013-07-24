@@ -4,6 +4,8 @@ from copy import deepcopy
 from flask import Blueprint, request, flash, abort, make_response, render_template, redirect, url_for
 from flask.ext.login import current_user
 
+from flask_weasyprint import HTML, render_pdf
+
 from portality.core import app
 from portality.view.leaps.forms import dropdowns
 import portality.models as models
@@ -26,21 +28,77 @@ def restrict():
 # build an admin page where things can be done
 @blueprint.route('/')
 def index():
+
     # TODO: complete these stats calcs
     stats = {
         "total_submitted": models.Student.query(q={"query":{"bool":{"must":[{"term":{"archive"+app.config['FACET_FIELD']:"current"}}]}}})['hits']['total'],
-        "awaiting_interview":"",
-        "interviewed":"",
-        "paes_forwarded":"",
-        "no_pae_requested":"",
-        "awaiting_all_pae":"",
-        "awaiting_some_pae":"",
-        "all_pae_received":"",
-        "schools_with_students_submitted":"",
-        "total_schools":"",
-        "universities_pae_outstanding":""
+        "awaiting_interview":models.Student.query(q={"query":{"bool":{"must":[{"term":{"archive"+app.config['FACET_FIELD']:"current"}},{"term":{"status"+app.config['FACET_FIELD']:"awaiting_interview"}}]}}})['hits']['total'],
+        "interviewed":models.Student.query(q={"query":{"bool":{"must":[{"term":{"archive"+app.config['FACET_FIELD']:"current"}},{"term":{"status"+app.config['FACET_FIELD']:"interviewed"}}]}}})['hits']['total'],
+        "paes_forwarded":models.Student.query(q={"query":{"bool":{"must":[{"term":{"archive"+app.config['FACET_FIELD']:"current"}},{"term":{"status"+app.config['FACET_FIELD']:"paes_forwarded"}}]}}})['hits']['total'],
+        "awaiting_all_pae":models.Student.query(q={"query":{"bool":{"must":[{"term":{"archive"+app.config['FACET_FIELD']:"current"}},{"term":{"status"+app.config['FACET_FIELD']:"paes_requested"}}]}}})['hits']['total'],
+        "awaiting_some_pae":models.Student.query(q={"query":{"bool":{"must":[{"term":{"archive"+app.config['FACET_FIELD']:"current"}},{"term":{"status"+app.config['FACET_FIELD']:"paes_in_progress"}}]}}})['hits']['total'],
+        "all_pae_received":models.Student.query(q={"query":{"bool":{"must":[{"term":{"archive"+app.config['FACET_FIELD']:"current"}},{"term":{"status"+app.config['FACET_FIELD']:"paes_all_received"}}]}}})['hits']['total'],
+        "total_schools":models.School.query()['hits']['total'],
+        "schools_with_students_submitted":models.Student.query(q={
+            "query":{
+                "bool":{
+                    "must":[
+                        {
+                            "term":{
+                                "archive"+app.config['FACET_FIELD']:"current"
+                            }
+                        }
+                    ]
+                }
+            },
+            "size":0,
+            "facets":{
+                "schools":{
+                    "terms":{
+                        "field":"school"+app.config['FACET_FIELD'], 
+                        "size":1000
+                    }
+                }
+            }
+        })['facets']['schools']['total'],
+        "universities_pae_outstanding":models.Student.query(q={
+            "query":{
+                "bool":{
+                    "must":[
+                        {
+                            "term":{
+                                "archive"+app.config['FACET_FIELD']:"current"
+                            }
+                        }
+                    ],
+                    "should":[
+                        {
+                            "term":{
+                                "status"+app.config['FACET_FIELD']:"paes_requested"
+                            }
+                        },
+                        {
+                            "term":{
+                                "status"+app.config['FACET_FIELD']:"paes_in_progress"
+                            }
+                        }
+                    ],
+                    "minimum_should_match":1
+                }
+            },
+            "size":0,
+            "facets":{
+                "schools":{
+                    "terms":{
+                        "field":"applications.institution"+app.config['FACET_FIELD'], 
+                        "size":1000
+                    }
+                }
+            }
+        })['facets']['schools']['total']
     }
     return render_template('leaps/admin/index.html', stats=stats)
+
 
 
 # update admin settings
@@ -74,6 +132,7 @@ def student(uuid=None):
     selections={
         "schools": dropdowns('school'),
         "subjects": dropdowns('subject'),
+        "advancedsubjects": dropdowns('advancedsubject'),
         "levels": dropdowns('level'),
         "grades": dropdowns('grade'),
         "institutions": dropdowns('institution'),
@@ -86,7 +145,11 @@ def student(uuid=None):
     }
 
     if request.method == 'GET':
-        return render_template('leaps/admin/student.html', record=student, selections=selections)
+        return render_template(
+            'leaps/admin/student.html', 
+            record=student, 
+            selections=selections
+        )
     elif ( request.method == 'POST' and request.values.get('submit','') == "Delete" ) or request.method == 'DELETE':
         if student is not None:
             student.delete()
@@ -108,8 +171,25 @@ def student(uuid=None):
             return redirect(url_for('.student') + '/' + str(student.id))
         else:
             flash("Student record has been updated", "success")
-            return render_template('leaps/admin/student.html', record=student, selections=selections)
-    
+            return render_template(
+                'leaps/admin/student.html', 
+                record=student, 
+                selections=selections
+            )
+
+
+# print a student as a pdf
+@blueprint.route('/student/<sid>.pdf', methods=['GET'])
+def pdf(sid):
+    if sid == "new":
+        student = None
+    else:
+        student = models.Student.pull(sid)
+        if student is None: abort(404)
+
+    html = render_template('leaps/admin/student_pdf', record=student)
+    return render_pdf(HTML(string=html))
+
     
 # do updating of schools / institutes / courses / pae answers / interview data
 @blueprint.route('/data')
@@ -131,6 +211,7 @@ def data(model=None,uuid=None):
                     abort(404)
                 else:
                     return render_template('leaps/admin/datamodel.html', model=model, record=rec)
+
     elif ( request.method == 'POST' and request.values.get('submit','') == "Delete" ) or request.method == 'DELETE':
         if model is not None:
             klass = getattr(models, model[0].capitalize() + model[1:] )
@@ -146,6 +227,7 @@ def data(model=None,uuid=None):
                 abort(404)
         else:
             abort(404)    
+
     elif request.method == 'POST':
         if model is not None:
             klass = getattr(models, model[0].capitalize() + model[1:] )

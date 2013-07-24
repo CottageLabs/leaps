@@ -82,6 +82,7 @@ class Student(DomainObject):
 
 
     def save_from_form(self, request):
+        print request.values
         rec = {
             "qualifications": [],
             "interests": [],
@@ -189,6 +190,14 @@ class School(DomainObject):
     __type__ = 'school'
 
     @classmethod
+    def pull_by_name(cls,name):
+        res = cls.query(q={"query":{"term":{'name'+app.config['FACET_FIELD']:name}}})
+        if res.get('hits',{}).get('total',0) == 1:
+            return cls.pull( res['hits']['hits'][0]['_source']['id'] )
+        else:
+            return None
+
+    @classmethod
     def prep(cls, rec):
         if 'id' in rec:
             id_ = rec['id'].strip()
@@ -218,6 +227,7 @@ class School(DomainObject):
         return rec
 
     def save(self):
+        print self.data
         self.data = self.prep(self.data)
         
         old = self.pull(self.id)
@@ -253,7 +263,7 @@ class School(DomainObject):
             # change any passwords
             elif c.get('email',"") != "" and c.get('password',"") != "":
                 account = Account.pull(c['email'])
-                account.set_password(self.data['password'])
+                account.set_password(c['password'])
                 account.save()
                 c['password'] = ""
 
@@ -270,7 +280,8 @@ class School(DomainObject):
 
     def save_from_form(self, request):
         rec = {
-            "contacts": []
+            "contacts": [],
+            "subjects": []
         }
         
         for k,v in enumerate(request.form.getlist('contact_email')):
@@ -286,8 +297,19 @@ class School(DomainObject):
                 except:
                     pass
 
+        for k,v in enumerate(request.form.getlist('subject_name')):
+            if v is not None and len(v) > 0 and v != " ":
+                try:
+                    rec["subjects"].append({
+                        "name": v,
+                        "level": request.form.getlist('subject_level')[k],
+                        "coursecode": request.form.getlist('subject_coursecode')[k]
+                    })
+                except:
+                    pass
+
         for key in request.form.keys():
-            if not key.startswith("contact_") and key not in ['submit']:
+            if not key.startswith("contact_") and not key.startswith("subject_") and key not in ['submit']:
                 val = request.form[key]
                 if val == "on":
                     rec[key] = True
@@ -297,6 +319,7 @@ class School(DomainObject):
                     rec[key] = val
 
         if len(rec['contacts']) == 0: del rec['contacts']
+        if len(rec['subjects']) == 0: del rec['subjects']
         for k, v in rec.items():
             self.data[k] = v
         
@@ -308,6 +331,9 @@ class Institution(School):
 
 class Subject(DomainObject):
     __type__ = 'subject'
+
+class Advancedsubject(DomainObject):
+    __type__ = 'advancedsubject'
 
 class Level(DomainObject):
     __type__ = 'level'
@@ -428,7 +454,7 @@ class Everything(DomainObject):
 
     @classmethod
     def target(cls):
-        t = 'http://' + str(app.config['ELASTIC_SEARCH_HOST']).lstrip('http://').rstrip('/') + '/'
+        t = str(app.config['ELASTIC_SEARCH_HOST']).rstrip('/') + '/'
         t += app.config['ELASTIC_SEARCH_DB'] + '/'
         return t
 

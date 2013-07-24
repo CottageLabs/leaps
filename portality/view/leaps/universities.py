@@ -5,6 +5,8 @@ from flask.ext.login import current_user
 
 from datetime import datetime
 
+from flask_weasyprint import HTML, render_pdf
+
 from portality.core import app
 import portality.models as models
 import portality.util
@@ -38,36 +40,27 @@ def index():
     return render_template('leaps/universities/index.html', students=students, institution=institution)
 
 
+# give universities subject management control
+@blueprint.route('/subjects', methods=['GET','POST'])
+def subjects():
+    if not isinstance(current_user.is_institution,bool):
+        institution = models.Institution.pull_by_name(current_user.is_institution)
+        if request.method == 'POST':
+            institution.save_from_form(request)
+            flash('Your changes have been saved.')
+        return render_template('leaps/universities/subjects.html', institution=institution)
+    elif current_user.do_admin:
+        flash('You are an admin user, so you should manage institutional data via the admin interface.')
+        return redirect('/admin/data/institution')
+    else:
+        abort(401)
+
+
 # view particular PAE request
 @blueprint.route('/pae/<appid>', methods=['GET','POST'])
 def pae(appid):
-    try:
-        # return a student where one of their applications has the matching PAE ID
-        # and where one of their applications is to the same institution as that of the current user
-        # (may return some where the current user cannot respond, but is close enough - they have access to the student data anyway)
-        institution = current_user.is_institution
-        qry = {
-            "query":{
-                "bool":{
-                    "must":[
-                        {
-                            "term":{
-                                "applications.appid"+app.config['FACET_FIELD']:appid
-                            }
-                        }
-                    ]
-                }
-            }
-        }
-        if not isinstance(institution,bool):
-            qry['query']['bool']['must'].append({'term':{'applications.institution'+app.config['FACET_FIELD']:institution}})
-
-        s = models.Student.query(q=qry)['hits']['hits'][0]['_source']['id']
-        student = models.Student.pull(s)
-        if student is None: abort(404)
-
-    except:
-        abort(404)
+    student = _get_student_for_appn(appid)
+    if student is None: abort(404)
 
     application = {}
     for appn in student.data['applications']:
@@ -81,7 +74,12 @@ def pae(appid):
             else:
                 msg += ". It cannot be altered."
             flash(msg)
-        return render_template('leaps/universities/pae.html', student=student, institution=institution, application=application)
+        return render_template(
+            'leaps/universities/pae.html', 
+            student=student, 
+            institution=current_user.is_institution, 
+            application=application
+        )
 
     elif request.method == 'POST':
         if application.get('pae_reply_received',False) and not current_user.do_admin:
@@ -133,6 +131,20 @@ def pae(appid):
             return redirect(url_for('.index'))
 
 
+# print a PAE form for a student
+@blueprint.route('/pae/<appid>.pdf')
+def paepdf(appid):
+    student = _get_student_for_appn(appid)
+    if student is None: abort(404)
+
+    application = {}
+    for appn in student.data['applications']:
+        if appn['appid'] == appid: application = appn
+
+    html = render_template('leaps/admin/student_pae', record=student, application=application)
+    return render_pdf(HTML(string=html))
+
+
 # export data for a particular university
 @blueprint.route('/export')
 def export():
@@ -150,8 +162,36 @@ def export():
     return download_csv(students,keys)
 
 
+def _get_student_for_appn(appid):
+    institution = current_user.is_institution
+    try:
+        # return a student where one of their applications has the matching PAE ID
+        # and where one of their applications is to the same institution as that of the current user
+        # (may return some where the current user cannot respond, but is close enough - they have access to the student data anyway)
+        qry = {
+            "query":{
+                "bool":{
+                    "must":[
+                        {
+                            "term":{
+                                "applications.appid"+app.config['FACET_FIELD']:appid
+                            }
+                        }
+                    ]
+                }
+            }
+        }
+        if not isinstance(institution,bool):
+            qry['query']['bool']['must'].append({'term':{'applications.institution'+app.config['FACET_FIELD']:institution}})
+
+        s = models.Student.query(q=qry)['hits']['hits'][0]['_source']['id']
+        return models.Student.pull(s)
+
+    except:
+        return None
+
+
 def _get_students(institution):
-    # TODO: add a filter so that only those records set as to be wanting PAE responses are shown
     qry = {
         'query':{
             'bool':{
@@ -180,15 +220,5 @@ def _get_students(institution):
                 if appn['institution'] == institution: allowedapps.append(appn)
             student['applications'] = allowedapps
     return students
-
-
-# printout a PAE request / PAE reply form
-# use the pdf stuff in exports.py
-
-# use exporting stuff
-# should be a rolling list of all student PAEs for this institution, and their provided answers or lack thereof
-# in date submitted order
-# so institutions can keep track of what they have and have not done yet
-
 
 

@@ -63,6 +63,7 @@ MAPPINGS = {
 MAPPINGS['account'] = {'account':MAPPINGS["student"]["student"]}
 MAPPINGS['school'] = {'school':MAPPINGS["student"]["student"]}
 MAPPINGS['subject'] = {'subject':MAPPINGS["student"]["student"]}
+MAPPINGS['advancedsubject'] = {'advancedsubject':MAPPINGS["student"]["student"]}
 MAPPINGS['level'] = {'level':MAPPINGS["student"]["student"]}
 MAPPINGS['grade'] = {'grade':MAPPINGS["student"]["student"]}
 MAPPINGS['institution'] = {'institution':MAPPINGS["student"]["student"]}

@@ -13,7 +13,8 @@ jQuery(document).ready(function() {
     <div class="row-fluid">
         <div class="span12">
             <p style="text-align:right;">
-                <a class="btn btn-primary" href="/universities/export">Export</a>
+                <a class="btn btn-primary" href="/universities/export">Export PAEs</a>
+                <a class="btn btn-info" href="/universities/subjects">Manage subjects</a>
                 <a class="btn" href="/account/logout">Logout</a>
             </p>
         </div>
@@ -31,6 +32,8 @@ jQuery(document).ready(function() {
 
                 <p>Below are listed all the students that have so far submitted a survey form to LEAPS {% if institution != True %}that has included an intention to apply to {{ institution }},{% endif %} for which a Pre-Application Enquiry has been deemed necessary.</p>
                 <p>Note that a particular student may intend to apply to more than one course at a given institution, therefore Pre-Application Enquiries will exist for each course that the student intends to apply to.</p>
+                
+                <p>NOTE that the subjects students select are chosen from a generic list unless you provide and maintain an approved list of subjects you offer. If you wish to maintain your list of available subjects, go to the <a href="/universities/subjects">subjects management</a> page.</p>
 
             </div>
         </div>

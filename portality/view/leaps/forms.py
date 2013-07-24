@@ -42,17 +42,21 @@ def student():
     
     if request.method == 'GET':
         # TODO: if people are logged in it may be necessary to render a form with previously submitted data
+        selections={
+            "schools": dropdowns('school'),
+            "subjects": dropdowns('subject'),
+            "advancedsubjects": dropdowns('advancedsubject'),
+            "levels": dropdowns('level'),
+            "grades": dropdowns('grade'),
+            "institutions": dropdowns('institution'),
+            "advancedlevels": dropdowns('advancedlevel')
+        }
         response = make_response(
             render_template(
                 'leaps/survey/survey.html', 
-                selections={
-                    "schools": dropdowns('school'),
-                    "subjects": dropdowns('subject'),
-                    "levels": dropdowns('level'),
-                    "grades": dropdowns('grade'),
-                    "institutions": dropdowns('institution'),
-                    "advancedlevels": dropdowns('advancedlevel')
-                },
+                selections = selections,
+                advancedsubjectsjson = json.dumps(selections['advancedsubjects']),
+                advancedlevelsjson = json.dumps(selections['advancedlevels']),
                 data={}
             )
         )

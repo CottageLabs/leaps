@@ -71,6 +71,12 @@ class DomainObject(UserDict.IterableUserDict):
         self.data = self.prep(self.data)
         r = requests.post(self.target() + self.data['id'], data=json.dumps(self.data))
 
+    def save_from_form(self,request):
+        newdata = request.json if request.json else request.values
+        for k, v in newdata.items():
+            if k not in ['submit']:
+                self.data[k] = v
+        self.save()
 
     @classmethod
     def bulk(cls, bibjson_list, idkey='id'):
@@ -178,7 +184,6 @@ class DomainObject(UserDict.IterableUserDict):
     def delete(self):        
         r = requests.delete(self.target() + self.id)
 
-    # this was added for LEAPS, not in portality
     @classmethod
     def delete_all(cls):
         r = requests.delete(cls.target())

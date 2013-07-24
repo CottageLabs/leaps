@@ -4,8 +4,8 @@
 {% if current_user.do_admin %}
 <a id="triggersave" class="btn btn-success" href="#">Save</a>
 {% if record %}
-<a id="triggersave" class="btn btn-info" href="/admin/export/{{record.id}}.pdf">Print</a>
-<a id="triggerdelete" class="btn btn-danger" href="#">Delete</a>
+<a id="triggerdelete" class="btn btn-danger" href="#">Delete</a><br>
+<a class="btn btn-info" href="/admin/export/{{record.id}}.pdf">Print</a>
 {% endif %}
 {% endif %}
 {% endblock %}
@@ -40,13 +40,31 @@ jQuery(document).ready(function() {
     }
     $('.dobdatepicker').datepicker(dobopts);
 
+
+    // function of things to do whenever a row is appended
+    var preprow = function(row) {
+        $(row).find('.delete-row').bind('click',deleterow);
+        $(row).find('select').val("");
+        $(row).find('input').val("");
+        $(row).find('textarea').html("");
+        $(row).find('.datepicker').datepicker("destroy");
+        $(row).find('.datepicker').removeClass("hasDatepicker").removeAttr('id');
+        $(row).find('.datepicker').datepicker(opts);
+        var subjects = {{ selections.advancedsubjects|tojson|safe }};
+        var stext = '<option></option>';
+	    for ( var i = 0; i < subjects.length; i++ ) {
+	        stext += '<option>' + subjects[i] + '</option>';
+	    };
+        $(row).find('.subjectselector').html(stext);
+        $(row).find('.institutionselector').unbind('change',limitsubjects).bind('change',limitsubjects);
+        $(row).find('.subjectselector').unbind('change',limitlevels).bind('change',limitlevels);
+    }
+
     // add / remove rows to list items
-    var first = true;
     $('table.multi').find('tbody').children('tr').each(function() {
         $(this).children('td').first().prepend('<a class="btn btn-warning delete-row" style="margin:-10px 2px 0 0;" href="#">delete</a>').children('select, input').addClass('narrow');
     });
     $('table.multi').find('tbody').append('<tr><td><a class="btn btn-success add-row" href="#">add</a></td></tr>');
-
     var addrow = function(event) {
         event.preventDefault();
         $(this).closest('tr').siblings().length == 5 ? $(this).hide() : false;
@@ -54,15 +72,10 @@ jQuery(document).ready(function() {
             var row = $(this).closest('tr').prev().clone(true).get(0);
             $(row).find('.noclone').remove();
             $(row).insertBefore($(this).closest('tr'));
-            $(row).find('.delete-row').bind('click',deleterow);
-            $(row).find('select').val("");
-            $(row).find('input').val("");
-            $(row).find('textarea').html("");
-            $(row).find('.datepicker').datepicker("destroy");
-            $(row).find('.datepicker').removeClass("hasDatepicker").removeAttr('id');
-            $(row).find('.datepicker').datepicker(opts);
+            preprow(row);
         }
     }
+    $('.add-row').bind('click',addrow);
     var deleterow = function(event) {
         event.preventDefault();
         var row = $(this).closest('tr').clone(true).get(0);
@@ -70,19 +83,81 @@ jQuery(document).ready(function() {
         if ( $(this).closest('tr').siblings().length == 1 ) {
             $(row).find('.noclone').remove();
             $(row).insertBefore($(this).closest('tr'));
-            $(row).find('.delete-row').bind('click',deleterow);
-            $(row).find('select').val("");
-            $(row).find('input').val("");
-            $(row).find('textarea').html("");
-            $(row).find('.datepicker').datepicker("destroy");
-            $(row).find('.datepicker').removeClass("hasDatepicker").removeAttr('id');
-            $(row).find('.datepicker').datepicker(opts);
+            preprow(row);
         }
         $(this).closest('tr').remove();
-        promptsave();
     }
-    $('.add-row').bind('click',addrow);
     $('.delete-row').bind('click',deleterow);
+
+
+    var limitlevels = function(event) {
+        var ls = $(this).closest('tr').find('.levelselector')
+        ls.attr("disabled","disabled");
+        var level = $('option:selected', this).attr('data-level');
+        if ( level ) {
+            ls.html('<option></option><option selected="selected">' + level + '</option>')
+        } else {
+            var levels = {{ selections.advancedlevels|tojson|safe }};
+            var lopts = '<option></option>';
+            for ( var i = 0; i < levels.length; i++ ) {
+                lopts += "<option>" + levels[i] + "</option>";
+            }
+            ls.html(lopts);
+        }
+        ls.removeAttr("disabled");
+    }
+    var limitsubjects = function(event) {
+        var institution = $(this).val();
+        $(this).closest('tr').find('.subjectselector').attr("disabled","disabled");
+        $(this).closest('tr').find('.levelselector').val("").attr("disabled","disabled");
+        if ( institution == "" ) {
+            var subjects = {{ selections.advancedsubjects|tojson|safe }};
+            var opts = '<option></option>';
+            for ( var i = 0; i < subjects.length; i++ ) {
+                opts += "<option>" + subjects[i] + "</option>";
+            }
+            $(this).closest('tr').find('.subjectselector').html(opts).removeAttr("disabled");
+            $(this).closest('tr').find('.levelselector').html(opts).removeAttr("disabled");
+        } else {
+            var qry = {
+                "query": {
+                    "term": {
+                        "name.exact": institution
+                    }
+                }
+            };
+            var url = '/query/institution/_search?source=' + JSON.stringify(qry);
+            $.ajax({
+                method:'GET',
+                datatype:'JSON',
+                url:url,
+                obj:$(this),
+                success: function(data) {
+                    if ( data.hits.total == 0 ) {
+                        var subjects = {{ selections.advancedsubjects|tojson|safe }};
+                    } else if ( data.hits.hits[0]._source.subjects !== undefined && data.hits.hits[0]._source.subjects.length > 0 ) {
+                        var subjects = data.hits.hits[0]._source.subjects;
+                    } else {
+                        var subjects = {{ selections.advancedsubjects|tojson|safe }};
+                    }
+                    var opts = '<option></option>';
+                    for ( var i = 0; i < subjects.length; i++ ) {
+                        if ( subjects[i].name === undefined ) {
+                            opts += "<option>" + subjects[i] + "</option>";
+                        } else {
+                            opts += "<option";
+                            subjects[i].level !== undefined ? opts += ' data-level="' + subjects[i].level + '"' : false;
+                            opts += ">" + subjects[i].name + "</option>";
+                        }
+                    }
+                    this.obj.closest('tr').find('.subjectselector').html(opts).removeAttr("disabled");
+                }
+            });
+        }
+    }
+    $('.institutionselector').bind('change',limitsubjects);
+    $('.subjectselector').bind('change',limitlevels);
+
 
     var promptsave = function() {
         $('#triggersave').removeClass('btn-success').addClass('btn-warning');
@@ -554,25 +629,20 @@ fieldset{
                     {% if record %}
                         {% for app in record.data.applications %}
                     <tr>
-                		<td><select name="application_institution" class="needselect2">
+                		<td><select name="application_institution" class="needselect2 institutionselector">
                 		    <option></option>
-                		    {% for opt in selections.institutions %}
-                		        <option
-                		        {% if opt == app.institution %} selected="selected"{% endif %}                		        
-                		        >{{ opt }}</option>
-                		    {% endfor %}
+                    		    {% for opt in selections.institutions %}
+                    		        <option                		        
+                    		        {% if opt == app.institution %} selected="selected"{% endif %}
+                                    >{{ opt }}</option>
+                    		    {% endfor %}
                 		</select></td>
-                		<td><select name="application_subject" class="needselect2">
-                		    <option></option>
-                		    {% for opt in selections.subjects %}
-                		        <option
-                		        {% if opt == app.subject %} selected="selected"{% endif %}                		        
-                		        >{{ opt }}</option>
-                		    {% endfor %}
+                		<td><select name="application_subject" class="needselect2 subjectselector">
+                		    <option>{{app.subject}}</option>
                 		</select></td>
                 		<td>
-                		    <select name="application_level">
-                    		    <option></option>
+                		    <select name="application_level" class="levelselector">
+                    		    <option>{{app.level}}</option>
                     		    {% for opt in selections.advancedlevels %}
                     		        <option                		        
                     		        {% if opt == app.level %} selected="selected"{% endif %}
@@ -602,19 +672,19 @@ fieldset{
                     {% endif %}
 
                     <tr>
-                		<td><select name="application_institution" class="needselect2">
+                		<td><select name="application_institution" class="needselect2 institutionselector">
                 		    <option></option>
                 		    {% for opt in selections.institutions %}
                 		        <option>{{ opt }}</option>
                 		    {% endfor %}
                 		</select></td>
-                		<td><select name="application_subject" class="needselect2">
+                		<td><select name="application_subject" class="needselect2 subjectselector">
                 		    <option></option>
-                		    {% for opt in selections.subjects %}
+                		    {% for opt in selections.advancedsubjects %}
                 		        <option>{{ opt }}</option>
                 		    {% endfor %}
                 		</select></td>
-                		<td><select name="application_level">
+                		<td><select name="application_level" class="levelselector">
                 		    <option></option>
                 		    {% for opt in selections.advancedlevels %}
                 		        <option>{{ opt }}</option>

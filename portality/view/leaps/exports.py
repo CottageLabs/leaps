@@ -7,8 +7,6 @@ import json
 from flask import Blueprint, request, flash, abort, make_response, render_template, redirect, send_file
 from flask.ext.login import current_user
 
-from flask_weasyprint import HTML, render_pdf
-
 from portality.core import app
 import portality.models as models
 
@@ -115,43 +113,7 @@ def download_csv(recordlist,keys):
         as_attachment=True
     )
             
-
-# print a student as a pdf
-@blueprint.route('/<sid>.pdf', methods=['GET'])
-def pdf(sid):
-    if sid == "new":
-        student = None
-    else:
-        student = models.Student.pull(sid)
-        if student is None: abort(404)
-
-    html = render_template('leaps/admin/student_pdf', record=student)
-    return render_pdf(HTML(string=html))
-
-
-
-#import reportlab, html5lib
-
-# output the student details to a pdf template
-#def pdf():
-#    pass
-    # get the data for the student - or if no student print a blank pdf
-    # get the student pdf template, and run it through the template renderer
-
-    # should this be a blank PAE form requesting response, or a PAE form showing responses
     
-    #template = get_template('student_pdf_template')
-    #filename = "blank_form"
-    #context = Context({"student":"obj")
-    #html  = template.render(context)
-
-    #result = StringIO.StringIO()
-    #pdf = pisa.pisaDocument(StringIO.StringIO(html.encode("ISO-8859-1", 'ignore')), result,)
-    
-    # set the status to show the PAE has been sent, and to whom / why / when
-
-    
-
 # here are the old email methods to copy            
 # write something to email a PAE form to an institute
 '''

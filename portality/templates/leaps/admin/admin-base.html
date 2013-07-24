@@ -37,7 +37,7 @@ jQuery(document).ready(function($) {
 
     <div class="container-fluid" style="background:#ffffff;">
 
-        <div class="row-fluid" style="background:white;position:fixed;top:0;margin:0;padding:0;height:140px;">
+        <div class="row-fluid" style="background:white;position:fixed;top:0;margin:0;padding:0;height:140px;z-index:100000000;">
             <div class="row-fluid navopts">
                 <div class="span2">
                     <div class="well" style="height:55px;">
@@ -69,7 +69,7 @@ jQuery(document).ready(function($) {
                 </div>
                 <div class="span2">
                     <a class="btn btn-info" href="/admin/student">Manage student surveys</a>
-                    <a class="btn btn-info" href="/admin/data">Manage supporting data</a>
+                    <a class="btn btn-info" href="/admin/data{% if model %}/{{model}}{% endif %}">Manage supporting data</a>
                     <a class="btn btn-info" href="/admin/archive">Manage data archives</a>
                 </div>
                 <div class="span8">

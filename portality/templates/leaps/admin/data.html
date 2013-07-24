@@ -6,11 +6,12 @@
             <a class="btn searchtype" data-type="institution" href="/admin/data/institution">Institutions</a>
             <a class="btn searchtype" data-type="level" href="/admin/data/level">School study levels</a>
             <a class="btn searchtype" data-type="advancedlevel" href="/admin/data/advancedlevel">Advanced study levels</a>
-            <a class="btn searchtype" data-type="subject" href="/admin/data/subject">Subjects</a>
-            <a class="btn searchtype" data-type="grade" href="/admin/data/grade">Grades</a>
             <a class="btn searchtype" data-type="simd" href="/admin/data/simd">SIMD</a>
+            <a class="btn searchtype" data-type="grade" href="/admin/data/grade">Grades</a>
+            <a class="btn searchtype" data-type="subject" href="/admin/data/subject">School subjects</a>
+            <a class="btn searchtype" data-type="advancedsubject" href="/admin/data/advancedsubject">Advanced subjects (generic)</a>
             <a class="btn btn-primary addnew" href="#">Add new <span id="newtype" class="newtype">school</span></a>
-            <!--<a class="btn btn-warning bulkload" href="/admin/import">Bulk import <span class="newtype">school</span></a>-->
+            <a class="btn btn-warning" href="/admin/import/{% if model %}{{model}}{% else %}school{% endif %}">Bulk import <span class="newtype">school</span></a>
 
 {% endblock %}
 
@@ -118,6 +119,25 @@ jQuery(document).ready(function($) {
             ],
         facets: []
     };
+    optsets.advancedsubject = {
+        search_url: '/query/advancedsubject?',
+        datatype: 'JSON',
+        sort: ['name.exact'],
+        resdisplay: [
+                [
+                    {
+                        "pre": '<a href="/admin/data/advancedsubject/',
+                        "field": "id",
+                        "post": '">'
+                    },
+                    {
+                        "field": "name",
+                        "post": '</a>'
+                    }
+                ]
+            ],
+        facets: []
+    };
     optsets.grade = {
         search_url: '/query/grade?',
         datatype: 'JSON',
@@ -199,14 +219,7 @@ jQuery(document).ready(function($) {
         window.location = '/admin/data/' + newtype + '/new';
     }
     $('.addnew').bind('click',addnew);
-    
-    var bulkload = function(event) {
-        event.preventDefault();
-        var newtype = $('#newtype').text();
-        window.location = $(this).attr('href') + '/' + newtype
-    }
-    $('.bulkload').bind('click',bulkload);
-    
+        
 {% if model %}
     $('[data-type="{{model}}"]').trigger('click');
 {% endif %}

@@ -1,0 +1,150 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+    <head>
+        <style type="text/css">
+            @page {
+                size: A4;
+                margin: 1cm;
+            }
+            body{
+                font-size:0.9em;
+            }
+            div{
+                padding:0;
+                margin:0;
+            }
+            h3{
+                padding:2px;
+                margin:10px 0 0 0;
+                background-color:#ccc;
+            }
+            table{
+                margin:0 0 30px 0;
+                width:100%;
+            }
+            td{
+            }
+            td.title{
+                font-weight:bold;
+            }
+            th{
+                padding:2px;
+            }
+        </style>
+    </head>
+    <body>
+
+        <h3>Lothians Equal Access Programme for Schools<br />
+        Pre UCAS Application enquiry form to {{ application.institution }}</h3>
+
+        <table>
+            <tr>
+                <td class="title">First name</td> <td>{{ record.first_name }}</td>
+                <td class="title">Last name</td> <td>{{ record.last_name }}</td>
+                <td class="title">Date of birth</td> <td>{{ record.date_of_birth }}</td>
+            </tr>
+            <tr>
+                <td class="title">Post code</td> <td>{{ record.post_code }}</td>
+                <td class="title">School</td> <td>{{ record.school }}</td>
+                <td class="title">School category</td> <td>{{ record.LEAPS_category }}</td>
+            </tr>
+        </table>
+
+        <h3>Qualifications</h3>
+        <table>
+            <tr>
+                <th>Year</th>
+                <th>Level</th>
+                <th>Subject</th>
+                <th>Grade</th>
+            </tr>
+            {% for record in record.qualifications %}
+                {% if record.year|lower == "third year" %}
+                    <tr><td>{{ record.year }}</td><td>{{ record.level }}</td><td>{{ record.subject }}</td><td>{{ record.grade }}</td></tr>
+                {% endif %}
+            {% endfor %}
+            {% for record in record.qualifications %}
+                {% if record.year|lower == "fourth year" %}
+                    <tr><td>{{ record.year }}</td><td>{{ record.level }}</td><td>{{ record.subject }}</td><td>{{ record.grade }}</td></tr>
+                {% endif %}
+            {% endfor %}
+            {% for record in record.qualifications %}
+                {% if record.year|lower == "fifth year" %}
+                    <tr><td>{{ record.year }}</td><td>{{ record.level }}</td><td>{{ record.subject }}</td><td>{{ record.grade }}</td></tr>
+                {% endif %}
+            {% endfor %}
+            {% for record in record.qualifications %}
+                {% if record.year|lower == "sixth year" %}
+                    <tr><td>{{ record.year }}</td><td>{{ record.level }}</td><td>{{ record.subject }}</td><td>{{ record.grade }}</td></tr>
+                {% endif %}
+            {% endfor %}
+            {% for record in record.qualifications %}
+                {% if record.year|lower != "third year" and record.year|lower != "fourth year" and record.year|lower != "fifth year" and record.year|lower != "sixth year" %}
+                    <tr><td>{{ record.year }}</td><td>{{ record.level }}</td><td>{{ record.subject }}</td><td>{{ record.grade }}</td></tr>
+                {% endif %}
+            {% endfor %}
+        </table> 
+
+        <h3>Further information</h3>
+        <p>
+            {% if record.first_attending_university %}
+                This student is the first from their family attending university<br />
+            {% endif %}
+            {% if record.looked_after_child %}
+                This student was a looked after child<br />
+            {% endif %}
+            {% if record.low_income_family %}
+                This student is from a low income family<br />
+            {% endif %}
+            {% if record.young_carer %}
+                This student is a young carer<br />
+            {% endif %}
+            {% if record.law_application %}
+                This student is making a law application<br />
+            {% endif %}
+            {% if record.early_application %}
+                This student is making an early application<br />
+            {% endif %}
+            {% if record.main_language_at_home and record.main_language_at_home != "" %}
+                Main language at home is {{ record.main_language_at_home }}<br>
+            {% endif %}
+            {% if record.additional_comments != "" %}
+                {{ record.additional_comments|safe }}
+            {% endif %}
+            <br><br>
+        </p>
+
+        <h3>Course enquiry</h3>
+        <table>
+            <tr>
+                <th>Level</th>
+                <th>Subject</th>
+                <th>Course code</th>
+                <th style="width:50%;">Would you consider this student, and if so please detail the likely offer **</th>
+            </tr>
+            <tr>
+                <td>{{ application.level }}</td><td>{{ application.subject }}</td><td>{% if application.course_code %}{{ application.course_code }}{% endif %}</td>
+                <td>{{ application.consider }} - {{ application.conditions }}</td>
+            </tr>
+        </table> 
+
+        <p><strong>Would you consider LEAPS Summer School reports as an indication of potential to succeed, should the student fail to meet the conditions set?</strong>
+        
+        {% if application.summer_school %}
+            &nbsp;&nbsp; YES</p>
+        {% else %}
+            &nbsp;&nbsp; NO</p>
+        {% endif %}
+        
+        <p><br />Notes:</p>
+        
+        <p>* Admissions staff at LEAPS partner Universities pledge to make offers to LEAPS eligible applicants if at all possible. Students should be asked to meet the usual minimum offer, even if this means setting tough conditions. Please bear in mind that the LEAPS Summer School affords students with conditional offers an additional opportunity to demonstrate their potential to succeed on their chosen degree course should they fail to meet these conditions.</p>
+
+        <p>** This could include academic and non-academic conditions e.g. portfolio, relevant experience, audition, interview. 
+            If you are returning this form by post and have insufficient space, please continue on a separate sheet of paper and attach to this form.</p>
+        
+        <p>PAE enquiry responses can be submitted via our online form at <a href="http://leapssurvey.org/universities">http://leapssurvey.org/universities</a>. If you do not have access, contact LEAPS for further information (up to date contact details available on our website).</p>
+
+    </body>
+</html>
+

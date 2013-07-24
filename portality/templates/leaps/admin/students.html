@@ -56,13 +56,14 @@ jQuery(document).ready(function() {
             {'field':'school.exact', 'display': 'school'},
             {'field':'leaps_category.exact', 'display': 'LEAPS category'},
             {'field':'simd_decile.exact', 'display': 'SIMD decile'},
-            {'field':'status.exact', 'display': 'status'}
+            {'field':'status.exact', 'display': 'status'},
+            {'field':'applications.institution.exact', 'display': 'Application institutions'}
         ],
         paging: {
             from: 0,
             size: 50
         },
-        sort: ["created_date.exact"],
+        sort: [{"created_date.exact":{"order":"desc"}}],
         pager_on_top: true,
         sharesave_link: false,
         default_operator: 'AND',

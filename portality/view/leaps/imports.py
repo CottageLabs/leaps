@@ -5,7 +5,7 @@ from flask.ext.login import current_user
 
 from portality.core import app
 import portality.models as models
-
+from portality.view.leaps.forms import dropdowns
 
 blueprint = Blueprint('imports', __name__)
 
@@ -15,6 +15,8 @@ blueprint = Blueprint('imports', __name__)
 def restrict():
     if current_user.is_anonymous():
         return redirect('/account/login?next=' + request.path)
+    elif current_user.is_institution and request.path.endswith('subjects'):
+        pass
     elif not current_user.do_admin:
         abort(401)
 
@@ -22,20 +24,25 @@ def restrict():
 # build an import page
 @blueprint.route('/')
 @blueprint.route('/<model>', methods=['GET','POST'])
-def index(model=None):
+def index(model=None, deleteall=False):
     if request.method == 'GET':
-        return render_template('leaps/admin/import.html', model=model)
+        if model == 'subjects':
+            sd = dropdowns('institution','name')
+        else:
+            sd = None
+        return render_template('leaps/admin/import.html', model=model, subjects=sd)
     elif request.method == 'POST':
         try:
             records = []
             if "csv" in request.files.get('upfile').filename:
                 upfile = request.files.get('upfile')
-                #dialect = csv.Sniffer().sniff(upfile.read(1024))
-                #upfile.seek(0)
-                reader = csv.DictReader( upfile )#, dialect=dialect )
+                reader = csv.DictReader( upfile )
                 records = [ row for row in reader ]
+                sourcetype = "csv"
             elif "json" in request.files.get('upfile').filename:
+                upfile = request.files.get('upfile')
                 records = json.load(upfile)
+                sourcetype = "json"
 
             if model is None:
                 model = request.form.get('model',None)
@@ -43,9 +50,15 @@ def index(model=None):
                     flash("You must specify what sort of records you are trying to upload.")
                     return render_template('leaps/admin/import.html')
 
-            klass = getattr(models, model[0].capitalize() + model[1:] )
+            if model == 'subjects':
+                klass = getattr(models, 'Institution' )
+            else:
+                klass = getattr(models, model[0].capitalize() + model[1:] )
 
-            if model.lower() in ['school']:
+            if (deleteall or request.values.get('deleteall',False)) and model != "subjects":
+                klass.delete_all()
+
+            if model.lower() in ['school'] and sourcetype == "csv":
                 for rec in records:
                     if 'contacts' not in rec:
                         rec['contacts'] = []
@@ -69,7 +82,7 @@ def index(model=None):
                     c = klass(**rec)
                     c.save()
 
-            elif model.lower() in ['institution']:
+            elif model.lower() in ['institution'] and sourcetype == "csv":
                 for rec in records:
                     if 'contacts' not in rec:
                         rec['contacts'] = []
@@ -107,8 +120,58 @@ def index(model=None):
                             c2['password'] = "m00shroom"
                             rec['contacts'].append(c2)
 
+                    if 'subjects' in rec:
+                        if len(rec['subjects']) == 0:
+                            del rec['subjects']
+                        else:
+                            def splitup(subj):
+                                if '\t' in subj:
+                                    interim = subj.split('\t')
+                                    obj = {}
+                                    if len(interim) == 1:
+                                        obj['name'] = interim[0]
+                                    elif len(interim) == 2:
+                                        obj['level'] = interim[0]
+                                        obj['name'] = interim[1]
+                                    elif len(interim) == 3:
+                                        obj['level'] = interim[0]
+                                        obj['name'] = interim[1]
+                                        obj['coursecode'] = interim[2]
+                                else:
+                                    obj = {"name":subj}
+                                return obj
+                            rec['subjects'] = [splitup(i) for i in rec['subjects'].replace('\r','').split('\n') if len(i) > 0]
+
                     c = klass(**rec)
                     c.save()
+
+            elif model.lower() == "subjects":
+                try:
+                    if isinstance(current_user.is_institution,bool):
+                        if 'institution' not in request.values or request.values['institution'] == "":
+                            flash('You cannot upload subjects without selecting an institution to upload them to. For uploading generic subjects, upload to subject or advancedsubject')
+                            return redirect('/admin/import/subjects')
+                        institution = klass().pull_by_name(request.values['institution'])
+                    else:
+                        institution = klass().pull_by_name(current_user.is_institution)
+
+                    if not isinstance(records,list) or (len(records) > 0 and 'name' not in records[0].keys()):
+                        flash('Your file appears to have no records or does not have the required keys - "name" is required. Please check your file and try again.')
+                    else:
+                        try:
+                            institution.data['subjects'] = records
+                            institution.save()
+                            time.sleep(1)
+                            flash(str(len(records)) + " subjects have been added.")
+                        except:
+                            flash('Sorry, there was an unknown error. Please check your file and try again')
+                except:
+                    flash('Sorry, there was an unknown error. Please check your file and try again')
+                
+                if isinstance(current_user.is_institution,bool):
+                    return redirect('/admin/data/institution')
+                else:
+                    return redirect('/universities/subjects')
 
             else:
                 klass().bulk(records)
@@ -117,7 +180,7 @@ def index(model=None):
             checklen = klass.query(q="*")['hits']['total']
             
             flash(str(len(records)) + " records have been imported, there are now " + str(checklen) + " records.")
-            return render_template('leaps/admin/import.html', model=model)
+            return redirect('admin/data/' + model)
 
         except:
             flash("There was an error importing your records. Please try again.")

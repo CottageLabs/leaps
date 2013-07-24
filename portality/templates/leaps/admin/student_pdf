@@ -200,13 +200,13 @@
             <h2 style="page-break-before:always">INTERVIEW</h2>
             <table style="page-break-after:always">
                 <tr>
-                    <td style="width:30%;">First attending University?</td> <td>{% if record.first_attending_university == "True" %}Yes{% else %}No{% endif %}</td>
+                    <td style="width:30%;">First attending University?</td> <td>{% if record.first_attending_university %}Yes{% else %}No{% endif %}</td>
                 </tr>
                 <tr>
-                    <td style="width:30%;">Applying to Law?</td> <td>{% if record.law_application == "True" %}Yes{% else %}No{% endif %}</td>
+                    <td style="width:30%;">Applying to Law?</td> <td>{% if record.law_application %}Yes{% else %}No{% endif %}</td>
                 </tr>
                 <tr>
-                    <td style="width:30%;">Applying early?</td> <td>{% if record.early_application == "True" %}Yes{% else %}No{% endif %}</td>
+                    <td style="width:30%;">Applying early?</td> <td>{% if record.early_application %}Yes{% else %}No{% endif %}</td>
                 </tr>
                 <tr>
                     <td style="width:30%;">Mothers occupation</td> <td>{{ record.mothers_occupation }}</td>

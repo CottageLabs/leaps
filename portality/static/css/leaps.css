@@ -101,7 +101,7 @@ body {
 #container{
 	width:900px;
 	margin:20px auto 50px auto;
-	padding:0 10px 10px 10px;
+	padding:10px;
 	background:#ffffff;
     -moz-border-radius: 15px;
     border-radius: 15px;
