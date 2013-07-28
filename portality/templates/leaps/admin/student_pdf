@@ -24,13 +24,8 @@
                 background-color:#ccc;
             }
             table{
-                border:1px solid #ccc;
-                border-bottom:none;
                 margin:0 0 10px 0;
                 width:100%;
-            }
-            td{
-                border-bottom:1px solid #ccc;
             }
             th{
                 padding:2px;
@@ -38,6 +33,8 @@
         </style>
     </head>
     <body>
+
+            {% for record in students %}
 
             <h1>Lothians Equal Access Programme for Schools</h1>
 
@@ -97,12 +94,12 @@
             <h2>EXTRA ACADEMIC AND CAREER INFORMATION</h2>
             <table style="page-break-after:always">
                 <tr>
-                    <td style="width:30%;">Late decision to apply?</td>
-                    <td>{% if record.late_decision_to_apply == "Yes" %}Yes{% else %}{% if record.late_decision_to_apply == "No" %}No{% else %}Yes/No{% endif %}{% endif %}</td>
+                    <td style="width:30%;">Late decision to apply?{{record.late_decision_to_apply}}</td>
+                    <td>{% if record.late_decision_to_apply %}{% if record.late_decision_to_apply == "Yes" %}Yes{% else %}No{% endif %}{% else %}Yes/No{% endif %}</td>
                 </tr>
                 <tr>
                     <td style="width:30%;">Had recent careers interview?</td>
-                    <td>{% if record.had_recent_careers_interview == "Yes" %}Yes{% else %}{% if record.had_recent_careers_interview == "No" %}No{% else %}Yes/No{% endif %}{% endif %}</td>
+                    <td>{% if record.had_recent_careers_interview %}{% if record.had_recent_careers_interview == "Yes" %}Yes{% else %}No{% endif %}{% else %}Yes/No{% endif %}</td>
                 </tr>
                 <tr><td style="width:30%;">Any additional qualifications</td><td>{{ record.any_additional_qualifications }}<br /><br /><br /></td></tr>
                 <tr><td style="width:30%;">Any issues affecting academic performance</td><td>{{ record.other_academic_issues }}<br /><br /><br /></td></tr>
@@ -115,7 +112,7 @@
                     <th>Name</th><th>Description</th>
                 </tr>
                 {% for record in record.interests %}
-                    <tr><td style="width:30%;">{{ record.name }}</td><td>{{ record.brief_description }}<br /><br /><br /></td></tr>
+                    <tr><td style="width:30%;">{{ record.title }}</td><td>{{ record.brief_description }}<br /><br /><br /></td></tr>
                 {% endfor %}
                 <tr><td style="width:30%;"><br /><br /><br /></td><td></td></tr>
                 <tr><td style="width:30%;"><br /><br /><br /></td><td></td></tr>
@@ -200,13 +197,17 @@
             <h2 style="page-break-before:always">INTERVIEW</h2>
             <table style="page-break-after:always">
                 <tr>
-                    <td style="width:30%;">First attending University?</td> <td>{% if record.first_attending_university %}Yes{% else %}No{% endif %}</td>
+                    <td style="width:30%;">First attending University?</td> 
+                    <td>{% if record.first_attending_university %}{% if record.first_attending_university %}Yes{% else %}No{% endif %}{% else %}Yes/No{% endif %}</td>
+
                 </tr>
                 <tr>
-                    <td style="width:30%;">Applying to Law?</td> <td>{% if record.law_application %}Yes{% else %}No{% endif %}</td>
+                    <td style="width:30%;">Law application?</td> 
+                    <td>{% if record.law_application %}{% if record.law_application %}Yes{% else %}No{% endif %}{% else %}Yes/No{% endif %}</td>
                 </tr>
                 <tr>
-                    <td style="width:30%;">Applying early?</td> <td>{% if record.early_application %}Yes{% else %}No{% endif %}</td>
+                    <td style="width:30%;">Early application?</td> 
+                    <td>{% if record.early_application %}{% if record.early_application %}Yes{% else %}No{% endif %}{% else %}Yes/No{% endif %}</td>
                 </tr>
                 <tr>
                     <td style="width:30%;">Mothers occupation</td> <td>{{ record.mothers_occupation }}</td>
@@ -228,29 +229,37 @@
                 </tr>
                 <tr>
                     <td style="width:30%;">Looked after child?</td>
-                    <td>{% if looked_after_child in record %}{% if record.looked_after_child %}Yes{% else %}No{% endif %}{% else %}Yes/No{% endif %}</td>
+                    <td>{% if record.looked_after_child %}{% if record.looked_after_child %}Yes{% else %}No{% endif %}{% else %}Yes/No{% endif %}</td>
                 </tr>
                 <tr>
                     <td style="width:30%;">Low income family?</td>
-                    <td>{% if low_income_family in record %}{% if record.low_income_family %}Yes{% else %}No{% endif %}{% else %}Yes/No{% endif %}</td>
+                    <td>{% if record.low_income_family %}{% if record.low_income_family %}Yes{% else %}No{% endif %}{% else %}Yes/No{% endif %}</td>
                 </tr>
                 <tr>
                     <td style="width:30%;">Young carer?</td>
-                    <td>{% if young_carer in record %}{% if record.young_carer %}Yes{% else %}No{% endif %}{% else %}Yes/No{% endif %}</td>
+                    <td>{% if record.young_carer %}{% if record.young_carer %}Yes{% else %}No{% endif %}{% else %}Yes/No{% endif %}</td>
+                </tr>
+                <tr>
+                    <td style="width:30%;">HN only candidate?</td>
+                    <td>{% if record.hn_only_candidate %}{% if record.hn_only_candidate %}Yes{% else %}No{% endif %}{% else %}Yes/No{% endif %}</td>
                 </tr>
                 <tr>
                     <td style="width:30%;">Previous interview in S5?</td>
-                    <td>{% if previous_interview in record %}{% if record.previous_interview %}Yes{% else %}No{% endif %}{% else %}Yes/No{% endif %}</td>
+                    <td>{% if record.previous_interview %}{% if record.previous_interview %}Yes{% else %}No{% endif %}{% else %}Yes/No{% endif %}</td>
                 </tr>
                 <tr>
                     <td style="width:30%;">PAE action</td>
-                    <td>{% if PAE_action in record %}{% if record.PAE_action %}Yes{% else %}No{% endif %}{% else %}Yes/No{% endif %}</td>
+                    <td>{% if record.pae_action %}{% if record.pae_action %}Yes{% else %}No{% endif %}{% else %}Yes/No{% endif %}</td>
                 </tr>
                 <tr>
                     <td colspan="2" style="min-height:60px;">Additional comments<br /><br />{{ record.additional_comments|safe }}</td>
                 </tr>
             </table>
 
+            <table style="page-break-after:always">
+            </table>
+
+            {% endfor %}
     </body>
 </html>
 

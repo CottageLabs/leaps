@@ -37,8 +37,10 @@ jQuery(document).ready(function() {
 
         <p>
         {% if current_user.do_admin %}
-        <a class="btn" href="/admin/student/{{student.id}}">View student record</a> 
+        <a class="btn" href="/admin/student/{{student.id}}">Back to student record</a> 
+        <a class="btn" href="/universities/pae/{{application.appid}}/email">Email this form to the student and school contacts</a> 
         {% endif %}
+        <a class="btn" href="/universities">Back to listing</a> 
         <a class="btn" href="/universities/pae/{{application.appid}}.pdf">Print this PAE form</a>
         </p>
 

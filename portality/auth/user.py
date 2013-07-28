@@ -1,5 +1,8 @@
 from portality.core import app
 
+from flask import request
+
+
 # used in account management to check if logged in user can edit user details
 def update(obj,user):
     if obj.__type__ == 'account':
@@ -37,6 +40,8 @@ def view_admin(user):
 def is_institution(user):
     if user.data.get('institution',False):
         return user.data['institution']
+    elif view_admin(user) and request.values.get('institution',False):
+        return request.values['institution']
     else:
         return view_admin(user)
 
@@ -45,6 +50,8 @@ def is_institution(user):
 def is_school(user):
     if user.data.get('school',False):
         return user.data['school']
+    elif view_admin(user) and request.values.get('school',False):
+        return request.values['school']
     else:
         return view_admin(user)
 

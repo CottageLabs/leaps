@@ -6,6 +6,7 @@ from flask.ext.login import current_user
 
 from portality.core import app
 import portality.models as models
+from portality.view.leaps.forms import dropdowns
 
 
 blueprint = Blueprint('schools', __name__)
@@ -19,7 +20,7 @@ def restrict():
         return render_template('leaps/admin/closed.html')
     if current_user.is_anonymous():
         return redirect('/account/login?next=' + request.path)
-    if not current_user.agreed_policy:
+    if not current_user.agreed_policy and not current_user.view_admin:
         return redirect('/account/policy?next=' + request.path)
     if not current_user.is_school:
         abort(401)
@@ -36,6 +37,7 @@ def index():
     q = models.Student().query(q=qry)
     students = [i['_source'] for i in q.get('hits',{}).get('hits',[])]
     
-    return render_template('leaps/schools/index.html', students=students, school=school)
+    return render_template('leaps/schools/index.html', students=students, schools=dropdowns('school','name'))
+
 
 

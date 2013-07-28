@@ -5,7 +5,8 @@
 <div class="row-fluid">
     <div class="span3">
         <div class="alert alert-info" style="min-height:100px;">
-            <p><span style="font-size:24px;">{{stats.total_submitted}}</span> students<br> have submitted surveys <br><br>(these figures are for records in the current archive).</p>
+            <p><span style="font-size:24px;">{{stats.total_submitted}}</span> students have submitted surveys <br>(overview figures for current archive only).</p>
+            <p><a href="/admin/student" class="btn btn-info">Manage students</a></p>
         </div>
     </div>
     <div class="span3">
@@ -45,7 +46,8 @@
         <div class="alert alert-info" style="min-height:100px;">
             <p><span style="font-size:24px;">{{stats.schools_with_students_submitted}}</span> of the 
             <span style="font-size:24px;">{{stats.total_schools}}</span> 
-            <br>registered schools have had students submit surveys.</p>
+            registered schools <br>have had students submit surveys.</p>
+            <p><a class="btn btn-info" href="/schools">Go to the schools view</a></p>
         </div>
     </div>
 </div>
@@ -54,8 +56,29 @@
     <div class="span3">
         <div class="alert alert-info" style="min-height:100px;">
             <p><span style="font-size:24px;">{{stats.universities_pae_outstanding}}</span> universities<br> have PAE requests outstanding.</p>
+            <p><a class="btn btn-info" href="/universities">Go to the universities view</a></p>
         </div>
     </div>
+    <div class="span3">
+        <div class="alert alert-success" style="min-height:100px;">
+            <p>You are logged in as {{current_user.id}}. 
+            {% if current_user.is_super %}
+                You are the super user. You can edit anything, edit user accounts, and turn surveys and interfaces on and off.
+            {% else %}
+                {% if current_user.do_admin %} You have full edit and export ability.
+                {% else %} You can view and export any administrative data, but you cannot edit.
+                {% endif %}
+            {% endif %}
+            </p>
+        </div>
+    </div>
+    <div class="span3">
+        <div class="alert alert-success" style="min-height:100px;">
+            <p><a class="btn btn-success" href="/account/{{current_user.id}}" style="min-width:110px;">Account settings</a></p>
+            <p><a class="btn btn-success" href="/account/logout" style="min-width:110px;">Logout of LEAPS</a></p>
+        </div>
+    </div>
+
 </div>
 
 

@@ -17,14 +17,21 @@ jQuery(document).ready(function() {
     <div class="row-fluid">
         <div class="span12">
             <div class="hero-unit">
-                {% if school == True %}
+                {% if current_user.is_school == True %}
                     <h1>Hello, {{ current_user.id }}</h1>
                     <p>As you are LEAPS staff, you can see all the students from every school.</p>
+                    <p>Filter to see what a particular school sees: <form><select name="school">
+                        <option></option>
+                        {% for name in schools %}
+                        <option>{{name}}</option>
+                        {% endfor %}
+                    </select> <input type="submit"></form></p>
+
                 {% else %}
-                    <h1>{{ school }}</h1>
+                    <h1>{{ current_user.is_school }}</h1>
                  {% endif %}
 
-                 <p>Below are listed all the students {% if school != True %} from {{school}}{% endif %} that have so far submitted a survey form to LEAPS, and the status of their survey.</p>
+                 <p>Below are listed all the students {% if current_user.is_school != True %} from {{current_user.is_school}}{% endif %} that have so far submitted a survey form to LEAPS, and the status of their survey.</p>
             </div>
         </div>
     </div>

@@ -24,7 +24,9 @@
                 {% endif %}
             </div>
             <div class="span6">
-                <p>New password: <input type="text" style="margin-bottom:0px;" data-path="password"> <input class="btn" type="submit" value="save"></p>
+                <form method="POST">
+                <p>New password: <input name="password" type="text" style="margin-bottom:0px;"> <input class="btn" type="submit" value="save"></p>
+                </form>
                 {% if account.data.school %}
                     <p><input name="school" type="text" value="{{account.data.school}}" disabled="disabled"></p>
                 {% endif %}

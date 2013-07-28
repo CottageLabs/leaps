@@ -1,13 +1,18 @@
 {% extends "leaps/admin/admin-base.html" %}
 
 {% block options %}
-{% if current_user.do_admin %}
+{% if current_user.do_admin and (not record or record.archive == "current") %}
 <a id="triggersave" class="btn btn-success" href="#">Save</a>
 {% if record %}
 <a id="triggerdelete" class="btn btn-danger" href="#">Delete</a><br>
-<a class="btn btn-info" href="/admin/student/{{record.id}}.pdf">Print</a>
 {% endif %}
+<a class="btn" href="/admin/student/{{record.id}}.pdf">Print</a>
 {% endif %}
+
+{% if current_user.view_admin %}
+<a class="btn" href="/admin/student/{{record.id}}.pdf">Print</a>
+{% endif %}
+
 {% endblock %}
 
 
@@ -17,7 +22,8 @@
 <script>
 jQuery(document).ready(function() {    
 
-{% if current_user.do_admin %}
+{% if current_user.do_admin and (not record or record.archive == 'current') %}
+
     $("[data-required]").attr('data-required-message',"");
 
     $('#survey').parsley('validate');
@@ -174,6 +180,9 @@ jQuery(document).ready(function() {
     };
     $('#triggerdelete').bind('click',triggerdelete);
     $('input, textarea, select').bind('change',promptsave);
+
+{% else %}
+    $('input, select, textarea').attr('disabled','disabled');
 
 {% endif %}
 
@@ -446,7 +455,6 @@ fieldset{
               		        <option{% if record %}{% if record.data.status == "paes_all_received" %} selected="selected"{% endif %}{% endif %}>paes_all_received</option>
               		        <option{% if record %}{% if record.data.status == "paes_forwarded" %} selected="selected"{% endif %}{% endif %}>paes_forwarded</option>
               		        <option{% if record %}{% if record.data.status == "complete" %} selected="selected"{% endif %}{% endif %}>complete</option>
-              		        <option{% if record %}{% if record.data.status == "ignore" %} selected="selected"{% endif %}{% endif %}>ignore</option>
                 		</select></td>
 
 	                    <td style="text-align:right;padding:6px 10px 0 0;">Archive</td>
@@ -485,7 +493,6 @@ fieldset{
 
 
 <!-- the qualifications page -->
-<!-- TODO: need to show existing data including lists of values available below -->
 <div class="part qualifications">
 
 	<div class="row-fluid">
@@ -621,7 +628,7 @@ fieldset{
                         <th>College / University</th>
                         <th>Subject</th>
                         <th>Level of study</th>
-                        {% if record.data['_process_paes'] %}<th>PAE replied / view</th>{% endif %}
+                        <th>PAE requested / replied / emailed</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -655,16 +662,25 @@ fieldset{
                     		    {% endif %}
                     		{% endfor %}
                 		</td>
-                		{% if record.data['_process_paes'] %}
+                		{% if app['pae_requested'] %}
                 		<td class="noclone">
                 		    <span style="margin:5px 5px 0 5px;">
+                		    <a class="btn" href="/universities/pae/{{app.appid}}">{{ app['pae_requested'] }}</a>
                 		    {% if app.pae_reply_received %}
                     		    {{ app.pae_reply_received }}
-                    		 {% else %}
-                    		    No reply yet
-                    		 {% endif %}                		    
+                    		{% else %}
+                    		    no reply
+                    		{% endif %}                		    
+                		    {% if app.pae_emailed %}
+                    		    / {{ app.pae_emailed }}
+                    		{% else %}
+                    		    / not yet   
+                    		{% endif %}                		    
                 		    </span>
-                    		<a target="_blank" class="btn" href="/universities/pae/{{app.appid}}">View PAE form &raquo;</a>
+                		</td>
+                		{% else %}
+                		<td>
+                		<p style="padding-top:5px;padding-left:5px;"><input type="checkbox" name="application_pae_requested"> request</p>
                 		</td>
                 		{% endif %}
                     </tr>
@@ -979,7 +995,7 @@ fieldset{
 <div class="part submit">
 
     <hr></hr>
-    
+    {% if current_user.do_admin and (not record or record.archive == "current") %}
 	<div class="row-fluid" style="margin-top:30px;">
 	    <div class="span6">
           	<input id="save" class="btn btn-success span2" style="margin-left:100px;" type="submit" name="submit" value="Save" />
@@ -990,6 +1006,7 @@ fieldset{
 	    </div>
 	    {% endif %}
     </div>
+    {% endif %}
 
 </div>
 {% endif %}

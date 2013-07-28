@@ -35,6 +35,7 @@ class Student(DomainObject):
                 self.data['local_authority'] = ""
             if old.data.get('_process_paes',False) and '_process_paes' not in self.data:
                 self.data['_process_paes'] = old.data.get('_process_paes',False)
+                self.data['_process_paes_date'] = old.data.get('_process_paes_date',datetime.now().strftime("%d-%m-%Y"))
         
         self.data['last_updated'] = datetime.now().strftime("%Y-%m-%d %H%M")
 
@@ -48,6 +49,7 @@ class Student(DomainObject):
             self.data['status'] = 'new'
         elif self.data['status'].startswith('paes'):
             self.data['_process_paes'] = True
+            self.data['_process_paes_date'] = datetime.now().strftime("%d-%m-%Y")
 
         if 'simd_decile' not in self.data or self.data['simd_decile'] == "":
             s = Simd.pull_by_post_code(self.data['post_code'])
@@ -82,7 +84,6 @@ class Student(DomainObject):
 
 
     def save_from_form(self, request):
-        print request.values
         rec = {
             "qualifications": [],
             "interests": [],
@@ -90,6 +91,16 @@ class Student(DomainObject):
             "experience": []
         }
         
+        for key in request.form.keys():
+            if not key.startswith("qualification_") and not key.startswith("interest_") and not key.startswith("application_") and not key.startswith("experience_") and key not in ['submit']:
+                val = request.form[key]
+                if val == "on":
+                    rec[key] = True
+                elif val == "off":
+                    rec[key] = False
+                else:
+                    rec[key] = val
+
         thirdquals = []
         fourthquals = []
         fifthquals = []
@@ -156,6 +167,13 @@ class Student(DomainObject):
                         appn['summer_school'] = request.form.getlist('application_summer_school')[k]
                     except:
                         pass
+                    try:
+                        if request.form.getlist('application_pae_requested')[k]:
+                            appn['pae_requested'] = datetime.now().strftime("%d/%m/%Y")
+                            if rec['status'] not in ['paes_in_progress']:
+                                rec['status'] = 'paes_requested'
+                    except:
+                        pass
                     rec["applications"].append(appn)
                 except:
                     pass
@@ -170,16 +188,6 @@ class Student(DomainObject):
                     })
                 except:
                     pass
-
-        for key in request.form.keys():
-            if not key.startswith("qualification_") and not key.startswith("interest_") and not key.startswith("application_") and not key.startswith("experience_") and key not in ['submit']:
-                val = request.form[key]
-                if val == "on":
-                    rec[key] = True
-                elif val == "off":
-                    rec[key] = False
-                else:
-                    rec[key] = val
 
         if self.id is not None: rec['id'] = self.id
         self.data = rec
@@ -413,6 +421,14 @@ from flask.ext.login import UserMixin
 
 class Account(DomainObject, UserMixin):
     __type__ = 'account'
+
+    @classmethod
+    def pull_by_email(cls,email):
+        res = cls.query(q={"query":{"term":{'email'+app.config['FACET_FIELD']:email}}})
+        if res.get('hits',{}).get('total',0) == 1:
+            return cls.pull( res['hits']['hits'][0]['_source']['id'] )
+        else:
+            return None
 
     def set_password(self, password):
         self.data['password'] = generate_password_hash(password)

@@ -39,7 +39,7 @@ def index():
         "awaiting_some_pae":models.Student.query(q={"query":{"bool":{"must":[{"term":{"archive"+app.config['FACET_FIELD']:"current"}},{"term":{"status"+app.config['FACET_FIELD']:"paes_in_progress"}}]}}})['hits']['total'],
         "all_pae_received":models.Student.query(q={"query":{"bool":{"must":[{"term":{"archive"+app.config['FACET_FIELD']:"current"}},{"term":{"status"+app.config['FACET_FIELD']:"paes_all_received"}}]}}})['hits']['total'],
         "total_schools":models.School.query()['hits']['total'],
-        "schools_with_students_submitted":models.Student.query(q={
+        "schools_with_students_submitted":len(models.Student.query(q={
             "query":{
                 "bool":{
                     "must":[
@@ -60,8 +60,8 @@ def index():
                     }
                 }
             }
-        })['facets']['schools']['total'],
-        "universities_pae_outstanding":models.Student.query(q={
+        })['facets']['schools']['terms']),
+        "universities_pae_outstanding":len(models.Student.query(q={
             "query":{
                 "bool":{
                     "must":[
@@ -88,14 +88,14 @@ def index():
             },
             "size":0,
             "facets":{
-                "schools":{
+                "unis":{
                     "terms":{
                         "field":"applications.institution"+app.config['FACET_FIELD'], 
                         "size":1000
                     }
                 }
             }
-        })['facets']['schools']['total']
+        })['facets']['unis']['terms'])
     }
     return render_template('leaps/admin/index.html', stats=stats)
 
@@ -124,7 +124,7 @@ def student(uuid=None):
         return render_template('leaps/admin/students.html')
 
     if uuid == "new":
-        student = None
+        student = models.Student()
     else:
         student = models.Student.pull(uuid)
         if student is None: abort(404)
@@ -151,22 +151,13 @@ def student(uuid=None):
             selections=selections
         )
     elif ( request.method == 'POST' and request.values.get('submit','') == "Delete" ) or request.method == 'DELETE':
-        if student is not None:
-            student.delete()
-            time.sleep(1)
-            flash("Student " + str(student.id) + " deleted")
-            return redirect(url_for('.student'))
-        else:
-            abort(404)
+        student.delete()
+        time.sleep(1)
+        flash("Student " + str(student.id) + " deleted")
+        return redirect(url_for('.student'))
     elif request.method == 'POST':
-        new = False
-        if student is None:
-            new = True
-            student = models.Student()
-        
         student.save_from_form(request)
-
-        if new:
+        if uuid == 'new':
             flash("New student record has been created", "success")
             return redirect(url_for('.student') + '/' + str(student.id))
         else:
@@ -180,15 +171,35 @@ def student(uuid=None):
 
 # print a student as a pdf
 @blueprint.route('/student/<sid>.pdf', methods=['GET'])
-def pdf(sid):
-    if sid == "new":
-        student = None
+@blueprint.route('/student/pdf', methods=['GET'])
+def pdf(sid,giveback=False):
+    if sid == "None":
+        student = models.Student()
+        thepdf = render_template('leaps/admin/student_pdf', students=[student.data])
+    elif sid == "selected":
+        query = json.loads(request.values.get('query','{"query":{"match_all":{}}}'))
+        if 'size' in request.values: query['size'] = request.values['size']
+        selected = json.loads(request.values.get('selected','[]'))
+        s = models.Student.query(q=query)
+        students = []
+        for i in s.get('hits',{}).get('hits',[]):
+            if len(selected) == 0 or i['_source']['id'] in selected:
+                students.append( i['_source'] )
+        if len(students) == 0:
+            abort(404)
+        else:
+            thepdf = render_template('leaps/admin/student_pdf', students=students)
     else:
         student = models.Student.pull(sid)
-        if student is None: abort(404)
+        if student is None:
+            abort(404)
+        else:
+            thepdf = render_template('leaps/admin/student_pdf', students=[student.data])
 
-    html = render_template('leaps/admin/student_pdf', record=student)
-    return render_pdf(HTML(string=html))
+    if giveback:
+        return thepdf
+    else:
+        return render_pdf(HTML(string=thepdf))
 
     
 # do updating of schools / institutes / courses / pae answers / interview data

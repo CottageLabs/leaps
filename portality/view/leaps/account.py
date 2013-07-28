@@ -66,19 +66,20 @@ def username(username):
     elif request.method == 'POST':
         if not auth.user.update(acc,current_user):
             abort(401)
-        info = request.json
+        info = request.json if request.json else request.values
         if info.get('id',False):
             if info['id'] != username:
                 acc = models.Account.pull(info['id'])
             else:
                 info['api_key'] = acc.data['api_key']
-        acc.data = info
-        if 'password' in info and not info['password'].startswith('sha1'):
-            acc.set_password(info['password'])
+        for k, v in info.items():
+            if k == 'password':
+                acc.set_password(info['password'])
+            elif k not in ['submit']:
+                acc.data[k] = info[k]
         acc.save()
-        resp = make_response( json.dumps(acc.data, sort_keys=True, indent=4) )
-        resp.mimetype = "application/json"
-        return resp
+        flash('Account updated', "success")
+        return render_template('account/view.html', account=acc)
     else:
         if not acc:
             abort(404)
@@ -130,7 +131,9 @@ def login():
         password = form.password.data
         username = form.username.data
         user = models.Account.pull(username)
-        if user and user.check_password(password):
+        if user is None:
+            user = models.Account.pull_by_email(username)
+        if user is not None and user.check_password(password):
             login_user(user, remember=True)
             flash('Welcome back.', 'success')
             return form.redirect('index')
@@ -139,6 +142,39 @@ def login():
     if request.method == 'POST' and not form.validate():
         flash('Invalid form', 'error')
     return render_template('account/login.html', form=form)
+
+@blueprint.route('/forgot', methods=['GET', 'POST'])
+def forgot():
+    if request.method == 'POST':
+        un = request.form.get('un',"")
+        account = models.Account.pull(un)
+        if account is None: account = models.Account.pull_by_email(un)
+        if account is None:
+            flash('Sorry, your account username / email address is not recognised. Please contact us.')
+        else:
+            newpass = util.generate_password()
+            account.set_password(newpass)
+            account.save()
+            if not app.config['DEBUG'] and app.config.get('LEAPS_EMAIL',False):
+                to = [account.data['email'],app.config['LEAPS_EMAIL']]
+                fro = app.config['LEAPS_EMAIL']
+                subject = "LEAPS password reset"
+                message = "A password reset request for LEAPS account " + account.id + " has been received and processed.\n\n"
+                message += "The new password for this account is " + newpass + ".\n\n"
+                message += "If you are the user " + account.id + " and you requested this change, please login now and change the password again to something of your preference.\n\n"
+                message += '<a href="https://leapssurvey.org/account/' + account.id
+                message += '">https://leapssurvey.org/account/' + account.id + '</a>\n\n'
+                message += "If you are the user " + account.id + " and you did NOT request this change, please contact LEAPS immediately.\n\n"
+                try:
+                    util.send_mail(to=to, fro=fro, subject=subject, text=text)
+                except:
+                    flash('Email failed.')
+            else:
+                flash('If this was not debug mode and an email address was available, an email alert would have just been sent containing the password ' + newpass)
+
+            flash('Your password has been reset. Please check your emails.')
+    return render_template('account/forgot.html')
+
 
 @blueprint.route('/policy', methods=['GET', 'POST'])
 def policy():

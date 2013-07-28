@@ -12,6 +12,7 @@ from flask.ext.login import current_user
 from portality.core import app
 
 import portality.models as models
+import portality.util as util
 
 
 blueprint = Blueprint('forms', __name__)
@@ -55,8 +56,6 @@ def student():
             render_template(
                 'leaps/survey/survey.html', 
                 selections = selections,
-                advancedsubjectsjson = json.dumps(selections['advancedsubjects']),
-                advancedlevelsjson = json.dumps(selections['advancedlevels']),
                 data={}
             )
         )
@@ -67,7 +66,23 @@ def student():
     if request.method == 'POST':
         student = models.Student()
         student.save_from_form(request)
-        
+
+        if not app.config['DEBUG'] and 'LEAPS_EMAIL' in app.config and app.config['LEAPS_EMAIL']:
+            to = [app.config['LEAPS_EMAIL']]
+            if 'ADMIN_EMAIL' in app.config and app.config['ADMIN_EMAIL']:
+                to.append(app.config['ADMIN_EMAIL'])
+            fro = app.config['LEAPS_EMAIL']
+            subject = "New student survey submitted"
+            text = 'A student has just submitted a survey. View it in the admin interfacet at '
+            text += '<a href="http://leapssurvey.org/admin/student/' + student.id
+            text += '">http://leapssurvey.org/admin/student/' + student.id + '</a>.'
+            try:
+                util.send_mail(to=to, fro=fro, subject=subject, text=text)
+            except:
+                flash('Email failed.')
+        else:
+            flash('If this was not debug mode and an email address was available, an email alert would have just been sent')
+                
         return redirect(url_for('.complete'))
 
 

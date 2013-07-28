@@ -23,7 +23,6 @@ jQuery(document).ready(function() {
     // hide survey sections and add prev/next nav-throughs
     var doprevnext = function(event) {
         event.preventDefault();
-        // TODO: validate the currently visible parts
         $('#survey').parsley('validate');
         $('.part').hide();
         $(this).hasClass('prev') ? $(this).closest('.part').prev().show() : $(this).closest('.part').next().show();
@@ -55,7 +54,7 @@ jQuery(document).ready(function() {
         $(row).find('.datepicker').datepicker("destroy");
         $(row).find('.datepicker').removeClass("hasDatepicker").removeAttr('id');
         $(row).find('.datepicker').datepicker(opts);
-        var subjects = {{ advancedsubjectsjson|safe }};
+        var subjects = {{ selections.advancedsubjects|tojson|safe }};
         var stext = '<option></option>';
 	    for ( var i = 0; i < subjects.length; i++ ) {
 	        stext += '<option>' + subjects[i] + '</option>';
@@ -109,7 +108,7 @@ jQuery(document).ready(function() {
         if ( level ) {
             ls.html('<option></option><option selected="selected">' + level + '</option>')
         } else {
-            var levels = {{ advancedlevelsjson|safe }};
+            var levels = {{ selections.advancedlevels|tojson|safe }};
             var lopts = '<option></option>';
             for ( var i = 0; i < levels.length; i++ ) {
                 lopts += "<option>" + levels[i] + "</option>";
@@ -123,7 +122,7 @@ jQuery(document).ready(function() {
         $(this).closest('tr').find('.subjectselector').attr("disabled","disabled");
         $(this).closest('tr').find('.levelselector').val("").attr("disabled","disabled");
         if ( institution == "" ) {
-            var subjects = {{ advancedsubjectsjson|safe }};
+            var subjects = {{ selections.advancedsubjects|tojson|safe }};
             var opts = '<option></option>';
             for ( var i = 0; i < subjects.length; i++ ) {
                 opts += "<option>" + subjects[i] + "</option>";
@@ -146,11 +145,11 @@ jQuery(document).ready(function() {
                 obj:$(this),
                 success: function(data) {
                     if ( data.hits.total == 0 ) {
-                        var subjects = {{ advancedsubjectsjson|safe }};
+                        var subjects = {{ selections.advancedsubjects|tojson|safe }};
                     } else if ( data.hits.hits[0]._source.subjects !== undefined && data.hits.hits[0]._source.subjects.length > 0 ) {
                         var subjects = data.hits.hits[0]._source.subjects;
                     } else {
-                        var subjects = {{ advancedsubjectsjson|safe }};
+                        var subjects = {{ selections.advancedsubjects|tojson|safe }};
                     }
                     var opts = '<option></option>';
                     for ( var i = 0; i < subjects.length; i++ ) {
@@ -169,6 +168,7 @@ jQuery(document).ready(function() {
     }
     $('.institutionselector').bind('change',limitsubjects);
     $('.subjectselector').bind('change',limitlevels);
+    
 
 });
 </script>
@@ -375,7 +375,7 @@ input.bigfield{
                 </thead>
                 <tbody>
                     <tr>
-                		<td><select name="qualification_subject">
+                		<td><select name="qualification_subject" class="select2this">
                 		    <option></option>
                 		    {% for opt in selections.subjects %}
                 		        <option>{{ opt }}</option>

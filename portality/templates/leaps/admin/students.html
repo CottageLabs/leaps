@@ -1,8 +1,11 @@
 {% extends "leaps/admin/admin-base.html" %}
 
 {% block options %}
+            {% if current_user.do_admin %}
             <a class="btn btn-primary" href="/admin/student/new">add new student survey</a>
+            {% endif %}
             <a id="export" class="btn" href="/admin/export">Export selected</a>
+            <a id="print" class="btn" href="/admin/student/selected.pdf">Print selected</a>
 {% endblock %}
 
 
@@ -10,21 +13,23 @@
 
 <script>
 jQuery(document).ready(function() {
-    var exportthis = function(event) {
+    var getthese = function(event) {
         event.preventDefault();
-        var loc = $(this).attr('href') + '?q=' + JSON.stringify($.fn.facetview.options.querystring);
-        if ( $('#selecttotal').attr('checked') ) {
-            loc += '&size=' + $.fn.facetview.options.rawdata.hits.total;
-        } else if ( !$('#selectall').is(':checked') ) {
-            var selected = [];
+        var selected = [];
+        var qry = $.fn.facetview.options.querystring;
+        if ( $('#selecttotal').is(':checked') ) {
+            qry.size = $.fn.facetview.options.rawdata.hits.total;
+        } else {
             $('.selectthis').each(function() {
                 $(this).is(':checked') ? selected.push($(this).attr('name').replace("select_","")) : false;
             });
-            selected.length > 0 ? loc += '&selected=' + JSON.stringify(selected) : false;
         }
+        var loc = $(this).attr('href') + '?q=' + JSON.stringify(qry);
+        selected.length > 0 ? loc += '&selected=' + JSON.stringify(selected) : false;
         window.location = loc;
     }
-    $('#export').bind('click',exportthis);
+    $('#export').bind('click',getthese);
+    $('#print').bind('click',getthese);
 
     var post = function() {
         if ( $('#default_current').length == 0 ) {
@@ -61,7 +66,7 @@ jQuery(document).ready(function() {
         ],
         paging: {
             from: 0,
-            size: 50
+            size: 20
         },
         sort: [{"created_date.exact":{"order":"desc"}}],
         pager_on_top: true,

@@ -10,9 +10,10 @@
             <a class="btn searchtype" data-type="grade" href="/admin/data/grade">Grades</a>
             <a class="btn searchtype" data-type="subject" href="/admin/data/subject">School subjects</a>
             <a class="btn searchtype" data-type="advancedsubject" href="/admin/data/advancedsubject">Advanced subjects (generic)</a>
+            {% if current_user.do_admin %}
             <a class="btn btn-primary addnew" href="#">Add new <span id="newtype" class="newtype">school</span></a>
             <a class="btn btn-warning" href="/admin/import/{% if model %}{{model}}{% else %}school{% endif %}">Bulk import <span class="newtype">school</span></a>
-
+            {% endif %}
 {% endblock %}
 
 

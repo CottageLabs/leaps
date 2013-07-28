@@ -26,7 +26,7 @@ def query(path='Record'):
     if subpath.lower() in app.config.get('NO_QUERY_VIA_API',[]):
         abort(401)
     
-    if subpath.lower() in ["student", "everything"] and not current_user.view_admin:
+    if subpath.lower() in ["student", "everything"] and ( current_user.is_anonymous() or not current_user.view_admin):
         abort(401)
         
     klass = getattr(models, subpath[0].capitalize() + subpath[1:] )
