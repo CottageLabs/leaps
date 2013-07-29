@@ -172,6 +172,8 @@ class Student(DomainObject):
                             appn['pae_requested'] = datetime.now().strftime("%d/%m/%Y")
                             if rec['status'] not in ['paes_in_progress']:
                                 rec['status'] = 'paes_requested'
+                        elif request.form.getlist('application_pae_requested')[k]:
+                            appn['pae_requested'] = request.form.getlist('application_pae_requested')[k]
                     except:
                         pass
                     rec["applications"].append(appn)
