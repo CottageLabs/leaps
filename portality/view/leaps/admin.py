@@ -177,7 +177,7 @@ def pdf(sid,giveback=False):
         student = models.Student()
         thepdf = render_template('leaps/admin/student_pdf', students=[student.data])
     elif sid == "selected":
-        query = json.loads(request.values.get('query','{"query":{"match_all":{}}}'))
+        query = json.loads(request.values.get('q','{"query":{"match_all":{}}}'))
         if 'size' in request.values: query['size'] = request.values['size']
         selected = json.loads(request.values.get('selected','[]'))
         s = models.Student.query(q=query)
