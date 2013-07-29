@@ -11,3 +11,6 @@ See the README.rst for more information on using portality.
 
 LEAPS also relies on Flask-Weazyprint which requires lxml, so also pay 
 attention to the bit of README.rst that explains how to install lxml.
+
+If there are issues installing, check that sudo apt-get install libffi-dev 
+may need to be done.

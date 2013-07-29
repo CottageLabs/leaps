@@ -253,7 +253,7 @@ def _get_students(institution):
                 ]
             }
         },
-        "sort":[{"field":"_process_paes_date"+app.config['FACET_FIELD'], "order":"desc"}],
+        #"sort":[{"field":"_process_paes_date"+app.config['FACET_FIELD'], "order":"desc"}],
         'size':10000
     }
     if not isinstance(institution,bool):
