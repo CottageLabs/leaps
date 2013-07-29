@@ -16,7 +16,8 @@ jQuery(document).ready(function() {
     var getthese = function(event) {
         event.preventDefault();
         var selected = [];
-        var qry = $.fn.facetview.options.querystring;
+        var qry = $.parseJSON($.fn.facetview.options.querystring);
+        delete qry.fields;
         if ( $('#selecttotal').is(':checked') ) {
             qry.size = $.fn.facetview.options.rawdata.hits.total;
         } else {
