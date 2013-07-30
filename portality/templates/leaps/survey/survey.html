@@ -71,9 +71,9 @@ jQuery(document).ready(function() {
     $('table.multi').find('tbody').append('<tr><td><a class="btn btn-success add-row" href="#">add</a></td></tr>');
     var addrow = function(event) {
         event.preventDefault();
-        $(this).closest('tr').siblings().length == 5 ? $(this).hide() : false;
         var maxrows = 6;
         $(this).closest('table').hasClass('manyrows') ? maxrows = 30 : false;
+        $(this).closest('tr').siblings().length == (maxrows - 1) ? $(this).hide() : false;
         if ( $(this).closest('tr').siblings().length < maxrows ) {
             var row = $(this).closest('tr').prev().clone(true).get(0);
             $(row).find('.noclone').remove();
