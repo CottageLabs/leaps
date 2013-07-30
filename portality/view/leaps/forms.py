@@ -52,6 +52,10 @@ def student():
             "institutions": dropdowns('institution'),
             "advancedlevels": dropdowns('advancedlevel')
         }
+        if 'TEST' in selections['schools']:
+            selections['schools'] = [i for i in selections['schools'] if i != 'TEST']
+        if 'TEST' in selections['institutions']:
+            selections['institutions'] = [i for i in selections['institutions'] if i != 'TEST']
         response = make_response(
             render_template(
                 'leaps/survey/survey.html', 
