@@ -9,10 +9,10 @@
 <script>
 jQuery(document).ready(function() {
     $('.selectall').change(function() {
-        var column = 0;//TODO: this should read which table header it is
+        var column = $(this).attr('data-column');
+        var checked = $(this).is(':checked');
         $('table > tbody > tr').each(function() {
-            // TODO: in the row, find each td in the correct column and check its boxes
-            //$('td', this)[column].find('input').attr('checked', $(this).is(':checked'));
+            $(this).find('td').eq(column).find(':checkbox').attr('checked',checked);
         });
     });
 });
@@ -38,10 +38,10 @@ jQuery(document).ready(function() {
 
 	        <table class="table table-bordered">
 	            <thead>
-	                <th>Student details <span style="font-weight:normal;">( select all <input type="checkbox" class="selectall"> )</span></th>
-	                <th>School details <span style="font-weight:normal;">( select all <input type="checkbox" class="selectall"> )</span></th>
-	                <th>More information <span style="font-weight:normal;">( select all <input type="checkbox" class="selectall"> )</span></th>
-	                <th>Interview details <span style="font-weight:normal;">( select all <input type="checkbox" class="selectall"> )</span></th>
+	                <th>Student details <span style="font-weight:normal;">( select all <input type="checkbox" data-column="0" class="selectall"> )</span></th>
+	                <th>School details <span style="font-weight:normal;">( select all <input type="checkbox" data-column="1" class="selectall"> )</span></th>
+	                <th>More information <span style="font-weight:normal;">( select all <input type="checkbox" data-column="2" class="selectall"> )</span></th>
+	                <th>Interview details <span style="font-weight:normal;">( select all <input type="checkbox" data-column="3" class="selectall"> )</span></th>
 	            </thead>
 	            <tbody>
         	        <tr>

@@ -25,7 +25,7 @@ def restrict():
 
 @blueprint.route('/', methods=['GET','POST'])
 def index():
-    query = json.loads(request.values.get('query','{"query":{"match_all":{}}}'))
+    query = json.loads(request.values.get('q','{"query":{"match_all":{}}}'))
     selected = json.loads(request.values.get('selected','[]'))
 
     if request.method == 'GET':
@@ -36,7 +36,7 @@ def index():
         s = models.Student.query(q=query)
         students = []
         for i in s.get('hits',{}).get('hits',[]): 
-            if len(selected) == 0 or (selected and i['_source']['id'] in selected):
+            if len(selected) == 0 or i['_source']['id'] in selected:
                 students.append(i['_source'])
         
         keys = [ i for i in keys if i not in ['query','submit','selected']]
