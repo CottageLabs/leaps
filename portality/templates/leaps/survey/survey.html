@@ -72,7 +72,9 @@ jQuery(document).ready(function() {
     var addrow = function(event) {
         event.preventDefault();
         $(this).closest('tr').siblings().length == 5 ? $(this).hide() : false;
-        if ( $(this).closest('tr').siblings().length < 6 ) {
+        var maxrows = 6;
+        $(this).closest('table').hasClass('manyrows') ? maxrows = 30 : false;
+        if ( $(this).closest('tr').siblings().length < maxrows ) {
             var row = $(this).closest('tr').prev().clone(true).get(0);
             $(row).find('.noclone').remove();
             $(row).insertBefore($(this).closest('tr'));
@@ -83,7 +85,9 @@ jQuery(document).ready(function() {
     var deleterow = function(event) {
         event.preventDefault();
         var row = $(this).closest('tr').clone(true).get(0);
-        $(this).closest('tr').siblings().length == 6 ? $(this).closest('tr').siblings().find('.add-row').show() : false;
+        var maxrows = 6;
+        $(this).closest('table').hasClass('manyrows') ? maxrows = 30 : false;
+        $(this).closest('tr').siblings().length == maxrows ? $(this).closest('tr').siblings().find('.add-row').show() : false;
         if ( $(this).closest('tr').siblings().length == 1 ) {
             $(row).find('.noclone').remove();
             $(row).insertBefore($(this).closest('tr'));
@@ -228,7 +232,7 @@ input.bigfield{
 	        <p>Each part presents <strong>instructions at the top</strong> on how to complete the questions in that part.</p> 
 	        <p>Some fields will offer <strong>suggestions as you type</strong>. Choose a suitable suggestion if one is presented, otherwise 
 	        continue to type and your text will be accepted.</p>
-	        <p>If you need to <strong>insert extra rows</strong>, press <strong>add</strong> to get another row, up to the maximum of 6.</p>
+	        <p>If you need to <strong>insert extra rows</strong>, press <strong>add</strong> to get another row.</p>
 	        <p>If you want to <strong>delete a row</strong>, press <strong>delete</strong> to remove the row.</p>
 	        <p>Required inputs are shown in red, until they are completed appropriately, when they will become green. You should check that all required inputs are green before proceeding. Inputs that are optional remain white.</p>
 	        <p>You can navigate between parts using the <strong>Previous</strong> or <strong>Next</strong> buttons.</p>
@@ -364,7 +368,7 @@ input.bigfield{
 
 	<div class="row-fluid">
 	    <div class="span12">		
-	        <table class="multi">
+	        <table class="multi manyrows">
                 <thead>
                     <tr>
                         <th>Subject</th>
