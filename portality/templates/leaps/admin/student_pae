@@ -119,11 +119,11 @@
             <tr>
                 <th>Level</th>
                 <th>Subject</th>
-                <th>Course code</th>
                 <th style="width:50%;">Would you consider this student, and if so please detail the likely offer **</th>
             </tr>
             <tr>
-                <td>{{ application.level }}</td><td>{{ application.subject }}</td><td>{% if application.course_code %}{{ application.course_code }}{% endif %}</td>
+                <td>{{ application.level }}</td>
+                <td>{{ application.subject }}</td>
                 <td>{{ application.consider }} - {{ application.conditions }}</td>
             </tr>
         </table> 
