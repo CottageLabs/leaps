@@ -34,10 +34,15 @@ def send_mail(to, fro, subject, text, files=[],server="localhost"):
  
     for file in files:
         part = MIMEBase('application', "octet-stream")
-        part.set_payload( open(file,"rb").read() )
-        Encoders.encode_base64(part)
-        part.add_header('Content-Disposition', 'attachment; filename="%s"'
-                       % os.path.basename(file))
+        if isinstance(file,dict):
+            part.set_payload( file['content'] )
+            Encoders.encode_base64(part)
+            part.add_header('Content-Disposition', 'attachment; filename="' + file['filename'] + '"')
+        else:
+            part.set_payload( open(file,"rb").read() )
+            Encoders.encode_base64(part)
+            part.add_header('Content-Disposition', 'attachment; filename="%s"'
+                           % os.path.basename(file))
         msg.attach(part)
  
     smtp = smtplib.SMTP(server)

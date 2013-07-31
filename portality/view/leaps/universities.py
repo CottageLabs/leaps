@@ -10,7 +10,7 @@ from flask_weasyprint import HTML, render_pdf
 
 from portality.core import app
 import portality.models as models
-import portality.util
+import portality.util as util
 from portality.view.leaps.exports import download_csv
 from portality.view.leaps.forms import dropdowns
 
@@ -107,10 +107,10 @@ def pae(appid):
                     to.append(app.config['ADMIN_EMAIL'])
                 fro = app.config['LEAPS_EMAIL']
                 subject = "PAE response received"
-                message = "A response has been received via the online PAE response form.\n\n"
-                message += "You can view the response at:\n\n"
-                message += "https://leapssurvey.org/universities/pae/" + appid
-                message += "\n\nThanks!"
+                text = "A response has been received via the online PAE response form.\n\n"
+                text += "You can view the response at:\n\n"
+                text += "https://leapssurvey.org/universities/pae/" + appid
+                text += "\n\nThanks!"
                 util.send_mail(to=to, fro=fro, subject=subject, text=text)
             except:
                 flash('Email failed.')
@@ -138,33 +138,76 @@ def paepdf(appid,giveback=False):
 def email(appid):
     student, application = _get_student_for_appn(appid)
 
-    try:
-        to = [app.config['LEAPS_EMAIL']]
-        if app.config.get('ADMIN_EMAIL',False):
-            to.append(app.config['ADMIN_EMAIL'])
-        if 'email' in student:
-            to.append(student['email'])
-        school = models.School.pull_by_name(student.data['school'])
-        if school is not None:
-            for contact in school.data.get('contacts',[]):
-                if contact.get('email',False):
-                    to.append(contact['email'])
-        fro = app.config['LEAPS_EMAIL']
-        subject = "LEAPS PAE enquiry feedback"
-        message = "" # TODO: write a message for the student and school contacts to see
-        files = [] # TODO: get the pdf from paepdf(appid, giveback=True) and get send_mail to handle it without writing to disk
-        util.send_mail(to=to, fro=fro, subject=subject, text=text, files=files)
-        application['pae_emailed'] = datetime.now().strftime("%d/%m/%Y")
-        which = 0
-        count = 0
-        for app in student.data['applications']:
-            if app['appid'] == application['appid']: which = count
-            count += 1
-        student.data['applications'][which] = application
-        student.save()
-        flash('PAE has been emailed to ' + ",".join(to), "success")
-    except:
-        flash('Email failed.')
+#    try:
+    fro = app.config['LEAPS_EMAIL']
+
+    to = [app.config['LEAPS_EMAIL']]
+    if app.config.get('ADMIN_EMAIL',False):
+        to.append(app.config['ADMIN_EMAIL'])
+    if 'email' in student:
+        to.append(student['email'])
+
+    text = 'Dear ' + student.data['first_name'] + " " + student.data['last_name'] + ',\n\n'
+
+    school = models.School.pull_by_name(student.data['school'])
+    if school is not None:
+        foundone = False
+        for contact in school.data.get('contacts',[]):
+            if contact.get('email',False):
+                to.append(contact['email'])
+                if not foundone:
+                    foundone = True
+                    text += '( and copied to school contact '
+                else:
+                    text += ', '
+                if contact.get('name',"") != "":
+                    text += contact['name']
+                else:
+                    text += contact['email']
+        if foundone:
+            text += " )\n\n"
+
+    text += '''Pre-Application Enquiry (PAE) Response
+
+Following your LEAPS interview, we raised a Pre-Application Enquiry (PAE) with a university on your behalf. We asked whether or not they are likely to make you an offer for the course you are interested in, based on your qualifications to date.
+
+Please see the attached document for full details of their response. Make sure that you read everything carefully. Take time to check that all your qualifications are correct - the university's response is based on your qualifications as listed.
+
+This Pre-Application Enquiry (PAE) is a guide for you. Its purpose is to help you make the best use of your five UCAS choices by giving you an indication of how universities are likely to view your application. 
+
+If the university has said no, it will not be worthwhile making the same choice on your UCAS application. Pay attention to the reasons given for this response and make use of any comments when you come to make your final UCAS choices.
+
+If the university has said yes - great news! However do bear in mind that this is NOT a formal offer of study, nor does it guarantee that you will receive an offer. You still need to apply through UCAS and admissions tutors will take into account all of the information on your application. This includes your personal statement, academic reference and predicted grades. Competition for places will also
+be a factor as demand tends to fluctuate from year-to-year.
+
+If you have any questions at all regarding your PAE response, please contact us on LEAPS@ed.ac.uk or 0131 650 4676. We have copied this email to your school so that you can also discuss any concerns with your guidance teacher or UCAS co-ordinator.
+
+Kind regards,
+The LEAPS team
+
+***Please note you will receive a separate email for each course we have enquired about. Responses may be received at different times.***'''
+
+    subject = "LEAPS PAE enquiry feedback"
+
+    files = [{
+        'content': paepdf(application['appid'],giveback=True), 
+        'filename': 'LEAPSPAE_' + student.data['first_name'] + '_' + student.data['last_name'] + '_' + application['institution'] + '.pdf'
+    }]
+
+    util.send_mail(to=to, fro=fro, subject=subject, text=text, files=files)
+
+    application['pae_emailed'] = datetime.now().strftime("%d/%m/%Y")
+    which = 0
+    count = 0
+    for appn in student.data['applications']:
+        if appn['appid'] == application['appid']: which = count
+        count += 1
+    student.data['applications'][which] = application
+    student.save()
+
+    flash('PAE has been emailed to ' + ",".join(to), "success")
+#    except:
+#        flash('Email failed.')
 
     return redirect(url_for('.pae', appid=appid))
     
