@@ -9,7 +9,7 @@ LEAPS_EMAIl = "leappae@ed.ac.uk"
 SERVICE_NAME = "LEAPS"
 SERVICE_TAGLINE = ""
 HOST = "0.0.0.0"
-DEBUG = True
+DEBUG = False
 PORT = 5005
 
 # list of superuser account names

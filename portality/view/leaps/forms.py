@@ -73,9 +73,9 @@ def student():
         student = models.Student()
         student.save_from_form(request)
 
-        if not app.config['DEBUG'] and 'LEAPS_EMAIL' in app.config and app.config['LEAPS_EMAIL']:
+        if not app.config['DEBUG'] and 'LEAPS_EMAIL' in app.config and app.config['LEAPS_EMAIL'] != "":
             to = [app.config['LEAPS_EMAIL']]
-            if 'ADMIN_EMAIL' in app.config and app.config['ADMIN_EMAIL']:
+            if 'ADMIN_EMAIL' in app.config and app.config['ADMIN_EMAIL'] != "":
                 to.append(app.config['ADMIN_EMAIL'])
             fro = app.config['LEAPS_EMAIL']
             subject = "New student survey submitted"

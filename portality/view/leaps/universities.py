@@ -101,9 +101,9 @@ def pae(appid):
 
             student.save()
 
-            if not app.config['DEBUG'] and 'LEAPS_EMAIL' in app.config and app.config['LEAPS_EMAIL']:
+            if not app.config['DEBUG'] and 'LEAPS_EMAIL' in app.config and app.config['LEAPS_EMAIL'] != "":
                 to = [app.config['LEAPS_EMAIL']]
-                if 'ADMIN_EMAIL' in app.config and app.config['ADMIN_EMAIL']:
+                if 'ADMIN_EMAIL' in app.config and app.config['ADMIN_EMAIL'] != "":
                     to.append(app.config['ADMIN_EMAIL'])
                 fro = app.config['LEAPS_EMAIL']
                 subject = "PAE response received"
@@ -141,9 +141,9 @@ def paepdf(appid,giveback=False):
 def email(appid):
     student, application = _get_student_for_appn(appid)
 
-    if not app.config['DEBUG'] and 'LEAPS_EMAIL' in app.config and app.config['LEAPS_EMAIL']:
+    if not app.config['DEBUG'] and 'LEAPS_EMAIL' in app.config and app.config['LEAPS_EMAIL'] != "":
         to = [app.config['LEAPS_EMAIL']]
-        if 'ADMIN_EMAIL' in app.config and app.config['ADMIN_EMAIL']:
+        if 'ADMIN_EMAIL' in app.config and app.config['ADMIN_EMAIL'] != "":
             to.append(app.config['ADMIN_EMAIL'])
         if 'email' in student:
             to.append(student['email'])
