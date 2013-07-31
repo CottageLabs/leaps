@@ -73,21 +73,18 @@ def student():
         student = models.Student()
         student.save_from_form(request)
 
-        if not app.config['DEBUG'] and 'LEAPS_EMAIL' in app.config and app.config['LEAPS_EMAIL'] != "":
+        try:
             to = [app.config['LEAPS_EMAIL']]
-            if 'ADMIN_EMAIL' in app.config and app.config['ADMIN_EMAIL'] != "":
+            if app.config.get('ADMIN_EMAIL',False):
                 to.append(app.config['ADMIN_EMAIL'])
             fro = app.config['LEAPS_EMAIL']
             subject = "New student survey submitted"
             text = 'A student has just submitted a survey. View it in the admin interfacet at '
             text += '<a href="http://leapssurvey.org/admin/student/' + student.id
             text += '">http://leapssurvey.org/admin/student/' + student.id + '</a>.'
-            try:
-                util.send_mail(to=to, fro=fro, subject=subject, text=text)
-            except:
-                flash('Email failed.')
-        else:
-            flash('If this was not debug mode and an email address was available, an email alert would have just been sent')
+            util.send_mail(to=to, fro=fro, subject=subject, text=text)
+        except:
+            flash('Email failed.')
                 
         return redirect(url_for('.complete'))
 

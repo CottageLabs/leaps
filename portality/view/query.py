@@ -39,10 +39,7 @@ def query(path='Record'):
         else:
             rec = klass().pull(pathparts[1])
             if rec:
-                if ( not app.config.get('ANONYMOUS_SEARCH_FILTER',False) ) or ( app.config.get('ANONYMOUS_SEARCH_FILTER',False) and rec.get('visible',False) and rec.get('accessible',False) ):
-                    resp = make_response( rec.json )
-                else:
-                    abort(401)
+                resp = make_response( rec.json )
             else:
                 abort(404)
     else:

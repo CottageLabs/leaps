@@ -101,9 +101,9 @@ def pae(appid):
 
             student.save()
 
-            if not app.config['DEBUG'] and 'LEAPS_EMAIL' in app.config and app.config['LEAPS_EMAIL'] != "":
+            try:
                 to = [app.config['LEAPS_EMAIL']]
-                if 'ADMIN_EMAIL' in app.config and app.config['ADMIN_EMAIL'] != "":
+                if app.config.get('ADMIN_EMAIL',False):
                     to.append(app.config['ADMIN_EMAIL'])
                 fro = app.config['LEAPS_EMAIL']
                 subject = "PAE response received"
@@ -111,12 +111,9 @@ def pae(appid):
                 message += "You can view the response at:\n\n"
                 message += "https://leapssurvey.org/universities/pae/" + appid
                 message += "\n\nThanks!"
-                try:
-                    util.send_mail(to=to, fro=fro, subject=subject, text=text)
-                except:
-                    flash('Email failed.')
-            else:
-                flash('If this was not debug mode and an email address was available, an email alert would have just been sent')
+                util.send_mail(to=to, fro=fro, subject=subject, text=text)
+            except:
+                flash('Email failed.')
 
             flash('Thank you very much for submitting your response. It has been saved.')
             time.sleep(1)
@@ -141,36 +138,33 @@ def paepdf(appid,giveback=False):
 def email(appid):
     student, application = _get_student_for_appn(appid)
 
-    if not app.config['DEBUG'] and 'LEAPS_EMAIL' in app.config and app.config['LEAPS_EMAIL'] != "":
+    try:
         to = [app.config['LEAPS_EMAIL']]
-        if 'ADMIN_EMAIL' in app.config and app.config['ADMIN_EMAIL'] != "":
+        if app.config.get('ADMIN_EMAIL',False):
             to.append(app.config['ADMIN_EMAIL'])
         if 'email' in student:
             to.append(student['email'])
         school = models.School.pull_by_name(student.data['school'])
         if school is not None:
             for contact in school.data.get('contacts',[]):
-                if conact.get('email',False):
+                if contact.get('email',False):
                     to.append(contact['email'])
         fro = app.config['LEAPS_EMAIL']
         subject = "LEAPS PAE enquiry feedback"
         message = "" # TODO: write a message for the student and school contacts to see
         files = [] # TODO: get the pdf from paepdf(appid, giveback=True) and get send_mail to handle it without writing to disk
-        try:
-            util.send_mail(to=to, fro=fro, subject=subject, text=text, files=files)
-            application['pae_emailed'] = datetime.now().strftime("%d/%m/%Y")
-            which = 0
-            count = 0
-            for app in student.data['applications']:
-                if app['appid'] == application['appid']: which = count
-                count += 1
-            student.data['applications'][which] = application
-            student.save()
-            flash('PAE has been emailed to ' + ",".join(to), "success")
-        except:
-            flash('Email failed.')
-    else:
-        flash('If this was not debug mode and an email address was available, an email alert would have just been sent')
+        util.send_mail(to=to, fro=fro, subject=subject, text=text, files=files)
+        application['pae_emailed'] = datetime.now().strftime("%d/%m/%Y")
+        which = 0
+        count = 0
+        for app in student.data['applications']:
+            if app['appid'] == application['appid']: which = count
+            count += 1
+        student.data['applications'][which] = application
+        student.save()
+        flash('PAE has been emailed to ' + ",".join(to), "success")
+    except:
+        flash('Email failed.')
 
     return redirect(url_for('.pae', appid=appid))
     
