@@ -122,12 +122,15 @@ def pae(appid):
 
 # print a PAE form for a student
 @blueprint.route('/pae/<appid>.pdf')
-def paepdf(appid):
+def paepdf(appid,giveback=False):
     student, application = _get_student_for_appn(appid)
     if student is None: abort(404)
 
     thepdf = render_template('leaps/admin/student_pae', record=student, application=application)
-    return render_pdf(HTML(string=thepdf))
+    if giveback:
+        return HTML(string=thepdf).write_pdf()
+    else:
+        return render_pdf(HTML(string=thepdf))
 
 
 # email a PAE to a student
@@ -187,7 +190,7 @@ The LEAPS team
     subject = "LEAPS PAE enquiry feedback"
 
     files = [{
-        'content': paepdf(application['appid']), 
+        'content': paepdf(application['appid'],giveback=True), 
         'filename': 'LEAPSPAE_' + student.data['first_name'] + '_' + student.data['last_name'] + '_' + application['institution'] + '.pdf'
     }]
 
