@@ -49,32 +49,27 @@ def download_csv(recordlist,keys):
     csvdata = StringIO.StringIO()
     firstrecord = True
     for record in recordlist:
-        # make sure this record has all the keys we would expect
-        for key in keys:
-            if key not in record.keys():
-                record[key] = ""
         # for the first one, put the keys on the first line, otherwise just newline
         if firstrecord:
             fk = True
-            for key in sorted(record.keys()):
-                if key in keys: # ignore keys that have not been selected by the user
-                    if fk:
-                        fk = False
-                    else:
-                        csvdata.write(',')
-                    csvdata.write('"' + key + '"')
+            for key in keys:
+                if fk:
+                    fk = False
+                else:
+                    csvdata.write(',')
+                csvdata.write('"' + key + '"')
             csvdata.write('\n')
             firstrecord = False
         else:
             csvdata.write('\n')
         # and then add each record as a line with the keys as chosen by the user
         firstkey = True
-        for key in sorted(record.keys()):
-            if key in keys:
-                if firstkey:
-                    firstkey = False
-                else:
-                    csvdata.write(',')
+        for key in keys:
+            if firstkey:
+                firstkey = False
+            else:
+                csvdata.write(',')
+            if key in record.keys():
                 if key in ['applications','interests','qualifications','experience']:
                     tidykey = ""
                     firstline = True
@@ -84,7 +79,10 @@ def download_csv(recordlist,keys):
                         else:
                             tidykey += '\n'
                         if key == 'applications':
-                            tidykey += line['level'] + " " + line['subject'] + " at " + line['institution']
+                            tidykey += line['pae_requested'] + " " + line['level'] + " " + line['subject'] + " at " + line['institution']
+                            if line.get('pae_reply_received',"") != "":
+                                tidykey += '(' + line['pae_reply_received'] + ') consider '
+                                tidykey += line['consider'] + ' ' + line['conditions'].replace('\n',' ')
                         elif key == 'interests':
                             tidykey += line['title'] + " - " + line['brief_description']
                         elif key =='qualifications':
@@ -100,7 +98,8 @@ def download_csv(recordlist,keys):
                     else:
                         tidykey = record[key].replace('"',"'")
                 csvdata.write('"' + tidykey + '"')
-
+            else:
+                csvdata.write('""')
     # dump to the browser as a csv attachment
     csvdata.seek(0)
     return send_file(

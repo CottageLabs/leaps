@@ -217,10 +217,6 @@ The LEAPS team
 def export():
     institution = current_user.is_institution
     students = _get_students(institution)
-    # TODO: define the keys that universities are allowed to download
-    # TODO: define how a student should be listed in an export
-    # is it a line per student with all applications in one box, and removing students who have not applied to this uni
-    # or is it a line per pae so students may be duplicated? like the page display? (in which case students who have not applied are not shown anyway)
     keys = [
         'first_name',
         'last_name',
@@ -228,11 +224,20 @@ def export():
         'gender',
         'post_code',
         'school',
+        'leaps_category',
         'late_decision_to_apply',
         'had_recent_careers_interview',
-        'additional_qualification',
         'issues_affecting_performance',
+        'additional_qualifications',
         'career_plans',
+        'first_attending_university',
+        'looked_after_child',
+        'low_income_family',
+        'young_carer',
+        'law_application',
+        'early_application',
+        'main_language_at_home',
+        'additional_comments',
         'qualifications',
         'applications'
     ]
@@ -290,7 +295,7 @@ def _get_students(institution):
                 ]
             }
         },
-        #"sort":[{"field":"_process_paes_date"+app.config['FACET_FIELD'], "order":"desc"}],
+        "sort":[{"_process_paes_date"+app.config['FACET_FIELD']:{"order":"desc"}}],
         'size':10000
     }
     if not isinstance(institution,bool):
@@ -298,14 +303,19 @@ def _get_students(institution):
 
     q = models.Student().query(q=qry)
     students = [i['_source'] for i in q.get('hits',{}).get('hits',[])]
+    matchedstudents = []
     if not isinstance(institution,bool):
         for student in students:
             allowedapps = []
             apps = student['applications']
             for appn in apps:
-                if appn['institution'] == institution and 'pae_requested' in appn:
+                if appn['institution'] == institution and appn.get('pae_requested',"") != "":
                     allowedapps.append(appn)
-            student['applications'] = allowedapps
-    return students
+            if len(allowedapps) > 0:
+                student['applications'] = allowedapps
+                matchedstudents.append(student)
+    else:
+        matchedstudents = students
+    return matchedstudents
 
 

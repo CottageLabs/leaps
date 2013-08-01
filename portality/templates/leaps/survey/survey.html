@@ -12,13 +12,18 @@ jQuery(document).ready(function() {
         inline: true,
         dateFormat: 'dd/mm/yy',
         changeYear: true
-    }
+    };
     $('.datepicker').datepicker(opts);
-    opts.yearRange = "-22:+0";
-    opts.defaultDate = '-17y';
-    opts.minDate = '-22y';
-    opts.maxDate = '-12y';
-    $('.dobdatepicker').datepicker(opts);
+    var dobopts = {
+        inline: true,
+        dateFormat: 'dd/mm/yy',
+        changeYear: true,
+        yearRange: "-22:+0",
+        defaultDate: '-17y',
+        minDate: '-22y',
+        maxDate: '-12y'
+    };
+    $('.dobdatepicker').datepicker(dobopts);
     
     // hide survey sections and add prev/next nav-throughs
     var doprevnext = function(event) {

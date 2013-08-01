@@ -47,7 +47,7 @@ class Student(DomainObject):
         
         if 'status' not in self.data or self.data['status'] == "":
             self.data['status'] = 'new'
-        elif self.data['status'].startswith('paes'):
+        elif self.data['status'].startswith('paes') and not self.data.get('_process_paes',False):
             self.data['_process_paes'] = True
             self.data['_process_paes_date'] = datetime.now().strftime("%d-%m-%Y")
 
@@ -170,8 +170,11 @@ class Student(DomainObject):
                     try:
                         if request.form.getlist('application_pae_requested')[k] == "Yes":
                             appn['pae_requested'] = datetime.now().strftime("%d/%m/%Y")
+                            if rec['status'] == 'paes_all_received':
+                                rec['status'] = 'paes_in_progress'
                             if rec['status'] not in ['paes_in_progress']:
                                 rec['status'] = 'paes_requested'
+                            rec['_process_paes_date'] = datetime.now().strftime("%d/%m/%Y")
                         elif request.form.getlist('application_pae_requested')[k] != "No":
                             appn['pae_requested'] = request.form.getlist('application_pae_requested')[k]
                     except:
