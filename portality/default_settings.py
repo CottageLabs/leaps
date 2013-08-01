@@ -3,7 +3,7 @@ SECRET_KEY = "default-key" # make this something secret in your overriding app.c
 # contact info
 ADMIN_NAME = "LEAPS"
 ADMIN_EMAIL = "mark@cottagelabs.com"
-LEAPS_EMAIl = "leappae@ed.ac.uk"
+LEAPS_EMAIl = "leapspae@ed.ac.uk"
 
 # service info
 SERVICE_NAME = "LEAPS"
