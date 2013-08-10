@@ -5,7 +5,7 @@ from portality.core import app
 
 from portality.dao import DomainObject as DomainObject
 
-import requests, json
+import requests, json, HTMLParser
 
 '''
 Define models in here. They should all inherit from the DomainObject.
@@ -17,73 +17,94 @@ When using portality in your own flask app, perhaps better to make your own mode
 class Student(DomainObject):
     __type__ = 'student'
 
-    def save(self):
-        if 'id' in self.data:
-            id_ = self.data['id'].strip()
+    @classmethod
+    def prep(cls, rec):
+        if 'id' in rec:
+            id_ = rec['id'].strip()
         else:
-            id_ = self.makeid()
-            self.data['id'] = id_
+            id_ = cls.makeid()
+            rec['id'] = id_
 
         # check for school changes and other things that should persist across saves
-        old = Student.pull(self.id)
-        if old is not None:
-            if old.data.get('school',False) != self.data.get('school',False):
-                self.data['simd_decile'] = ""
-                self.data['simd_quintile'] = ""
-                self.data['shep_school'] = ""
-                self.data['leaps_category'] = ""
-                self.data['local_authority'] = ""
-            if old.data.get('_process_paes',False) and '_process_paes' not in self.data:
-                self.data['_process_paes'] = old.data.get('_process_paes',False)
-                self.data['_process_paes_date'] = old.data.get('_process_paes_date',datetime.now().strftime("%d-%m-%Y"))
+        try:
+            old = Student.pull(self.id)
+            if old.data.get('school',False) != rec.get('school',False):
+                rec['simd_decile'] = ""
+                rec['simd_quintile'] = ""
+                rec['shep_school'] = ""
+                rec['leaps_category'] = ""
+                rec['local_authority'] = ""
+            if old.data.get('_process_paes',False) and '_process_paes' not in rec:
+                rec['_process_paes'] = old.data.get('_process_paes',False)
+                rec['_process_paes_date'] = old.data.get('_process_paes_date',datetime.now().strftime("%d-%m-%Y"))
+        except:
+            pass
         
-        self.data['last_updated'] = datetime.now().strftime("%Y-%m-%d %H%M")
+        rec['last_updated'] = datetime.now().strftime("%Y-%m-%d %H%M")
 
-        if 'archive' not in self.data:
-            self.data['archive'] = 'current'
+        if 'archive' not in rec:
+            rec['archive'] = 'current'
 
-        if 'created_date' not in self.data:
-            self.data['created_date'] = datetime.now().strftime("%Y-%m-%d %H%M")
+        if 'created_date' not in rec:
+            rec['created_date'] = datetime.now().strftime("%Y-%m-%d %H%M")
         
-        if 'status' not in self.data or self.data['status'] == "":
-            self.data['status'] = 'new'
-        elif self.data['status'].startswith('paes') and not self.data.get('_process_paes',False):
-            self.data['_process_paes'] = True
-            self.data['_process_paes_date'] = datetime.now().strftime("%d-%m-%Y")
+        if 'status' not in rec or rec['status'] == "":
+            rec['status'] = 'new'
+        elif rec['status'].startswith('paes') and not rec.get('_process_paes',False):
+            rec['_process_paes'] = True
+            rec['_process_paes_date'] = datetime.now().strftime("%d-%m-%Y")
 
-        if 'simd_decile' not in self.data or self.data['simd_decile'] == "":
-            s = Simd.pull_by_post_code(self.data['post_code'])
+        if 'simd_decile' not in rec or rec['simd_decile'] == "":
+            s = Simd.pull_by_post_code(rec['post_code'])
             if s is not None:
-                self.data['simd_decile'] = s.data.get('simd_decile','SIMD decile missing')
-                self.data['simd_quintile'] = s.data.get('simd_quintile','SIMD quintile missing')
+                rec['simd_decile'] = s.data.get('simd_decile','SIMD decile missing')
+                rec['simd_quintile'] = s.data.get('simd_quintile','SIMD quintile missing')
             else:
-                self.data['simd_decile'] = 'unknown'
-                self.data['simd_quintile'] = 'unknown'
+                rec['simd_decile'] = 'unknown'
+                rec['simd_quintile'] = 'unknown'
 
-        if 'leaps_category' not in self.data or self.data['leaps_category'] == "":
-            s = School.query(q={'query':{'term':{'name.exact':self.data['school']}}})
+        if 'leaps_category' not in rec or rec['leaps_category'] == "":
+            s = School.query(q={'query':{'term':{'name.exact':rec['school']}}})
             if s.get('hits',{}).get('total',0) == 0:
-                self.data['leaps_category'] = "unknown"
-                self.data['shep_school'] = "unknown"
-                self.data['local_authority'] = "unknown"
+                rec['leaps_category'] = "unknown"
+                rec['shep_school'] = "unknown"
+                rec['local_authority'] = "unknown"
             else:
-                self.data['leaps_category'] = s.get('hits',{}).get('hits',[])[0]['_source'].get('leaps_category','unknown')
-                self.data['shep_school'] = s.get('hits',{}).get('hits',[])[0]['_source'].get('shep_school','unknown')
-                self.data['local_authority'] = s.get('hits',{}).get('hits',[])[0]['_source'].get('local_authority','unknown')
+                rec['leaps_category'] = s.get('hits',{}).get('hits',[])[0]['_source'].get('leaps_category','unknown')
+                rec['shep_school'] = s.get('hits',{}).get('hits',[])[0]['_source'].get('shep_school','unknown')
+                rec['local_authority'] = s.get('hits',{}).get('hits',[])[0]['_source'].get('local_authority','unknown')
 
-        if self.data.get('shep_school',False) == "on":
-            self.data['shep_school'] = True
-        if self.data.get('shep_school',False) == "off":
-            self.data['shep_school'] = False                
-        if self.data.get('shep_school',False) == 1:
-            self.data['shep_school'] = True
-        if self.data.get('shep_school',False) == 0:
-            self.data['shep_school'] = False          
+        if rec.get('shep_school',False) == "on":
+            rec['shep_school'] = True
+        if rec.get('shep_school',False) == "off":
+            rec['shep_school'] = False                
+        if rec.get('shep_school',False) == 1:
+            rec['shep_school'] = True
+        if rec.get('shep_school',False) == 0:
+            rec['shep_school'] = False          
 
-        r = requests.post(self.target() + self.data['id'], data=json.dumps(self.data))
+        return rec
 
 
     def save_from_form(self, request):
+        def dewindows(string):
+            h = HTMLParser.HTMLParser()
+            try:
+                string = string.decode("windows-1252")
+            except:
+                try:
+                    string = string.decode("windows-1251")
+                except:
+                    try:
+                        string = string.decode("utf-8")
+                    except:
+                        pass
+            try:
+                string = h.unescape(string)
+            except:
+                pass
+            return string
+        
         rec = {
             "qualifications": [],
             "interests": [],
@@ -98,6 +119,8 @@ class Student(DomainObject):
                     rec[key] = True
                 elif val == "off":
                     rec[key] = False
+                elif key in ['additional_qualifications','career_plans','issues_affecting_performance']:
+                    rec[key] = dewindows(val)
                 else:
                     rec[key] = val
 
@@ -133,8 +156,8 @@ class Student(DomainObject):
             if v is not None and len(v) > 0 and v != " ":
                 try:
                     rec["interests"].append({
-                        "title": v,
-                        "brief_description": request.form.getlist('interest_brief_description')[k]
+                        "title":v,
+                        'brief_description': dewindows(request.form.getlist('interest_brief_description')[k])                        
                     })
                 except:
                     pass
@@ -186,10 +209,10 @@ class Student(DomainObject):
             if v is not None and len(v) > 0 and v != " ":
                 try:
                     rec["experience"].append({
-                        "title": v,
-                        "brief_description": request.form.getlist('experience_brief_description')[k],
+                        "title":v,
                         "date_from": request.form.getlist('experience_date_from')[k],
-                        "date_to": request.form.getlist('experience_date_to')[k]
+                        "date_to": request.form.getlist('experience_date_to')[k],
+                        'brief_description': dewindows(request.form.getlist('experience_brief_description')[k])
                     })
                 except:
                     pass

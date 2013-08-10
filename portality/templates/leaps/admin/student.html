@@ -66,6 +66,17 @@ jQuery(document).ready(function() {
         $(row).find('.subjectselector').unbind('change',limitlevels).bind('change',limitlevels);
     }
 
+    // fit a static row remover for old content
+    $('table.multidisplay').find('tbody').children('tr').each(function() {
+        $(this).children('td').first().prepend('<a class="btn btn-warning static-delete-row" style="margin:-10px 2px 0 0;" href="#">delete</a>').children('select, input').addClass('narrow');
+    });
+    var staticdeleterow = function(event) {
+        event.preventDefault();
+        var row = $(this).closest('tr').clone(true).get(0);
+        $(this).closest('tr').remove();
+    }
+    $('.static-delete-row').bind('click',staticdeleterow);
+
     // add / remove rows to list items
     $('table.multi').find('tbody').children('tr').each(function() {
         $(this).children('td').first().prepend('<a class="btn btn-warning delete-row" style="margin:-10px 2px 0 0;" href="#">delete</a>').children('select, input').addClass('narrow');
@@ -277,6 +288,7 @@ fieldset{
 	                    <td style="text-align:right;padding:6px 10px 0 0;">School</td>
                 		<td><select name="school" data-required="true">
                 		    <option></option>
+                		    {% if record %}{% if record.data.school not in selections.schools %}<option style="color:red;" selected="selected">{{record.data.school}}</option>{% endif %}{% endif %}
                 		    {% for opt in selections.schools %}
                 		        <option
                 		        {% if record %}{% if record.data.school == opt %} selected="selected"{% endif %}{% endif %}
@@ -396,6 +408,7 @@ fieldset{
 	                    <td style="text-align:right;padding:6px 10px 0 0;">Local authority</td>
                 		<td><select name="local_authority">
                 		    <option></option>
+                		    {% if record %}{% if record.data.local_authority not in selections.local_authorities %}<option style="color:red;" selected="selected">{{record.data.local_authority}}</option>{% endif %}{% endif %}
                 		    {% for opt in selections.local_authorities %}
                 		        <option
                 		        {% if record %}{% if record.data.local_authority == opt %} selected="selected"{% endif %}{% endif %}
@@ -407,6 +420,7 @@ fieldset{
                 		<td>
                 		    <select name="leaps_category">
                 		    <option></option>
+                		    {% if record %}{% if record.data.leaps_category not in selections.leaps_categories %}<option style="color:red;" selected="selected">{{record.data.leaps_category}}</option>{% endif %}{% endif %}
                 		    {% for opt in selections.leaps_categories %}
                 		        <option
                 		        {% if record %}{% if record.data.leaps_category == opt %} selected="selected"{% endif %}{% endif %}
@@ -423,6 +437,7 @@ fieldset{
 	                    <td style="text-align:right;padding:6px 10px 0 0;">SIMD decile</td>
                 		<td><select name="simd_decile">
                 		    <option></option>
+                		    {% if record %}{% if record.data.simd_decile not in selections.simd_deciles %}<option style="color:red;" selected="selected">{{record.data.simd_decile}}</option>{% endif %}{% endif %}
                 		    {% for opt in selections.simd_deciles %}
                 		        <option
                 		        {% if record %}{% if record.data.simd_decile == opt %} selected="selected"{% endif %}{% endif %}
@@ -432,6 +447,7 @@ fieldset{
 	                    <td style="text-align:right;padding:6px 10px 0 100px;">SIMD quintile</td>
                 		<td><select name="simd_quintile">
                 		    <option></option>
+                		    {% if record %}{% if record.data.simd_quintiles not in selections.simd_quintiles %}<option style="color:red;" selected="selected">{{record.data.simd_quintile}}</option>{% endif %}{% endif %}
                 		    {% for opt in selections.simd_quintiles %}
                 		        <option
                 		        {% if record %}{% if record.data.simd_quintile == opt %} selected="selected"{% endif %}{% endif %}
@@ -445,6 +461,7 @@ fieldset{
 	                    <td style="text-align:right;padding:6px 10px 0 0;">Status</td>
                 		<td><select name="status">
                 		    <option>new</option>
+                		    {% if record %}{% if record.data.status not in ["not_eligible","awaiting_interview","interviewed","absent","contact_required","paes_requested","paes_in_progress", "paes_all_received","paes_forwarded", "complete"] %}<option style="color:red;" selected="selected">{{record.data.status}}</option>{% endif %}{% endif %}
               		        <option{% if record %}{% if record.data.status == "not_eligible" %} selected="selected"{% endif %}{% endif %}>not_eligible</option>
               		        <option{% if record %}{% if record.data.status == "awaiting_interview" %} selected="selected"{% endif %}{% endif %}>awaiting_interview</option>
               		        <option{% if record %}{% if record.data.status == "interviewed" %} selected="selected"{% endif %}{% endif %}>interviewed</option>
@@ -505,7 +522,8 @@ fieldset{
 
 	<div class="row-fluid">
 	    <div class="span12">		
-	        <table class="multi">
+
+	        <table class="multidisplay">
                 <thead>
                     <tr>
                         <th>Subject</th>
@@ -515,57 +533,24 @@ fieldset{
                     </tr>
                 </thead>
                 <tbody>
-                
                     {% if record %}
                         {% for qual in record.data.qualifications %}
                     <tr>
-                		<td><select name="qualification_subject" class="needselect2">
-                		    <option></option>
-                		    {% for opt in selections.subjects %}
-                		        <option
-                		        {% if opt == qual.subject %} selected="selected"{% endif %}
-                		        >{{ opt }}</option>
-                		    {% endfor %}
-                		</select></td>
-                		<td><select name="qualification_year">
-                		    <option></option>
-                		    <option
-                		    {% if qual.year == "Third year" %} selected="selected"{% endif %}
-                		    >Third year</option>
-                		    <option
-                		    {% if qual.year == "Fourth year" %} selected="selected"{% endif %}
-                		    >Fourth year</option>
-                		    <option                		    
-                		    {% if qual.year == "Fifth year" %} selected="selected"{% endif %}
-                            >Fifth year</option>
-                		    <option
-                		    {% if qual.year == "Sixth year" %} selected="selected"{% endif %}
-                		    >Sixth year</option>
-                		    <option
-                		    {% if qual.year == "Other" %} selected="selected"{% endif %}
-                		    >Other</option>
-                		</select></td>
-                		<td><select name="qualification_level">
-                		    <option></option>
-                		    {% for opt in selections.levels %}
-                		        <option
-                		        {% if opt == qual.level %} selected="selected"{% endif %}                		        
-                		        >{{ opt }}</option>
-                		    {% endfor %}
-                		</select></td>
-                		<td><select name="qualification_grade">
-                		    <option></option>
-                		    {% for opt in selections.grades %}
-                		        <option
-                		        {% if opt == qual.grade %} selected="selected"{% endif %}                		        
-                		        >{{ opt }}</option>
-                		    {% endfor %}
-                		</select></td>
+                		<td><input type="hidden" name="qualification_subject" value="{{qual.subject}}"><input type="text" disabled="disabled" value="{{qual.subject}}" style="width:170px;"></td>
+                		<td><input type="hidden" name="qualification_year" value="{{qual.year}}"><input type="text" disabled="disabled" value="{{qual.year}}"></td>
+                		<td><input type="hidden" name="qualification_level" value="{{qual.level}}"><input type="text" disabled="disabled" value="{{qual.level}}" style="width:140px;"></td>
+                		<td><input type="hidden" name="qualification_grade" value="{{qual.grade}}"><input type="text" disabled="disabled" value="{{qual.grade}}"></td>
                     </tr>
 
                         {% endfor %}
                     {% endif %}
-                    
+
+                </tbody>
+            </table>
+
+{% if current_user.do_admin and (not record or record.archive == 'current') %}
+	        <table class="multi">
+                <tbody>                    
                     <tr>
                 		<td><select name="qualification_subject" class="needselect2">
                 		    <option></option>
@@ -581,7 +566,7 @@ fieldset{
                 		    <option>Sixth year</option>
                 		    <option>Other</option>
                 		</select></td>
-                		<td><select name="qualification_level">
+                		<td><select name="qualification_level" style="width:150px;">
                 		    <option></option>
                 		    {% for opt in selections.levels %}
                 		        <option>{{ opt }}</option>
@@ -596,6 +581,8 @@ fieldset{
                     </tr>
                 </tbody>
 	        </table>
+{% endif %}
+
 	    </div>
 	</div>
 
@@ -622,46 +609,30 @@ fieldset{
 
 	<div class="row-fluid">
 	    <div class="span12">		
-	        <table class="multi">
+	        <table class="multidisplay">
                 <thead>
                     <tr>
-                        <th>College / University</th>
-                        <th>Subject</th>
-                        <th>Level of study</th>
-                        <th>PAE requested / replied / emailed</th>
+                        <th style="min-width:200px;">College / University</th>
+                        <th style="min-width:200px;">Subject</th>
+                        <th style="min-width:200px;">Level of study</th>
+                        <th style="min-width:200px;">PAE requested / replied / emailed</th>
                     </tr>
                 </thead>
                 <tbody>
-
                     {% if record %}
                         {% for app in record.data.applications %}
                     <tr>
-                		<td><select name="application_institution" class="needselect2 institutionselector">
-                		    <option></option>
-                    		    {% for opt in selections.institutions %}
-                    		        <option                		        
-                    		        {% if opt == app.institution %} selected="selected"{% endif %}
-                                    >{{ opt }}</option>
-                    		    {% endfor %}
-                		</select></td>
-                		<td><select name="application_subject" class="needselect2 subjectselector">
-                		    <option>{{app.subject}}</option>
-                		</select></td>
+                		<td><input type="hidden" name="application_institution" value="{{app.institution}}"><input type="text" disabled="disabled" value="{{app.institution}}" style="width:170px;"></td>
+                		<td><input type="hidden" name="application_subject" value="{{app.subject}}"><input type="text" disabled="disabled" value="{{app.subject}}" style="width:170px;"></td>
                 		<td>
-                		    <select name="application_level" class="levelselector">
-                    		    <option>{{app.level}}</option>
-                    		    {% for opt in selections.advancedlevels %}
-                    		        <option                		        
-                    		        {% if opt == app.level %} selected="selected"{% endif %}
-                                    >{{ opt }}</option>
-                    		    {% endfor %}
-                    		</select>
+                		    <input type="hidden" name="application_level" value="{{app.level}}"><input type="text" disabled="disabled" value="{{app.level}}" style="width:150px;">
                     		{% for key in app %}
                     		    {% if key not in ['institution','level','subject'] %}
                         		    <input class="noclone" type="hidden" name="application_{{key}}" value="{{app[key]}}">
                     		    {% endif %}
                     		{% endfor %}
                 		</td>
+                		
                 		{% if app['pae_requested'] %}
                 		<td class="noclone">
                 		    <span style="margin:5px 5px 0 5px;">
@@ -672,9 +643,9 @@ fieldset{
                     		    no reply
                     		{% endif %}                		    
                 		    {% if app.pae_emailed %}
-                    		    / {{ app.pae_emailed }}
+                    		    - {{ app.pae_emailed }}
                     		{% else %}
-                    		    / not yet   
+                    		    - not yet   
                     		{% endif %}                		    
                 		    </span>
                 		</td>
@@ -686,7 +657,12 @@ fieldset{
                     </tr>
                         {% endfor %}
                     {% endif %}
+                </tbody>
+            </table>
 
+{% if current_user.do_admin and (not record or record.archive == 'current') %}
+	        <table class="multi">
+                <tbody>
                     <tr>
                 		<td><select name="application_institution" class="needselect2 institutionselector">
                 		    <option></option>
@@ -700,7 +676,7 @@ fieldset{
                 		        <option>{{ opt }}</option>
                 		    {% endfor %}
                 		</select></td>
-                		<td><select name="application_level" class="levelselector">
+                		<td><select name="application_level" class="levelselector" style="width:150px;">
                 		    <option></option>
                 		    {% for opt in selections.advancedlevels %}
                 		        <option>{{ opt }}</option>
@@ -710,6 +686,8 @@ fieldset{
                     </tr>
                 </tbody>
 	        </table>
+{% endif %}
+	        
 	    </div>
 	</div>
 
@@ -755,10 +733,12 @@ fieldset{
                         {% endfor %}
                     {% endif %}
 
+{% if current_user.do_admin and (not record or record.archive == 'current') %}
                     <tr>
                 		<td><input type="text" name="interest_title"></td>
                 		<td><textarea class="bigfield" name="interest_brief_description"></textarea></td>
                     </tr>
+{% endif %}
                 </tbody>
 	        </table>
 	    </div>
@@ -812,12 +792,14 @@ fieldset{
                         {% endfor %}
                     {% endif %}
 
+{% if current_user.do_admin and (not record or record.archive == 'current') %}
                     <tr>
                 		<td><input type="text" class="datepicker narrow" name="experience_date_from"></td>
                 		<td><input type="text" class="datepicker narrow" name="experience_date_to"></td>
                 		<td><input type="text" class="narrow" name="experience_title"></td>
                 		<td><textarea class="bigfield" name="experience_brief_description"></textarea></td>
                     </tr>
+{% endif %}
                 </tbody>
 	        </table>
 	    </div>
@@ -958,7 +940,7 @@ fieldset{
         	        <tr>
 	                    <td style="text-align:right;padding:6px 10px 0 0;">Number of siblings</td>
                 		<td><input type="text" name="number_of_siblings"
-                		{% if record %}{{record.data.number_of_siblings}}{% endif %}
+                		{% if record %} value="{{record.data.number_of_siblings}}"{% endif %}
                 		></td>
                 		<td rowspan="4">
                 		<textarea class="bigfield" name="additional_comments" placeholder="additional comments">{% if record %}{{record.data.additional_comments}}{% endif %}</textarea>
@@ -967,13 +949,13 @@ fieldset{
         	        <tr>
 	                    <td style="text-align:right;padding:6px 10px 0 0;">Place in siblings</td>
                 		<td><input type="text" name="place_in_siblings"
-                		{% if record %}{{record.data.place_in_siblings}}{% endif %}
+                		{% if record %} value="{{record.data.place_in_siblings}}"{% endif %}
                 		></td>
                     </tr>
         	        <tr>
 	                    <td style="text-align:right;padding:6px 10px 0 0;">Household composition</td>
                 		<td><input type="text" name="household_composition"
-                		{% if record %}{{record.data.household_composition}}{% endif %}
+                		{% if record %} value="{{record.data.household_composition}}"{% endif %}
                 		></td>
                     </tr>
         	        <tr>

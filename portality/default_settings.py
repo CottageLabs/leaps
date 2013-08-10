@@ -43,6 +43,7 @@ FACET_FIELD = ".exact"
 MAPPINGS = {
     "student" : {
         "student" : {
+            "date_detection" : False,
             "dynamic_templates" : [
                 {
                     "default" : {

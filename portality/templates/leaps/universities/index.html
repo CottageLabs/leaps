@@ -15,7 +15,7 @@ jQuery(document).ready(function() {
         <div class="span12">
             <p style="text-align:right;">
                 <a class="btn btn-primary" href="/universities/export{% if current_user.view_admin and current_user.is_institution != True %}?institution={{current_user.is_institution}}{% endif %}">Export PAEs</a>
-                <a class="btn btn-info" href="/universities/subjects">Manage subjects</a>
+                <!--<a class="btn btn-info" href="/universities/subjects">Manage subjects</a>-->
                 <a class="btn" href="/account/logout">Logout</a>
             </p>
         </div>
@@ -39,8 +39,8 @@ jQuery(document).ready(function() {
 
                 <p>Below are listed all the students that have so far submitted a survey form to LEAPS {% if current_user.is_institution != True %}that has included an intention to apply to {{ current_user.is_institution }},{% endif %} for which a Pre-Application Enquiry has been deemed necessary.</p>
                 <p>Note that a particular student may intend to apply to more than one course at a given institution, therefore Pre-Application Enquiries will exist for each course that the student intends to apply to.</p>
-                
-                <p>NOTE that the subjects students select are chosen from a generic list unless you provide and maintain an approved list of subjects you offer. If you wish to maintain your list of available subjects, go to the <a href="/universities/subjects">subjects management</a> page.</p>
+                <!--
+                <p>NOTE that the subjects students select are chosen from a generic list unless you provide and maintain an approved list of subjects you offer. If you wish to maintain your list of available subjects, go to the <a href="/universities/subjects">subjects management</a> page.</p>-->
 
             </div>
         </div>
@@ -60,6 +60,7 @@ jQuery(document).ready(function() {
                         <th>Requested</th>
                         <th>Responded?</th>
                         <th></th>
+                        {% if current_user.do_admin %}<th>Emailed?</th>{% endif %}
                     </tr>
                 </thead>
                 <tbody>
@@ -79,6 +80,15 @@ jQuery(document).ready(function() {
                                 <td>
                                 <a class="btn" href="/universities/pae/{{appn.appid}}" style="width:100px;">View response</a>
                                 </td>
+                                {% if current_user.do_admin %}
+                                <td>
+                                {% if appn.pae_emailed %}
+                                    {{appn.pae_emailed}}
+                                {% else %}
+                                <a class="btn" href="/universities/pae/{{appn.appid}}/email" style="width:100px;">Send</a>
+                                {% endif %}
+                                </td>
+                                {% endif %}
                             {% else %}
                                 <td>
                                 not yet
@@ -86,6 +96,9 @@ jQuery(document).ready(function() {
                                 <td>
                                 <a class="btn btn-info" href="/universities/pae/{{appn.appid}}" style="width:100px;">Respond to PAE</a>
                                 </td>
+                                {% if current_user.do_admin %}
+                                <td>Not ready</td>
+                                {% endif %}
                             {% endif %}
                             </td>
                         </tr>

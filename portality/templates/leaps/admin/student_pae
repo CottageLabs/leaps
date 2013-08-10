@@ -124,16 +124,20 @@
             <tr>
                 <td>{{ application.level }}</td>
                 <td>{{ application.subject }}</td>
-                <td>{{ application.consider }} - {{ application.conditions }}</td>
+                <td>{{ application.consider }} {{ application.conditions }}</td>
             </tr>
         </table> 
 
         <p><strong>Would you consider LEAPS Summer School reports as an indication of potential to succeed, should the student fail to meet the conditions set?</strong>
         
-        {% if application.summer_school %}
-            &nbsp;&nbsp; YES</p>
+        {% if 'summer_school' not in application %}
+            &nbsp;&nbsp; YES / NO
         {% else %}
-            &nbsp;&nbsp; NO</p>
+            {% if application.summer_school %}
+                &nbsp;&nbsp; YES</p>
+            {% else %}
+                &nbsp;&nbsp; NO</p>
+            {% endif %}
         {% endif %}
         
         <p><br />Notes:</p>
