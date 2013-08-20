@@ -26,12 +26,14 @@
             table{
                 margin:0 0 10px 0;
                 width:100%;
+                border-collapse:collapse;
             }
             th{
                 padding:2px;
+                border:1px solid #ccc;
             }
             td{
-                border-bottom:1px solid #ccc;
+                border:1px solid #ccc;
             }
         </style>
     </head>
@@ -63,7 +65,7 @@
                     <td style="width:30%;">School</td> <td>{{ record.school }}</td>
                 </tr>
                 <tr>
-                    <td style="width:30%;">School category</td> <td>{{ record.LEAPS_category }}</td>
+                    <td style="width:30%;">LEAPS category</td> <td>{{ record.leaps_category }}</td>
                 </tr>
                 <tr>
                     <td style="width:30%;">Year group</td> <td>{{ record.year_group }}</td>

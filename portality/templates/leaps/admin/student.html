@@ -84,8 +84,10 @@ jQuery(document).ready(function() {
     $('table.multi').find('tbody').append('<tr><td><a class="btn btn-success add-row" href="#">add</a></td></tr>');
     var addrow = function(event) {
         event.preventDefault();
-        $(this).closest('tr').siblings().length == 5 ? $(this).hide() : false;
-        if ( $(this).closest('tr').siblings().length < 6 ) {
+        var maxrows = 50;
+        $(this).closest('table').hasClass('manyrows') ? maxrows = 100 : false;
+        $(this).closest('tr').siblings().length == (maxrows - 1) ? $(this).hide() : false;
+        if ( $(this).closest('tr').siblings().length < maxrows ) {
             var row = $(this).closest('tr').prev().clone(true).get(0);
             $(row).find('.noclone').remove();
             $(row).insertBefore($(this).closest('tr'));
@@ -96,7 +98,9 @@ jQuery(document).ready(function() {
     var deleterow = function(event) {
         event.preventDefault();
         var row = $(this).closest('tr').clone(true).get(0);
-        $(this).closest('tr').siblings().length == 6 ? $(this).closest('tr').siblings().find('.add-row').show() : false;
+        var maxrows = 50;
+        $(this).closest('table').hasClass('manyrows') ? maxrows = 100 : false;
+        $(this).closest('tr').siblings().length == maxrows ? $(this).closest('tr').siblings().find('.add-row').show() : false;
         if ( $(this).closest('tr').siblings().length == 1 ) {
             $(row).find('.noclone').remove();
             $(row).insertBefore($(this).closest('tr'));

@@ -304,18 +304,19 @@ def _get_students(institution):
     q = models.Student().query(q=qry)
     students = [i['_source'] for i in q.get('hits',{}).get('hits',[])]
     matchedstudents = []
-    if not isinstance(institution,bool):
-        for student in students:
-            allowedapps = []
-            apps = student['applications']
-            for appn in apps:
+    for student in students:
+        allowedapps = []
+        apps = student['applications']
+        for appn in apps:
+            if not isinstance(institution,bool):
                 if appn['institution'] == institution and appn.get('pae_requested',"") != "":
                     allowedapps.append(appn)
-            if len(allowedapps) > 0:
-                student['applications'] = allowedapps
-                matchedstudents.append(student)
-    else:
-        matchedstudents = students
+            else:
+                if appn.get('pae_requested',"") != "":
+                    allowedapps.append(appn)
+        if len(allowedapps) > 0:
+            student['applications'] = allowedapps
+            matchedstudents.append(student)
     return matchedstudents
 
 

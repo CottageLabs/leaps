@@ -37,6 +37,11 @@ jQuery(document).ready(function() {
             $('body').append('<div id="default_current" style="display:none;"></div>');
             $('.facetview_filterchoice[href="current"]').trigger('click');
         } else {
+            $('.tablesorter')
+               .unbind('appendCache applyWidgetId applyWidgets sorton update updateCell')
+               .find('thead th')
+               .unbind('click mousedown')
+               .removeClass('header headerSortDown headerSortUp');
             $(".tablesorter").tablesorter({
                 "headers":{0:{"sorter":false}}
             });
@@ -68,9 +73,9 @@ jQuery(document).ready(function() {
         fields: ['last_name', 'first_name', 'date_of_birth','post_code','simd_decile','school','status','archive','id'],
         paging: {
             from: 0,
-            size: 20
+            size: 100
         },
-        sort: [{"created_date":{"order":"desc"}}],
+        sort: [{"created_date.exact":{"order":"desc"}}],
         pager_on_top: true,
         sharesave_link: false,
         default_operator: 'AND',

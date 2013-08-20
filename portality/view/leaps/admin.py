@@ -60,42 +60,7 @@ def index():
                         }
                     }
                 }
-            })['facets']['schools']['terms']),
-            "universities_pae_outstanding":len(models.Student.query(q={
-                "query":{
-                    "bool":{
-                        "must":[
-                            {
-                                "term":{
-                                    "archive"+app.config['FACET_FIELD']:"current"
-                                }
-                            }
-                        ],
-                        "should":[
-                            {
-                                "term":{
-                                    "status"+app.config['FACET_FIELD']:"paes_requested"
-                                }
-                            },
-                            {
-                                "term":{
-                                    "status"+app.config['FACET_FIELD']:"paes_in_progress"
-                                }
-                            }
-                        ],
-                        "minimum_should_match":1
-                    }
-                },
-                "size":0,
-                "facets":{
-                    "unis":{
-                        "terms":{
-                            "field":"applications.institution"+app.config['FACET_FIELD'], 
-                            "size":1000
-                        }
-                    }
-                }
-            })['facets']['unis']['terms'])
+            })['facets']['schools']['terms'])
         }
     except:
         stats = None
