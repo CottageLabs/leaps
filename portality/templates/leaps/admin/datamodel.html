@@ -298,7 +298,7 @@ jQuery(document).ready(function($) {
             		<td>
             		    <input type="text" name="contact_password" placeholder="********">
 	                    {% if current_user.is_super and contact.email %}
-	                    <a class="btn noclone" style="margin-top:-8px;" target="_blank" href="/account/{{contact.email}}" alt="Click to view the LEAPS login account associated with this contact" title="Click to view the LEAPS login account associated with this contact">view &raquo;</a>
+	                    <a class="btn noclone" style="margin-top:-8px;" href="/account/{{contact.email}}" alt="Click to view the LEAPS login account associated with this contact" title="Click to view the LEAPS login account associated with this contact">view &raquo;</a>
 	                    {% endif %}
             		</td>
                 </tr>
@@ -318,7 +318,7 @@ jQuery(document).ready(function($) {
         Deleting this record also deletes the associated user accounts.<br>
         Changing the contact email address changes the school login account.
         If you change this, provide a new password too - 
-        <span style="color:red;">otherwise the account may be unsafe</span>.<br>
+        <span style="color:red;">otherwise the account password will default to password</span>.<br>
         If there are multiple contacts, there will be multiple associated user accounts, corresponding to each contact email address.</p>
 
         <hr></hr>

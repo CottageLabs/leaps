@@ -155,24 +155,26 @@ def forgot():
             newpass = util.generate_password()
             account.set_password(newpass)
             account.save()
-            if not app.config['DEBUG'] and app.config.get('LEAPS_EMAIL',False):
-                to = [account.data['email'],app.config['LEAPS_EMAIL']]
-                fro = app.config['LEAPS_EMAIL']
-                subject = "LEAPS password reset"
-                message = "A password reset request for LEAPS account " + account.id + " has been received and processed.\n\n"
-                message += "The new password for this account is " + newpass + ".\n\n"
-                message += "If you are the user " + account.id + " and you requested this change, please login now and change the password again to something of your preference.\n\n"
-                message += '<a href="https://leapssurvey.org/account/' + account.id
-                message += '">https://leapssurvey.org/account/' + account.id + '</a>\n\n'
-                message += "If you are the user " + account.id + " and you did NOT request this change, please contact LEAPS immediately.\n\n"
-                try:
-                    util.send_mail(to=to, fro=fro, subject=subject, text=text)
-                except:
-                    flash('Email failed.')
-            else:
-                flash('If this was not debug mode and an email address was available, an email alert would have just been sent containing the password ' + newpass)
 
-            flash('Your password has been reset. Please check your emails.')
+            to = [account.data['email'],app.config['LEAPS_EMAIL']]
+            fro = app.config['LEAPS_EMAIL']
+            subject = "LEAPS password reset"
+            text = "A password reset request for LEAPS account " + account.id + " has been received and processed.\n\n"
+            text += "The new password for this account is " + newpass + ".\n\n"
+            text += "If you are the user " + account.id + " and you requested this change, please login now and change the password again to something of your preference.\n\n"
+            text += '<a href="https://leapssurvey.org/account/' + account.id
+            text += '">https://leapssurvey.org/account/' + account.id + '</a>\n\n'
+            text += "If you are the user " + account.id + " and you did NOT request this change, please contact LEAPS immediately.\n\n"
+            try:
+                util.send_mail(to=to, fro=fro, subject=subject, text=text)
+                flash('Your password has been reset. Please check your emails.')
+                if app.config.get('DEBUG',False):
+                    flash('Debug mode - new password was set to ' + newpass)
+            except:
+                flash('Email failed.')
+                if app.config.get('DEBUG',False):
+                    flash('Debug mode - new password was set to ' + newpass)
+
     return render_template('account/forgot.html')
 
 

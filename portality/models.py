@@ -263,7 +263,6 @@ class School(DomainObject):
         return rec
 
     def save(self):
-        print self.data
         self.data = self.prep(self.data)
         
         old = self.pull(self.id)
@@ -294,7 +293,11 @@ class School(DomainObject):
                         email=c['email']
                     )
                     account.data[self.__type__] = self.data.get('name',"")
-                    account.set_password(c.get('password',"password"))
+                    if len(c.get("password","")) > 1:
+                        pw = c['password']
+                    else:
+                        pw = "password"
+                    account.set_password(pw)
                     account.save()
             # change any passwords
             elif c.get('email',"") != "" and c.get('password',"") != "":
