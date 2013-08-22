@@ -68,10 +68,10 @@
                     <td style="width:30%;">LEAPS category</td> <td>{{ record.leaps_category }}</td>
                 </tr>
                 <tr>
-                    <td style="width:30%;">Year group</td> <td>{{ record.year_group }}</td>
+                    <td style="width:30%;">Year group</td> <td>{{ record.year }}</td>
                 </tr>
                 <tr>
-                    <td style="width:30%;">Email address</td> <td>{{ record.email_address }}</td>
+                    <td style="width:30%;">Email address</td> <td>{{ record.email }}</td>
                 </tr>
                 <tr>
                     <td style="width:30%;">Home phone</td> <td>{{ record.home_phone }}</td>
@@ -80,7 +80,7 @@
                     <td style="width:30%;">Mobile phone</td> <td>{{ record.mobile_phone }}</td>
                 </tr>
                 <tr>
-                    <td style="width:30%;">Address</td> <td>{{ record.address }}</td>
+                    <td style="width:30%;">Address</td> <td>{{ record.address_line_1 }}</td>
                 </tr>
                 <tr>
                     <td style="width:30%;">Address line 2</td> <td>{{ record.address_line_2 }}</td>
