@@ -23,7 +23,7 @@ blueprint = Blueprint('query', __name__)
 def query(path='Record'):
     pathparts = path.strip('/').split('/')
     subpath = pathparts[0]
-    if subpath.lower() in app.config.get('NO_QUERY_VIA_API',[]):
+    if subpath.lower() in app.config.get('NO_QUERY_VIA_API',[]) and ( current_user.is_anonymous() or not current_user.view_admin ):
         abort(401)
     
     if subpath.lower() in ["student", "everything"] and ( current_user.is_anonymous() or not current_user.view_admin):
