@@ -25,7 +25,7 @@ OFFLINE = False
 ELASTIC_SEARCH_HOST = "http://127.0.0.1:9200"
 ELASTIC_SEARCH_DB = "leaps"
 INITIALISE_INDEX = True # whether or not to try creating the index and required index types on startup
-NO_QUERY_VIA_API = ['account'] # list index types that should not be queryable via the API
+NO_QUERY_VIA_API = ['account','student'] # list index types that should not be queryable via the API
 PUBLIC_ACCESSIBLE_JSON = True # can not logged in people get JSON versions of pages by querying for them?
 
 
