@@ -32,7 +32,7 @@ PUBLIC_ACCESSIBLE_JSON = True # can not logged in people get JSON versions of pa
 # if search filter is true, anonymous users only see visible and accessible pages in query results
 # if search sort and order are set, all queries from /query will return with default search unless one is provided
 # placeholder image can be used in search result displays
-ANONYMOUS_SEARCH_FILTER = True
+ANONYMOUS_SEARCH_FILTER = False
 SEARCH_SORT = ''
 SEARCH_SORT_ORDER = ''
 

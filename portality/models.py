@@ -288,6 +288,7 @@ class School(DomainObject):
             if c.get('email',"") != "" and ( old is None or c.get('email',"") not in [o.get('email',False) for o in old.data.get('contacts',[])] ):
                 account = Account.pull(c['email'])
                 if account is None:
+                    c['email'] = c['email'].lower()
                     account = Account(
                         id=c['email'], 
                         email=c['email']
@@ -295,6 +296,7 @@ class School(DomainObject):
                     account.data[self.__type__] = self.data.get('name',"")
                     if len(c.get("password","")) > 1:
                         pw = c['password']
+                        c['password'] = ""
                     else:
                         pw = "password"
                     account.set_password(pw)
@@ -455,11 +457,15 @@ class Account(DomainObject, UserMixin):
 
     @classmethod
     def pull_by_email(cls,email):
-        res = cls.query(q={"query":{"term":{'email'+app.config['FACET_FIELD']:email}}})
+        res = cls.query(q={"query":{"term":{'email'+app.config['FACET_FIELD']:email.lower()}}})
         if res.get('hits',{}).get('total',0) == 1:
             return cls.pull( res['hits']['hits'][0]['_source']['id'] )
         else:
-            return None
+            res = cls.query(q={"query":{"query_string":{'query':email.lower(),"default_field":"email"}}})
+            if res.get('hits',{}).get('total',0) == 1:
+                return cls.pull( res['hits']['hits'][0]['_source']['id'] )
+            else:
+                return None
 
     def set_password(self, password):
         self.data['password'] = generate_password_hash(password)
