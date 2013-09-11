@@ -79,7 +79,8 @@ def download_csv(recordlist,keys):
                         else:
                             tidykey += '\n'
                         if key == 'applications':
-                            tidykey += line['pae_requested'] + " " + line['level'] + " " + line['subject'] + " at " + line['institution']
+                            if 'pae_requested' in line: tidykey += line['pae_requested'] + " "
+                            tidykey += line['level'] + " " + line['subject'] + " at " + line['institution']
                             if line.get('pae_reply_received',"") != "":
                                 tidykey += '(' + line['pae_reply_received'] + ') consider '
                                 tidykey += line['consider'] + ' ' + line['conditions'].replace('\n',' ')

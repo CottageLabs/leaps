@@ -1,5 +1,4 @@
 import uuid, json, time
-from copy import deepcopy
 
 from flask import Blueprint, request, url_for, flash, redirect, abort
 from flask import render_template
