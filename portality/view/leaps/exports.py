@@ -46,13 +46,42 @@ def index():
 
 def fixify(strng):
     newstr = ''
-    allowed = string.lowercase + string.uppercase + '!%&*()_-+=;:~#./?[]{}, ' + '0123456789'
+    allowed = string.lowercase + string.uppercase + "@!%&*()_-+=;:~#./?[]{}, '" + '0123456789'
     for part in strng:
-        if part in allowed:
+        if part in allowed or part == '\n':
             newstr += part
     return newstr
 
 def download_csv(recordlist,keys):
+    # re-order some of the keys
+    if 'simd_decile' in keys:
+        keys.remove('simd_decile')
+        keys = ['simd_decile'] + keys
+    if 'post_code' in keys:
+        keys.remove('post_code')
+        keys = ['post_code'] + keys
+    if 'local_authority' in keys:
+        keys.remove('local_authority')
+        keys = ['local_authority'] + keys
+    if 'shep_school' in keys:
+        keys.remove('shep_school')
+        keys = ['shep_school'] + keys
+    if 'leaps_category' in keys:
+        keys.remove('leaps_category')
+        keys = ['leaps_category'] + keys
+    if 'school' in keys:
+        keys.remove('school')
+        keys = ['school'] + keys
+    if 'date_of_birth' in keys:
+        keys.remove('date_of_birth')
+        keys = ['date_of_birth'] + keys
+    if 'last_name' in keys:
+        keys.remove('last_name')
+        keys = ['last_name'] + keys
+    if 'first_name' in keys:
+        keys.remove('first_name')
+        keys = ['first_name'] + keys
+
     # make a csv string of the records
     csvdata = StringIO.StringIO()
     firstrecord = True
@@ -111,19 +140,21 @@ def download_csv(recordlist,keys):
                             tidykey = "true"
                         else:
                             tidykey = "false"
-                    elif key in ['additional_qualifications','career_plans','issues_affecting_performance']:
-                        tidykey = fixify(tidykey)
                     else:
-                        tidykey = record[key].replace('"',"'")
+                        tidykey = fixify(record[key].replace('"',"'"))
                 if record['archive'] in ['2012_2013']:
                     try:
                         tidykey = util.dewindows(tidykey)
                     except:
                         pass
+                    try:
+                        tidykey = fixify(tidykey)
+                    except:
+                        pass
                 try:
                     csvdata.write('"' + tidykey + '"')
                 except:
-                    print tidykey
+                    print "errored on writing a key to the csvdata, probably because of ascii error"
             else:
                 csvdata.write('""')
     # dump to the browser as a csv attachment
