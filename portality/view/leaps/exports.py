@@ -2,13 +2,14 @@
 from datetime import datetime
 import cStringIO as StringIO
 
-import json
+import json, string
 
 from flask import Blueprint, request, flash, abort, make_response, render_template, redirect, send_file
 from flask.ext.login import current_user
 
 from portality.core import app
 import portality.models as models
+import portality.util as util
 
 
 blueprint = Blueprint('reports', __name__)
@@ -43,6 +44,13 @@ def index():
         
         return download_csv(students,keys)
 
+def fixify(strng):
+    newstr = ''
+    allowed = string.lowercase + string.uppercase + '!%&*()_-+=;:~#./?[]{}, ' + '0123456789'
+    for part in strng:
+        if part in allowed:
+            newstr += part
+    return newstr
 
 def download_csv(recordlist,keys):
     # make a csv string of the records
@@ -83,22 +91,39 @@ def download_csv(recordlist,keys):
                             tidykey += line['level'] + " " + line['subject'] + " at " + line['institution']
                             if line.get('pae_reply_received',"") != "":
                                 tidykey += '(' + line['pae_reply_received'] + ') consider '
-                                tidykey += line['consider'] + ' ' + line['conditions'].replace('\n',' ')
+                                try:
+                                    tidykey += line['consider'] + ' '
+                                except:
+                                    pass
+                                try:
+                                    tidykey += fixify(line['conditions'])
+                                except:
+                                    pass
                         elif key == 'interests':
-                            tidykey += line['title'] + " - " + line['brief_description']
+                            tidykey += line['title'] + " - " + fixify(line['brief_description'])
                         elif key =='qualifications':
                             tidykey += line['year'] + " grade " + line['grade'] + " in " + line['level'] + " " + line['subject']
                         elif key == 'experience':
-                            tidykey += line['date_from'] + " to " + line['date_to'] + " " + line['title'] + " - " + line['brief_description']
+                            tidykey += line['date_from'] + " to " + line['date_to'] + " " + line['title'] + " - " + fixify(line['brief_description'])
                 else:
                     if isinstance(record[key],bool):
                         if record[key]:
                             tidykey = "true"
                         else:
                             tidykey = "false"
+                    elif key in ['additional_qualifications','career_plans','issues_affecting_performance']:
+                        tidykey = fixify(tidykey)
                     else:
                         tidykey = record[key].replace('"',"'")
-                csvdata.write('"' + tidykey + '"')
+                if record['archive'] in ['2012_2013']:
+                    try:
+                        tidykey = util.dewindows(tidykey)
+                    except:
+                        pass
+                try:
+                    csvdata.write('"' + tidykey + '"')
+                except:
+                    print tidykey
             else:
                 csvdata.write('""')
     # dump to the browser as a csv attachment

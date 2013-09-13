@@ -11,7 +11,30 @@ from email.MIMEBase import MIMEBase
 from email.MIMEText import MIMEText
 from email.Utils import COMMASPACE, formatdate
 from email import Encoders
+import HTMLParser
          
+
+def dewindows(string):
+    h = HTMLParser.HTMLParser()
+    try:
+        string = string.decode("windows-1252")
+    except:
+        try:
+            string = string.decode("windows-1251")
+        except:
+            try:
+                string = string.decode("ISO-8859-1")
+            except:
+                try:
+                    string = string.decode("utf-8")
+                except:
+                    pass
+    try:
+        string = h.unescape(string)
+    except:
+        pass
+    return string
+
          
 def generate_password(length=8):
     chars = string.lowercase + string.uppercase + string.digits + '@#'

@@ -5,7 +5,9 @@ from portality.core import app
 
 from portality.dao import DomainObject as DomainObject
 
-import requests, json, HTMLParser
+import requests, json
+
+import portality.util as util
 
 '''
 Define models in here. They should all inherit from the DomainObject.
@@ -87,23 +89,6 @@ class Student(DomainObject):
 
 
     def save_from_form(self, request):
-        def dewindows(string):
-            h = HTMLParser.HTMLParser()
-            try:
-                string = string.decode("windows-1252")
-            except:
-                try:
-                    string = string.decode("windows-1251")
-                except:
-                    try:
-                        string = string.decode("utf-8")
-                    except:
-                        pass
-            try:
-                string = h.unescape(string)
-            except:
-                pass
-            return string
         
         rec = {
             "qualifications": [],
@@ -120,7 +105,7 @@ class Student(DomainObject):
                 elif val == "off":
                     rec[key] = False
                 elif key in ['additional_qualifications','career_plans','issues_affecting_performance']:
-                    rec[key] = dewindows(val)
+                    rec[key] = util.dewindows(val)
                 else:
                     rec[key] = val
 
@@ -157,7 +142,7 @@ class Student(DomainObject):
                 try:
                     rec["interests"].append({
                         "title":v,
-                        'brief_description': dewindows(request.form.getlist('interest_brief_description')[k])                        
+                        'brief_description': util.dewindows(request.form.getlist('interest_brief_description')[k])                        
                     })
                 except:
                     pass
@@ -212,7 +197,7 @@ class Student(DomainObject):
                         "title":v,
                         "date_from": request.form.getlist('experience_date_from')[k],
                         "date_to": request.form.getlist('experience_date_to')[k],
-                        'brief_description': dewindows(request.form.getlist('experience_brief_description')[k])
+                        'brief_description': util.dewindows(request.form.getlist('experience_brief_description')[k])
                     })
                 except:
                     pass
