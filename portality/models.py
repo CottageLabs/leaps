@@ -176,13 +176,19 @@ class Student(DomainObject):
                     except:
                         pass
                     try:
+                        appn['pae_emailed'] = request.form.getlist('application_pae_emailed')[k]
+                    except:
+                        pass
+                    try:
                         if request.form.getlist('application_pae_requested')[k] == "Yes":
-                            appn['pae_requested'] = datetime.now().strftime("%d/%m/%Y")
-                            if rec['status'] == 'paes_all_received':
-                                rec['status'] = 'paes_in_progress'
-                            if rec['status'] not in ['paes_in_progress']:
-                                rec['status'] = 'paes_requested'
-                            rec['_process_paes_date'] = datetime.now().strftime("%d/%m/%Y")
+                            if 'pae_requested' not in appn:
+                                appn['pae_requested'] = datetime.now().strftime("%d/%m/%Y")
+                            if '_process_paes_date' not in rec:
+                                rec['_process_paes_date'] = datetime.now().strftime("%d/%m/%Y")
+                                if rec['status'] == 'paes_all_received':
+                                    rec['status'] = 'paes_in_progress'
+                                if rec['status'] not in ['paes_in_progress']:
+                                    rec['status'] = 'paes_requested'
                         elif request.form.getlist('application_pae_requested')[k] != "No":
                             appn['pae_requested'] = request.form.getlist('application_pae_requested')[k]
                     except:

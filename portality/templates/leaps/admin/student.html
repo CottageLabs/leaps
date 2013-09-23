@@ -617,8 +617,8 @@ fieldset{
                 <thead>
                     <tr>
                         <th style="min-width:200px;">College / University</th>
-                        <th style="min-width:200px;">Subject</th>
-                        <th style="min-width:200px;">Level of study</th>
+                        <th style="min-width:150px;">Subject</th>
+                        <th style="min-width:100px;">Level of study</th>
                         <th style="min-width:200px;">PAE requested / replied / emailed</th>
                     </tr>
                 </thead>
@@ -626,19 +626,26 @@ fieldset{
                     {% if record %}
                         {% for app in record.data.applications %}
                     <tr>
-                		<td><input type="hidden" name="application_institution" value="{{app.institution}}"><input type="text" disabled="disabled" value="{{app.institution}}" style="width:170px;"></td>
-                		<td><input type="hidden" name="application_subject" value="{{app.subject}}"><input type="text" disabled="disabled" value="{{app.subject}}" style="width:170px;"></td>
+                		<td><input type="text" disabled="disabled" value="{{app.institution}}" style="width:170px;"></td>
+                		<td><input type="text" disabled="disabled" value="{{app.subject}}" style="width:170px;"></td>
                 		<td>
-                		    <input type="hidden" name="application_level" value="{{app.level}}"><input type="text" disabled="disabled" value="{{app.level}}" style="width:150px;">
-                    		{% for key in app %}
-                    		    {% if key not in ['institution','level','subject'] %}
-                        		    <input class="noclone" type="hidden" name="application_{{key}}" value="{{app[key]}}">
-                    		    {% endif %}
-                    		{% endfor %}
+                		    <input type="text" disabled="disabled" value="{{app.level}}" style="width:100px;">
+
+                   		    <input class="noclone" type="hidden" name="application_institution" value="{% if app.institution %}{{app.institution}}{% endif %}">
+                   		    <input class="noclone" type="hidden" name="application_subject" value="{% if app.subject %}{{app.subject}}{% endif %}">
+                   		    <input class="noclone" type="hidden" name="application_level" value="{% if app.level %}{{app.level}}{% endif %}">
+                   		    <input class="noclone" type="hidden" name="application_appid" value="{% if app.appid %}{{app.appid}}{% endif %}">
+                   		    <input class="noclone" type="hidden" name="application_pae_reply_received" value="{% if app.pae_reply_received %}{{app.pae_reply_received}}{% endif %}">
+                   		    <input class="noclone" type="hidden" name="application_pae_emailed" value="{% if app.pae_emailed %}{{app.pae_emailed}}{% endif %}">
+                   		    <input class="noclone" type="hidden" name="application_consider" value="{% if app.consider %}{{app.consider}}{% endif %}">
+                   		    <input class="noclone" type="hidden" name="application_conditions" value="{% if app.conditions %}{{app.conditions}}{% endif %}">
+                   		    <input class="noclone" type="hidden" name="application_summer_school" value="{% if app.summer_school %}{{app.summer_school}}{% endif %}">
+
                 		</td>
                 		
                 		{% if app['pae_requested'] %}
                 		<td class="noclone">
+                   		    <input class="noclone" type="hidden" name="application_pae_requested" value="{{app.pae_requested}}">
                 		    <span style="margin:5px 5px 0 5px;">
                 		    <a class="btn" href="/universities/pae/{{app.appid}}">{{ app['pae_requested'] }}</a>
                 		    {% if app.pae_reply_received %}
@@ -680,7 +687,7 @@ fieldset{
                 		        <option>{{ opt }}</option>
                 		    {% endfor %}
                 		</select></td>
-                		<td><select name="application_level" class="levelselector" style="width:150px;">
+                		<td><select name="application_level" class="levelselector" style="width:100px;">
                 		    <option></option>
                 		    {% for opt in selections.advancedlevels %}
                 		        <option>{{ opt }}</option>

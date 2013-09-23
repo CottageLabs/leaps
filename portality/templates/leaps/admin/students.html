@@ -3,8 +3,8 @@
 {% block options %}
             {% if current_user.do_admin %}
             <a class="btn btn-primary" href="/admin/student/new">add new student survey</a>
-            {% endif %}
             <a id="export" class="btn" href="/admin/export">Export selected</a>
+            {% endif %}
             <a id="print" class="btn" href="/admin/student/selected.pdf">Print selected</a>
 {% endblock %}
 
@@ -36,6 +36,9 @@ jQuery(document).ready(function() {
         if ( $('#default_current').length == 0 ) {
             $('body').append('<div id="default_current" style="display:none;"></div>');
             $('.facetview_filterchoice[href="current"]').trigger('click');
+            {% if not current_user.do_admin %}
+            $('#facetview_group_archive_exact').hide();
+            {% endif %}
         } else {
             $('.tablesorter')
                .unbind('appendCache applyWidgetId applyWidgets sorton update updateCell')

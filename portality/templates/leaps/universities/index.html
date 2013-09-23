@@ -93,9 +93,13 @@ jQuery(document).ready(function() {
                                 <td>
                                 not yet
                                 </td>
+                                {% if current_user.view_admin and not current_user.do_admin %}
+                                <td>No view</td>
+                                {% else %}
                                 <td>
                                 <a class="btn btn-info" href="/universities/pae/{{appn.appid}}" style="width:100px;">Respond to PAE</a>
                                 </td>
+                                {% endif %}
                                 {% if current_user.do_admin %}
                                 <td>Not ready</td>
                                 {% endif %}
