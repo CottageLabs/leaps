@@ -69,8 +69,8 @@ jQuery(document).ready(function($) {
                 </div>
                 <div class="span2">
                     <a class="btn btn-info" href="/admin/student">Manage student surveys</a>
-                    <a class="btn btn-info" href="/admin/data{% if model %}/{{model}}{% endif %}">Manage supporting data</a>
                     {% if current_user.do_admin %}
+                    <a class="btn btn-info" href="/admin/data{% if model %}/{{model}}{% endif %}">Manage supporting data</a>
                     <a class="btn btn-info" href="/admin/archive">Manage data archives</a>
                     {% endif %}
                 </div>
