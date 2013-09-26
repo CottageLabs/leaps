@@ -66,12 +66,12 @@ jQuery(document).ready(function() {
     $('.facetview').facetview({
         search_url: '/query/student?',
         facets: [
-            {'field':'archive.exact', 'display': 'archive'}, 
-            {'field':'school.exact', 'display': 'school'},
-            {'field':'leaps_category.exact', 'display': 'LEAPS category'},
-            {'field':'simd_decile.exact', 'display': 'SIMD decile'},
-            {'field':'status.exact', 'display': 'status'},
-            {'field':'applications.institution.exact', 'display': 'Application institutions'}
+            {'field':'archive.exact', 'display': 'archive', 'size':1000}, 
+            {'field':'school.exact', 'display': 'school', 'size':1000},
+            {'field':'leaps_category.exact', 'display': 'LEAPS category', 'size':1000},
+            {'field':'simd_decile.exact', 'display': 'SIMD decile', 'size':1000},
+            {'field':'status.exact', 'display': 'status', 'size':1000},
+            {'field':'applications.institution.exact', 'display': 'Application institutions', 'size':1000}
         ],
         fields: ['last_name', 'first_name', 'date_of_birth','post_code','simd_decile','school','status','archive','id'],
         paging: {
