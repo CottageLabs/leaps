@@ -34,10 +34,8 @@ def index():
             "total_submitted": models.Student.query(q={"query":{"bool":{"must":[{"term":{"archive"+app.config['FACET_FIELD']:"current"}}]}}})['hits']['total'],
             "awaiting_interview":models.Student.query(q={"query":{"bool":{"must":[{"term":{"archive"+app.config['FACET_FIELD']:"current"}},{"term":{"status"+app.config['FACET_FIELD']:"awaiting_interview"}}]}}})['hits']['total'],
             "interviewed":models.Student.query(q={"query":{"bool":{"must":[{"term":{"archive"+app.config['FACET_FIELD']:"current"}},{"term":{"status"+app.config['FACET_FIELD']:"interviewed"}}]}}})['hits']['total'],
-            "paes_forwarded":models.Student.query(q={"query":{"bool":{"must":[{"term":{"archive"+app.config['FACET_FIELD']:"current"}},{"term":{"status"+app.config['FACET_FIELD']:"paes_forwarded"}}]}}})['hits']['total'],
             "awaiting_all_pae":models.Student.query(q={"query":{"bool":{"must":[{"term":{"archive"+app.config['FACET_FIELD']:"current"}},{"term":{"status"+app.config['FACET_FIELD']:"paes_requested"}}]}}})['hits']['total'],
             "awaiting_some_pae":models.Student.query(q={"query":{"bool":{"must":[{"term":{"archive"+app.config['FACET_FIELD']:"current"}},{"term":{"status"+app.config['FACET_FIELD']:"paes_in_progress"}}]}}})['hits']['total'],
-            "all_pae_received":models.Student.query(q={"query":{"bool":{"must":[{"term":{"archive"+app.config['FACET_FIELD']:"current"}},{"term":{"status"+app.config['FACET_FIELD']:"paes_all_received"}}]}}})['hits']['total'],
             "total_schools":models.School.query()['hits']['total'],
             "schools_with_students_submitted":len(models.Student.query(q={
                 "query":{
@@ -257,7 +255,7 @@ def archives():
 
     return render_template(
         'leaps/admin/archive.html', 
-        currentcount=models.Student.query().get('hits',{}).get('total',0),
+        currentcount=models.Student.query(q={"query":{"bool":{"must":[{"term":{"archive"+app.config['FACET_FIELD']:"current"}}]}}}).get('hits',{}).get('total',0),
         archives=dropdowns('archive','name')
     )
 

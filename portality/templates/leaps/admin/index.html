@@ -21,48 +21,6 @@
         </div>
     </div>
     <div class="span3">
-        <div class="alert alert-info" style="min-height:100px;">
-            <p><span style="font-size:24px;">{{stats.paes_forwarded}}</span> students<br> have had all their PAE responses sent to them.</p>
-        </div>
-    </div>
-</div>    
-    
-<div class="row-fluid">
-    <div class="span3">
-        <div class="alert alert-info" style="min-height:100px;">
-            <p><span style="font-size:24px;">{{stats.awaiting_all_pae}}</span> of the students<br>for which PAEs are expected are awaiting <strong>all</strong> PAE responses.</p>
-            <p><a class="btn btn-info" href="/universities">Go to the universities PAE view</a></p>
-        </div>
-    </div>
-    <div class="span3">
-        <div class="alert alert-info" style="min-height:100px;">
-            <p><span style="font-size:24px;">{{stats.awaiting_some_pae}}</span> of the students<br> for which PAEs are expected are awaiting <strong>some</strong> PAE responses.</p>
-            <p><a class="btn btn-info" href="/universities">Go to the universities PAE view</a></p>
-        </div>
-    </div>
-    <div class="span3">
-        <div class="alert alert-info" style="min-height:100px;">
-            <p><span style="font-size:24px;">{{stats.all_pae_received}}</span> of the students<br> for which PAEs are expected have had all PAE responses submitted.</p>
-        </div>
-    </div>
-    <div class="span3">
-        <div class="alert alert-info" style="min-height:100px;">
-            <p><span style="font-size:24px;">{{stats.schools_with_students_submitted}}</span> of the 
-            <span style="font-size:24px;">{{stats.total_schools - 1}}</span> 
-            registered schools <br>have had students submit surveys.</p>
-            <p><a class="btn btn-info" href="/schools">Go to the schools view</a></p>
-        </div>
-    </div>
-</div>
-
-<div class="row-fluid">
-<!--    <div class="span3">
-        <div class="alert alert-info" style="min-height:100px;">
-            <p>Up to <span style="font-size:24px;">{{stats.universities_pae_outstanding}}</span> universities<br> have PAE requests outstanding.</p>
-            <p><a class="btn btn-info" href="/universities">Go to the universities view</a></p>
-        </div>
-    </div>-->
-    <div class="span3">
         <div class="alert alert-success" style="min-height:100px;">
             <p>You are logged in as {{current_user.id}}. 
             {% if current_user.is_super %}
@@ -75,6 +33,29 @@
             </p>
         </div>
     </div>
+</div>    
+    
+<div class="row-fluid">
+    <div class="span3">
+        <div class="alert alert-info" style="min-height:100px;">
+            <p><span style="font-size:24px;">{{stats.awaiting_some_pae}}</span> of the students<br> for which PAEs are expected are awaiting <strong>some</strong> PAE responses.</p>
+            <p><a class="btn btn-info" href="/universities">Go to the universities PAE view</a></p>
+        </div>
+    </div>
+    <div class="span3">
+        <div class="alert alert-info" style="min-height:100px;">
+            <p><span style="font-size:24px;">{{stats.schools_with_students_submitted}}</span> of the 
+            <span style="font-size:24px;">{{stats.total_schools - 1}}</span> 
+            registered schools <br>have had students submit surveys.</p>
+            <p><a class="btn btn-info" href="/schools">Go to the schools view</a></p>
+        </div>
+    </div>
+    <div class="span3">
+        <div class="alert alert-info" style="min-height:100px;">
+            <p><span style="font-size:24px;">{{stats.awaiting_all_pae}}</span> of the students<br>for which PAEs are expected are awaiting <strong>all</strong> PAE responses.</p>
+            <p><a class="btn btn-info" href="/universities">Go to the universities PAE view</a></p>
+        </div>
+    </div>
     <div class="span3">
         <div class="alert alert-success" style="min-height:100px;">
             {% if current_user.do_admin %}
@@ -83,8 +64,8 @@
             <p><a class="btn btn-success" href="/account/logout" style="min-width:110px;">Logout of LEAPS</a></p>
         </div>
     </div>
-
 </div>
+
 {% endif %}
 
 {% endblock %}
