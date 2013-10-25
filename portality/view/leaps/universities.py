@@ -96,7 +96,7 @@ def pae(appid):
                 student.data['status'] = 'paes_in_progress'
             complete = True
             for appn in student.data['applications']:
-                if appn.get('pae_reply_received',False):
+                if not appn.get('pae_reply_received',False):
                     complete = False
             if complete and student.data['status'].startswith('paes'):
                 student.data['status'] = 'paes_all_received'
@@ -207,6 +207,14 @@ def email(appid):
             if appn['appid'] == application['appid']: which = count
             count += 1
         student.data['applications'][which] = application
+
+        all_mailed = True
+        for appn in student.data['applications']:
+            if not appn.get('pae_emailed',False):
+                all_mailed = False
+        if complete and student.data['status'].startswith('paes'):
+            student.data['status'] = 'paes_all_received'
+
         student.save()
 
         flash('PAE has been emailed to ' + ",".join(to), "success")

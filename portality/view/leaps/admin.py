@@ -29,41 +29,70 @@ def restrict():
 @blueprint.route('/')
 def index():
 
-    try:
-        stats = {
-            "total_submitted": models.Student.query(q={"query":{"bool":{"must":[{"term":{"archive"+app.config['FACET_FIELD']:"current"}}]}}})['hits']['total'],
-            "awaiting_interview":models.Student.query(q={"query":{"bool":{"must":[{"term":{"archive"+app.config['FACET_FIELD']:"current"}},{"term":{"status"+app.config['FACET_FIELD']:"awaiting_interview"}}]}}})['hits']['total'],
-            "interviewed":models.Student.query(q={"query":{"bool":{"must":[{"term":{"archive"+app.config['FACET_FIELD']:"current"}},{"term":{"status"+app.config['FACET_FIELD']:"interviewed"}}]}}})['hits']['total'],
-            "awaiting_all_pae":models.Student.query(q={"query":{"bool":{"must":[{"term":{"archive"+app.config['FACET_FIELD']:"current"}},{"term":{"status"+app.config['FACET_FIELD']:"paes_requested"}}]}}})['hits']['total'],
-            "awaiting_some_pae":models.Student.query(q={"query":{"bool":{"must":[{"term":{"archive"+app.config['FACET_FIELD']:"current"}},{"term":{"status"+app.config['FACET_FIELD']:"paes_in_progress"}}]}}})['hits']['total'],
-            "total_schools":models.School.query()['hits']['total'],
-            "schools_with_students_submitted":len(models.Student.query(q={
-                "query":{
-                    "bool":{
-                        "must":[
-                            {
-                                "term":{
-                                    "archive"+app.config['FACET_FIELD']:"current"
-                                }
-                            }
-                        ]
-                    }
-                },
-                "size":0,
-                "facets":{
-                    "schools":{
-                        "terms":{
-                            "field":"school"+app.config['FACET_FIELD'], 
-                            "size":1000
+    qr = {
+        "query":{
+            "bool":{
+                "must":[
+                    {
+                        "term":{
+                            "archive"+app.config['FACET_FIELD']:"current"
                         }
                     }
+                ],
+                "must_not":[
+                    {
+                        "term":{
+                            "school"+app.config['FACET_FIELD']:"TEST"
+                        }
+                    }
+                ]
+            }
+        },
+        "size":10000
+    }
+
+    if 1==1: #try:
+        stats = {}
+        stats["total_submitted"] = models.Student.query(q=qr)['hits']['total']
+
+        qr['query']['bool']['must'].append({"term":{"status"+app.config['FACET_FIELD']:"new"}})
+        stats["new"] = models.Student.query(q=qr)['hits']['total']
+
+        qr['query']['bool']['must'][1] = {"term":{"status"+app.config['FACET_FIELD']:"interviewed"}}
+        stats["interviewed"] = models.Student.query(q=qr)['hits']['total']
+
+        qr['query']['bool']['must'][1] = {"query_string":{"default_field": "applications.pae_requested", "query": "*"}}
+        st = models.Student.query(q=qr)
+        stats["students_pae_requested"] = st['hits']['total']
+        
+        stats["number_of_pae_requested"] = 0
+        stats["number_of_pae_replies"] = 0
+        stats["number_of_pae_issued"] = 0
+        for s in st['hits']['hits']:
+            for appn in s['_source'].get('applications',[]):
+                if 'pae_requested' in appn:
+                    stats["number_of_pae_requested"] += 1
+                if 'pae_reply_received' in appn and len(appn['pae_reply_received']) > 0:
+                    stats["number_of_pae_replies"] += 1
+                if 'pae_emailed' in appn and len(appn['pae_emailed']) > 0:
+                    stats["number_of_pae_issued"] += 1
+        
+        stats["total_schools"] = models.School.query()['hits']['total']
+        
+        qr['query']['bool']['must'] = [qr['query']['bool']['must'][0]]
+        qr['facets'] = {
+            "schools":{
+                "terms":{
+                    "field":"school"+app.config['FACET_FIELD'], 
+                    "size":1000
                 }
-            })['facets']['schools']['terms'])
+            }
         }
-    except:
+        stats["schools_with_students_submitted"] = len(models.Student.query(q=qr)['facets']['schools']['terms'])
+
+    else:
         stats = None
     return render_template('leaps/admin/index.html', stats=stats)
-
 
 
 # update admin settings

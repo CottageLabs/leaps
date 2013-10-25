@@ -5,23 +5,27 @@
 {% if stats %}
 <div class="row-fluid">
     <div class="span3">
-        <div class="alert alert-info" style="min-height:100px;">
-            <p><span style="font-size:24px;">{{stats.total_submitted}}</span> students have submitted surveys <br>(overview figures for current archive only).</p>
+        <div class="alert alert-info" style="min-height:110px;">
+            <p><span style="font-size:24px;">{{stats.total_submitted}}</span> students have submitted surveys <br>(overview figures for current archive only, and not including TEST records).</p>
             <p><a href="/admin/student" class="btn btn-info">Manage students</a></p>
         </div>
     </div>
     <div class="span3">
-        <div class="alert alert-info" style="min-height:100px;">
-            <p><span style="font-size:24px;">{{stats.awaiting_interview}}</span> students<br> are awaiting interview.</p>
+        <div class="alert alert-info" style="min-height:110px;">
+            <p><span style="font-size:24px;">{{stats.new}}</span> students are at new status.</p>
+            <p><span style="font-size:24px;">{{stats.interviewed}}</span> students are at interviewed status.</p>
         </div>
     </div>
     <div class="span3">
-        <div class="alert alert-info" style="min-height:100px;">
-            <p><span style="font-size:24px;">{{stats.interviewed}}</span> students<br> have been interviewed.</p>
+        <div class="alert alert-info" style="min-height:110px;">
+            <p><span style="font-size:24px;">{{stats.schools_with_students_submitted}}</span> of the 
+            <span style="font-size:24px;">{{stats.total_schools - 1}}</span> 
+            registered schools <br>have had students submit surveys.</p>
+            <p><a class="btn btn-info" href="/schools">Go to the schools view</a></p>
         </div>
     </div>
     <div class="span3">
-        <div class="alert alert-success" style="min-height:100px;">
+        <div class="alert alert-success" style="min-height:110px;">
             <p>You are logged in as {{current_user.id}}. 
             {% if current_user.is_super %}
                 You are the super user. You can edit anything, edit user accounts, and turn surveys and interfaces on and off.
@@ -37,27 +41,25 @@
     
 <div class="row-fluid">
     <div class="span3">
-        <div class="alert alert-info" style="min-height:100px;">
-            <p><span style="font-size:24px;">{{stats.awaiting_some_pae}}</span> of the students<br> for which PAEs are expected are awaiting <strong>some</strong> PAE responses.</p>
+        <div class="alert alert-info" style="min-height:110px;">
+            <p><span style="font-size:24px;">{{stats.students_pae_requested}}</span> students have had PAEs requested.</p>
+            <p><span style="font-size:24px;">{{stats.number_of_pae_requested}}</span> PAEs have been requested overall.</p>
+        </div>
+    </div>
+    <div class="span3">
+        <div class="alert alert-info" style="min-height:110px;">
+            <p><span style="font-size:24px;">{{stats.number_of_pae_replies}}</span> PAE replies have been received.</p>
+            <p><span style="font-size:24px;">{{stats.number_of_pae_requested - stats.number_of_pae_replies}}</span> PAEs remain unanswered.</p>
+        </div>
+    </div>
+    <div class="span3">
+        <div class="alert alert-info" style="min-height:110px;">
+            <p><span style="font-size:24px;">{{stats.number_of_pae_issued}}</span> PAEs have been issued by email via this interface.</p>
             <p><a class="btn btn-info" href="/universities">Go to the universities PAE view</a></p>
         </div>
     </div>
     <div class="span3">
-        <div class="alert alert-info" style="min-height:100px;">
-            <p><span style="font-size:24px;">{{stats.schools_with_students_submitted}}</span> of the 
-            <span style="font-size:24px;">{{stats.total_schools - 1}}</span> 
-            registered schools <br>have had students submit surveys.</p>
-            <p><a class="btn btn-info" href="/schools">Go to the schools view</a></p>
-        </div>
-    </div>
-    <div class="span3">
-        <div class="alert alert-info" style="min-height:100px;">
-            <p><span style="font-size:24px;">{{stats.awaiting_all_pae}}</span> of the students<br>for which PAEs are expected are awaiting <strong>all</strong> PAE responses.</p>
-            <p><a class="btn btn-info" href="/universities">Go to the universities PAE view</a></p>
-        </div>
-    </div>
-    <div class="span3">
-        <div class="alert alert-success" style="min-height:100px;">
+        <div class="alert alert-success" style="min-height:110px;">
             {% if current_user.do_admin %}
             <p><a class="btn btn-success" href="/account/{{current_user.id}}" style="min-width:110px;">Account settings</a></p>
             {% endif %}
