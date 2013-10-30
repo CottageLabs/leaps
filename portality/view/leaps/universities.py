@@ -142,84 +142,87 @@ def email(appid):
 
         student, application = _get_student_for_appn(appid)
 
-    #    try:
-        fro = app.config['LEAPS_EMAIL']
+        try:
+            fro = app.config['LEAPS_EMAIL']
 
-        to = [app.config['LEAPS_EMAIL']]
-        if app.config.get('ADMIN_EMAIL',False):
-            to.append(app.config['ADMIN_EMAIL'])
-        if 'email' in student:
-            to.append(student['email'])
+            to = [app.config['LEAPS_EMAIL']]
+            if app.config.get('ADMIN_EMAIL',False):
+                to.append(app.config['ADMIN_EMAIL'])
+            if 'email' in student:
+                to.append(student['email'])
 
-        text = 'Dear ' + student.data['first_name'] + " " + student.data['last_name'] + ',\n\n'
+            text = 'Dear ' + student.data['first_name'] + " " + student.data['last_name'] + ',\n\n'
 
-        school = models.School.pull_by_name(student.data['school'])
-        if school is not None:
-            foundone = False
-            for contact in school.data.get('contacts',[]):
-                if contact.get('email',False):
-                    to.append(contact['email'])
-                    if not foundone:
-                        foundone = True
-                        text += '( and copied to school contact '
-                    else:
-                        text += ', '
-                    if contact.get('name',"") != "":
-                        text += contact['name']
-                    else:
-                        text += contact['email']
-            if foundone:
-                text += " )\n\n"
+            school = models.School.pull_by_name(student.data['school'])
+            if school is not None:
+                foundone = False
+                for contact in school.data.get('contacts',[]):
+                    if contact.get('email',False):
+                        to.append(contact['email'])
+                        if not foundone:
+                            foundone = True
+                            text += '( and copied to school contact '
+                        else:
+                            text += ', '
+                        if contact.get('name',"") != "":
+                            text += contact['name']
+                        else:
+                            text += contact['email']
+                if foundone:
+                    text += " )\n\n"
 
-        text += '''Pre-Application Enquiry (PAE) Response
+            text += '''Pre-Application Enquiry (PAE) Response
 
-    Following your LEAPS interview, we raised a Pre-Application Enquiry (PAE) with a university on your behalf. We asked whether or not they are likely to make you an offer for the course you are interested in, based on your qualifications to date.
+        Following your LEAPS interview, we raised a Pre-Application Enquiry (PAE) with a university on your behalf. We asked whether or not they are likely to make you an offer for the course you are interested in, based on your qualifications to date.
 
-    Please see the attached document for full details of their response. Make sure that you read everything carefully. Take time to check that all your qualifications are correct - the university's response is based on your qualifications as listed.
+        Please see the attached document for full details of their response. Make sure that you read everything carefully. Take time to check that all your qualifications are correct - the university's response is based on your qualifications as listed.
 
-    This Pre-Application Enquiry (PAE) is a guide for you. Its purpose is to help you make the best use of your five UCAS choices by giving you an indication of how universities are likely to view your application. 
+        This Pre-Application Enquiry (PAE) is a guide for you. Its purpose is to help you make the best use of your five UCAS choices by giving you an indication of how universities are likely to view your application. 
 
-    If the university has said no, it will not be worthwhile making the same choice on your UCAS application. Pay attention to the reasons given for this response and make use of any comments when you come to make your final UCAS choices.
+        If the university has said no, it will not be worthwhile making the same choice on your UCAS application. Pay attention to the reasons given for this response and make use of any comments when you come to make your final UCAS choices.
 
-    If the university has said yes - great news! However do bear in mind that this is NOT a formal offer of study, nor does it guarantee that you will receive an offer. You still need to apply through UCAS and admissions tutors will take into account all of the information on your application. This includes your personal statement, academic reference and predicted grades. Competition for places will also
-    be a factor as demand tends to fluctuate from year-to-year.
+        If the university has said yes - great news! However do bear in mind that this is NOT a formal offer of study, nor does it guarantee that you will receive an offer. You still need to apply through UCAS and admissions tutors will take into account all of the information on your application. This includes your personal statement, academic reference and predicted grades. Competition for places will also
+        be a factor as demand tends to fluctuate from year-to-year.
 
-    If you have any questions at all regarding your PAE response, please contact us on LEAPS@ed.ac.uk or 0131 650 4676. We have copied this email to your school so that you can also discuss any concerns with your guidance teacher or UCAS co-ordinator.
+        If you have any questions at all regarding your PAE response, please contact us on LEAPS@ed.ac.uk or 0131 650 4676. We have copied this email to your school so that you can also discuss any concerns with your guidance teacher or UCAS co-ordinator.
 
-    Kind regards,
-    The LEAPS team
+        Kind regards,
+        The LEAPS team
 
-    ***Please note you will receive a separate email for each course we have enquired about. Responses may be received at different times.***'''
+        ***Please note you will receive a separate email for each course we have enquired about. Responses may be received at different times.***'''
 
-        subject = "LEAPS PAE enquiry feedback"
+            subject = "LEAPS PAE enquiry feedback"
 
-        files = [{
-            'content': paepdf(application['appid'],giveback=True), 
-            'filename': 'LEAPSPAE_' + student.data['first_name'] + '_' + student.data['last_name'] + '_' + application['institution'] + '.pdf'
-        }]
+            files = [{
+                'content': paepdf(application['appid'],giveback=True), 
+                'filename': 'LEAPSPAE_' + student.data['first_name'] + '_' + student.data['last_name'] + '_' + application['institution'] + '.pdf'
+            }]
 
-        util.send_mail(to=to, fro=fro, subject=subject, text=text, files=files)
+            try:
+                util.send_mail(to=to, fro=fro, subject=subject, text=text, files=files)
+            except:
+                flash('Email failed')
 
-        application['pae_emailed'] = datetime.now().strftime("%d/%m/%Y")
-        which = 0
-        count = 0
-        for appn in student.data['applications']:
-            if appn['appid'] == application['appid']: which = count
-            count += 1
-        student.data['applications'][which] = application
+            application['pae_emailed'] = datetime.now().strftime("%d/%m/%Y")
+            which = 0
+            count = 0
+            for appn in student.data['applications']:
+                if appn['appid'] == application['appid']: which = count
+                count += 1
+            student.data['applications'][which] = application
 
-        all_mailed = True
-        for appn in student.data['applications']:
-            if not appn.get('pae_emailed',False):
-                all_mailed = False
-        if complete and student.data['status'].startswith('paes'):
-            student.data['status'] = 'paes_all_received'
+            all_mailed = True
+            for appn in student.data['applications']:
+                if not appn.get('pae_emailed',False):
+                    all_mailed = False
+            if all_mailed and student.data['status'].startswith('paes'):
+                student.data['status'] = 'paes_forwarded'
 
-        student.save()
+            student.save()
 
-        flash('PAE has been emailed to ' + ",".join(to), "success")
-    #    except:
-    #        flash('Email failed.')
+            flash('PAE has been emailed to ' + ",".join(to), "success")
+        except:
+            flash('There was an error processing the email. Please check and try again.')
 
         return redirect(url_for('.pae', appid=appid))
 
