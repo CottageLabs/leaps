@@ -49,12 +49,13 @@
     <div class="span3">
         <div class="alert alert-info" style="min-height:110px;">
             <p><span style="font-size:24px;">{{stats.number_of_pae_replies}}</span> PAE replies have been received.</p>
-            <p><span style="font-size:24px;">{{stats.number_of_pae_requested - stats.number_of_pae_replies}}</span> PAEs remain unanswered.</p>
+            <p><span style="font-size:24px;">{{stats.number_of_pae_issued}}</span> PAEs have been issued by email via this interface.</p>
         </div>
     </div>
     <div class="span3">
         <div class="alert alert-info" style="min-height:110px;">
-            <p><span style="font-size:24px;">{{stats.number_of_pae_issued}}</span> PAEs have been issued by email via this interface.</p>
+            <p><span style="font-size:24px;">{{stats.number_of_pae_awaiting_email}}</span> PAE answers have not been emailed.</p>
+<!--            <p><a class="btn btn-info" href="/pae/unemailed/email">Email the {{stats.number_of_pae_awaiting_email}} outstanding PAEs</a></p>-->
             <p><a class="btn btn-info" href="/universities">Go to the universities PAE view</a></p>
         </div>
     </div>

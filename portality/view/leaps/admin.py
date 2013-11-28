@@ -68,6 +68,7 @@ def index():
         stats["number_of_pae_requested"] = 0
         stats["number_of_pae_replies"] = 0
         stats["number_of_pae_issued"] = 0
+        stats["number_of_pae_awaiting_email"] = 0
         for s in st['hits']['hits']:
             for appn in s['_source'].get('applications',[]):
                 if 'pae_requested' in appn:
@@ -76,6 +77,8 @@ def index():
                     stats["number_of_pae_replies"] += 1
                 if 'pae_emailed' in appn and len(appn['pae_emailed']) > 0:
                     stats["number_of_pae_issued"] += 1
+                if ('pae_reply_received' in appn and len(appn['pae_reply_received']) > 0) and not ('pae_emailed' in appn and len(appn['pae_emailed']) > 0):
+                    stats["number_of_pae_awaiting_email"] += 1
         
         stats["total_schools"] = models.School.query()['hits']['total']
         

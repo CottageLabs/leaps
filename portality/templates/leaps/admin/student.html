@@ -50,6 +50,7 @@ jQuery(document).ready(function() {
     // function of things to do whenever a row is appended
     var preprow = function(row) {
         $(row).find('.delete-row').bind('click',deleterow);
+        $(row).find('.edit-row').unbind('click',editrow).bind('click',editrow);
         $(row).find('select').val("");
         $(row).find('input').val("");
         $(row).find('textarea').html("");
@@ -68,7 +69,7 @@ jQuery(document).ready(function() {
 
     // fit a static row remover for old content
     $('table.multidisplay').find('tbody').children('tr').each(function() {
-        $(this).children('td').first().prepend('<a class="btn btn-warning static-delete-row" style="margin:-10px 2px 0 0;" href="#">delete</a>').children('select, input').addClass('narrow');
+        $(this).children('td').first().prepend('<a class="btn btn-warning static-delete-row" style="margin:-10px 2px 0 0;" href="#">delete</a><a class="btn edit-row" style="visibility:hidden;margin:-10px 2px 0 0;" href="#">edit</a>').children('select, input').addClass('narrow');
     });
     var staticdeleterow = function(event) {
         event.preventDefault();
@@ -77,10 +78,17 @@ jQuery(document).ready(function() {
     }
     $('.static-delete-row').bind('click',staticdeleterow);
 
+    // add an edit row that allows a qualifications row to become editable
+    var editrow = function(event) {
+        event.preventDefault();
+        alert('editing');
+    }
+
     // add / remove rows to list items
     $('table.multi').find('tbody').children('tr').each(function() {
-        $(this).children('td').first().prepend('<a class="btn btn-warning delete-row" style="margin:-10px 2px 0 0;" href="#">delete</a>').children('select, input').addClass('narrow');
+        $(this).children('td').first().prepend('<a class="btn btn-warning delete-row" style="margin:-10px 47px 0 0;" href="#">delete</a>').children('select, input').addClass('narrow');
     });
+    $('.edit-row').bind('click',editrow);
     $('table.multi').find('tbody').append('<tr><td><a class="btn btn-success add-row" href="#">add</a></td></tr>');
     var addrow = function(event) {
         event.preventDefault();
@@ -227,11 +235,11 @@ select {
     width:35px;
 }
 textarea.bigfield{
-    width:400px;
+    width:350px;
     height:135px;
 }
 input.bigfield{
-    width:360px;
+    width:310px;
     height:150px;
 }
 fieldset{
@@ -467,6 +475,7 @@ fieldset{
                 		    {% if record %}{% if record.data.status not in ["new","not_eligible","awaiting_interview","interviewed","absent","contact_required","paes_requested","paes_in_progress", "paes_all_received","paes_forwarded", "complete"] %}<option style="color:red;" selected="selected">{{record.data.status}}</option>{% endif %}{% endif %}
                 		    <option>new</option>
               		        <option{% if record %}{% if record.data.status == "not_eligible" %} selected="selected"{% endif %}{% endif %}>not_eligible</option>
+              		        <option{% if record %}{% if record.data.status == "not_applying" %} selected="selected"{% endif %}{% endif %}>not_applying</option>
               		        <option{% if record %}{% if record.data.status == "awaiting_interview" %} selected="selected"{% endif %}{% endif %}>awaiting_interview</option>
               		        <option{% if record %}{% if record.data.status == "interviewed" %} selected="selected"{% endif %}{% endif %}>interviewed</option>
               		        <option{% if record %}{% if record.data.status == "absent" %} selected="selected"{% endif %}{% endif %}>absent</option>
