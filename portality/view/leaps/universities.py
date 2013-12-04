@@ -5,6 +5,7 @@ from flask.ext.login import current_user
 
 import time
 from datetime import datetime
+from copy import deepcopy
 
 from flask_weasyprint import HTML, render_pdf
 
@@ -385,7 +386,7 @@ def _get_students(institution):
                     allowedapps.append(appn)
         if len(allowedapps) > 0:
             for a in allowedapps:
-                s = student
+                s = deepcopy(student)
                 s['applications'] = [a]
                 s['pae_requested'] = a.get('pae_requested','')
                 matchedstudents.append(s)
