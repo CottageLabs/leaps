@@ -66,7 +66,7 @@ def subjects():
 def pae(appid):
     if appid == 'unemailed':
         paes = _get_paes_awaiting_email()
-        resp = make_response( json.dumps(paes) )
+        resp = make_response( json.dumps(paes,indent=4) )
         resp.mimetype = "application/json"
         return resp
 
