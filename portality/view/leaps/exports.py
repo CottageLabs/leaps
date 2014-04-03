@@ -48,7 +48,9 @@ def fixify(strng):
     newstr = ''
     allowed = string.lowercase + string.uppercase + "@!%&*()_-+=;:~#./?[]{}, '" + '0123456789'
     for part in strng:
-        if part in allowed or part == '\n':
+        if part == '\n':
+            newstr += '  '
+        elif part in allowed:
             newstr += part
     return newstr
 
@@ -129,11 +131,11 @@ def download_csv(recordlist,keys):
                                 except:
                                     pass
                         elif key == 'interests':
-                            tidykey += line['title'] + " - " + fixify(line['brief_description'])
+                            tidykey += fixify(line['title']) + " - " + fixify(line['brief_description'])
                         elif key =='qualifications':
                             tidykey += line['year'] + " grade " + line['grade'] + " in " + line['level'] + " " + line['subject']
                         elif key == 'experience':
-                            tidykey += line['date_from'] + " to " + line['date_to'] + " " + line['title'] + " - " + fixify(line['brief_description'])
+                            tidykey += line['date_from'] + " to " + line['date_to'] + " " + fixify(line['title']) + " - " + fixify(line['brief_description'])
                 else:
                     if isinstance(record[key],bool):
                         if record[key]:

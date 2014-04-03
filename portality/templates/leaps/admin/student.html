@@ -69,7 +69,11 @@ jQuery(document).ready(function() {
 
     // fit a static row remover for old content
     $('table.multidisplay').find('tbody').children('tr').each(function() {
-        $(this).children('td').first().prepend('<a class="btn btn-warning static-delete-row" style="margin:-10px 2px 0 0;" href="#">delete</a><a class="btn edit-row" style="visibility:hidden;margin:-10px 2px 0 0;" href="#">edit</a>').children('select, input').addClass('narrow');
+        var adder = '<a class="btn btn-warning static-delete-row" style="margin:-10px 2px 0 0;" href="#">delete</a>';
+        adder += '<a class="btn edit-row" style="margin:-10px 2px 0 0;';
+        if ( !$(this).parents('table').hasClass('editablerows') ) { adder += 'visibility:hidden;'; }
+        adder += '" href="#">edit</a>';
+        $(this).children('td').first().prepend(adder).children('select, input').addClass('narrow');
     });
     var staticdeleterow = function(event) {
         event.preventDefault();
@@ -78,10 +82,33 @@ jQuery(document).ready(function() {
     }
     $('.static-delete-row').bind('click',staticdeleterow);
 
+    var sels = {{ selections|tojson|safe }};
     // add an edit row that allows a qualifications row to become editable
     var editrow = function(event) {
         event.preventDefault();
-        alert('editing');
+        $(this).parent().parent().children('td').each(function() {
+            var val = $(this).children('input').first().val();
+            var name = $(this).children('input').first().attr('name');
+            var seltype = name.split('_')[1] + 's';
+            $(this).children('input[type="hidden"]').remove();
+            $(this).children('input[type="text"]').remove();
+            var selector = '<select name="' + name + '" class="needselect2">';
+            selector += '<option></option>';
+            if ( seltype == "years" ) {
+                var selchoices = ["Third year","Fourth year","Fifth year","Sixth year","Other"];
+            } else {
+                var selchoices = sels[seltype];
+            }
+            for ( var t in selchoices ) {
+                selector += '<option';
+                if ( selchoices[t] == val ) {
+                    selector += ' selected="selected"';
+                }
+                selector += '>' + selchoices[t] + '</option>';
+            }
+            selector += '</select>';
+            $(this).append(selector);
+        })
     }
 
     // add / remove rows to list items
@@ -472,7 +499,7 @@ fieldset{
                     <tr>
 	                    <td style="text-align:right;padding:6px 10px 0 0;">Status</td>
                 		<td><select name="status">
-                		    {% if record %}{% if record.data.status not in ["new","not_eligible","awaiting_interview","interviewed","absent","contact_required","paes_requested","paes_in_progress", "paes_all_received","paes_forwarded", "complete"] %}<option style="color:red;" selected="selected">{{record.data.status}}</option>{% endif %}{% endif %}
+                		    {% if record %}{% if record.data.status not in ["new", "not_eligible", "not_applying", "awaiting_interview", "interviewed", "absent", "contact_required", "paes_requested", "paes_in_progress", "paes_complete", "complete"] %}<option style="color:red;" selected="selected">{{record.data.status}}</option>{% endif %}{% endif %}
                 		    <option>new</option>
               		        <option{% if record %}{% if record.data.status == "not_eligible" %} selected="selected"{% endif %}{% endif %}>not_eligible</option>
               		        <option{% if record %}{% if record.data.status == "not_applying" %} selected="selected"{% endif %}{% endif %}>not_applying</option>
@@ -482,8 +509,7 @@ fieldset{
               		        <option{% if record %}{% if record.data.status == "contact_required" %} selected="selected"{% endif %}{% endif %}>contact_required</option>
               		        <option{% if record %}{% if record.data.status == "paes_requested" %} selected="selected"{% endif %}{% endif %}>paes_requested</option>
               		        <option{% if record %}{% if record.data.status == "paes_in_progress" %} selected="selected"{% endif %}{% endif %}>paes_in_progress</option>
-              		        <option{% if record %}{% if record.data.status == "paes_all_received" %} selected="selected"{% endif %}{% endif %}>paes_all_received</option>
-              		        <option{% if record %}{% if record.data.status == "paes_forwarded" %} selected="selected"{% endif %}{% endif %}>paes_forwarded</option>
+              		        <option{% if record %}{% if record.data.status == "paes_complete" %} selected="selected"{% endif %}{% endif %}>paes_complete</option>
               		        <option{% if record %}{% if record.data.status == "complete" %} selected="selected"{% endif %}{% endif %}>complete</option>
                 		</select></td>
 
@@ -536,7 +562,7 @@ fieldset{
 	<div class="row-fluid">
 	    <div class="span12">		
 
-	        <table class="multidisplay">
+	        <table class="multidisplay editablerows">
                 <thead>
                     <tr>
                         <th>Subject</th>

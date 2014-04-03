@@ -145,7 +145,7 @@
                 <tr><td style="width:30%;"><br /><br /><br /></td><td></td></tr>
             </table> 
 
-            <h2>QUALIFICATIONS</h2>
+            <h2>THIRD / FOURTH YEAR QUALIFICATIONS</h2>
             <table style="page-break-after:always">
                 <tr>
                     <th>Year</th><th>Subject</th><th>Level</th><th>Grade</th>
@@ -160,11 +160,37 @@
                         <tr><td>{{ record.year }}</td><td>{{ record.subject }}</td><td>{{ record.level }}</td><td>{{ record.grade }}</td></tr>
                     {% endif %}
                 {% endfor %}
+                <tr><td>&nbsp;</td><td></td><td></td><td></td></tr>
+                <tr><td>&nbsp;</td><td></td><td></td><td></td></tr>
+                <tr><td>&nbsp;</td><td></td><td></td><td></td></tr>
+                <tr><td>&nbsp;</td><td></td><td></td><td></td></tr>
+                <tr><td>&nbsp;</td><td></td><td></td><td></td></tr>
+                <tr><td>&nbsp;</td><td></td><td></td><td></td></tr>
+            </table> 
+
+            <h2>FIFTH YEAR QUALIFICATIONS</h2>
+            <table style="page-break-after:always">
+                <tr>
+                    <th>Year</th><th>Subject</th><th>Level</th><th>Grade</th>
+                </tr>
                 {% for record in record.qualifications %}
                     {% if record.year|lower == "fifth year" %}
                         <tr><td>{{ record.year }}</td><td>{{ record.subject }}</td><td>{{ record.level }}</td><td>{{ record.grade }}</td></tr>
                     {% endif %}
                 {% endfor %}
+                <tr><td>&nbsp;</td><td></td><td></td><td></td></tr>
+                <tr><td>&nbsp;</td><td></td><td></td><td></td></tr>
+                <tr><td>&nbsp;</td><td></td><td></td><td></td></tr>
+                <tr><td>&nbsp;</td><td></td><td></td><td></td></tr>
+                <tr><td>&nbsp;</td><td></td><td></td><td></td></tr>
+                <tr><td>&nbsp;</td><td></td><td></td><td></td></tr>
+            </table> 
+
+            <h2>SIXTH YEAR / OTHER QUALIFICATIONS</h2>
+            <table style="page-break-after:always">
+                <tr>
+                    <th>Year</th><th>Subject</th><th>Level</th><th>Grade</th>
+                </tr>
                 {% for record in record.qualifications %}
                     {% if record.year|lower == "sixth year" %}
                         <tr><td>{{ record.year }}</td><td>{{ record.subject }}</td><td>{{ record.level }}</td><td>{{ record.grade }}</td></tr>
@@ -182,6 +208,9 @@
                 <tr><td>&nbsp;</td><td></td><td></td><td></td></tr>
                 <tr><td>&nbsp;</td><td></td><td></td><td></td></tr>
             </table> 
+
+
+
 
             <h2>POTENTIAL APPLICATIONS</h2>
             <table style="page-break-after:always">
@@ -257,7 +286,13 @@
                     <td>{% if record.pae_action %}{% if record.pae_action %}Yes{% else %}No{% endif %}{% else %}Yes/No{% endif %}</td>
                 </tr>
                 <tr>
-                    <td colspan="2" style="min-height:60px;">Additional comments<br /><br />{{ record.additional_comments|safe }}</td>
+                    <td colspan="2" style="min-height:400px;">Additional comments<br /><br />{{ record.additional_comments|safe }}</td>
+                </tr>
+                <tr>
+                    <td colspan="2">Signature:</td>
+                </tr>
+                <tr>
+                    <td colspan="2">Date:</td>
                 </tr>
             </table>
 

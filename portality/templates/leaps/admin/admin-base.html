@@ -82,11 +82,11 @@ jQuery(document).ready(function($) {
                 </div>
             </div>
 
-            <div class="alert-messages" style="margin-top:-10px;width:97%;">
+            <div class="alert-messages clearfix" style="margin-top:-10px;width:97%;clear:both;">
             {% with messages = get_flashed_messages(with_categories=True) %}
             {%if messages %}
               {% for category, message in messages %}
-                <div class="alert alert-{{category}} fade in" data-alert="alert">
+                <div class="alert alert-{{category}} fade in clearfix" style="clear:both;" data-alert="alert">
                   <a class="close" data-dismiss="alert" href="#">&times;</a>
                   {{ message }}
                 </div>

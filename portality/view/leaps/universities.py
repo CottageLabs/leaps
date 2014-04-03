@@ -64,63 +64,73 @@ def subjects():
 # view particular PAE request
 @blueprint.route('/pae/<appid>', methods=['GET','POST'])
 def pae(appid):
-    student, application = _get_student_for_appn(appid)
-    
-    if request.method == 'GET':
-        if application.get('pae_reply_received',False):
-            msg = 'This Pre-Application Enquiry was responded to on ' + application['pae_reply_received']
-            if current_user.do_admin:
-                msg += ". The university contacts can view it but cannot alter it."
+    if appid == 'unemailed':
+        paes = _get_paes_awaiting_email()
+        resp = make_response( json.dumps(paes) )
+        resp.mimetype = "application/json"
+        return resp
+
+    else:
+        student, application = _get_student_for_appn(appid)
+        
+        if request.method == 'GET':
+            if application.get('pae_reply_received',False):
+                msg = 'This Pre-Application Enquiry was responded to on ' + application['pae_reply_received']
+                if current_user.do_admin:
+                    msg += ". The university contacts can view it but cannot alter it."
+                else:
+                    msg += ". It cannot be altered."
+                flash(msg)
+            return render_template(
+                'leaps/universities/pae.html', 
+                student=student, 
+                institution=current_user.is_institution, 
+                application=application
+            )
+
+        elif request.method == 'POST':
+            if len(application.get('pae_reply_received','')) > 0 and not current_user.do_admin:
+                abort(401)
+            elif current_user.view_admin and not current_user.do_admin:
+                abort(401)
             else:
-                msg += ". It cannot be altered."
-            flash(msg)
-        return render_template(
-            'leaps/universities/pae.html', 
-            student=student, 
-            institution=current_user.is_institution, 
-            application=application
-        )
+                application['pae_reply_received'] = datetime.now().strftime("%d/%m/%Y")
+                application['consider'] = request.form.get('consider',"")
+                application['conditions'] = request.form.get('conditions',"")
+                application['summer_school'] = request.form.get('summer_school',False)
 
-    elif request.method == 'POST':
-        if len(application.get('pae_reply_received','')) > 0 and not current_user.do_admin:
-            abort(401)
-        elif current_user.view_admin and not current_user.do_admin:
-            abort(401)
-        else:
-            application['pae_reply_received'] = datetime.now().strftime("%d/%m/%Y")
-            application['consider'] = request.form.get('consider',"")
-            application['conditions'] = request.form.get('conditions',"")
-            application['summer_school'] = request.form.get('summer_school',False)
+                # change record status too, if first or last PAE answer
+                if student.data['status'] == 'paes_requested':
+                    student.data['status'] = 'paes_in_progress'
 
-            # change record status too, if first or last PAE answer
-            if student.data['status'] == 'paes_requested':
-                student.data['status'] = 'paes_in_progress'
-            complete = True
-            for appn in student.data['applications']:
-                if not appn.get('pae_reply_received',False):
-                    complete = False
-            if complete and student.data['status'].startswith('paes'):
-                student.data['status'] = 'paes_all_received'
+                '''this has been disabled in favour of only marking complete once emailed by leaps
+                complete = True
+                for appn in student.data['applications']:
+                    if not appn.get('pae_reply_received',False):
+                        complete = False
+                if complete and student.data['status'].startswith('paes'):
+                    student.data['status'] = 'paes_complete'
+                '''
 
-            student.save()
+                student.save()
 
-            try:
-                to = [app.config['LEAPS_EMAIL']]
-                if app.config.get('ADMIN_EMAIL',False):
-                    to.append(app.config['ADMIN_EMAIL'])
-                fro = app.config['LEAPS_EMAIL']
-                subject = "PAE response received"
-                text = "A response has been received via the online PAE response form.\n\n"
-                text += "You can view the response at:\n\n"
-                text += "https://leapssurvey.org/universities/pae/" + appid
-                text += "\n\nThanks!"
-                util.send_mail(to=to, fro=fro, subject=subject, text=text)
-            except:
-                flash('Email failed.')
+                try:
+                    to = [app.config['LEAPS_EMAIL']]
+                    if app.config.get('ADMIN_EMAIL',False):
+                        to.append(app.config['ADMIN_EMAIL'])
+                    fro = app.config['LEAPS_EMAIL']
+                    subject = "PAE response received"
+                    text = "A response has been received via the online PAE response form.\n\n"
+                    text += "You can view the response at:\n\n"
+                    text += "https://leapssurvey.org/universities/pae/" + appid
+                    text += "\n\nThanks!"
+                    util.send_mail(to=to, fro=fro, subject=subject, text=text)
+                except:
+                    flash('Email failed.')
 
-            flash('Thank you very much for submitting your response. It has been saved.')
-            time.sleep(1)
-            return redirect(url_for('.index'))
+                flash('Thank you very much for submitting your response. It has been saved.')
+                time.sleep(1)
+                return redirect(url_for('.index'))
 
 
 # print a PAE form for a student
@@ -142,11 +152,12 @@ def email(appid):
     if current_user.do_admin:
         if appid == "unemailed":
             # get all the PAEs that have been replied to but not yet emailed
-            unemailed = []
-            paes = _get_paes_awaiting_email
+            paes = _get_paes_awaiting_email()
             for appn in paes:
-                student, application = _get_student_for_appn(appid)
-                _email_pae(student, application)
+                student, application = _get_student_for_appn(appn)
+                _email_pae(student, application, False)
+            time.sleep(1)
+            flash(str(len(paes)) + ' PAEs were emailed','success')
             return redirect('/admin')
         else:
             student, application = _get_student_for_appn(appid)
@@ -191,7 +202,7 @@ def export():
 
 
 
-def _email_pae(student, application):
+def _email_pae(student, application, flashable=True):
     try:
         fro = app.config['LEAPS_EMAIL']
 
@@ -266,11 +277,12 @@ def _email_pae(student, application):
             if not appn.get('pae_emailed',False):
                 all_mailed = False
         if all_mailed and student.data['status'].startswith('paes'):
-            student.data['status'] = 'paes_forwarded'
+            student.data['status'] = 'paes_complete'
 
         student.save()
 
-        flash('PAE has been emailed to ' + ",".join(to), "success")
+        if flashable:
+            flash('PAE has been emailed to ' + ",".join(to), "success")
     except:
         flash('There was an error processing the email. Please check and try again.')
 
@@ -329,8 +341,8 @@ def _get_paes_awaiting_email():
                     }
                 ],
                 'must_not':[
-                    {'query_string':
-                        {'query':'*','default_field':'pae_emailed'}
+                    {'term':
+                        {'status'+app.config['FACET_FIELD']:'paes_complete'}
                     }
                 ]
             }
