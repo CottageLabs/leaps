@@ -16,6 +16,7 @@ blueprint = Blueprint('admin', __name__)
 
 
 # restrict everything in admin to logged in users who can view admin, and only accept posts from users that can do admin
+# also allow schools accounts through if getting a pdf in the right circumstances
 @blueprint.before_request
 def restrict():
     if current_user.is_anonymous():

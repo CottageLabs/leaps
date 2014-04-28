@@ -146,7 +146,7 @@
             </table> 
 
             <h2>THIRD / FOURTH YEAR QUALIFICATIONS</h2>
-            <table style="page-break-after:always">
+            <table>
                 <tr>
                     <th>Year</th><th>Subject</th><th>Level</th><th>Grade</th>
                 </tr>
@@ -169,7 +169,7 @@
             </table> 
 
             <h2>FIFTH YEAR QUALIFICATIONS</h2>
-            <table style="page-break-after:always">
+            <table>
                 <tr>
                     <th>Year</th><th>Subject</th><th>Level</th><th>Grade</th>
                 </tr>

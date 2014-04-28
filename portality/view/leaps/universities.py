@@ -195,7 +195,7 @@ def export():
         'main_language_at_home',
         'additional_comments',
         'qualifications',
-        'pae_requested',
+#        'pae_requested',
         'applications'
     ]
     return download_csv(students,keys)

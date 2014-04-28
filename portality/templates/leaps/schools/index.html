@@ -10,7 +10,10 @@ jQuery(document).ready(function() {
 
     <div class="row-fluid">
         <div class="span12">
-            <p style="text-align:right;"><a class="btn" href="/account/logout">Logout</a></p>
+            <p style="text-align:right;">
+                <a class="btn btn-primary" href="/schools/export{% if current_user.view_admin and current_user.is_school != True %}?school={{current_user.is_school}}{% endif %}">Export</a>
+                <a class="btn" href="/account/logout">Logout</a>
+            </p>
         </div>
     </div>
 
@@ -47,6 +50,7 @@ jQuery(document).ready(function() {
                         <th>Date of Birth</th>
                         <th>Status</th>
                         <th>School House</th>
+                        <th>&nbsp;</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -57,6 +61,11 @@ jQuery(document).ready(function() {
                         <td>{{ student.date_of_birth }}</td>
                         <td>{{ student.status }}</td>
                         <td>{{ student.school_house }}</td>
+                        <td>
+                        {% if student.status in ["new","awaiting_interview","absent"] %}
+                        <a class="btn" href="/schools/student/{{student.id}}.pdf" style="width:100px;">Print</a>
+                        {% endif %}
+                        </td>
                     </tr>
                     {% endfor %}
                 </tbody>

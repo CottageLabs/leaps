@@ -83,6 +83,9 @@ def download_csv(recordlist,keys):
     if 'first_name' in keys:
         keys.remove('first_name')
         keys = ['first_name'] + keys
+    if 'applications' in keys:
+        keys.remove('applications')
+        keys = keys + ['applications','pae_requested','pae_replied','pae_consider','pae_conditions']
 
     # make a csv string of the records
     csvdata = StringIO.StringIO()
@@ -109,7 +112,38 @@ def download_csv(recordlist,keys):
             else:
                 csvdata.write(',')
             if key in record.keys():
-                if key in ['applications','interests','qualifications','experience']:
+                if key == 'applications':
+                    appns = ""
+                    reqs = ""
+                    repls = ""
+                    cons = ""
+                    conds = ""
+                    firstline = True
+                    for line in record[key]:
+                        if firstline:
+                            splitter = ""
+                            firstline = False
+                        else:
+                            splitter = '\n'
+                        appns += splitter + line['level'] + " " + line['subject'] + " at " + line['institution']
+                        if 'pae_requested' in line:
+                            reqs += splitter + line['pae_requested']
+                        else:
+                            reqs += splitter
+                        if line.get('pae_reply_received',"") != "":
+                            repls += splitter + line['pae_reply_received']
+                            try:
+                                cons += splitter + line['consider']
+                            except:
+                                cons += splitter
+                            try:
+                                conds += splitter + fixify(line['conditions'])
+                            except:
+                                conds += splitter
+                    tidykey = appns + '","' + reqs + '","' + repls + '","' + cons + '","' + conds
+                elif key in ['pae_requested','pae_replied','pae_consider','pae_conditions']:
+                    tidykey = ""
+                elif key in ['interests','qualifications','experience']:
                     tidykey = ""
                     firstline = True
                     for line in record[key]:
@@ -117,20 +151,7 @@ def download_csv(recordlist,keys):
                             firstline = False
                         else:
                             tidykey += '\n'
-                        if key == 'applications':
-                            if 'pae_requested' in line: tidykey += line['pae_requested'] + " "
-                            tidykey += line['level'] + " " + line['subject'] + " at " + line['institution']
-                            if line.get('pae_reply_received',"") != "":
-                                tidykey += '(' + line['pae_reply_received'] + ') consider '
-                                try:
-                                    tidykey += line['consider'] + ' '
-                                except:
-                                    pass
-                                try:
-                                    tidykey += fixify(line['conditions'])
-                                except:
-                                    pass
-                        elif key == 'interests':
+                        if key == 'interests':
                             tidykey += fixify(line['title']) + " - " + fixify(line['brief_description'])
                         elif key =='qualifications':
                             tidykey += line['year'] + " grade " + line['grade'] + " in " + line['level'] + " " + line['subject']
@@ -144,7 +165,7 @@ def download_csv(recordlist,keys):
                             tidykey = "false"
                     else:
                         tidykey = fixify(record[key].replace('"',"'"))
-                if record['archive'] in ['2012_2013']:
+                if record['archive'] in ['2012_2013'] and key != "applications":
                     try:
                         tidykey = util.dewindows(tidykey)
                     except:
@@ -154,7 +175,8 @@ def download_csv(recordlist,keys):
                     except:
                         pass
                 try:
-                    csvdata.write('"' + tidykey + '"')
+                    if key not in ['pae_requested','pae_replied','pae_consider','pae_conditions']:
+                        csvdata.write('"' + tidykey + '"')
                 except:
                     print "errored on writing a key to the csvdata, probably because of ascii error"
             else:
