@@ -6,10 +6,10 @@ setup(
     packages = find_packages(),
     install_requires = [
         "Flask==0.8",
-        "Flask-Login",
-        "Flask-WTF",
+        "Flask-Login==0.2.6",
+        "Flask-WTF==0.8.4",
         "requests==1.1.0",
-        "Flask-WeasyPrint"
+        "Flask-WeasyPrint==0.4"
     ],
     url = 'http://cottagelabs.com/',
     author = 'Cottage Labs',
