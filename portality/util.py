@@ -12,7 +12,8 @@ from email.MIMEText import MIMEText
 from email.Utils import COMMASPACE, formatdate
 from email import Encoders
 import HTMLParser
-         
+
+from portality.core import app
 
 def dewindows(string):
     h = HTMLParser.HTMLParser()
