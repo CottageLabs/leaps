@@ -43,7 +43,7 @@ def generate_password(length=8):
 
 # TODO: check if emails work without reply-to header set.
 # if not, augment send_mail to accept headers={'Reply-To': addr} or something
-def send_mail(to, fro, subject, text, files=[],server="localhost"):
+'''def send_mail(to, fro, subject, text, files=[],server="localhost"):
     assert type(to)==list
     assert type(files)==list
  
@@ -70,6 +70,48 @@ def send_mail(to, fro, subject, text, files=[],server="localhost"):
  
     smtp = smtplib.SMTP(server)
     smtp.sendmail(fro, to, msg.as_string() )
+    smtp.close()'''
+
+
+def send_mail(to, fro, subject, text, files=[], bcc=[]):
+    assert type(to)==list
+    assert type(files)==list
+    if bcc and not isinstance(bcc, list):
+        bcc = [bcc]
+
+    if app.config.get('CC_ALL_EMAILS_TO'):
+        bcc.append(app.config.get('CC_ALL_EMAILS_TO'))
+ 
+    msg = MIMEMultipart()
+    msg['From'] = fro
+    msg['To'] = COMMASPACE.join(to)
+    msg['Date'] = formatdate(localtime=True)
+    msg['Subject'] = subject
+ 
+    msg.attach( MIMEText(text) )
+ 
+    for file in files:
+        part = MIMEBase('application', "octet-stream")
+        part.set_payload( open(file,"rb").read() )
+        Encoders.encode_base64(part)
+        part.add_header('Content-Disposition', 'attachment; filename="%s"'
+                       % os.path.basename(file))
+        msg.attach(part)
+    
+    # now deal with connecting to the server
+    server = app.config.get("SMTP_SERVER", "localhost")
+    server_port = app.config.get("SMTP_PORT", 25)
+    smtp_user = app.config.get("SMTP_USER")
+    smtp_pass = app.config.get("SMTP_PASS")
+    
+    smtp = smtplib.SMTP()  # just doing SMTP(server, server_port) does not work with Mailtrap
+    # but doing .connect explicitly afterwards works both with Mailtrap and with Mandrill
+    smtp.connect(server, server_port)
+
+    if smtp_user is not None:
+        smtp.login(smtp_user, smtp_pass)
+
+    smtp.sendmail(fro, to + bcc, msg.as_string())
     smtp.close()
 
 
