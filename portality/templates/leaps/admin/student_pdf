@@ -250,15 +250,6 @@
                     <td style="width:30%;">Fathers occupation</td> <td>{{ record.fathers_occupation }}</td>
                 </tr>
                 <tr>
-                    <td style="width:30%;">Number of siblings</td> <td>{{ record.number_of_siblings }}</td>
-                </tr>
-                <tr>
-                    <td style="width:30%;">Place in siblings</td> <td>{{ record.place_in_siblings }}</td>
-                </tr>
-                <tr>
-                    <td style="width:30%;">Household composition</td> <td>{{ record.household_composition }}</td>
-                </tr>
-                <tr>
                     <td style="width:30%;">Main language at home</td> <td>{{ record.main_language_at_home }}</td>
                 </tr>
                 <tr>
