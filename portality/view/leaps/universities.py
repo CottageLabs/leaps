@@ -333,9 +333,6 @@ def _get_paes_awaiting_email():
                         {'archive'+app.config['FACET_FIELD']:'current'}
                     },
                     {'term':
-                        {'school.exact':'TEST'}
-                    },
-                    {'term':
                         {'_process_paes':True}
                     },
                     {'query_string':
