@@ -260,8 +260,7 @@ def _email_pae(student, application, flashable=True):
         }]
 
         try:
-            #util.send_mail(to=to, fro=fro, subject=subject, text=text, files=files)
-            flash('would email ' + ",".join(to))
+            util.send_mail(to=to, fro=fro, subject=subject, text=text, files=files)
         except:
             flash('Email failed')
 
@@ -280,7 +279,7 @@ def _email_pae(student, application, flashable=True):
         if all_mailed and student.data['status'].startswith('paes'):
             student.data['status'] = 'paes_complete'
 
-        #student.save()
+        student.save()
 
         if flashable:
             flash('PAE has been emailed to ' + ",".join(to), "success")
@@ -325,7 +324,6 @@ def _get_student_for_appn(appid):
         return None, None
 
 
-# TODO: TEST THIS
 def _get_paes_awaiting_email():
     qry = {
         'query':{
