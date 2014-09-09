@@ -1099,10 +1099,11 @@ search box - the end user will not know they are happening.
                 window.history.pushState("","search",currurl);
             };
             $.ajax({
-                type: "get",
+                type: "post",
                 url: options.search_url,
-                data: {source: qrystr},
-                // processData: false,
+                data: qrystr,
+                contentType: "application/json",
+                processData: false,
                 dataType: options.datatype,
                 success: showresults
             });
@@ -1346,7 +1347,7 @@ search box - the end user will not know they are happening.
             // check for remote config options, then do first search
             if (options.config_file) {
                 $.ajax({
-                    type: "get",
+                    type: "post",
                     url: options.config_file,
                     dataType: "jsonp",
                     success: function(data) {
@@ -1355,7 +1356,7 @@ search box - the end user will not know they are happening.
                     },
                     error: function() {
                         $.ajax({
-                            type: "get",
+                            type: "post",
                             url: options.config_file,
                             success: function(data) {
                                 options = $.extend(options, $.parseJSON(data));

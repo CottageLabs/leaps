@@ -118,6 +118,8 @@ jQuery(document).ready(function() {
     var triggersave = function(event) {
         if ( !$('#survey').parsley('validate') ) {
             event.preventDefault();
+            $('.part').hide();
+            $(this).closest('.part').show();
             $('#activealert').show();
         }
     };

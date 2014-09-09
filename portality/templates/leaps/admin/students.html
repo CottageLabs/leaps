@@ -20,13 +20,18 @@ jQuery(document).ready(function() {
         delete qry.fields;
         if ( $('#selecttotal').is(':checked') ) {
             qry.size = $.fn.facetview.options.rawdata.hits.total;
+        } else if ( $('#selectall').is(':checked') ) {
         } else {
             $('.selectthis').each(function() {
                 $(this).is(':checked') ? selected.push($(this).attr('name').replace("select_","")) : false;
             });
         }
-        var loc = $(this).attr('href') + '?q=' + JSON.stringify(qry);
-        selected.length > 0 ? loc += '&selected=' + JSON.stringify(selected) : false;
+        var loc = $(this).attr('href');
+        if ( selected.length > 0 ) {
+            loc += '?selected=' + JSON.stringify(selected);
+        } else {
+            loc += '?q=' + JSON.stringify(qry);
+        }
         window.location = loc;
     }
     $('#export').bind('click',getthese);
