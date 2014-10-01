@@ -3,13 +3,13 @@ SECRET_KEY = "default-key" # make this something secret in your overriding app.c
 # contact info
 ADMIN_NAME = "LEAPS"
 ADMIN_EMAIL = "mark@cottagelabs.com"
-LEAPS_EMAIl = "leapspae@ed.ac.uk"
+LEAPS_EMAIL = "leapspae@ed.ac.uk"
 
 # service info
 SERVICE_NAME = "LEAPS"
 SERVICE_TAGLINE = ""
 HOST = "0.0.0.0"
-DEBUG = False
+DEBUG = True
 PORT = 5005
 
 # list of superuser account names

@@ -66,6 +66,7 @@ def subjects():
 def pae(appid):
     if appid == 'unemailed':
         paes = _get_paes_awaiting_email()
+        if 's' in request.values: paes = paes[0:int(request.values['s'])]
         resp = make_response( json.dumps(paes,indent=4) )
         resp.mimetype = "application/json"
         return resp
@@ -153,7 +154,9 @@ def email(appid):
         if appid == "unemailed":
             # get all the PAEs that have been replied to but not yet emailed
             paes = _get_paes_awaiting_email()
+            if 's' in request.values: paes = paes[0:int(request.values['s'])]
             for appn in paes:
+                time.sleep(2)
                 student, application = _get_student_for_appn(appn)
                 _email_pae(student, application, False)
             time.sleep(1)
@@ -264,18 +267,13 @@ def _email_pae(student, application, flashable=True):
         except:
             flash('Email failed')
 
-        application['pae_emailed'] = datetime.now().strftime("%d/%m/%Y")
-        which = 0
-        count = 0
-        for appn in student.data['applications']:
-            if appn['appid'] == application['appid']: which = count
-            count += 1
-        student.data['applications'][which] = application
-
         all_mailed = True
         for appn in student.data['applications']:
-            if not appn.get('pae_emailed',False):
+            if appn['appid'] == application['appid']:
+                appn['pae_emailed'] = datetime.now().strftime("%d/%m/%Y")
+            elif appn.get('pae_requested',False) and not appn.get('pae_emailed',False):
                 all_mailed = False
+
         if all_mailed and student.data['status'].startswith('paes'):
             student.data['status'] = 'paes_complete'
 
