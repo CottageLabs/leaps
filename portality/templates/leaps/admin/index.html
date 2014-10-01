@@ -56,7 +56,7 @@
         <div class="alert alert-info" style="min-height:110px;">
             <p><span style="font-size:24px;">{{stats.number_of_pae_awaiting_email}}</span> PAE answers have not been emailed.</p>
             {% if stats.number_of_pae_awaiting_email != 0 %}
-            <p><a class="btn btn-info" href="/universities/pae/unemailed">Email the {{stats.number_of_pae_awaiting_email}} outstanding PAEs</a></p>
+            <p><a class="btn btn-info" href="/universities/pae/unemailed/email">Email the {{stats.number_of_pae_awaiting_email}} outstanding PAEs</a></p>
             {% endif %}
             <p><a class="btn btn-info" href="/universities">Go to the universities PAE view</a></p>
         </div>
