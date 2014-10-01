@@ -156,7 +156,7 @@ def email(appid):
             paes = _get_paes_awaiting_email()
             if 's' in request.values: paes = paes[0:int(request.values['s'])]
             for appn in paes:
-                time.sleep(5)
+                time.sleep(1)
                 student, application = _get_student_for_appn(appn)
                 _email_pae(student, application, False)
             time.sleep(1)
