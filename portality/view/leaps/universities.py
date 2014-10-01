@@ -262,10 +262,7 @@ def _email_pae(student, application, flashable=True):
             'filename': 'LEAPSPAE_' + student.data['first_name'] + '_' + student.data['last_name'] + '_' + application['institution'] + '.pdf'
         }]
 
-        try:
-            util.send_mail(to=to, fro=fro, subject=subject, text=text, files=files)
-        except:
-            flash('Email failed')
+        util.send_mail(to=to, fro=fro, subject=subject, text=text, files=files)
 
         all_mailed = True
         for appn in student.data['applications']:
