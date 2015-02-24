@@ -975,7 +975,9 @@ fieldset{
                     <tr style="height:40px;">
                         <td></td>
                         <td></td>
-                        <td></td>
+                        <td><input type="checkbox" name="summer_school"
+                		{% if record %}{% if record.data.summer_school %}{% if record.data.summer_school == "yes" %} checked="checked"{% endif %}{% endif %}{% endif %}
+                		> Summer school</td>
                         <td><input type="checkbox" name="pae_action"
                 		{% if record %}{% if record.data.pae_action %} checked="checked"{% endif %}{% endif %}
                 		> PAE action</td>

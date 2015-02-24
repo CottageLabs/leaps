@@ -100,7 +100,12 @@ class Student(DomainObject):
         for key in request.form.keys():
             if not key.startswith("qualification_") and not key.startswith("interest_") and not key.startswith("application_") and not key.startswith("experience_") and key not in ['submit']:
                 val = request.form[key]
-                if val == "on":
+                if key == "summer_school":
+                    if val == "on":
+                        rec[key] = "yes"
+                    else:
+                        rec[key] = "no"
+                elif val == "on":
                     rec[key] = True
                 elif val == "off":
                     rec[key] = False

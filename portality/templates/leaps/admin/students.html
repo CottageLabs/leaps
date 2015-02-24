@@ -35,7 +35,7 @@ jQuery(document).ready(function() {
     }
     $('#export').bind('click',getthese);
     $('#print').bind('click',getthese);
-
+    
     var post = function() {
         if ( $('#default_current').length == 0 ) {
             $('body').append('<div id="default_current" style="display:none;"></div>');
@@ -75,7 +75,8 @@ jQuery(document).ready(function() {
             {'field':'leaps_category.exact', 'display': 'LEAPS category', 'size':1000},
             {'field':'simd_decile.exact', 'display': 'SIMD decile', 'size':1000},
             {'field':'status.exact', 'display': 'status', 'size':1000},
-            {'field':'applications.institution.exact', 'display': 'Application institutions', 'size':1000}
+            {'field':'applications.institution.exact', 'display': 'Application institutions', 'size':1000},
+            {'field':'summer_school.exact', 'display': 'Summer school'}
         ],
         fields: ['last_name', 'first_name', 'date_of_birth','post_code','simd_decile','school','status','archive','id'],
         paging: {
