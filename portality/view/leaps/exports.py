@@ -74,6 +74,12 @@ def download_csv(recordlist,keys):
     if 'school' in keys:
         keys.remove('school')
         keys = ['school'] + keys
+    if 'post_code' in keys:
+        keys.remove('post_code')
+        keys = ['post_code'] + keys
+    if 'address' in keys:
+        keys.remove('address')
+        keys = ['address'] + keys
     if 'date_of_birth' in keys:
         keys.remove('date_of_birth')
         keys = ['date_of_birth'] + keys
@@ -111,7 +117,7 @@ def download_csv(recordlist,keys):
                 firstkey = False
             else:
                 csvdata.write(',')
-            if key in record.keys():
+            if key in record.keys() or key == 'address':
                 if key == 'applications':
                     appns = ""
                     reqs = ""
@@ -157,6 +163,15 @@ def download_csv(recordlist,keys):
                             tidykey += line['year'] + " grade " + line['grade'] + " in " + line['level'] + " " + line['subject']
                         elif key == 'experience':
                             tidykey += line['date_from'] + " to " + line['date_to'] + " " + fixify(line['title']) + " - " + fixify(line['brief_description'])
+                elif key == 'address':
+                    if record.get('address_line_1',False):
+                        tidykey = fixify(record['address_line_1']) + '\r\n'
+                    else:
+                        tidykey = ''
+                    if record.get('address_line_2',False):
+                        tidykey += fixify(record['address_line_2']) + '\r\n'
+                    if record.get('city',False):
+                        tidykey += fixify(record['city'])
                 else:
                     if isinstance(record[key],bool):
                         if record[key]:
