@@ -13,3 +13,5 @@ build/*
 dist/*
 gallery/*
 app.cfg
+.nide
+.npmignore

@@ -165,8 +165,8 @@ class DomainObject(UserDict.IterableUserDict):
             else:
                 query[k] = v
 
-        if endpoint in ['_mapping']:
-            r = requests.get(cls.target() + recid + endpoint)
+        if endpoint == '_mapping':
+            r = requests.get(cls.target().replace('/' + cls.__type__ + '/','/_mapping/' + cls.__type__))
         else:
             r = requests.post(cls.target() + recid + endpoint, data=json.dumps(query))
         return r.json()

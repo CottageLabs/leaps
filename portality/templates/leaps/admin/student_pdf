@@ -47,7 +47,10 @@
 
             <table>
                 <tr>
-                    <td style="width:30%;">First name</td> <td>{{ record.first_name }}</td>
+                    <td style="width:30%;">First name</td> <td>{{ record.first_name }}
+                    {% if record.first_name|length == 0 %}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{% endif %}</td>
                 </tr>
                 <tr>
                     <td style="width:30%;">Last name</td> <td>{{ record.last_name }}</td>
@@ -106,9 +109,9 @@
                     <td style="width:30%;">Had recent careers interview?</td>
                     <td>{% if record.had_recent_careers_interview %}{% if record.had_recent_careers_interview == "Yes" %}Yes{% else %}No{% endif %}{% else %}Yes/No{% endif %}</td>
                 </tr>
+                <tr><td style="width:30%;">Any career plans</td><td>{{ record.career_plans }}<br /><br /><br /></td></tr>
                 <tr><td style="width:30%;">Any additional qualifications</td><td>{{ record.additional_qualifications }}<br /><br /><br /></td></tr>
                 <tr><td style="width:30%;">Any issues affecting academic performance</td><td>{{ record.issues_affecting_performance }}<br /><br /><br /></td></tr>
-                <tr><td style="width:30%;">Any career plans</td><td>{{ record.career_plans }}<br /><br /><br /></td></tr>
             </table>
 
             <h2>INTERESTS</h2>
@@ -160,12 +163,17 @@
                         <tr><td>{{ record.year }}</td><td>{{ record.subject }}</td><td>{{ record.level }}</td><td>{{ record.grade }}</td></tr>
                     {% endif %}
                 {% endfor %}
-                <tr><td>&nbsp;</td><td></td><td></td><td></td></tr>
-                <tr><td>&nbsp;</td><td></td><td></td><td></td></tr>
-                <tr><td>&nbsp;</td><td></td><td></td><td></td></tr>
-                <tr><td>&nbsp;</td><td></td><td></td><td></td></tr>
-                <tr><td>&nbsp;</td><td></td><td></td><td></td></tr>
-                <tr><td>&nbsp;</td><td></td><td></td><td></td></tr>
+                {% if record.qualifications|length == 0 %}
+                <tr><td>&nbsp;<br>&nbsp;</td><td></td><td></td><td></td></tr>
+                <tr><td>&nbsp;<br>&nbsp;</td><td></td><td></td><td></td></tr>
+                <tr><td>&nbsp;<br>&nbsp;</td><td></td><td></td><td></td></tr>
+                {% endif %}
+                <tr><td>&nbsp;<br>&nbsp;</td><td></td><td></td><td></td></tr>
+                <tr><td>&nbsp;<br>&nbsp;</td><td></td><td></td><td></td></tr>
+                <tr><td>&nbsp;<br>&nbsp;</td><td></td><td></td><td></td></tr>
+                <tr><td>&nbsp;<br>&nbsp;</td><td></td><td></td><td></td></tr>
+                <tr><td>&nbsp;<br>&nbsp;</td><td></td><td></td><td></td></tr>
+                <tr><td>&nbsp;<br>&nbsp;</td><td></td><td></td><td></td></tr>
             </table> 
 
             <h2>FIFTH YEAR QUALIFICATIONS</h2>
@@ -178,12 +186,14 @@
                         <tr><td>{{ record.year }}</td><td>{{ record.subject }}</td><td>{{ record.level }}</td><td>{{ record.grade }}</td></tr>
                     {% endif %}
                 {% endfor %}
-                <tr><td>&nbsp;</td><td></td><td></td><td></td></tr>
-                <tr><td>&nbsp;</td><td></td><td></td><td></td></tr>
-                <tr><td>&nbsp;</td><td></td><td></td><td></td></tr>
-                <tr><td>&nbsp;</td><td></td><td></td><td></td></tr>
-                <tr><td>&nbsp;</td><td></td><td></td><td></td></tr>
-                <tr><td>&nbsp;</td><td></td><td></td><td></td></tr>
+                {% if record.qualifications|length == 0 %}
+                <tr><td>&nbsp;<br>&nbsp;</td><td></td><td></td><td></td></tr>
+                <tr><td>&nbsp;<br>&nbsp;</td><td></td><td></td><td></td></tr>
+                {% endif %}
+                <tr><td>&nbsp;<br>&nbsp;</td><td></td><td></td><td></td></tr>
+                <tr><td>&nbsp;<br>&nbsp;</td><td></td><td></td><td></td></tr>
+                <tr><td>&nbsp;<br>&nbsp;</td><td></td><td></td><td></td></tr>
+                <tr><td>&nbsp;<br>&nbsp;</td><td></td><td></td><td></td></tr>
             </table> 
 
             <h2>SIXTH YEAR / OTHER QUALIFICATIONS</h2>
@@ -201,12 +211,14 @@
                         <tr><td>{{ record.year }}</td><td>{{ record.subject }}</td><td>{{ record.level }}</td><td>{{ record.grade }}</td></tr>
                     {% endif %}
                 {% endfor %}
-                <tr><td>&nbsp;</td><td></td><td></td><td></td></tr>
-                <tr><td>&nbsp;</td><td></td><td></td><td></td></tr>
-                <tr><td>&nbsp;</td><td></td><td></td><td></td></tr>
-                <tr><td>&nbsp;</td><td></td><td></td><td></td></tr>
-                <tr><td>&nbsp;</td><td></td><td></td><td></td></tr>
-                <tr><td>&nbsp;</td><td></td><td></td><td></td></tr>
+                {% if record.qualifications|length == 0 %}
+                <tr><td>&nbsp;<br>&nbsp;</td><td></td><td></td><td></td></tr>
+                <tr><td>&nbsp;<br>&nbsp;</td><td></td><td></td><td></td></tr>
+                {% endif %}
+                <tr><td>&nbsp;<br>&nbsp;</td><td></td><td></td><td></td></tr>
+                <tr><td>&nbsp;<br>&nbsp;</td><td></td><td></td><td></td></tr>
+                <tr><td>&nbsp;<br>&nbsp;</td><td></td><td></td><td></td></tr>
+                <tr><td>&nbsp;<br>&nbsp;</td><td></td><td></td><td></td></tr>
             </table> 
 
 
@@ -220,12 +232,12 @@
                 {% for record in record.applications %}
                     <tr><td>{{ record.institution }}</td><td>{{ record.subject }}</td><td>{{ record.level }}</td><td>{{ record.course_code }}</td><td></td><td></td></tr>
                 {% endfor %}
-                <tr><td>&nbsp;</td><td></td><td></td><td></td><td></td><td></td></tr>
-                <tr><td>&nbsp;</td><td></td><td></td><td></td><td></td><td></td></tr>
-                <tr><td>&nbsp;</td><td></td><td></td><td></td><td></td><td></td></tr>
-                <tr><td>&nbsp;</td><td></td><td></td><td></td><td></td><td></td></tr>
-                <tr><td>&nbsp;</td><td></td><td></td><td></td><td></td><td></td></tr>
-                <tr><td>&nbsp;</td><td></td><td></td><td></td><td></td><td></td></tr>
+                <tr><td>&nbsp;<br>&nbsp;</td><td></td><td></td><td></td><td></td><td></td></tr>
+                <tr><td>&nbsp;<br>&nbsp;</td><td></td><td></td><td></td><td></td><td></td></tr>
+                <tr><td>&nbsp;<br>&nbsp;</td><td></td><td></td><td></td><td></td><td></td></tr>
+                <tr><td>&nbsp;<br>&nbsp;</td><td></td><td></td><td></td><td></td><td></td></tr>
+                <tr><td>&nbsp;<br>&nbsp;</td><td></td><td></td><td></td><td></td><td></td></tr>
+                <tr><td>&nbsp;<br>&nbsp;</td><td></td><td></td><td></td><td></td><td></td></tr>
             </table> 
 
             <h2 style="page-break-before:always">INTERVIEW</h2>
