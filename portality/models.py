@@ -341,6 +341,7 @@ class School(DomainObject):
                 except:
                     pass
 
+        rec['shep_school'] = False
         for key in request.form.keys():
             if not key.startswith("contact_") and not key.startswith("subject_") and key not in ['submit']:
                 val = request.form[key]
