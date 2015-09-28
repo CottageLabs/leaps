@@ -344,10 +344,11 @@ class School(DomainObject):
         for key in request.form.keys():
             if not key.startswith("contact_") and not key.startswith("subject_") and key not in ['submit']:
                 val = request.form[key]
-                if val == "on":
-                    rec[key] = True
-                elif val == "off":
-                    rec[key] = False
+                if key == 'shep_school':
+                    if val == "on" or val == "yes":
+                        rec[key] = True
+                    else:
+                        rec[key] = False
                 else:
                     rec[key] = val
 
