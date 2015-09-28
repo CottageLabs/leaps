@@ -76,6 +76,10 @@ class Student(DomainObject):
                 rec['shep_school'] = s.get('hits',{}).get('hits',[])[0]['_source'].get('shep_school','unknown')
                 rec['local_authority'] = s.get('hits',{}).get('hits',[])[0]['_source'].get('local_authority','unknown')
 
+        if rec.get('shep_school',False) == "yes":
+            rec['shep_school'] = True
+        if rec.get('shep_school',False) == "no":
+            rec['shep_school'] = False                
         if rec.get('shep_school',False) == "on":
             rec['shep_school'] = True
         if rec.get('shep_school',False) == "off":
@@ -248,14 +252,6 @@ class School(DomainObject):
             except:
                 rec['author'] = "anonymous"
 
-        if rec.get('shep_school',False) == "on":
-            rec['shep_school'] = True
-        if rec.get('shep_school',False) == "off":
-            rec['shep_school'] = False                
-        if rec.get('shep_school',False) == 1:
-            rec['shep_school'] = True
-        if rec.get('shep_school',False) == 0:
-            rec['shep_school'] = False          
         return rec
 
     def save(self):
