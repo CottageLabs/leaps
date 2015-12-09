@@ -215,7 +215,14 @@ def _email_pae(student, application, flashable=True):
         if 'email' in student:
             to.append(student['email'])
 
-        text = 'Dear ' + student.data['first_name'] + " " + student.data['last_name'] + ',\n\n'
+        try:
+            studentname = student.data['first_name'] + " " + student.data['last_name']
+            studentname = studentname.decode("utf-8")
+            studentname = studentname.encode("ascii","ignore")
+        except:
+            studentname = student.data['first_name'] + " " + student.data['last_name']
+        
+        text = 'Dear ' + studentname + ',\n\n'
 
         school = models.School.pull_by_name(student.data['school'])
         if school is not None:
@@ -259,7 +266,7 @@ def _email_pae(student, application, flashable=True):
 
         files = [{
             'content': paepdf(application['appid'],giveback=True), 
-            'filename': 'LEAPSPAE_' + student.data['first_name'] + '_' + student.data['last_name'] + '_' + application['institution'] + '.pdf'
+            'filename': 'LEAPSPAE_' + studentname.replace(" ","_") + '_' + application['institution'] + '.pdf'
         }]
 
         util.send_mail(to=to, fro=fro, subject=subject, text=text, files=files)
