@@ -76,7 +76,7 @@ def export():
 
 
 def _get_students(school):
-    qry = {'sort':[{'created_date':'desc'}],query':{'bool':{'must':[{'term':{'archive.exact':'current'}}]}},'size':10000}
+    qry = {'sort':[{'created_date':'desc'}],'query':{'bool':{'must':[{'term':{'archive.exact':'current'}}]}},'size':10000}
     # NOTE the index mapping has date detection off, so this sort may not be in correct order. If not, add a sort function here
     # the format is %Y-%m-%d %H%M
     if not isinstance(school,bool):
