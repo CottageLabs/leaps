@@ -101,17 +101,19 @@
 
             <h2>EXTRA ACADEMIC AND CAREER INFORMATION</h2>
             <table style="page-break-after:always">
-                <tr>
+                {% if record.late_decision_to_apply %}<tr>
                     <td style="width:30%;">Late decision to apply?</td>
                     <td>{% if record.late_decision_to_apply %}{% if record.late_decision_to_apply == "Yes" %}Yes{% else %}No{% endif %}{% else %}Yes/No{% endif %}</td>
-                </tr>
-                <tr>
+                </tr>{% endif %}
+                {% if record.had_recent_careers_interview %}<tr>
                     <td style="width:30%;">Had recent careers interview?</td>
                     <td>{% if record.had_recent_careers_interview %}{% if record.had_recent_careers_interview == "Yes" %}Yes{% else %}No{% endif %}{% else %}Yes/No{% endif %}</td>
-                </tr>
+                </tr>{% endif %}
                 <tr><td style="width:30%;">Any career plans</td><td>{{ record.career_plans }}<br /><br /><br /></td></tr>
                 <tr><td style="width:30%;">Any additional qualifications</td><td>{{ record.additional_qualifications }}<br /><br /><br /></td></tr>
-                <tr><td style="width:30%;">Any issues affecting academic performance</td><td>{{ record.issues_affecting_performance }}<br /><br /><br /></td></tr>
+                <tr><td style="width:30%;">Any issues affecting academic performance e.g. a period of absence from school, 
+                health issues, caring responsibilities, bereavement. (We can discuss if this would be relevant to share with university 
+                admissions tutors.)</td><td>{{ record.issues_affecting_performance }}<br /><br /><br /></td></tr>
             </table>
 
             <h2>INTERESTS</h2>

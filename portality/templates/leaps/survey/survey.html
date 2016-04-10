@@ -194,7 +194,28 @@ jQuery(document).ready(function() {
     $('.institutionselector').bind('change',limitsubjects);
     $('.subjectselector').bind('change',limitlevels);
     
-
+		function checkEnter(e){
+			 e = e || event;
+			 var txtArea = /textarea/i.test((e.target || e.srcElement).tagName);
+			 return txtArea || (e.keyCode || e.which || e.charCode || 0) !== 13;
+		}
+		document.querySelector('form').onkeypress = checkEnter;
+	
+		$(function(){
+				/*
+				 * this swallows backspace keys on any non-input element.
+				 * stops backspace -> back
+				 */
+				var rx = /INPUT|SELECT|TEXTAREA/i;
+				$(document).bind("keydown keypress", function(e){
+						if( e.which == 8 ){ // 8 == backspace
+								if(!rx.test(e.target.tagName) || e.target.disabled || e.target.readOnly ){
+										e.preventDefault();
+								}
+						}
+				});
+		});
+	
 });
 </script>
 
@@ -248,7 +269,8 @@ input.bigfield{
 	<div class="row-fluid">
 	    <div class="span12">
 	        <p>This survey contains six parts. You must complete every part in order to successfully save your responses. It should take no more than 30 minutes to complete, if you prepare in advance. Please have details of your qualifications, personal interests, work experience, and possible University or College applications to hand before you start this survey.</p>
-	        <p><strong>DO NOT CLOSE YOUR BROWSER WHILST COMPLETING THE SURVEY.</strong></p>
+					<p>It is recommended that you complete this survey on a PC as it is easier than using an ipad or tablet.</p>
+					<p><strong>DO NOT CLOSE YOUR BROWSER WHILST COMPLETING THE SURVEY.</strong></p>
 	        <p>Only the students of <strong>participating schools</strong> can complete the survey.</p>
 	        <p>Each part presents <strong>instructions at the top</strong> on how to complete the questions in that part.</p> 
 	        <p>Some fields will offer <strong>suggestions as you type</strong>. Choose a suitable suggestion if one is presented, otherwise 
@@ -325,6 +347,8 @@ input.bigfield{
                 		    <option></option>
                 		    <option>Male</option>
                 		    <option>Female</option>
+                		    <option>Other</option>
+                		    <option>Do not wish to disclose</option>
                 		</select></td>
                     </tr>
         	        <tr>
@@ -332,7 +356,7 @@ input.bigfield{
                 		<td><input type="text" name="email" data-type="email" data-required="true" data-trigger="keyup focusout"></td>
 
 	                    <td style="text-align:right;padding:6px 10px 0 100px;">Address</td>
-                		<td><input type="text" name="address_line_1"></td>
+                		<td><input type="text" name="address_line_1" data-required="true"></td>
                     </tr>
         	        <tr>
 	                    <td style="text-align:right;padding:6px 10px 0 0;">Home phone</td>
@@ -346,7 +370,7 @@ input.bigfield{
                 		<td><input type="text" name="mobile_phone"></td>
 
 	                    <td style="text-align:right;padding:6px 10px 0 100px;">City</td>
-                		<td><input type="text" name="city"></td>
+                		<td><input type="text" name="city" data-required="true"></td>
                     </tr>
         	        <tr>
         	            <td></td>
@@ -593,7 +617,12 @@ input.bigfield{
 	    <div class="span12">
 	        <div class="well">
 	            <h2>Interests and achievements</h2>
-	            <p><strong>Part 4 of 6</strong> - please give short details of your extra-curricular interests and achievements e.g. sport, music, drama, Duke of Edinburgh, prefect etc and they will be discussed in more detail at your interview. Use one box per interest, up to the maximum of 6.</p>
+	            <p><strong>Part 4 of 6</strong> - please give short details of your extra-curricular interests and achievements e.g. 
+								sport, music, drama, Duke of Edinburgh, prefect etc and they will be discussed in more detail at your interview. 
+								It is recommended that you write your own copy of interests, achievements and work experience in a document elsewhere, 
+								then insert them into this form. You will find the document useful for your personal statement in your UCAS application. 
+								Remember - you won't be able to return to this form! 
+								Use one box per interest, up to the maximum of 6.</p>
 	        </div>
 	    </div>
 	</div>
@@ -610,7 +639,7 @@ input.bigfield{
                 <tbody>
                     <tr>
                 		<td><input type="text" name="interest_title"></td>
-                		<td><textarea class="bigfield" name="interest_brief_description" data-maxwords="200" data-trigger="keyup focusout change"></textarea></td>
+                		<td><textarea class="bigfield" name="interest_brief_description" data-required="true" data-maxwords="200" data-trigger="keyup focusout change"></textarea></td>
                     </tr>
                 </tbody>
 	        </table>
@@ -656,7 +685,7 @@ input.bigfield{
                 		<td><input type="text" class="datepicker narrow" name="experience_date_from"></td>
                 		<td><input type="text" class="datepicker narrow" name="experience_date_to" placeholder="unless ongoing"></td>
                 		<td><input type="text" class="narrow" name="experience_title"></td>
-                		<td><textarea class="bigfield" name="experience_brief_description" data-maxwords="200" data-trigger="keyup focusout change"></textarea></td>
+                		<td><textarea class="bigfield" name="experience_brief_description" data-required="true" data-maxwords="200" data-trigger="keyup focusout change"></textarea></td>
                     </tr>
                 </tbody>
 	        </table>
@@ -687,22 +716,6 @@ input.bigfield{
 	    <div class="span12">		
 	        <table>
                 <tbody>
-        	        <tr>
-	                    <td style="text-align:right;padding:6px 10px 0 0;">Did you make a late decision to consider higher education?</td>
-                		<td><select name="late_decision_to_apply" data-required="true">
-                		    <option></option>
-                		    <option>No</option>
-                		    <option>Yes</option>
-                		</select></td>
-                    </tr>
-        	        <tr>
-	                    <td style="text-align:right;padding:6px 10px 0 0;">Have you had a careers interview in the last 3 months?</td>
-                		<td><select name="had_recent_careers_interview" data-required="true">
-                		    <option></option>
-                		    <option>No</option>
-                		    <option>Yes</option>
-                		</select></td>
-                    </tr>
                     <tr>
                         <td style="text-align:right;padding:6px 10px 0 0;">Please describe any career plans you may have</td>
                         <td><textarea class="bigfield" name="career_plans"></textarea></td>
@@ -712,7 +725,9 @@ input.bigfield{
                         <td><textarea class="bigfield" name="additional_qualifications"></textarea></td>
                     </tr>
                     <tr>
-                        <td style="text-align:right;padding:6px 10px 0 0;">Describe any issues affecting academic performance</td>
+                        <td style="text-align:right;padding:6px 10px 0 0;">If you feel your academic performance has been affected at any time in school, 
+												please tell us about it here e.g. a period of absence from school, health issues, caring responsibilities, bereavement. (At your 
+												LEAPS interview, we may discuss if this would be relevant to share with university admissions tutors.)</td>
                         <td><textarea class="bigfield" name="issues_affecting_performance"></textarea></td>
                     </tr>
                 </tbody>
