@@ -370,6 +370,12 @@ fieldset{
                 		    <option
                 		    {% if record %}{% if record.data.gender == "Female" %} selected="selected"{% endif %}{% endif %}
                 		    >Female</option>
+                		    <option
+												{% if record %}{% if record.data.gender == "Other" %} selected="selected"{% endif %}{% endif %}
+												>Other</option>
+                		    <option
+	                		  {% if record %}{% if record.data.gender == "Do not wish to disclose" %} selected="selected"{% endif %}{% endif %}
+												>Do not wish to disclose</option>
                 		</select></td>
                     </tr>
         	        <tr>
@@ -876,6 +882,7 @@ fieldset{
 	    <div class="span12">		
 	        <table>
                 <tbody>
+									{% if record %}{% if record.data.late_decision_to_apply %}
         	        <tr>
 	                    <td style="text-align:right;padding:6px 10px 0 0;">Did you make a late decision to consider higher education?</td>
                 		<td><select name="late_decision_to_apply">
@@ -887,7 +894,9 @@ fieldset{
                 		    {% if record %}{% if record.data.late_decision_to_apply == "Yes" %} selected="selected"{% endif %}{% endif %}                		    
                 		    >Yes</option>
                 		</select></td>
-                    </tr>
+                  </tr>
+									{% endif %}{% endif %}
+									{% if record %}{% if record.data.had_recent_careers_interview %}
         	        <tr>
 	                    <td style="text-align:right;padding:6px 10px 0 0;">Have you had a careers interview in the last 3 months?</td>
                 		<td><select name="had_recent_careers_interview">
@@ -899,7 +908,8 @@ fieldset{
                 		    {% if record %}{% if record.data.had_recent_careers_interview == "Yes" %} selected="selected"{% endif %}{% endif %}
                 		    >Yes</option>
                 		</select></td>
-                    </tr>
+                  </tr>
+									{% endif %}{% endif %}
                     <tr>
                         <td style="text-align:right;padding:6px 10px 0 0;">List any additional qualifications not already mentioned</td>
                         <td><textarea class="bigfield" name="additional_qualifications">{% if record %}{{record.data.additional_qualifications}}{% endif %}</textarea></td>
