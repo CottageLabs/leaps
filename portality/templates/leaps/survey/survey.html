@@ -639,7 +639,8 @@ input.bigfield{
                 <tbody>
                     <tr>
                 		<td><input type="text" name="interest_title"></td>
-                		<td><textarea class="bigfield" name="interest_brief_description" data-required="true" data-maxwords="200" data-trigger="keyup focusout change"></textarea></td>
+									  <!-- add data-required="true" to the following textarea to actually make the maxwords take effect -->
+                		<td><textarea class="bigfield" name="interest_brief_description" data-maxwords="200" data-trigger="keyup focusout change"></textarea></td>
                     </tr>
                 </tbody>
 	        </table>
@@ -690,7 +691,8 @@ input.bigfield{
                 		<td><input type="text" class="datepicker narrow" name="experience_date_from"></td>
                 		<td><input type="text" class="datepicker narrow" name="experience_date_to" placeholder="unless ongoing"></td>
                 		<td><input type="text" class="narrow" name="experience_title"></td>
-                		<td><textarea class="bigfield" name="experience_brief_description" data-required="true" data-maxwords="200" data-trigger="keyup focusout change"></textarea></td>
+									  <!-- add data-required="true" to the following textarea to actually make the maxwords take effect -->
+                		<td><textarea class="bigfield" name="experience_brief_description" data-maxwords="200" data-trigger="keyup focusout change"></textarea></td>
                     </tr>
                 </tbody>
 	        </table>
