@@ -172,16 +172,12 @@ def student(uuid=None):
 # move a particular record from one archive to another
 @blueprint.route('/student/<uuid>/archive/<aid>', methods=['POST'])
 def archivestudent(uuid=None,aid=None):
-    if uuid is None or aid is None:
-        return render_template('leaps/admin/students.html')
-
+    if uuid is None or aid is None: abort(404)
     student = models.Student.pull(uuid)
     if student is None: abort(404)
-    
     student.data['archive'] = aid
     student.save()
-
-    return
+    return redirect(url_for('.archives'))
 
 # print a student as a pdf
 @blueprint.route('/student/<sid>.pdf', methods=['GET'])

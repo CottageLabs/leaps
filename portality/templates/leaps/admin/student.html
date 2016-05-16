@@ -241,7 +241,8 @@ jQuery(document).ready(function() {
 						method:'POST',
 						url:url
 				});
-				setTimeout(function() { window.location = url; }, 2000);
+				alert('Record move to ' + archive + '. Please exit this record and go back to manage supporting data.');
+				//setTimeout(function() { window.location = url; }, 2000);
 		}
  		$('#move').bind('click',movearchive);
 {% else %}
@@ -547,7 +548,7 @@ fieldset{
 													{% endfor %}
 													</select>
 													{% if current_user.do_admin and record and record.archive != 'current' %}
-													<a id="move" class="btn" href="#">Move</a>
+													<a id="move" class="btn" href="#" style="margin-top:-4px;">Move</a>
 													{% endif %}
 											</td>
                     </tr>
