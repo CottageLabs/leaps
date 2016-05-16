@@ -170,7 +170,7 @@ def student(uuid=None):
 
 
 # move a particular record from one archive to another
-@blueprint.route('/student/<uuid>/archive/<aid>', methods=['POST'])
+@blueprint.route('/student/<uuid>/archive/<aid>', methods=['GET'])
 def archivestudent(uuid=None,aid=None):
     if uuid is None or aid is None: abort(404)
     student = models.Student.pull(uuid)
