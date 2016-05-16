@@ -85,27 +85,27 @@
                     {% endif %}
                 {% endfor %}
             {% else %}
-                {% for object in student.qualifications %}
+                {% for object in record.qualifications %}
                     {% if object.year|lower == "third year" %}
                         <tr><td>{{ object.year }}</td><td>{{ object.level }}</td><td>{{ object.subject }}</td><td>{{ object.grade }}</td></tr>
                     {% endif %}
                 {% endfor %}
-                {% for object in student.qualifications %}
+                {% for object in record.qualifications %}
                     {% if object.year|lower == "fourth year" %}
                         <tr><td>{{ object.year }}</td><td>{{ object.level }}</td><td>{{ object.subject }}</td><td>{{ object.grade }}</td></tr>
                     {% endif %}
                 {% endfor %}
-                {% for object in student.qualifications %}
+                {% for object in record.qualifications %}
                     {% if object.year|lower == "fifth year" %}
                         <tr><td>{{ object.year }}</td><td>{{ object.level }}</td><td>{{ object.subject }}</td><td>{{ object.grade }}</td></tr>
                     {% endif %}
                 {% endfor %}
-                {% for object in student.qualifications %}
+                {% for object in record.qualifications %}
                     {% if object.year|lower == "sixth year" %}
                         <tr><td>{{ object.year }}</td><td>{{ object.level }}</td><td>{{ object.subject }}</td><td>{{ object.grade }}</td></tr>
                     {% endif %}
                 {% endfor %}
-                {% for object in student.qualifications %}
+                {% for object in record.qualifications %}
                     {% if object.year|lower != "third year" and object.year|lower != "fourth year" and object.year|lower != "fifth year" and object.year|lower != "sixth year" %}
                         <tr><td>{{ object.year }}</td><td>{{ object.level }}</td><td>{{ object.subject }}</td><td>{{ object.grade }}</td></tr>
                     {% endif %}
