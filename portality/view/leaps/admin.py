@@ -175,7 +175,7 @@ def archivestudent(uuid=None,aid=None):
     if uuid is None or aid is None: abort(404)
     student = models.Student.pull(uuid)
     if student is None: abort(404)
-    student.data['archive'] = aid
+    student.data['archive'] = aid.replace('______','/')
     student.save()
     return redirect(url_for('.archives'))
 
