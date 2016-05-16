@@ -220,8 +220,10 @@ def _email_pae(student, application, flashable=True):
             studentname = studentname.decode("utf-8")
             studentname = studentname.encode("ascii","ignore")
         except:
-            studentname = student.data['first_name'] + " " + student.data['last_name']
-        
+            try:
+                studentname = student.data['first_name'] + " " + student.data['last_name']
+            except:
+                studentname = 'student'
         text = 'Dear ' + studentname + ',\n\n'
 
         school = models.School.pull_by_name(student.data['school'])

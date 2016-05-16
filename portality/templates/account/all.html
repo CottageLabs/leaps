@@ -7,9 +7,10 @@
 {% block content %}
 
     {% if userstats %}
-        <p>There are {{ userstats.super_user }} super users, {{ userstats.do_admin }} users with adminstrative access, {{ userstats.view_admin }} 
-        users with view access to admin, {{ userstats.school_users }} associated school accounts, and 
-        {{ userstats.institution_users }} associated institution accounts.</p>
+        <p>There are {{ userstats.super_user }} super users, {{ userstats.do_admin }} users with adminstrative access, 
+          {{ userstats.edit_students }} users with edit students access to admin, 
+          {{ userstats.view_admin }} users with view access to admin, {{ userstats.school_users }} associated school accounts, 
+          and {{ userstats.institution_users }} associated institution accounts.</p>
     {% endif %}
 
     <hr></hr>

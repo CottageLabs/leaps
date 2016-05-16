@@ -21,7 +21,9 @@
             <p><span style="font-size:24px;">{{stats.schools_with_students_submitted}}</span> of the 
             <span style="font-size:24px;">{{stats.total_schools - 1}}</span> 
             registered schools <br>have had students submit surveys.</p>
+            {% if current_user.do_admin %}
             <p><a class="btn btn-info" href="/schools">Go to the schools view</a></p>
+            {% endif %}
         </div>
     </div>
     <div class="span3">
@@ -31,6 +33,7 @@
                 You are the super user. You can edit anything, edit user accounts, and turn surveys and interfaces on and off.
             {% else %}
                 {% if current_user.do_admin %} You have full edit and export ability.
+                {% elif current_user.edit_students %} You can create and edit student records.
                 {% else %} You can view administrative data, but you cannot edit.
                 {% endif %}
             {% endif %}
@@ -55,10 +58,12 @@
     <div class="span3">
         <div class="alert alert-info" style="min-height:110px;">
             <p><span style="font-size:24px;">{{stats.number_of_pae_awaiting_email}}</span> PAE answers have not been emailed.</p>
+            {% if current_user.do_admin %}
             {% if stats.number_of_pae_awaiting_email != 0 %}
             <p><a class="btn btn-info" href="/universities/pae/unemailed/email">Email the {{stats.number_of_pae_awaiting_email}} outstanding PAEs</a></p>
             {% endif %}
             <p><a class="btn btn-info" href="/universities">Go to the universities PAE view</a></p>
+            {% endif %}
         </div>
     </div>
     <div class="span3">

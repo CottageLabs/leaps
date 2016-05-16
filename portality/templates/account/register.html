@@ -19,6 +19,7 @@ jQuery(document).ready(function($) {
                 {{ render_field(form.school) }}
                 {{ render_field(form.institution) }}
                 {{ render_field(form.view_admin) }}
+                {{ render_field(form.edit_students) }}
                 {{ render_field(form.do_admin) }}
                 <div class="actions">
                     <input type="submit" value="Create user" class="btn btn-primary" />
@@ -29,12 +30,16 @@ jQuery(document).ready(function($) {
             <p style="font-size:14px;">Create users for LEAPS admin, or users that can access the schools / universities pages.</p>
             <p style="font-size:14px;">NOTE that schools / universities users are also created and can be updated from the related schools 
             / universities supporting data.</p>
-            <p style="font-size:14px;">Schools / universities users should have a username that matches their email address, and must be associated with a school or university. NOTE THESE USERS SHOULD NOT BE GIVEN VIEW_ADMIN OR DO_ADMIN PRIVILEGES.</p>
-            <p style="font-size:14px;">For LEAPS admin users, create a user with your preferred username, and select if the user should have DO_ADMIN or 
-            VIEW_ADMIN privileges. Although you can tick both, a user with DO_ADMIN privileges also automatically has the ability to 
-            view admin features anyway.</p>
-            <p style="font-size:14px;">VIEW_ADMIN allows a user to access the LEAPS /admin area and to view any information there, but NOT to edit anything. DO_ADMIN allows a user to access the LEAPS /admin area and to edit / delete / add to anything there.</p>
-            <p style="font-size:14px;">Some functions, such as creating new users (beyond those that can be created via the schools / universities supporting data), or turning surveys and schools / universities pages on and off, are only available to the super user. Super user privileges cannot be bestowed upon any new users via this interface - super users can only be created via the application settings on the server.</p>
+            <p style="font-size:14px;">Schools / universities users should have a username that matches their email address, and must be associated 
+              with a school or university. NOTE THESE USERS SHOULD NOT BE GIVEN VIEW_ADMIN, EDIT_STUDENTS, OR DO_ADMIN PRIVILEGES.</p>
+            <p style="font-size:14px;">For LEAPS admin users, create a user with your preferred username, and select if the user should have DO_ADMIN, 
+              EDIT_STUDENTS, or VIEW_ADMIN privileges. Although you can more than one, the permissions cascade down anyway.</p>
+            <p style="font-size:14px;">VIEW_ADMIN allows a user to access the LEAPS /admin area and to view any information there, but NOT to edit 
+              anything. EDIT_STUDENTS access further allows a user to edit current student records and create new student records, but nothing else. 
+              DO_ADMIN allows a user to access the LEAPS /admin area and to edit / delete / add to anything there.</p>
+            <p style="font-size:14px;">Some functions, such as creating new users (beyond those that can be created via the schools / universities supporting data), or turning surveys and schools / universities pages on and off, are only available to 
+              the super user. Super user privileges cannot be bestowed upon any new users via this interface - super users can only be created via the 
+              application settings on the server.</p>
         </div>
     </div>
 </div>

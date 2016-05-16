@@ -1,8 +1,10 @@
 {% extends "leaps/admin/admin-base.html" %}
 
 {% block options %}
-            {% if current_user.do_admin %}
+            {% if current_user.edit_students %}
             <a class="btn btn-primary" href="/admin/student/new">add new student survey</a>
+            {% endif %}
+            {% if current_user.do_admin %}
             <a id="export" class="btn" href="/admin/export">Export selected</a>
             {% endif %}
             <a id="print" class="btn" href="/admin/student/selected.pdf">Print selected</a>
@@ -148,6 +150,18 @@ jQuery(document).ready(function() {
         ],
         post_search_callback: post
     });
+
+    if ( $('.tablesorter').length ) {
+        $('.tablesorter')
+           .unbind('appendCache applyWidgetId applyWidgets sorton update updateCell')
+           .find('thead th')
+           .unbind('click mousedown')
+           .removeClass('header headerSortDown headerSortUp');
+        $(".tablesorter").tablesorter({
+            "headers":{0:{"sorter":false}}
+        });
+    }
+    //window.onunload = function(){}; // this may help with tablesorter vanishing on page back
 });
 </script>
 

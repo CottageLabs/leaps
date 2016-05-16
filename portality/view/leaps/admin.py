@@ -21,7 +21,9 @@ blueprint = Blueprint('admin', __name__)
 def restrict():
     if current_user.is_anonymous():
         return redirect('/account/login?next=' + request.path)
-    elif request.method == 'POST' and not current_user.do_admin:
+    elif request.method == 'POST' and not ( ( current_user.edit_students and 'student/' in request.path ) or current_user.do_admin):
+        abort(401)
+    elif request.method == 'DELETE' and not current_user.do_admin:
         abort(401)
     elif not current_user.view_admin:
         abort(401)
@@ -166,6 +168,20 @@ def student(uuid=None):
                 selections=selections
             )
 
+
+# move a particular record from one archive to another
+@blueprint.route('/student/<uuid>/archive/<aid>', methods=['POST'])
+def archivestudent(uuid=None,aid=None):
+    if uuid is None or aid is None:
+        return render_template('leaps/admin/students.html')
+
+    student = models.Student.pull(uuid)
+    if student is None: abort(404)
+    
+    student.data['archive'] = aid
+    student.save()
+
+    return
 
 # print a student as a pdf
 @blueprint.route('/student/<sid>.pdf', methods=['GET'])

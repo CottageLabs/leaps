@@ -85,31 +85,59 @@ jQuery(document).ready(function() {
                     <th>Subject</th>
                     <th>Grade</th>
                 </tr>
-                {% for object in student.qualifications %}
-                    {% if object.year|lower == "third year" %}
-                        <tr><td>{{ object.year }}</td><td>{{ object.level }}</td><td>{{ object.subject }}</td><td>{{ object.grade }}</td></tr>
-                    {% endif %}
-                {% endfor %}
-                {% for object in student.qualifications %}
-                    {% if object.year|lower == "fourth year" %}
-                        <tr><td>{{ object.year }}</td><td>{{ object.level }}</td><td>{{ object.subject }}</td><td>{{ object.grade }}</td></tr>
-                    {% endif %}
-                {% endfor %}
-                {% for object in student.qualifications %}
-                    {% if object.year|lower == "fifth year" %}
-                        <tr><td>{{ object.year }}</td><td>{{ object.level }}</td><td>{{ object.subject }}</td><td>{{ object.grade }}</td></tr>
-                    {% endif %}
-                {% endfor %}
-                {% for object in student.qualifications %}
-                    {% if object.year|lower == "sixth year" %}
-                        <tr><td>{{ object.year }}</td><td>{{ object.level }}</td><td>{{ object.subject }}</td><td>{{ object.grade }}</td></tr>
-                    {% endif %}
-                {% endfor %}
-                {% for object in student.qualifications %}
-                    {% if object.year|lower != "third year" and object.year|lower != "fourth year" and object.year|lower != "fifth year" and object.year|lower != "sixth year" %}
-                        <tr><td>{{ object.year }}</td><td>{{ object.level }}</td><td>{{ object.subject }}</td><td>{{ object.grade }}</td></tr>
-                    {% endif %}
-                {% endfor %}
+								{% if application.qualifications %}
+										{% for object in application.qualifications %}
+												{% if object.year|lower == "third year" %}
+														<tr><td>{{ object.year }}</td><td>{{ object.level }}</td><td>{{ object.subject }}</td><td>{{ object.grade }}</td></tr>
+												{% endif %}
+										{% endfor %}
+										{% for object in application.qualifications %}
+												{% if object.year|lower == "fourth year" %}
+														<tr><td>{{ object.year }}</td><td>{{ object.level }}</td><td>{{ object.subject }}</td><td>{{ object.grade }}</td></tr>
+												{% endif %}
+										{% endfor %}
+										{% for object in application.qualifications %}
+												{% if object.year|lower == "fifth year" %}
+														<tr><td>{{ object.year }}</td><td>{{ object.level }}</td><td>{{ object.subject }}</td><td>{{ object.grade }}</td></tr>
+												{% endif %}
+										{% endfor %}
+										{% for object in application.qualifications %}
+												{% if object.year|lower == "sixth year" %}
+														<tr><td>{{ object.year }}</td><td>{{ object.level }}</td><td>{{ object.subject }}</td><td>{{ object.grade }}</td></tr>
+												{% endif %}
+										{% endfor %}
+										{% for object in application.qualifications %}
+												{% if object.year|lower != "third year" and object.year|lower != "fourth year" and object.year|lower != "fifth year" and object.year|lower != "sixth year" %}
+														<tr><td>{{ object.year }}</td><td>{{ object.level }}</td><td>{{ object.subject }}</td><td>{{ object.grade }}</td></tr>
+												{% endif %}
+										{% endfor %}
+								{% else %}							
+										{% for object in student.qualifications %}
+												{% if object.year|lower == "third year" %}
+														<tr><td>{{ object.year }}</td><td>{{ object.level }}</td><td>{{ object.subject }}</td><td>{{ object.grade }}</td></tr>
+												{% endif %}
+										{% endfor %}
+										{% for object in student.qualifications %}
+												{% if object.year|lower == "fourth year" %}
+														<tr><td>{{ object.year }}</td><td>{{ object.level }}</td><td>{{ object.subject }}</td><td>{{ object.grade }}</td></tr>
+												{% endif %}
+										{% endfor %}
+										{% for object in student.qualifications %}
+												{% if object.year|lower == "fifth year" %}
+														<tr><td>{{ object.year }}</td><td>{{ object.level }}</td><td>{{ object.subject }}</td><td>{{ object.grade }}</td></tr>
+												{% endif %}
+										{% endfor %}
+										{% for object in student.qualifications %}
+												{% if object.year|lower == "sixth year" %}
+														<tr><td>{{ object.year }}</td><td>{{ object.level }}</td><td>{{ object.subject }}</td><td>{{ object.grade }}</td></tr>
+												{% endif %}
+										{% endfor %}
+										{% for object in student.qualifications %}
+												{% if object.year|lower != "third year" and object.year|lower != "fourth year" and object.year|lower != "fifth year" and object.year|lower != "sixth year" %}
+														<tr><td>{{ object.year }}</td><td>{{ object.level }}</td><td>{{ object.subject }}</td><td>{{ object.grade }}</td></tr>
+												{% endif %}
+										{% endfor %}
+								{% endif %}
             </table> 
 
             <h2>Further information</h2>

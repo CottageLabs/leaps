@@ -26,6 +26,7 @@ def index():
     userstats = {
         "super_user": 0,
         "do_admin": 0,
+        "edit_students": 0,
         "view_admin": 0,
         "school_users": 0,
         "institution_users": 0
@@ -37,6 +38,7 @@ def index():
         for acc in accs:
             if acc.id in app.config['SUPER_USER']: userstats['super_user'] += 1
             elif acc.data.get('do_admin',"") != "": userstats["do_admin"] += 1
+            elif acc.data.get('edit_students',"") != "": userstats["edit_students"] += 1
             elif acc.data.get('view_admin',"") != "": userstats["view_admin"] += 1
             if acc.data.get('school',"") != "": userstats["school_users"] += 1
             if acc.data.get('institution',"") != "": userstats["institution_users"] += 1
@@ -215,6 +217,7 @@ class RegisterForm(Form):
     school = SelectField('School', choices=[(i,i) for i in [""]+dropdowns('school')])
     institution = SelectField('Institution', choices=[(i,i) for i in [""]+dropdowns('institution')])
     view_admin = BooleanField('View admin')
+    edit_students = BooleanField('Edit students')
     do_admin = BooleanField('Do admin')
 
 @blueprint.route('/register', methods=['GET', 'POST'])
@@ -231,6 +234,7 @@ def register():
             school = form.school.data,
             institution = form.institution.data,
             view_admin = form.view_admin.data,
+            edit_students = form.edit_students.data,
             do_admin = form.do_admin.data
         )
         account.set_password(form.s.data)

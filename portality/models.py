@@ -190,6 +190,10 @@ class Student(DomainObject):
                         pass
                     try:
                         if request.form.getlist('application_pae_requested')[k] == "Yes":
+                            try:
+                                appn['qualifications'] = rec['qualifications']
+                            except:
+                                pass
                             if 'pae_requested' not in appn:
                                 appn['pae_requested'] = datetime.now().strftime("%d/%m/%Y")
                             if '_process_paes_date' not in rec:
@@ -474,6 +478,10 @@ class Account(DomainObject, UserMixin):
     @property
     def do_admin(self):
         return auth.user.do_admin(self)
+
+    @property
+    def edit_students(self):
+        return auth.user.edit_students(self)
 
     @property
     def view_admin(self):

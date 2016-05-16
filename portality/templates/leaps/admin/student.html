@@ -1,7 +1,7 @@
 {% extends "leaps/admin/admin-base.html" %}
 
 {% block options %}
-{% if current_user.do_admin and (not record or record.archive == "current") %}
+{% if current_user.edit_students and (not record or record.archive == "current") %}
 <a id="triggersave" class="btn btn-success" href="#">Save</a>
 {% if record %}
 <a id="triggerdelete" class="btn btn-danger" href="#">Delete</a><br>
@@ -9,7 +9,7 @@
 <a class="btn" href="/admin/student/{{record.id}}.pdf">Print</a>
 {% endif %}
 
-{% if current_user.view_admin and not current_user.do_admin %}
+{% if current_user.view_admin and not current_user.edit_students %}
 <a class="btn" href="/admin/student/{{record.id}}.pdf">Print</a>
 {% endif %}
 
@@ -22,7 +22,7 @@
 <script>
 jQuery(document).ready(function() {    
 
-{% if current_user.do_admin and (not record or record.archive == 'current') %}
+{% if current_user.edit_students and (not record or record.archive == 'current') %}
 
     $("[data-required]").attr('data-required-message',"");
 
@@ -231,6 +231,19 @@ jQuery(document).ready(function() {
     $('#triggerdelete').bind('click',triggerdelete);
     $('input, textarea, select').bind('change',promptsave);
 
+{% elif current_user.do_admin and record and record.archive != 'current' %}
+    $('input, select, textarea').not('#archiveselection').attr('disabled','disabled');
+ 		var movearchive = function(event) {
+				event.preventDefault();
+				var archive = $('#archiveselection').val();
+				var url = window.location.pathname + '/archive/' + archive
+				$.ajax({
+						method:'POST',
+						url:url
+				});
+				setTimeout(function() { window.location = url; }, 2000);
+		}
+ 		$('#move').bind('click',movearchive);
 {% else %}
     $('input, select, textarea').attr('disabled','disabled');
 
@@ -521,17 +534,22 @@ fieldset{
                 		</select></td>
 
 	                    <td style="text-align:right;padding:6px 10px 0 0;">Archive</td>
-                		<td><select name="archive">
-                		    {% for opt in selections.archives %}
-                		        <option
-                		        {% if record %}
-                		            {% if record.data.archive == opt %} selected="selected"{% endif %}
-                		        {% else %}
-                		            {% if opt == "current" %} selected="selected"{% endif %}
-                		        {% endif %}
-                		        >{{ opt }}</option>
-                		    {% endfor %}
-                		</select></td>
+	                		<td>
+													<select id="archiveselection" name="archive">
+													{% for opt in selections.archives %}
+															<option
+															{% if record %}
+																	{% if record.data.archive == opt %} selected="selected"{% endif %}
+															{% else %}
+																	{% if opt == "current" %} selected="selected"{% endif %}
+															{% endif %}
+															>{{ opt }}</option>
+													{% endfor %}
+													</select>
+													{% if current_user.do_admin and record and record.archive != 'current' %}
+													<a id="move" class="btn" href="#">Move</a>
+													{% endif %}
+											</td>
                     </tr>
 
                     <tr style="height:30px;">
@@ -562,6 +580,14 @@ fieldset{
 	    <div class="span12">
 	        <div class="well">
 	            <h1>Qualifications</h1>
+							{% if current_user.edit_students and (not record or record.archive == 'current') %}
+							<p>NOTE: If you edit qualifications, any application PAEs already requested will retain 
+								the old qualifications details. If you wish to isue a new PAE for an application with 
+								new qualifications data, you should save the new qualifications data then create a new 
+								application (or applications) in the section below, and after saving those you will be 
+								able to request a new PAE for them. The new PAE will use the latest qualifications data.
+							</p>
+							{% endif %}
 	        </div>
 	    </div>
 	</div>
@@ -594,7 +620,7 @@ fieldset{
                 </tbody>
             </table>
 
-{% if current_user.do_admin and (not record or record.archive == 'current') %}
+{% if current_user.edit_students and (not record or record.archive == 'current') %}
 	        <table class="multi">
                 <tbody>                    
                     <tr>
@@ -689,7 +715,7 @@ fieldset{
                 		<td class="noclone">
                    		    <input class="noclone" type="hidden" name="application_pae_requested" value="{{app.pae_requested}}">
                 		    <span style="margin:5px 5px 0 5px;">
-                		    <a class="btn" href="/universities/pae/{{app.appid}}">{{ app['pae_requested'] }}</a>
+                		    {% if current_user.do_admin %}<a class="btn" href="/universities/pae/{{app.appid}}">{{ app['pae_requested'] }}</a>{% endif %}
                 		    {% if app.pae_reply_received %}
                     		    {{ app.pae_reply_received }}
                     		{% else %}
@@ -702,7 +728,7 @@ fieldset{
                     		{% endif %}                		    
                 		    </span>
                 		</td>
-                		{% else %}
+                		{% elif current_user.do_admin %}
                 		<td>
                         <select name="application_pae_requested"><option>No</option><option>Yes</option></select>
                 		</td>
@@ -713,7 +739,7 @@ fieldset{
                 </tbody>
             </table>
 
-{% if current_user.do_admin and (not record or record.archive == 'current') %}
+{% if current_user.edit_students and (not record or record.archive == 'current') %}
 	        <table class="multi">
                 <tbody>
                     <tr>
@@ -786,7 +812,7 @@ fieldset{
                         {% endfor %}
                     {% endif %}
 
-{% if current_user.do_admin and (not record or record.archive == 'current') %}
+{% if current_user.edit_students and (not record or record.archive == 'current') %}
                     <tr>
                 		<td><input type="text" name="interest_title"></td>
                 		<td><textarea class="bigfield" name="interest_brief_description"></textarea></td>
@@ -845,7 +871,7 @@ fieldset{
                         {% endfor %}
                     {% endif %}
 
-{% if current_user.do_admin and (not record or record.archive == 'current') %}
+{% if current_user.edit_students and (not record or record.archive == 'current') %}
                     <tr>
                 		<td><input type="text" class="datepicker narrow" name="experience_date_from"></td>
                 		<td><input type="text" class="datepicker narrow" name="experience_date_to"></td>
@@ -1041,16 +1067,16 @@ fieldset{
 
 
 <!-- the form submission button -->
-{% if current_user.do_admin %}
+{% if current_user.edit_students %}
 <div class="part submit">
 
     <hr></hr>
-    {% if current_user.do_admin and (not record or record.archive == "current") %}
+    {% if current_user.edit_students and (not record or record.archive == "current") %}
 	<div class="row-fluid" style="margin-top:30px;">
 	    <div class="span6">
           	<input id="save" class="btn btn-success span2" style="margin-left:100px;" type="submit" name="submit" value="Save" />
 	    </div>
-	    {% if record %}
+	    {% if record and current_user.do_admin %}
 	    <div class="span6">
     	    <input id="delete" class="btn btn-danger span2" style="margin-left:100px;" type="submit" name="submit" value="Delete">
 	    </div>

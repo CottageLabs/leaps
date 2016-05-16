@@ -194,28 +194,13 @@ jQuery(document).ready(function() {
     $('.institutionselector').bind('change',limitsubjects);
     $('.subjectselector').bind('change',limitlevels);
     
-		function checkEnter(e){
+		function checkKeys(e){
 			 e = e || event;
 			 var txtArea = /textarea/i.test((e.target || e.srcElement).tagName);
-			 return txtArea || (e.keyCode || e.which || e.charCode || 0) !== 13;
+			 return txtArea || ( (e.keyCode || e.which || e.charCode || 0) !== 13 && (e.keyCode || e.which || e.charCode || 0) !== 8 && e.type !== 'text');
 		}
-		document.querySelector('form').onkeypress = checkEnter;
-	
-		$(function(){
-				/*
-				 * this swallows backspace keys on any non-input element.
-				 * stops backspace -> back
-				 */
-				var rx = /INPUT|SELECT|TEXTAREA/i;
-				$(document).bind("keydown keypress", function(e){
-						if( e.which == 8 ){ // 8 == backspace
-								if(!rx.test(e.target.tagName) || e.target.disabled || e.target.readOnly ){
-										e.preventDefault();
-								}
-						}
-				});
-		});
-	
+		document.querySelector('form').onkeypress = checkKeys;
+		
 });
 </script>
 
