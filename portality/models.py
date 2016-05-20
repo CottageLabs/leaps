@@ -5,7 +5,7 @@ from portality.core import app
 
 from portality.dao import DomainObject as DomainObject
 
-import requests, json
+import requests, json, uuid
 
 import portality.util as util
 
@@ -100,6 +100,10 @@ class Student(DomainObject):
             "applications": [],
             "experience": []
         }
+        if 'paequals' in self.data:
+            rec['paequals'] = self.data['paequals']
+        else:
+            rec['paequals'] = {}
         
         for key in request.form.keys():
             if not key.startswith("qualification_") and not key.startswith("interest_") and not key.startswith("application_") and not key.startswith("experience_") and key not in ['submit']:
@@ -189,11 +193,14 @@ class Student(DomainObject):
                     except:
                         pass
                     try:
+                        appn['qid'] = request.form.getlist('application_qid')[k]
+                    except:
+                        pass
+                    try:
                         if request.form.getlist('application_pae_requested')[k] == "Yes":
-                            try:
-                                appn['qualifications'] = rec['qualifications']
-                            except:
-                                pass
+                            qid = uuid.uuid4().hex
+                            rec['paequals'][qid] = rec['qualifications']
+                            appn['qid'] = qid
                             if 'pae_requested' not in appn:
                                 appn['pae_requested'] = datetime.now().strftime("%d/%m/%Y")
                             if '_process_paes_date' not in rec:

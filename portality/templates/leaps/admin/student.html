@@ -3,7 +3,7 @@
 {% block options %}
 {% if current_user.edit_students and (not record or record.archive == "current") %}
 <a id="triggersave" class="btn btn-success" href="#">Save</a>
-{% if record %}
+{% if record and current_user.do_admin %}
 <a id="triggerdelete" class="btn btn-danger" href="#">Delete</a><br>
 {% endif %}
 <a class="btn" href="/admin/student/{{record.id}}.pdf">Print</a>
@@ -709,6 +709,7 @@ fieldset{
                    		    <input class="noclone" type="hidden" name="application_consider" value="{% if app.consider %}{{app.consider}}{% endif %}">
                    		    <input class="noclone" type="hidden" name="application_conditions" value="{% if app.conditions %}{{app.conditions}}{% endif %}">
                    		    <input class="noclone" type="hidden" name="application_summer_school" value="{% if app.summer_school %}{{app.summer_school}}{% endif %}">
+                   		    <input class="noclone" type="hidden" name="application_qid" value="{% if app.qid %}{{app.qid}}{% endif %}">
 
                 		</td>
                 		

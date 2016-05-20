@@ -82,11 +82,16 @@ def pae(appid):
                 else:
                     msg += ". It cannot be altered."
                 flash(msg)
+            if 'paequals' in student and 'qid' in application and application['qid'] in student['paequals']:
+                quals = student['paequals'][application['qid']]
+            else:
+                quals = student['qualifications']
             return render_template(
                 'leaps/universities/pae.html', 
                 student=student, 
                 institution=current_user.is_institution, 
-                application=application
+                application=application,
+                quals=quals
             )
 
         elif request.method == 'POST':
@@ -140,7 +145,11 @@ def paepdf(appid,giveback=False):
     student, application = _get_student_for_appn(appid)
     if student is None: abort(404)
 
-    thepdf = render_template('leaps/admin/student_pae', record=student, application=application)
+    if 'paequals' in student and 'qid' in application and application['qid'] in student['paequals']:
+        quals = student['paequals'][application['qid']]
+    else:
+        quals = student['qualifications']
+    thepdf = render_template('leaps/admin/student_pae', record=student, application=application, quals=quals)
     if giveback:
         return HTML(string=thepdf).write_pdf()
     else:
