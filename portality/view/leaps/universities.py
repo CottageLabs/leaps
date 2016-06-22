@@ -226,13 +226,11 @@ def _email_pae(student, application, flashable=True):
 
         try:
             studentname = student.data['first_name'] + " " + student.data['last_name']
-            studentname = studentname.decode("utf-8")
             studentname = studentname.encode("ascii","ignore")
-        except:
-            try:
-                studentname = student.data['first_name'] + " " + student.data['last_name']
-            except:
+            if not all(ord(char) < 128 for char in studentname):
                 studentname = 'student'
+        except:
+            studentname = 'student'
         text = 'Dear ' + studentname + ',\n\n'
 
         school = models.School.pull_by_name(student.data['school'])
