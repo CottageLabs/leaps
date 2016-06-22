@@ -37,9 +37,9 @@ def index():
         users = []
         for acc in accs:
             if acc.id in app.config['SUPER_USER']: userstats['super_user'] += 1
-            elif acc.data.get('do_admin',"") != "": userstats["do_admin"] += 1
-            elif acc.data.get('edit_students',"") != "": userstats["edit_students"] += 1
-            elif acc.data.get('view_admin',"") != "": userstats["view_admin"] += 1
+            if acc.data.get('do_admin',"") != "": userstats["do_admin"] += 1
+            if acc.data.get('edit_students',"") != "": userstats["edit_students"] += 1
+            if acc.data.get('view_admin',"") != "": userstats["view_admin"] += 1
             if acc.data.get('school',"") != "": userstats["school_users"] += 1
             if acc.data.get('institution',"") != "": userstats["institution_users"] += 1
 
