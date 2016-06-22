@@ -144,7 +144,7 @@ jQuery(document).ready(function() {
 		if ( !$(this).parents('table').hasClass('isapplications') ) {
 			$('table.multi').find('tbody').each(function() {
 				$(this).append('<tr><td><a class="btn btn-success add-row" href="#">add</a></td></tr>');
-			};
+			});
 		}
 		{% endif %}
     $('.add-row').bind('click',addrow);
