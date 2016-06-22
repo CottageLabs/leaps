@@ -74,9 +74,9 @@ jQuery(document).ready(function() {
 				{% else %}
 				var adder;
 				if ( !$(this).parents('table').hasClass('isapplications') ) {
-        	adder = '<a class="btn btn-warning static-delete-row" style="margin:-10px 2px 0 0;visibility:hidden;" href="#">delete</a>';
-				} else {
         	adder = '<a class="btn btn-warning static-delete-row" style="margin:-10px 2px 0 0;" href="#">delete</a>';
+				} else {
+        	adder = '<a class="btn btn-warning static-delete-row" style="margin:-10px 2px 0 0;visibility:hidden;" href="#">delete</a>';
 				}
 				{% endif %}
         adder += '<a class="btn edit-row" style="margin:-10px 2px 0 0;';
@@ -138,15 +138,7 @@ jQuery(document).ready(function() {
             preprow(row);
         }
     }
-		{% if current_user.do_admin %}
 		$('table.multi').find('tbody').append('<tr><td><a class="btn btn-success add-row" href="#">add</a></td></tr>');
-		{% else %}
-		if ( !$(this).parents('table').hasClass('isapplications') ) {
-			$('table.multi').find('tbody').each(function() {
-				$(this).append('<tr><td><a class="btn btn-success add-row" href="#">add</a></td></tr>');
-			});
-		}
-		{% endif %}
     $('.add-row').bind('click',addrow);
 		
     var deleterow = function(event) {
@@ -760,7 +752,7 @@ fieldset{
                 </tbody>
             </table>
 
-{% if current_user.edit_students and (not record or record.archive == 'current') %}
+{% if current_user.do_admin and (not record or record.archive == 'current') %}
 	        <table class="multi">
                 <tbody>
                     <tr>
