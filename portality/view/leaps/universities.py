@@ -226,7 +226,7 @@ def _email_pae(student, application, flashable=True):
 
         try:
             studentname = student.data['first_name'] + " " + student.data['last_name']
-            studentname = studentname.encode("ascii","ignore")
+            #studentname = studentname.encode("ascii","ignore")
             if not all(ord(char) < 128 for char in studentname):
                 studentname = 'student'
         except:
