@@ -124,11 +124,16 @@
                 {% for record in record.interests %}
                     <tr><td style="width:30%;">{{ record.title }}</td><td>{{ record.brief_description }}<br /><br /><br /></td></tr>
                 {% endfor %}
+                {% if record.interests|length == 0 %}
                 <tr><td style="width:30%;"><br /><br /><br /></td><td></td></tr>
                 <tr><td style="width:30%;"><br /><br /><br /></td><td></td></tr>
                 <tr><td style="width:30%;"><br /><br /><br /></td><td></td></tr>
                 <tr><td style="width:30%;"><br /><br /><br /></td><td></td></tr>
                 <tr><td style="width:30%;"><br /><br /><br /></td><td></td></tr>
+                {% endif %}
+                {% if record.interests|length != 6 %}
+                <tr><td style="width:30%;"><br /><br /><br /></td><td></td></tr>
+                {% endif %}
             </table> 
 
             <h2>WORK EXPERIENCE</h2>
@@ -143,11 +148,16 @@
                         <td>{{ record.brief_description }}<br /><br /><br /></td>
                     </tr>
                 {% endfor %}
+                {% if record.experience|length == 0 %}
                 <tr><td style="width:30%;"><br /><br /><br /></td><td></td></tr>
                 <tr><td style="width:30%;"><br /><br /><br /></td><td></td></tr>
                 <tr><td style="width:30%;"><br /><br /><br /></td><td></td></tr>
                 <tr><td style="width:30%;"><br /><br /><br /></td><td></td></tr>
                 <tr><td style="width:30%;"><br /><br /><br /></td><td></td></tr>
+                {% endif %}
+                {% if record.experience|length != 6 %}
+                <tr><td style="width:30%;"><br /><br /><br /></td><td></td></tr>
+                {% endif %}
             </table> 
 
             <h2>THIRD / FOURTH YEAR QUALIFICATIONS</h2>
@@ -166,16 +176,15 @@
                     {% endif %}
                 {% endfor %}
                 {% if record.qualifications|length == 0 %}
-                <tr><td>&nbsp;<br>&nbsp;</td><td></td><td></td><td></td></tr>
-                <tr><td>&nbsp;<br>&nbsp;</td><td></td><td></td><td></td></tr>
-                <tr><td>&nbsp;<br>&nbsp;</td><td></td><td></td><td></td></tr>
+                <tr><td>&nbsp;</td><td></td><td></td><td></td></tr>
+                <tr><td>&nbsp;</td><td></td><td></td><td></td></tr>
+                <tr><td>&nbsp;</td><td></td><td></td><td></td></tr>
+                <tr><td>&nbsp;</td><td></td><td></td><td></td></tr>
                 {% endif %}
-                <tr><td>&nbsp;<br>&nbsp;</td><td></td><td></td><td></td></tr>
-                <tr><td>&nbsp;<br>&nbsp;</td><td></td><td></td><td></td></tr>
-                <tr><td>&nbsp;<br>&nbsp;</td><td></td><td></td><td></td></tr>
-                <tr><td>&nbsp;<br>&nbsp;</td><td></td><td></td><td></td></tr>
-                <tr><td>&nbsp;<br>&nbsp;</td><td></td><td></td><td></td></tr>
-                <tr><td>&nbsp;<br>&nbsp;</td><td></td><td></td><td></td></tr>
+                <tr><td>&nbsp;</td><td></td><td></td><td></td></tr>
+                <tr><td>&nbsp;</td><td></td><td></td><td></td></tr>
+                <tr><td>&nbsp;</td><td></td><td></td><td></td></tr>
+                <tr><td>&nbsp;</td><td></td><td></td><td></td></tr>
             </table> 
 
             <h2>FIFTH YEAR QUALIFICATIONS</h2>
@@ -189,13 +198,12 @@
                     {% endif %}
                 {% endfor %}
                 {% if record.qualifications|length == 0 %}
-                <tr><td>&nbsp;<br>&nbsp;</td><td></td><td></td><td></td></tr>
-                <tr><td>&nbsp;<br>&nbsp;</td><td></td><td></td><td></td></tr>
+                <tr><td>&nbsp;</td><td></td><td></td><td></td></tr>
+                <tr><td>&nbsp;</td><td></td><td></td><td></td></tr>
                 {% endif %}
-                <tr><td>&nbsp;<br>&nbsp;</td><td></td><td></td><td></td></tr>
-                <tr><td>&nbsp;<br>&nbsp;</td><td></td><td></td><td></td></tr>
-                <tr><td>&nbsp;<br>&nbsp;</td><td></td><td></td><td></td></tr>
-                <tr><td>&nbsp;<br>&nbsp;</td><td></td><td></td><td></td></tr>
+                <tr><td>&nbsp;</td><td></td><td></td><td></td></tr>
+                <tr><td>&nbsp;</td><td></td><td></td><td></td></tr>
+                <tr><td>&nbsp;</td><td></td><td></td><td></td></tr>
             </table> 
 
             <h2>SIXTH YEAR / OTHER QUALIFICATIONS</h2>
@@ -214,13 +222,12 @@
                     {% endif %}
                 {% endfor %}
                 {% if record.qualifications|length == 0 %}
-                <tr><td>&nbsp;<br>&nbsp;</td><td></td><td></td><td></td></tr>
-                <tr><td>&nbsp;<br>&nbsp;</td><td></td><td></td><td></td></tr>
+                <tr><td>&nbsp;</td><td></td><td></td><td></td></tr>
+                <tr><td>&nbsp;</td><td></td><td></td><td></td></tr>
                 {% endif %}
-                <tr><td>&nbsp;<br>&nbsp;</td><td></td><td></td><td></td></tr>
-                <tr><td>&nbsp;<br>&nbsp;</td><td></td><td></td><td></td></tr>
-                <tr><td>&nbsp;<br>&nbsp;</td><td></td><td></td><td></td></tr>
-                <tr><td>&nbsp;<br>&nbsp;</td><td></td><td></td><td></td></tr>
+                <tr><td>&nbsp;</td><td></td><td></td><td></td></tr>
+                <tr><td>&nbsp;</td><td></td><td></td><td></td></tr>
+                <tr><td>&nbsp;</td><td></td><td></td><td></td></tr>
             </table> 
 
 

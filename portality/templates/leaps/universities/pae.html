@@ -36,8 +36,10 @@ jQuery(document).ready(function() {
     <div class="span12">
 
         <p>
-        {% if current_user.do_admin %}
+        {% if current_user.view_admin %}
         <a class="btn" href="/admin/student/{{student.id}}">Back to student record</a> 
+				{% endif %}
+        {% if current_user.do_admin %}
         <a class="btn" href="/universities/pae/{{application.appid}}/email">Email this form to the student and school contacts</a> 
         {% endif %}
         <a class="btn" href="/universities">Back to listing</a> 

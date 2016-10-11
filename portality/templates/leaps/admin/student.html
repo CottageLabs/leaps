@@ -728,7 +728,7 @@ fieldset{
                 		<td class="noclone">
                    		    <input class="noclone" type="hidden" name="application_pae_requested" value="{{app.pae_requested}}">
                 		    <span style="margin:5px 5px 0 5px;">
-                		    {% if current_user.do_admin %}<a class="btn" href="/universities/pae/{{app.appid}}">{{ app['pae_requested'] }}</a>{% endif %}
+                		    {% if current_user.view_admin %}<a class="btn" href="/universities/pae/{{app.appid}}">{{ app['pae_requested'] }}</a>{% endif %}
                 		    {% if app.pae_reply_received %}
                     		    {{ app.pae_reply_received }}
                     		{% else %}
