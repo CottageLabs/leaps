@@ -46,14 +46,14 @@ jQuery(document).ready(function() {
             $('#facetview_group_archive_exact').hide();
             {% endif %}
         } else {
-            $('.tablesorter')
+            /*$('.tablesorter')
                .unbind('appendCache applyWidgetId applyWidgets sorton update updateCell')
                .find('thead th')
                .unbind('click mousedown')
                .removeClass('header headerSortDown headerSortUp');
             $(".tablesorter").tablesorter({
                 "headers":{0:{"sorter":false}}
-            });
+            });*/
         }
         $('#selectall').change(function() {
             $('.selectthis').attr('checked', $(this).is(':checked'));
@@ -86,6 +86,32 @@ jQuery(document).ready(function() {
             size: 100
         },
         sort: [{"created_date.exact":{"order":"desc"}}],
+        search_sortby: [
+          {
+            field: "created_date.exact",
+            display: "Created date"
+          },
+          {
+            field: "last_name.exact",
+            display: "Last name"
+          },
+          {
+            field: "first_name.exact",
+            display: "First name"
+          },
+          {
+            field: "date_of_birth.exact",
+            display: "Date of birth"
+          },
+          {
+            field: "school.exact",
+            display: "School"
+          },
+          {
+            field: "status.exact",
+            display: "Status"
+          }
+        ],
         pager_on_top: true,
         sharesave_link: false,
         default_operator: 'AND',
@@ -151,7 +177,7 @@ jQuery(document).ready(function() {
         post_search_callback: post
     });
 
-    if ( $('.tablesorter').length ) {
+    /*if ( $('.tablesorter').length ) {
         $('.tablesorter')
            .unbind('appendCache applyWidgetId applyWidgets sorton update updateCell')
            .find('thead th')
@@ -160,7 +186,7 @@ jQuery(document).ready(function() {
         $(".tablesorter").tablesorter({
             "headers":{0:{"sorter":false}}
         });
-    }
+    }*/
     //window.onunload = function(){}; // this may help with tablesorter vanishing on page back
 });
 </script>

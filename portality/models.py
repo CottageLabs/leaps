@@ -64,6 +64,18 @@ class Student(DomainObject):
             else:
                 rec['simd_decile'] = 'unknown'
                 rec['simd_quintile'] = 'unknown'
+                
+        if 'simd_pc' not in rec:
+            if rec['simd_decile'] != 'unknown':
+                dec = int(rec['simd_decile'])
+                if dec == 10 and rec.get('simd_quintile',False) == 5:
+                    dec = 100
+                elif dec < 10:
+                    dec = dec * 10
+                rec['simd_pc'] = str(dec)
+            else:
+                rec['simd_pc'] = 'unknown'
+                
 
         if 'leaps_category' not in rec or rec['leaps_category'] == "":
             s = School.query(q={'query':{'term':{'name.exact':rec['school']}}})

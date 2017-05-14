@@ -97,6 +97,9 @@
                 <tr>
                     <td style="width:30%;">Post code</td> <td>{{ record.post_code }}</td>
                 </tr>
+                <tr>
+                    <td style="width:30%;">SIMD %</td> <td>{{ record.simd_pc }}</td>
+                </tr>
             </table>
 
             <h2>EXTRA ACADEMIC AND CAREER INFORMATION</h2>

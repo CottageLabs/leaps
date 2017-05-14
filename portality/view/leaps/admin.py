@@ -193,6 +193,16 @@ def pdf(sid,giveback=False):
         students = []
         for i in s.get('hits',{}).get('hits',[]):
             if len(selected) == 0 or i['_source']['id'] in selected:
+                if not i['_source'].get('simd_pc',False):
+                    if i['_source']['simd_decile'] == 'unknown':
+                        i['_source']['simd_pc'] = 'unknown'
+                    else:
+                        dec = int(i['_source'].get('simd_decile',0))
+                        if dec == 10 and int(i['_source'].get('simd_quintile',0)) == 5:
+                            dec = 100
+                        elif dec < 10:
+                            dec = dec * 10
+                        i['_source']['simd_pc'] = str(dec)
                 students.append( i['_source'] )
         if len(students) == 0:
             abort(404)
@@ -203,6 +213,16 @@ def pdf(sid,giveback=False):
         if student is None:
             abort(404)
         else:
+            if not student.data.get('simd_pc',False):
+                if student.data['simd_decile'] == 'unknown':
+                    student.data['simd_pc'] = 'unknown'
+                else:
+                    dec = int(student.data.get('simd_decile',0))
+                    if dec == 10 and student.data.get('simd_quintile',False) == 5:
+                        dec = 100
+                    elif dec < 10:
+                        dec = dec * 10
+                    student.data['simd_pc'] = str(dec)
             thepdf = render_template('leaps/admin/student_pdf', students=[student.data])
 
     if giveback:

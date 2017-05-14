@@ -56,6 +56,9 @@ def fixify(strng):
 
 def download_csv(recordlist,keys):
     # re-order some of the keys
+    if 'simd_pc' in keys:
+        keys.remove('simd_pc')
+        keys = ['simd_pc'] + keys
     if 'simd_decile' in keys:
         keys.remove('simd_decile')
         keys = ['simd_decile'] + keys
@@ -105,7 +108,10 @@ def download_csv(recordlist,keys):
                     fk = False
                 else:
                     csvdata.write(',')
-                csvdata.write('"' + key + '"')
+                if key == 'simd_pc':
+                    csvdata.write('"simd %"')
+                else:
+                    csvdata.write('"' + key + '"')
             csvdata.write('\n')
             firstrecord = False
         else:
@@ -117,7 +123,7 @@ def download_csv(recordlist,keys):
                 firstkey = False
             else:
                 csvdata.write(',')
-            if key in record.keys() or key == 'address':
+            if key in record.keys() or key in ['address','simd_pc']:
                 if key == 'applications':
                     appns = ""
                     reqs = ""
@@ -172,6 +178,19 @@ def download_csv(recordlist,keys):
                         tidykey += fixify(record['address_line_2']) + '\r\n'
                     if record.get('city',False):
                         tidykey += fixify(record['city'])
+                elif key == 'simd_pc':
+                    if record.get('simd_pc',False):
+                        tidykey = record['simd_pc']
+                    else:
+                        try:
+                            dec = int(record['simd_decile'])
+                            if dec == 10 and record.get('simd_quintile',False) == 5:
+                                dec = 100
+                            elif dec < 10:
+                                dec = dec * 10
+                            tidykey = str(dec)
+                        except:
+                            tidykey = '';
                 else:
                     if isinstance(record[key],bool):
                         if record[key]:

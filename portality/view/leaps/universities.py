@@ -149,6 +149,13 @@ def paepdf(appid,giveback=False):
         quals = student['paequals'][application['qid']]
     else:
         quals = student['qualifications']
+    if not student.get('simd_pc',False):
+        dec = int(student['simd_decile'])
+        if dec == 10 and student.get('simd_quintile',False) == 5:
+            dec = 100
+        elif dec < 10:
+            dec = dec * 10
+        student['simd_pc'] = str(dec)
     thepdf = render_template('leaps/admin/student_pae', record=student, application=application, quals=quals)
     if giveback:
         return HTML(string=thepdf).write_pdf()
