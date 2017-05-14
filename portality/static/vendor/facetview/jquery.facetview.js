@@ -1160,6 +1160,9 @@ search box - the end user will not know they are happening.
         // parse any source params out for an initial search
         var parsesource = function() {
             var qrystr = options.source.query;
+            if ( 'sort' in qrystr ) {
+                options.sort = qrystr.sort;
+            }
             if ( 'bool' in qrystr ) {
                 var qrys = [];
                 // TODO: check for nested
