@@ -48,11 +48,6 @@
                 <td class="title">School</td> <td>{{ record.school }}</td>
                 <td class="title">School category</td> <td>{{ record.LEAPS_category }}</td>
             </tr>
-            {% if record.simd_pc <= 40 %}
-            <tr>
-                <td colspan="6">This student has a home post code relating to SIMD {{record.simd_pc}}%</td>
-            </tr>
-            {% endif %}
         </table>
 
         <h3>Qualifications</h3>
@@ -92,6 +87,9 @@
 
         <h3>Further information</h3>
         <p>
+            {% if record.simd_pc <= 40 %}
+                This student has a home post code relating to SIMD {{record.simd_pc}}%<br />
+            {% endif %}
             {% if record.first_attending_university %}
                 This student is the first from their family attending university<br />
             {% endif %}

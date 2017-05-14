@@ -116,6 +116,9 @@ jQuery(document).ready(function() {
 
             <h2>Further information</h2>
             <p>
+            {% if record.simd_pc <= 40 %}
+                This student has a home post code relating to SIMD {{record.simd_pc}}%<br />
+            {% endif %}
             {% if student.first_attending_university %}
                 This student is the first from their family attending university<br />
             {% endif %}

@@ -73,6 +73,13 @@ def pae(appid):
 
     else:
         student, application = _get_student_for_appn(appid)
+        if not student.get('simd_pc',False):
+            dec = int(student['simd_decile'])
+            if dec == 10 and student.get('simd_quintile',False) == 5:
+                dec = 100
+            elif dec < 10:
+                dec = dec * 10
+            student['simd_pc'] = str(dec)
         
         if request.method == 'GET':
             if application.get('pae_reply_received',False):
