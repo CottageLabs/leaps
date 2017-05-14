@@ -127,6 +127,14 @@ def student(uuid=None):
         student = models.Student()
     else:
         student = models.Student.pull(uuid)
+        if not student.data.get('simd_pc',False):
+            dec = int(student.data['simd_decile'])
+            if dec == 10 and student.data.get('simd_quintile',False) == 5:
+                dec = 100
+            elif dec < 10:
+                dec = dec * 10
+            student.data['simd_pc'] = str(dec)
+            student.save()
         if student is None: abort(404)
 
     selections={

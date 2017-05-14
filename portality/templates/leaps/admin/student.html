@@ -466,8 +466,8 @@ fieldset{
         	            <td></td>
         	            <td></td>
 	                    <td style="text-align:right;padding:6px 10px 0 100px;">SIMD %</td>
-                		<td colspan="3">
-                		{% if record %}{{record.data.simd_pc}}{% endif %}
+                		<td>
+											{% if record %}<p style="padding-top:5px;">{{record.data.simd_pc}}</p>{% endif %}
                 		</td>
                     </tr>
                 </tbody>
