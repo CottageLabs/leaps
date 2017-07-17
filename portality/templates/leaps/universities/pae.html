@@ -71,7 +71,7 @@ jQuery(document).ready(function() {
             <table class="table table-bordered">
                 <tr>
                     <td class="title">Date of birth</td> <td>{{ student.date_of_birth }}</td>
-                    <td class="title">Post code</td> <td>{{ student.post_code }}</td>
+                    <td class="title">Post code<br>SIMD %</td> <td>{{ student.post_code }}<br>{{ student.simd_pc }}</td>
                 </tr>
                 <tr>
                     <td class="title">School</td> <td>{{ student.school }}</td>
@@ -116,7 +116,7 @@ jQuery(document).ready(function() {
 
             <h2>Further information</h2>
             <p>
-            {% if student.simd_pc <= 40 %}
+            {% if student.simd_pc == "10" or student.simd_pc == "20" %}
                 This student has a home post code relating to SIMD {{record.simd_pc}}%<br />
             {% endif %}
             {% if student.first_attending_university %}

@@ -3,9 +3,7 @@
 {% block options %}
 {% if current_user.edit_students and (not record or record.archive == "current") %}
 <a id="triggersave" class="btn btn-success" href="#">Save</a>
-{% if record and current_user.do_admin %}
 <a id="triggerdelete" class="btn btn-danger" href="#">Delete</a><br>
-{% endif %}
 <a class="btn" href="/admin/student/{{record.id}}.pdf">Print</a>
 {% endif %}
 
