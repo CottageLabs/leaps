@@ -48,9 +48,6 @@ server {
     listen 443;
     ssl on;
 
-    ssl_certificate /etc/letsencrypt/live/leapssurvey.org/fullchain.pem;
-    ssl_certificate_key /etc/letsencrypt/live/leapssurvey.org/privkey.pem;
-
     #keepalive_timeout 600;
 
     server_name leapssurvey.org www.leapssurvey.org;
