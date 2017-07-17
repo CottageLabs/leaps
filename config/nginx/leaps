@@ -1,0 +1,38 @@
+
+server {
+    listen 80;
+    #server_name leapssurvey.org www.leapssurvey.org
+    server_name test.leapssurvey.org;
+    rewrite ^ https://$server_name$request_uri? permanent;
+}
+
+server {
+    #server_name leapssurvey.org www.leapssurvey.org
+    server_name test.leapssurvey.org;
+
+    access_log /var/log/nginx/leaps-access.log;
+    error_log /var/log/nginx/leaps-error.log;
+
+    #client_max_body_size 200M;
+    #client_body_buffer_size 128k;
+
+    location /static {
+        autoindex off;
+        root /home/leaps/leaps/src/leaps/portality;
+        break;
+    }
+
+    location / {
+        proxy_pass http://localhost:5005/;
+        proxy_redirect off;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+    }
+
+    listen 443 ssl; # managed by Certbot
+ssl_certificate /etc/letsencrypt/live/test.leapssurvey.org/fullchain.pem; # managed by Certbot
+ssl_certificate_key /etc/letsencrypt/live/test.leapssurvey.org/privkey.pem; # managed by Certbot
+    include /etc/letsencrypt/options-ssl-nginx.conf; # managed by Certbot
+
+}

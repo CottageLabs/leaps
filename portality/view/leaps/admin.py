@@ -128,13 +128,17 @@ def student(uuid=None):
     else:
         student = models.Student.pull(uuid)
         if not student.data.get('simd_pc',False):
-            dec = int(student.data['simd_decile'])
-            if dec == 10 and student.data.get('simd_quintile',False) == 5:
-                dec = 100
-            elif dec < 10:
-                dec = dec * 10
-            student.data['simd_pc'] = str(dec)
-            student.save()
+            try:
+                dec = int(student.data['simd_decile'])
+                if dec == 10 and student.data.get('simd_quintile',False) == 5:
+                    dec = 100
+                elif dec < 10:
+                    dec = dec * 10
+                student.data['simd_pc'] = str(dec)
+                student.save()
+            except:
+                student.data['simd_pc'] = "unknown"
+                student.save()
         if student is None: abort(404)
 
     selections={
@@ -205,12 +209,15 @@ def pdf(sid,giveback=False):
                     if i['_source']['simd_decile'] == 'unknown':
                         i['_source']['simd_pc'] = 'unknown'
                     else:
-                        dec = int(i['_source'].get('simd_decile',0))
-                        if dec == 10 and int(i['_source'].get('simd_quintile',0)) == 5:
-                            dec = 100
-                        elif dec < 10:
-                            dec = dec * 10
-                        i['_source']['simd_pc'] = str(dec)
+                        try:
+                            dec = int(i['_source'].get('simd_decile',0))
+                            if dec == 10 and int(i['_source'].get('simd_quintile',0)) == 5:
+                                dec = 100
+                            elif dec < 10:
+                                dec = dec * 10
+                            i['_source']['simd_pc'] = str(dec)
+                        except:
+                            i['_source']['simd_pc'] = 'unknown'
                 students.append( i['_source'] )
         if len(students) == 0:
             abort(404)
@@ -225,12 +232,15 @@ def pdf(sid,giveback=False):
                 if student.data['simd_decile'] == 'unknown':
                     student.data['simd_pc'] = 'unknown'
                 else:
-                    dec = int(student.data.get('simd_decile',0))
-                    if dec == 10 and student.data.get('simd_quintile',False) == 5:
-                        dec = 100
-                    elif dec < 10:
-                        dec = dec * 10
-                    student.data['simd_pc'] = str(dec)
+                    try:
+                        dec = int(student.data.get('simd_decile',0))
+                        if dec == 10 and student.data.get('simd_quintile',False) == 5:
+                            dec = 100
+                        elif dec < 10:
+                            dec = dec * 10
+                        student.data['simd_pc'] = str(dec)
+                    except:
+                        student.data['simd_pc'] = 'unknown'
             thepdf = render_template('leaps/admin/student_pdf', students=[student.data])
 
     if giveback:
