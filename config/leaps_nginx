@@ -32,7 +32,7 @@ server {
 
     location /static {
         autoindex off;
-        root /opt/leaps/src/leaps/portality;
+        root /home/leaps/leaps/src/leaps/portality;
         break;
     }
 
@@ -61,7 +61,7 @@ server {
 
     location /static {
         autoindex off;
-        root /opt/leaps/src/leaps/portality;
+        root /home/leaps/leaps/src/leaps/portality;
         break;
     }
 
