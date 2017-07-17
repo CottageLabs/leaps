@@ -46,7 +46,6 @@ server {
 
 server {
     listen 443;
-    ssl on;
 
     #keepalive_timeout 600;
 
