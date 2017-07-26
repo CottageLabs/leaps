@@ -93,6 +93,9 @@ def pae(appid):
                 quals = student['paequals'][application['qid']]
             else:
                 quals = student['qualifications']
+            if 'paelocs' in student and 'qid' in application and application['qid'] in student['paelocs']:
+                for key in student['paelocs'][application['qid']]:
+                    student[key] = student['paelocs'][application['qid']][key]
             return render_template(
                 'leaps/universities/pae.html', 
                 student=student, 

@@ -29,10 +29,11 @@ class Student(DomainObject):
 
         # check for school changes and other things that should persist across saves
         try:
-            old = Student.pull(self.id)
-            if old.data.get('school',False) != rec.get('school',False):
+            old = Student.pull(rec[id])
+            if old.data.get('school',False) != rec.get('school',False) or old.data.get('post_code',False) != rec.get('post_code',False):
                 rec['simd_decile'] = ""
                 rec['simd_quintile'] = ""
+                rec['simd_pc'] = ""
                 rec['shep_school'] = ""
                 rec['leaps_category'] = ""
                 rec['local_authority'] = ""
@@ -116,6 +117,10 @@ class Student(DomainObject):
             rec['paequals'] = self.data['paequals']
         else:
             rec['paequals'] = {}
+        if 'paelocs' in self.data:
+            rec['paelocs'] = self.data['paelocs']
+        else:
+            rec['paelocs'] = {}
         
         for key in request.form.keys():
             if not key.startswith("qualification_") and not key.startswith("interest_") and not key.startswith("application_") and not key.startswith("experience_") and key not in ['submit']:
@@ -212,6 +217,14 @@ class Student(DomainObject):
                         if request.form.getlist('application_pae_requested')[k] == "Yes":
                             qid = uuid.uuid4().hex
                             rec['paequals'][qid] = rec['qualifications']
+                            locset = {}
+                            locset['post_code'] = rec['post_code']
+                            locset['simd_pc'] = rec['simd_pc']
+                            locset['simd20'] = rec['simd20']
+                            locset['simd40'] = rec['simd40']
+                            locset['school'] = rec['school']
+                            locset['leaps_category'] = rec['leaps_category']
+                            rec['paelocs'][qid] = locset
                             appn['qid'] = qid
                             if 'pae_requested' not in appn:
                                 appn['pae_requested'] = datetime.now().strftime("%d/%m/%Y")

@@ -92,7 +92,7 @@
 
         <h3>Further information</h3>
         <p>
-            {% if record.simd_pc == "10" or record.simd_pc == "20" %}
+            {% if record.simd20 or record.simd40 %}
                 This student has a home post code relating to SIMD {{record.simd_pc}}%<br />
             {% endif %}
             {% if record.first_attending_university %}
