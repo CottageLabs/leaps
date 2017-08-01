@@ -63,9 +63,7 @@ def index():
 def username(username):
     acc = models.Account.pull(username)
 
-    if ( request.method == 'POST' and request.values.get('submit','') == "Delete account" ) or request.method == 'DELETE':
-        if not auth.user.update(acc,current_user):
-            abort(401)
+    if current_user.do_admin and ( ( request.method == 'POST' and request.values.get('submit','') == "Delete account" ) or request.method == 'DELETE' ):
         if acc: acc.delete()
         time.sleep(1)
         flash("Account " + str(acc.id) + " deleted")
