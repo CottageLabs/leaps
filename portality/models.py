@@ -191,80 +191,80 @@ class Student(DomainObject):
                     pass
         for k,v in enumerate(request.form.getlist('application_subject')):
             if v is not None and len(v) > 0 and v != " ":
-                #try:
-                appn = {
-                    "subject": v,
-                    "institution": request.form.getlist('application_institution')[k],
-                    "level": request.form.getlist('application_level')[k]
-                }
                 try:
-                    appn['appid'] = request.form.getlist('application_appid')[k]
-                    if 'appid' not in appn or appn['appid'] == "": appn['appid'] = Student.makeid()
-                except:
-                    appn['appid'] = Student.makeid()
-                try:
-                    appn['pae_reply_received'] = request.form.getlist('application_pae_reply_received')[k]
+                    appn = {
+                        "subject": v,
+                        "institution": request.form.getlist('application_institution')[k],
+                        "level": request.form.getlist('application_level')[k]
+                    }
+                    try:
+                        appn['appid'] = request.form.getlist('application_appid')[k]
+                        if 'appid' not in appn or appn['appid'] == "": appn['appid'] = Student.makeid()
+                    except:
+                        appn['appid'] = Student.makeid()
+                    try:
+                        appn['pae_reply_received'] = request.form.getlist('application_pae_reply_received')[k]
+                    except:
+                        pass
+                    try:
+                        appn['consider'] = request.form.getlist('application_consider')[k]
+                    except:
+                        pass
+                    try:
+                        appn['conditions'] = request.form.getlist('application_conditions')[k]
+                    except:
+                        pass
+                    try:
+                        appn['summer_school'] = request.form.getlist('application_summer_school')[k]
+                    except:
+                        pass
+                    try:
+                        appn['pae_emailed'] = request.form.getlist('application_pae_emailed')[k]
+                    except:
+                        pass
+                    try:
+                        appn['qid'] = request.form.getlist('application_qid')[k]
+                    except:
+                        pass
+                    try:
+                        if request.form.getlist('application_pae_requested')[k] == "Yes":
+                            qid = uuid.uuid4().hex
+                            rec['paequals'][qid] = rec['qualifications']
+                            locset = {}
+                            locset['post_code'] = self.data['post_code']
+                            if self.data.get('simd_pc',False):
+                                locset['simd_pc'] = self.data['simd_pc']
+                            else:
+                                if self.data['simd_decile'] != 'unknown':
+                                    dec = int(self.data['simd_decile'])
+                                    if dec == 10 and self.data.get('simd_quintile',False) == 5:
+                                        dec = 100
+                                    elif dec < 10:
+                                        dec = dec * 10
+                                    locset['simd_pc'] = str(dec)
+                                else:
+                                    locset['simd_pc'] = 'unknown'
+                            locset['simd20'] = self.data.get('simd20',False)
+                            locset['simd40'] = self.data.get('simd40',False)
+                            locset['school'] = self.data['school']
+                            locset['leaps_category'] = rec['leaps_category']
+                            rec['paelocs'][qid] = locset
+                            appn['qid'] = qid
+                            if 'pae_requested' not in appn:
+                                appn['pae_requested'] = datetime.now().strftime("%d/%m/%Y")
+                            if '_process_paes_date' not in rec:
+                                rec['_process_paes_date'] = datetime.now().strftime("%d/%m/%Y")
+                                if rec['status'] == 'paes_all_received':
+                                    rec['status'] = 'paes_in_progress'
+                                if rec['status'] not in ['paes_in_progress']:
+                                    rec['status'] = 'paes_requested'
+                        elif request.form.getlist('application_pae_requested')[k] != "No":
+                            appn['pae_requested'] = request.form.getlist('application_pae_requested')[k]
+                    except:
+                        pass
+                    rec["applications"].append(appn)
                 except:
                     pass
-                try:
-                    appn['consider'] = request.form.getlist('application_consider')[k]
-                except:
-                    pass
-                try:
-                    appn['conditions'] = request.form.getlist('application_conditions')[k]
-                except:
-                    pass
-                try:
-                    appn['summer_school'] = request.form.getlist('application_summer_school')[k]
-                except:
-                    pass
-                try:
-                    appn['pae_emailed'] = request.form.getlist('application_pae_emailed')[k]
-                except:
-                    pass
-                try:
-                    appn['qid'] = request.form.getlist('application_qid')[k]
-                except:
-                    pass
-                #try:
-                if request.form.getlist('application_pae_requested')[k] == "Yes":
-                    qid = uuid.uuid4().hex
-                    rec['paequals'][qid] = rec['qualifications']
-                    locset = {}
-                    locset['post_code'] = self.data['post_code']
-                    if self.data.get('simd_pc',False):
-                        locset['simd_pc'] = self.data['simd_pc']
-                    else:
-                        if self.data['simd_decile'] != 'unknown':
-                            dec = int(self.data['simd_decile'])
-                            if dec == 10 and self.data.get('simd_quintile',False) == 5:
-                                dec = 100
-                            elif dec < 10:
-                                dec = dec * 10
-                            locset['simd_pc'] = str(dec)
-                        else:
-                            locset['simd_pc'] = 'unknown'
-                    locset['simd20'] = self.data.get('simd20',False)
-                    locset['simd40'] = self.data.get('simd40',False)
-                    locset['school'] = self.data['school']
-                    locset['leaps_category'] = rec['leaps_category']
-                    rec['paelocs'][qid] = locset
-                    appn['qid'] = qid
-                    if 'pae_requested' not in appn:
-                        appn['pae_requested'] = datetime.now().strftime("%d/%m/%Y")
-                    if '_process_paes_date' not in rec:
-                        rec['_process_paes_date'] = datetime.now().strftime("%d/%m/%Y")
-                        if rec['status'] == 'paes_all_received':
-                            rec['status'] = 'paes_in_progress'
-                        if rec['status'] not in ['paes_in_progress']:
-                            rec['status'] = 'paes_requested'
-                elif request.form.getlist('application_pae_requested')[k] != "No":
-                    appn['pae_requested'] = request.form.getlist('application_pae_requested')[k]
-                #except:
-                #    pass
-                rec["applications"].append(appn)
-                #except:
-                #    pass
         for k,v in enumerate(request.form.getlist('experience_title')):
             if v is not None and len(v) > 0 and v != " ":
                 try:
