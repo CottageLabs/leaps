@@ -10,6 +10,11 @@
 
     <script type="text/javascript">
     jQuery(document).ready(function() {
+        var triggerdelete = function(event) {
+            event.preventDefault();
+            confirm('Are you sure you want to delete this student record?') ? $('#delete').trigger('click') : false;
+        };
+        $('#delete').bind('click',triggerdelete);
     });
     </script>
 
@@ -35,6 +40,11 @@
                 {% if account.data.institution %}
                     <p><input name="institution" type="text" value="{{account.data.institution}}" disabled="disabled"></p>
                 {% endif %}
+        	    {% if current_user.do_admin %}
+                <form action="" method="post">
+            	    <input id="delete" class="btn btn-danger span2" type="submit" name="submit" value="Delete">
+            	</form>
+        	    {% endif %}
             </div>
         </div>
     </div>

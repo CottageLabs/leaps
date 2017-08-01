@@ -1,6 +1,6 @@
 import uuid, json, time
 
-from flask import Blueprint, request, url_for, flash, redirect, abort
+from flask import Blueprint, request, make_response, url_for, flash, redirect, abort
 from flask import render_template
 from flask.ext.login import login_user, logout_user, current_user
 from flask.ext.wtf import Form, TextField, TextAreaField, SelectField, BooleanField, PasswordField, HiddenField, validators, ValidationError
@@ -63,11 +63,13 @@ def index():
 def username(username):
     acc = models.Account.pull(username)
 
-    if request.method == 'DELETE':
+    if ( request.method == 'POST' and request.values.get('submit','') == "Delete" ) or request.method == 'DELETE':
         if not auth.user.update(acc,current_user):
             abort(401)
         if acc: acc.delete()
-        return ''
+        time.sleep(1)
+        flash("Account " + str(acc.id) + " deleted")
+        return redirect('/account')
     elif request.method == 'POST':
         if not auth.user.update(acc,current_user):
             abort(401)
