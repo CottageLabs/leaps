@@ -66,7 +66,7 @@ class Student(DomainObject):
                 rec['simd_decile'] = 'unknown'
                 rec['simd_quintile'] = 'unknown'
                 
-        if 'simd_pc' not in rec:
+        if 'simd_pc' not in rec or rec["simd_pc"] == "":
             if rec['simd_decile'] != 'unknown':
                 dec = int(rec['simd_decile'])
                 if dec == 10 and rec.get('simd_quintile',False) == 5:
