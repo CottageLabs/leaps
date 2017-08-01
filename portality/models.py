@@ -110,7 +110,7 @@ class Student(DomainObject):
             rec['simd_pc'] = True
         if rec.get('simd_pc',False) == "off":
             rec['simd_pc'] = False                
-        if rec.get('simd_pcl',False) == 1:
+        if rec.get('simd_pc',False) == 1:
             rec['simd_pc'] = True
         if rec.get('simd_pc',False) == 0:
             rec['simd_pc'] = False          
@@ -232,18 +232,22 @@ class Student(DomainObject):
                             rec['paequals'][qid] = rec['qualifications']
                             locset = {}
                             locset['post_code'] = self.data['post_code']
-                            if self.data.get('simd_pc',False):
-                                locset['simd_pc'] = self.data['simd_pc']
+                            s = Simd.pull_by_post_code(request.form['post_code'])
+                            if s is not None:
+                                locset['simd_decile'] = s.data.get('simd_decile','SIMD decile missing')
+                                locset['simd_quintile'] = s.data.get('simd_quintile','SIMD quintile missing')
                             else:
-                                if self.data['simd_decile'] != 'unknown':
-                                    dec = int(self.data['simd_decile'])
-                                    if dec == 10 and self.data.get('simd_quintile',False) == 5:
-                                        dec = 100
-                                    elif dec < 10:
-                                        dec = dec * 10
-                                    locset['simd_pc'] = str(dec)
-                                else:
-                                    locset['simd_pc'] = 'unknown'
+                                locset['simd_decile'] = 'unknown'
+                                locset['simd_quintile'] = 'unknown'
+                            if locset['simd_decile'] != 'unknown':
+                                dec = int(locset['simd_decile'])
+                                if dec == 10 and locset.get('simd_quintile',False) == 5:
+                                    dec = 100
+                                elif dec < 10:
+                                    dec = dec * 10
+                                locset['simd_pc'] = str(dec)
+                            else:
+                                locset['simd_pc'] = 'unknown'
                             locset['simd20'] = self.data.get('simd20',False)
                             locset['simd40'] = self.data.get('simd40',False)
                             locset['school'] = self.data['school']
