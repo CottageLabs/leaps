@@ -102,6 +102,19 @@ class Student(DomainObject):
         if rec.get('shep_school',False) == 0:
             rec['shep_school'] = False          
 
+        if rec.get('simd_pc',False) == "yes":
+            rec['simd_pc'] = True
+        if rec.get('simd_pc',False) == "no":
+            rec['simd_pc'] = False                
+        if rec.get('simd_pc',False) == "on":
+            rec['simd_pc'] = True
+        if rec.get('simd_pc',False) == "off":
+            rec['simd_pc'] = False                
+        if rec.get('simd_pcl',False) == 1:
+            rec['simd_pc'] = True
+        if rec.get('simd_pc',False) == 0:
+            rec['simd_pc'] = False          
+
         return rec
 
 
@@ -218,11 +231,22 @@ class Student(DomainObject):
                     qid = uuid.uuid4().hex
                     rec['paequals'][qid] = rec['qualifications']
                     locset = {}
-                    locset['post_code'] = rec['post_code']
-                    locset['simd_pc'] = rec['simd_pc']
-                    locset['simd20'] = rec['simd20']
-                    locset['simd40'] = rec['simd40']
-                    locset['school'] = rec['school']
+                    locset['post_code'] = self.data['post_code']
+                    if self.data.get('simd_pc',False):
+                        locset['simd_pc'] = self.data['simd_pc']
+                    else:
+                        if self.data['simd_decile'] != 'unknown':
+                            dec = int(self.data['simd_decile'])
+                            if dec == 10 and self.data.get('simd_quintile',False) == 5:
+                                dec = 100
+                            elif dec < 10:
+                                dec = dec * 10
+                            locset['simd_pc'] = str(dec)
+                        else:
+                            locset['simd_pc'] = 'unknown'
+                    locset['simd20'] = self.data.get('simd20',False)
+                    locset['simd40'] = self.data.get('simd40',False)
+                    locset['school'] = self.data['school']
                     locset['leaps_category'] = rec['leaps_category']
                     rec['paelocs'][qid] = locset
                     appn['qid'] = qid
