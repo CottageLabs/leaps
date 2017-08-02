@@ -1,7 +1,7 @@
 
 from datetime import datetime
 
-from portality.core import app
+from portality.core import app, current_user
 
 from portality.dao import DomainObject as DomainObject
 
@@ -29,11 +29,12 @@ class Student(DomainObject):
 
         # check for school changes and other things that should persist across saves
         try:
-            old = Student.pull(rec[id])
-            if old.data.get('school',False) != rec.get('school',False) or old.data.get('post_code',False) != rec.get('post_code',False):
+            old = Student.pull(rec['id'])
+            if old.data.get('post_code',False) != rec.get('post_code',False):
                 rec['simd_decile'] = ""
                 rec['simd_quintile'] = ""
                 rec['simd_pc'] = ""
+            if old.data.get('school',False) != rec.get('school',False):
                 rec['shep_school'] = ""
                 rec['leaps_category'] = ""
                 rec['local_authority'] = ""

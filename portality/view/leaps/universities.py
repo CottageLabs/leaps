@@ -159,6 +159,9 @@ def paepdf(appid,giveback=False):
         quals = student['paequals'][application['qid']]
     else:
         quals = student['qualifications']
+    if 'paelocs' in student and 'qid' in application and application['qid'] in student['paelocs']:
+        for key in student['paelocs'][application['qid']]:
+            student[key] = student['paelocs'][application['qid']][key]
     if not student.get('simd_pc',False):
         dec = int(student['simd_decile'])
         if dec == 10 and student.get('simd_quintile',False) == 5:
