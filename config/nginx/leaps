@@ -1,14 +1,14 @@
 
 server {
     listen 80;
-    #server_name leapssurvey.org www.leapssurvey.org
-    server_name test.leapssurvey.org;
+    server_name leapssurvey.org www.leapssurvey.org
+    #server_name test.leapssurvey.org;
     rewrite ^ https://$server_name$request_uri? permanent;
 }
 
 server {
-    #server_name leapssurvey.org www.leapssurvey.org
-    server_name test.leapssurvey.org;
+    server_name leapssurvey.org www.leapssurvey.org
+    #server_name test.leapssurvey.org;
 
     access_log /var/log/nginx/leaps-access.log;
     error_log /var/log/nginx/leaps-error.log;
