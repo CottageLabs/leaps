@@ -30,9 +30,4 @@ server {
         proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
     }
 
-    listen 443 ssl; # managed by Certbot
-ssl_certificate /etc/letsencrypt/live/test.leapssurvey.org/fullchain.pem; # managed by Certbot
-ssl_certificate_key /etc/letsencrypt/live/test.leapssurvey.org/privkey.pem; # managed by Certbot
-    include /etc/letsencrypt/options-ssl-nginx.conf; # managed by Certbot
-
 }
