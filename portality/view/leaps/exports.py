@@ -184,7 +184,7 @@ def download_csv(recordlist,keys):
                     else:
                         try:
                             dec = int(record['simd_decile'])
-                            if dec == 10 and record.get('simd_quintile',False) == 5:
+                            if dec == 10 and int(record.get('simd_quintile',0)) == 5:
                                 dec = 100
                             elif dec < 10:
                                 dec = dec * 10

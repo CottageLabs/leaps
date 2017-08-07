@@ -234,7 +234,7 @@ def pdf(sid,giveback=False):
                 else:
                     try:
                         dec = int(student.data.get('simd_decile',0))
-                        if dec == 10 and student.data.get('simd_quintile',False) == 5:
+                        if dec == 10 and int(student.data.get('simd_quintile',0)) == 5:
                             dec = 100
                         elif dec < 10:
                             dec = dec * 10

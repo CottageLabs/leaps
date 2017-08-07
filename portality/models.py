@@ -70,7 +70,7 @@ class Student(DomainObject):
         if 'simd_pc' not in rec or rec["simd_pc"] == "":
             if rec['simd_decile'] != 'unknown':
                 dec = int(rec['simd_decile'])
-                if dec == 10 and rec.get('simd_quintile',False) == 5:
+                if dec == 10 and int(rec.get('simd_quintile',0)) == 5:
                     dec = 100
                 elif dec < 10:
                     dec = dec * 10
@@ -242,7 +242,7 @@ class Student(DomainObject):
                                 locset['simd_quintile'] = 'unknown'
                             if locset['simd_decile'] != 'unknown':
                                 dec = int(locset['simd_decile'])
-                                if dec == 10 and locset.get('simd_quintile',False) == 5:
+                                if dec == 10 and int(locset.get('simd_quintile',0)) == 5:
                                     dec = 100
                                 elif dec < 10:
                                     dec = dec * 10

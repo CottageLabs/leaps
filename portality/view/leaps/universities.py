@@ -75,7 +75,7 @@ def pae(appid):
         student, application = _get_student_for_appn(appid)
         if not student.get('simd_pc',False):
             dec = int(student['simd_decile'])
-            if dec == 10 and student.get('simd_quintile',False) == 5:
+            if dec == 10 and int(student.get('simd_quintile',0)) == 5:
                 dec = 100
             elif dec < 10:
                 dec = dec * 10
@@ -164,7 +164,7 @@ def paepdf(appid,giveback=False):
             student[key] = student['paelocs'][application['qid']][key]
     if not student.get('simd_pc',False):
         dec = int(student['simd_decile'])
-        if dec == 10 and student.get('simd_quintile',False) == 5:
+        if dec == 10 and int(student.get('simd_quintile',0)) == 5:
             dec = 100
         elif dec < 10:
             dec = dec * 10
