@@ -68,7 +68,7 @@
     </div>
     <div class="span3">
         <div class="alert alert-success" style="min-height:110px;">
-            {% if current_user.do_admin %}
+            {% if current_user.view_admin %}
             <p><a class="btn btn-success" href="/account/{{current_user.id}}" style="min-width:110px;">Account settings</a></p>
             {% endif %}
             <p><a class="btn btn-success" href="/account/logout" style="min-width:110px;">Logout of LEAPS</a></p>

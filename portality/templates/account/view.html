@@ -31,7 +31,7 @@
                 {% endif %}
             </div>
             <div class="span6">
-                {% if current_user.do_admin or current_user.is_super or ((current_user.is_institution or current_user.is_school) and not current_user.view_admin ) %}
+                {% if current_user.do_admin or current_user.is_super or (current_user.view_admin and current_user.id == account.id) or ((current_user.is_institution or current_user.is_school) and not current_user.view_admin ) %}
                 <form method="POST">
                 <p>New password: <input name="password" type="text" style="margin-bottom:0px;"> <input class="btn" type="submit" value="save"></p>
                 </form>
