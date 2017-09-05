@@ -232,8 +232,8 @@ def register():
     if request.method == 'POST' and form.validate():
         api_key = str(uuid.uuid4())
         account = models.Account(
-            id=form.w.data, 
-            email=form.n.data,
+            id=form.w.data.strip(), 
+            email=form.n.data.strip(),
             api_key=api_key,
             school = form.school.data,
             institution = form.institution.data,
