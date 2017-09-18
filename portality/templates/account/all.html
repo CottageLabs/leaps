@@ -7,10 +7,16 @@
 {% block content %}
 
     {% if userstats %}
-        <p>There are {{ userstats.super_user }} super users, {{ userstats.do_admin }} users with adminstrative access, 
-          {{ userstats.edit_students }} users with edit students access to admin, 
-          {{ userstats.view_admin }} users with view access to admin, {{ userstats.school_users }} associated school accounts, 
-          and {{ userstats.institution_users }} associated institution accounts.</p>
+        <p>
+          There are <a href="?users=super">{{ userstats.super_user }}</a> super users, 
+          <a href="?users=do_admin">{{ userstats.do_admin }}</a> users with adminstrative access, 
+          <a href="?users=edit_students">{{ userstats.edit_students }}</a> users with edit students access to admin, 
+          <a href="?users=view_admin">{{ userstats.view_admin }}</a> users with view access to admin, 
+          <a href="?users=school">{{ userstats.school_users }}</a> associated school accounts, 
+          and <a href="?users=institution">{{ userstats.institution_users }}</a> associated institution accounts.</p>
+    {% endif %}
+    {% if showing %}
+    <p>Showing {{ showing }} users.</p>
     {% endif %}
 
     <hr></hr>

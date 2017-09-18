@@ -42,6 +42,15 @@
                 {% if account.data.institution %}
                     <p><input name="institution" type="text" value="{{account.data.institution}}" disabled="disabled"></p>
                 {% endif %}
+                {% if account.data.do_admin %}
+                <p>This account can perform admin area actions.</p>
+                {% endif %}
+                {% if account.data.edit_students %}
+                <p>This account can edit student records.</p>
+                {% endif %}
+                {% if account.data.view_admin %}
+                <p>This account can access the admin area.</p>
+                {% endif %}
         	    {% if current_user.do_admin %}
                 <form action="" method="post">
             	    <input id="delete" class="btn btn-danger span2" type="submit" name="submit" value="Delete account">
