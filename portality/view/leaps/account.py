@@ -50,7 +50,7 @@ def index():
             user = {'id':acc.id}
             if 'created_date' in acc.data:
                 user['created_date'] = acc.data['created_date']
-            if request.values.get('users',False) == False or (request.values['users'] == 'school' and acc.data.get('school','') != '') or (request.values['users'] == 'institution' and acc.data.get('institution','') != '') or (request.values['users'] == 'super' and acc.id in app.config['SUPER_USER']) or acc.data[request.values['users']]:
+            if request.values.get('users',False) == False or (request.values['users'] == 'school' and acc.data.get('school','') != '') or (request.values['users'] == 'institution' and acc.data.get('institution','') != '') or (request.values['users'] == 'super' and acc.id in app.config['SUPER_USER']) or (request.values['users'] not in ['school','institution','super'] and acc.data[request.values['users']]):
                 users.append(user)
     if util.request_wants_json():
         resp = make_response( json.dumps(users, sort_keys=True, indent=4) )
