@@ -57,7 +57,7 @@ def index():
         resp.mimetype = "application/json"
         return resp
     else:
-        return render_template('account/all.html', users=users, userstats=userstats, showing=request.values.get['users',False])
+        return render_template('account/all.html', users=users, userstats=userstats, showing=request.values.get('users',False))
 
 
 @blueprint.route('/<username>', methods=['GET','POST', 'DELETE'])
