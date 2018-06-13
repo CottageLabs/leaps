@@ -139,7 +139,7 @@ class Student(DomainObject):
         for key in request.form.keys():
             if not key.startswith("qualification_") and not key.startswith("interest_") and not key.startswith("application_") and not key.startswith("experience_") and key not in ['submit']:
                 val = request.form[key]
-                if key == "summer_school":
+                if key == "summer_school" or key == "summer_school_applicant":
                     if val == "on":
                         rec[key] = "yes"
                     else:
@@ -406,9 +406,13 @@ class School(DomainObject):
                 except:
                     pass
 
+        if 'gender_other' in request.form:
+            if len(request.form['gender_other']) > 0:
+                request.form['gender'] = request.form['gender_other']
+            del request.form['gender_other']
         rec['shep_school'] = False
         for key in request.form.keys():
-            if not key.startswith("contact_") and not key.startswith("subject_") and key not in ['submit']:
+            if not key.startswith("contact_") and not key.startswith("subject_") and key not in ['submit']: #,'agreed']: removed this again, cos form already has agreement in it
                 val = request.form[key]
                 if key == 'shep_school':
                     if val == "on" or val == "yes":

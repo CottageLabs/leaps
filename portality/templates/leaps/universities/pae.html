@@ -189,10 +189,16 @@ jQuery(document).ready(function() {
                 <td><input type="checkbox" name="identity_statement"
                 {% if application.pae_reply_received %} checked="checked"{% endif %}                
                 ></td>
-                <td>I, being identified by the email address / username 
-                <strong>{{ current_user.id }}</strong>, have the authority to provide 
-                this Pre-Aplication Enquiry response on behalf of 
-                <strong>{{ application.institution }}</strong>.</td>
+                <td>
+                    {% if application.pae_reply_received %}
+                        This information has been provided by an authorised employee of {{application.institution}}
+                    {% else %}
+                        I, being identified by the email address / username 
+                        <strong>{{ current_user.id }}</strong>, have the authority to provide 
+                        this Pre-Aplication Enquiry response on behalf of 
+                        <strong>{{ application.institution }}</strong>.
+                    {% endif %}
+                </td>
             </tr>
             <tr>
                 <td><input type="checkbox" name="summer_school"

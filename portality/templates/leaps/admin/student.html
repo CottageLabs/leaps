@@ -575,7 +575,7 @@ fieldset{
 	                    <td style="text-align:right;padding:6px 10px 0 0;">Created date</td>
                 		<td>
                 		    <input type="hidden" name="created_date" value="{{record.data.created_date}}">
-                		    <p style="padding-top:5px;">{{record.data.created_date}}</p>
+                		    <p style="padding-top:5px;">{{record.data.created_date}}<br>ID: {{record._id}}</p>
                 		</td>
 	                    <td style="text-align:right;padding:6px 10px 0 100px;">Last updated</td>
                 		<td><p style="padding-top:5px;">{{record.data.last_updated}}</p></td>
@@ -1036,9 +1036,14 @@ fieldset{
 												<td><input type="checkbox" name="simd40"
 												{% if record %}{% if record.data.simd40 %} checked="checked"{% endif %}{% endif %}
 												> SIMD 40</td>
-                        <td><input type="checkbox" name="summer_school"
-                		{% if record %}{% if record.data.summer_school %}{% if record.data.summer_school == "yes" %} checked="checked"{% endif %}{% endif %}{% endif %}
-                		> Summer school</td>
+                        <td>
+                            <input type="checkbox" name="summer_school"
+                		    {% if record %}{% if record.data.summer_school %}{% if record.data.summer_school == "yes" %} checked="checked"{% endif %}{% endif %}{% endif %}
+                		    > Summer school interest<br>
+                            <input type="checkbox" name="summer_school_applicant"
+                		    {% if record %}{% if record.data.summer_school_applicant %}{% if record.data.summer_school_applicant == "yes" %} checked="checked"{% endif %}{% endif %}{% endif %}
+                		    > Summer school applicant<br>
+                		</td>
                         <td><input type="checkbox" name="pae_action"
                 		{% if record %}{% if record.data.pae_action %} checked="checked"{% endif %}{% endif %}
                 		> PAE action</td>
