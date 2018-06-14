@@ -92,7 +92,7 @@ jQuery(document).ready(function() {
     $('table.multi').find('tbody').append('<tr><td><a class="btn btn-success add-row" href="#">add</a></td></tr>');
     // add / remove rows to list items
     $('.row.multi').each(function() {
-        $(this).children().last().append('<p>&nbsp;</p><p style="display:none;"><a class="btn btn-warning delete-row" href="#">delete</a></p><p><a class="btn btn-success add-row" href="#">add</a></p>');
+        $(this).children().last().append('<p class="hidden-xs hidden-sm">&nbsp;</p><p style="display:none;"><a class="btn btn-block btn-warning delete-row" href="#">delete</a></p><p><a class="btn btn-block btn-success add-row" href="#">add</a></p>');
     });
 
     var addrow = function(event) {
@@ -106,6 +106,7 @@ jQuery(document).ready(function() {
                 $(row).children('div').each(function() {
                    $(this).children('p').first().addClass('visible-xs').addClass('visible-sm'); 
                 });
+                $(this).closest('.row').append('<hr class="visible-xs visible-sm" style="color:#bbb;"></hr>');
                 $(row).insertAfter($(this).closest('.row'));
                 preprow(row);
                 $(this).closest('.row').find('.add-row').parent().hide();
