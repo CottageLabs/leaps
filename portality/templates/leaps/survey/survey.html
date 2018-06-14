@@ -103,7 +103,7 @@ jQuery(document).ready(function() {
             $(this).closest('.row').siblings('.row').length == (maxrows - 1) ? $(this).hide() : false;
             if ( $(this).closest('.row').siblings('.row').length < maxrows ) {
                 var row = $(this).closest('.row').clone(true).get(0);
-                $(row).find('.toprow').remove();
+                $(row).find('.toprow').hide();
                 $(row).children('div').each(function() {
                    $(this).children('p').first().addClass('visible-xs').addClass('visible-sm'); 
                 });
@@ -128,10 +128,11 @@ jQuery(document).ready(function() {
         event.preventDefault();
         if ($(this).closest('table').length === 0) {
             // if this is the first row, remove the visible-xs and visible-sm classes from the p tags of the next row
-            $(this).closest('.row').siblings('.row').first().children('div').each(function() {
-                $(this).children('p').first().removeClass('visible-xs').removeClass('visible-sm'); 
-            });;
             $(this).closest('.row').remove();
+            $(this).closest('.row').siblings('.row').first().children('div').each(function() {
+                $(this).find('.toprow').show();
+                $(this).children('p').first().removeClass('visible-xs').removeClass('visible-sm');
+            });
         } else {
             var row = $(this).closest('tr').clone(true).get(0);
             var maxrows = 6;
@@ -265,6 +266,9 @@ hr {
 }
 .narrow.datepicker{
     width:100px;
+}
+textarea {
+    min-height:150px;
 }
 /*.add-row, .delete-row {
     padding-left:3px;
@@ -717,42 +721,37 @@ input.bigfield{
 	    </div>
 	</div>
 
-	<div class="row">
-	    <div class="col-md-12">		
-	        <table class="multi">
-                <thead>
-                    <tr>
-                        <th>College / University</th>
-                        <th>Subject</th>
-                        <th>Level of study</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                		<td><select class="institutionselector" name="application_institution">
-                		    <option></option>
-                		    {% for opt in selections.institutions %}
-                		        <option>{{ opt }}</option>
-                		    {% endfor %}
-                		</select></td>
-                		<td><select class="subjectselector" name="application_subject">
-                		    <option></option>
-                		    {% for opt in selections.advancedsubjects %}
-                		        <option>{{ opt }}</option>
-                		    {% endfor %}
-                		</select></td>
-                		<td><select class="levelselector" name="application_level">
-                		    <option></option>
-                		    {% for opt in selections.advancedlevels %}
-                		        <option>{{ opt }}</option>
-                		    {% endfor %}
-                		</select></td>
-                    </tr>
-                </tbody>
-	        </table>
+	<div class="row multi">
+	    <div class="col-md-3">
+            <p>College / University</p>
+    		<p><select class="form-control institutionselector" name="application_institution">
+    		    <option></option>
+    		    {% for opt in selections.institutions %}
+    		        <option>{{ opt }}</option>
+    		    {% endfor %}
+    		</select></p>
+    	</div>
+	    <div class="col-md-3">
+            <p>Subject</p>
+    		<p><select class="form-control subjectselector" name="application_subject">
+    		    <option></option>
+    		    {% for opt in selections.advancedsubjects %}
+    		        <option>{{ opt }}</option>
+    		    {% endfor %}
+    		</select></p>
+    	</div>
+	    <div class="col-md-3">
+            <p>Level of study</p>
+    		<p><select class="form-control levelselector" name="application_level">
+    		    <option></option>
+    		    {% for opt in selections.advancedlevels %}
+    		        <option>{{ opt }}</option>
+    		    {% endfor %}
+    		</select></p>
+    	</div>
+	    <div class="col-md-2 col-md-offset-1">
 	    </div>
 	</div>
-
 </div>
 
 
@@ -779,23 +778,17 @@ input.bigfield{
 	    </div>
 	</div>
 
-	<div class="row">
-	    <div class="col-md-12">		
-	        <table class="multi">
-                <thead>
-                    <tr>
-                        <th>Title</th>
-                        <th>Brief Description</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                		<td><input class="form-control" type="text" name="interest_title"></td>
-									  <!-- add data-required="true" to the following textarea to actually make the maxwords take effect -->
-                		<td><textarea class="form-control" name="interest_brief_description" data-maxwords="200" data-trigger="keyup focusout change"></textarea></td>
-                    </tr>
-                </tbody>
-	        </table>
+	<div class="row multi">
+	    <div class="col-md-3">
+            <p>Title</p>
+    		<p><input class="form-control" type="text" name="interest_title"></p>
+    	</div>
+	    <div class="col-md-6">
+            <p>Brief Description</p>
+		    <!-- add data-required="true" to the following textarea to actually make the maxwords take effect -->
+    		<p><textarea class="form-control" name="interest_brief_description" data-maxwords="200" data-trigger="keyup focusout change"></textarea></p>
+    	</div>
+	    <div class="col-md-2 col-md-offset-1">
 	    </div>
 	</div>
 
@@ -826,28 +819,25 @@ input.bigfield{
 	    </div>
 	</div>
 
-	<div class="row">
-	    <div class="col-md-12">		
-	        <table class="multi">
-                <thead>
-                    <tr>
-                        <th>Date from</th>
-                        <th>Date to
-                        <br><span style="font-weight:normal;font-size:10px;">leave blank if ongoing</span></th>
-                        <th>Job title</th>
-                        <th>Brief Description</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                		<td><input type="text" class="datepicker narrow" name="experience_date_from"></td>
-                		<td><input type="text" class="datepicker narrow" name="experience_date_to" placeholder="unless ongoing"></td>
-                		<td><input type="text" class="narrow" name="experience_title"></td>
-									  <!-- add data-required="true" to the following textarea to actually make the maxwords take effect -->
-                		<td><textarea class="form-control" name="experience_brief_description" data-maxwords="200" data-trigger="keyup focusout change"></textarea></td>
-                    </tr>
-                </tbody>
-	        </table>
+	<div class="row multi">
+	    <div class="col-md-2">
+            <p>Date from</p>
+    		<p><input type="text" class="form-control datepicker" name="experience_date_from"></p>
+    	</div>
+	    <div class="col-md-2">
+            <p>To (if completed)</p>
+    		<p><input type="text" class="form-control datepicker" name="experience_date_to" placeholder="unless ongoing"></p>
+    	</div>
+	    <div class="col-md-2">
+            <p>Job title</p>
+    		<p><input type="text" class="form-control" name="experience_title"></p>
+    	</div>
+	    <div class="col-md-4">
+            <p>Brief Description</p>
+		    <!-- add data-required="true" to the following textarea to actually make the maxwords take effect -->
+    		<p><textarea class="form-control" name="experience_brief_description" data-maxwords="200" data-trigger="keyup focusout change"></textarea></p>
+    	</div>
+	    <div class="col-md-2">
 	    </div>
 	</div>
 
@@ -872,30 +862,30 @@ input.bigfield{
 	</div>
 
 	<div class="row">
-	    <div class="col-md-6">
-            <p style="text-align:right;padding:6px 10px 0 0;">Please describe any career plans you may have</p>
+	    <div class="col-md-4">
+            <p>Please describe any career plans you may have</p>
 	    </div>
-	    <div class="col-md-6">
+	    <div class="col-md-8">
             <p><textarea class="form-control" name="career_plans"></textarea></p>
 	    </div>
 	</div>
 
 	<div class="row">
-	    <div class="col-md-6">
-            <p style="text-align:right;padding:6px 10px 0 0;">List any additional qualifications not already mentioned (e.g. Sports Leadership etc)</p>
+	    <div class="col-md-4">
+            <p>List any additional qualifications not already mentioned (e.g. Sports Leadership etc)</p>
 	    </div>
-	    <div class="col-md-6">
+	    <div class="col-md-8">
             <p><textarea class="form-control" name="additional_qualifications"></textarea></p>
 	    </div>
 	</div>
 
 	<div class="row">
-	    <div class="col-md-6">
-            <p style="text-align:right;padding:6px 10px 0 0;">If you feel your academic performance has been affected at any time in school, 
-												please tell us about it here e.g. a period of absence from school, time spent in care, health issues, caring responsibilities, bereavement. (At your 
-												LEAPS interview, we may discuss if this would be relevant to share with university admissions tutors.)</p>
+	    <div class="col-md-4">
+            <p>If you feel your academic performance has been affected at any time in school, 
+			please tell us about it here e.g. a period of absence from school, time spent in care, health issues, caring responsibilities, bereavement. (At your 
+			LEAPS interview, we may discuss if this would be relevant to share with university admissions tutors.)</p>
 	    </div>
-	    <div class="col-md-6">
+	    <div class="col-md-8">
             <p><textarea class="form-control" name="issues_affecting_performance"></textarea></p>
 	    </div>
 	</div>
