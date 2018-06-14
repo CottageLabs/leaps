@@ -105,7 +105,8 @@ jQuery(document).ready(function() {
             if ( $(this).closest('.row').siblings('.row').length < maxrows ) {
                 var row = $(this).closest('.row').clone(true).get(0);
                 $(row).children('div').each(function() {
-                   $(this).children('p').first().addClass('visible-xs').addClass('visible-sm'); 
+                    var p = $(this).children('p').first();
+                    if ( !$(p).hasClass('toprow') ) $(p).addClass('visible-xs').addClass('visible-sm'); 
                 });
                 $(row).find('.toprow').hide();
                 $(this).closest('.row').append('<hr class="visible-xs visible-sm" style="border-color:#bbb;"></hr>');
