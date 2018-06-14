@@ -91,8 +91,8 @@ jQuery(document).ready(function() {
     });
     $('table.multi').find('tbody').append('<tr><td><a class="btn btn-success add-row" href="#">add</a></td></tr>');
     // add / remove rows to list items
-    $('row.multi').each(function() {
-        $(this).children().last().append('<p><a class="btn btn-warning delete-row" style="margin:-10px 2px 0 0;" href="#">delete</a></p><p><a class="btn btn-success add-row" href="#">add</a></p>');
+    $('.row.multi').each(function() {
+        $(this).children().last().append('<p><a class="btn btn-warning delete-row" href="#">delete</a></p><p><a class="btn btn-success add-row" href="#">add</a></p>');
     });
 
     var addrow = function(event) {
@@ -320,20 +320,20 @@ input.bigfield{
 	<div class="row">
 	    <div class="col-md-6">
 	        <div class="row">
-	            <div class="col-md-6">
+	            <div class="col-md-4">
                     <p style="text-align:right;padding:6px 10px 0 0;">First name</p>
 	            </div>
-	            <div class="col-md-6">
+	            <div class="col-md-8">
             		<p><input class="form-control" type="text" name="first_name" data-required="true"></p>
 	            </div>
 	        </div>
         </div>
 	    <div class="col-md-6">		
 	        <div class="row">
-	            <div class="col-md-6">
+	            <div class="col-md-4">
                     <p style="text-align:right;padding:6px 10px 0 0;">Last name</p>
 	            </div>
-	            <div class="col-md-6">
+	            <div class="col-md-8">
             		<p><input class="form-control" type="text" name="last_name" data-required="true"></p>
 	            </div>
 	        </div>
@@ -343,10 +343,10 @@ input.bigfield{
 	<div class="row">
 	    <div class="col-md-6">		
 	        <div class="row">
-	            <div class="col-md-6">
+	            <div class="col-md-4">
                     <p style="text-align:right;padding:6px 10px 0 0;">Date of birth</p>
 	            </div>
-	            <div class="col-md-6">
+	            <div class="col-md-8">
             		<p><input type="text" class="form-control dobdatepicker checkdob" id="date_of_birth" name="date_of_birth" data-required="true" data-trigger="keyup change focusout"></p>
             		<p class="dobwarning" style="color:red;font-size:0.8em;margin-bottom:10px;display:none;">format must be DD/MM/YYYY</p>
 	            </div>
@@ -354,10 +354,10 @@ input.bigfield{
         </div>
 	    <div class="col-md-6">		
 	        <div class="row">
-	            <div class="col-md-6">
+	            <div class="col-md-4">
                     <p style="text-align:right;padding:6px 10px 0 0;">UCAS number</p>
 	            </div>
-	            <div class="col-md-6">
+	            <div class="col-md-8">
             		<p><input class="form-control" type="text" name="ucas_number"></p>
 	            </div>
 	        </div>
@@ -367,10 +367,10 @@ input.bigfield{
 	<div class="row">
 	    <div class="col-md-6">		
 	        <div class="row">
-	            <div class="col-md-6">
+	            <div class="col-md-4">
                     <p style="text-align:right;padding:6px 10px 0 0;">School</p>
 	            </div>
-	            <div class="col-md-6">
+	            <div class="col-md-8">
             		<p><select class="form-control" name="school" data-required="true">
             		    <option></option>
             		    {% for opt in selections.schools %}
@@ -382,10 +382,10 @@ input.bigfield{
         </div>
 	    <div class="col-md-6">		
 	        <div class="row">
-	            <div class="col-md-6">
+	            <div class="col-md-4">
                     <p style="text-align:right;padding:6px 10px 0 0;">School house</p>
 	            </div>
-	            <div class="col-md-6">
+	            <div class="col-md-8">
             		<p><input class="form-control" type="text" name="school_house"></p>
 	            </div>
 	        </div>
@@ -395,10 +395,10 @@ input.bigfield{
 	<div class="row">
 	    <div class="col-md-6">
 	        <div class="row">
-	            <div class="col-md-6">
+	            <div class="col-md-4">
                     <p style="text-align:right;padding:6px 10px 0 0;">Year group</p>
 	            </div>
-	            <div class="col-md-6">
+	            <div class="col-md-8">
             		<p><select class="form-control" name="year" data-required="true">
             		    <option></option>
             		    <option>Third year</option>
@@ -412,10 +412,10 @@ input.bigfield{
         </div>
 	    <div class="col-md-6">
 	        <div class="row">
-	            <div class="col-md-6">
+	            <div class="col-md-4">
                     <p style="text-align:right;padding:6px 10px 0 0;">Gender</p>
 	            </div>
-	            <div class="col-md-6">
+	            <div class="col-md-8">
             		<p>
             		    <select class="form-control" id="gender" name="gender" data-required="true">
             		    <option></option>
@@ -438,20 +438,20 @@ input.bigfield{
 	<div class="row">
 	    <div class="col-md-6">
 	        <div class="row">
-	            <div class="col-md-6">
+	            <div class="col-md-4">
                     <p style="text-align:right;padding:6px 10px 0 0;">Home phone</p>
 	            </div>
-	            <div class="col-md-6">
+	            <div class="col-md-8">
             		<p><input class="form-control" type="text" name="home_phone"></p>
 	            </div>
 	        </div>
         </div>
 	    <div class="col-md-6">		
 	        <div class="row">
-	            <div class="col-md-6">
+	            <div class="col-md-4">
                     <p style="text-align:right;padding:6px 10px 0 0;">Mobile phone</p>
 	            </div>
-	            <div class="col-md-6">
+	            <div class="col-md-8">
             		<p><input class="form-control" type="text" name="mobile_phone"></p>
 	            </div>
 	        </div>
@@ -461,20 +461,20 @@ input.bigfield{
 	<div class="row">
 	    <div class="col-md-6">		
 	        <div class="row">
-	            <div class="col-md-6">
+	            <div class="col-md-4">
                     <p style="text-align:right;padding:6px 10px 0 0;">Address</p>
 	            </div>
-	            <div class="col-md-6">
+	            <div class="col-md-8">
             		<p><input class="form-control" type="text" name="address_line_1" data-required="true"></p>
 	            </div>
 	        </div>
         </div>
 	    <div class="col-md-6">		
 	        <div class="row">
-	            <div class="col-md-6">
+	            <div class="col-md-4">
                     <p style="text-align:right;padding:6px 10px 0 0;">...</p>
 	            </div>
-	            <div class="col-md-6">
+	            <div class="col-md-8">
             		<p><input class="form-control" type="text" name="address_line_2"></p>
 	            </div>
 	        </div>
@@ -484,20 +484,20 @@ input.bigfield{
 	<div class="row">
 	    <div class="col-md-6">		
 	        <div class="row">
-	            <div class="col-md-6">
+	            <div class="col-md-4">
                     <p style="text-align:right;padding:6px 10px 0 0;">City</p>
 	            </div>
-	            <div class="col-md-6">
+	            <div class="col-md-8">
             		<p><input class="form-control" type="text" name="city" data-required="true"></p>
 	            </div>
 	        </div>
         </div>
 	    <div class="col-md-6">		
 	        <div class="row">
-	            <div class="col-md-6">
+	            <div class="col-md-4">
                     <p style="text-align:right;padding:6px 10px 0 0;">Region</p>
 	            </div>
-	            <div class="col-md-6">
+	            <div class="col-md-8">
             		<p><input class="form-control" type="text" name="region"></p>
 	            </div>
 	        </div>
@@ -507,20 +507,20 @@ input.bigfield{
 	<div class="row">
 	    <div class="col-md-6">		
 	        <div class="row">
-	            <div class="col-md-6">
+	            <div class="col-md-4">
                     <p style="text-align:right;padding:6px 10px 0 0;">Post code</p>
 	            </div>
-	            <div class="col-md-6">
+	            <div class="col-md-8">
             		<p><input class="form-control" type="text" name="post_code" data-required="true"></p>
 	            </div>
 	        </div>
         </div>
 	    <div class="col-md-6">		
 	        <div class="row">
-	            <div class="col-md-6">
+	            <div class="col-md-4">
                     <p style="text-align:right;padding:6px 10px 0 0;">Email address</p>
 	            </div>
-	            <div class="col-md-6">
+	            <div class="col-md-8">
             		<p><input class="form-control" type="text" name="email" data-type="email" data-required="true" data-trigger="keyup focusout"></p>
 	            </div>
 	        </div>
@@ -571,7 +571,7 @@ input.bigfield{
     		    {% endfor %}
     		</select></p>
     	</div>
-	    <div class="col-md-3">
+	    <div class="col-md-2">
             <p>Grade</p>
     		<p><select name="qualification_grade" class="form-control">
     		    <option></option>
