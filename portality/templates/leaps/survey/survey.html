@@ -47,6 +47,7 @@ jQuery(document).ready(function() {
         $('#survey').parsley('validate');
         $('.part').hide();
         $(this).hasClass('prev') ? $(this).closest('.part').prev().show() : $(this).closest('.part').next().show();
+        $("body").animate({scrollTop: 0});
     }
     var prevnext = '<div style="margin:20px 0 20px 0;"><button class="btn btn-info prev">previous</button> <button class="btn btn-info next">next</button></div>';
     $('.part').append(prevnext);
@@ -71,7 +72,7 @@ jQuery(document).ready(function() {
         $(row).find('.delete-row').bind('click',deleterow);
         $(row).find('select').val("");
         $(row).find('input').val("");
-        $(row).find('textarea').html("");
+        $(row).find('textarea').html("").val("");
         $(row).find('.datepicker').datepicker("destroy");
         $(row).find('.datepicker').removeClass("hasDatepicker").removeAttr('id');
         $(row).find('.datepicker').datepicker(opts);
@@ -345,20 +346,20 @@ input.bigfield{
 	</div>
 
 	<div class="row">
-	    <div class="col-md-6">
+	    <div class="col-md-5">
 	        <div class="row">
 	            <div class="col-md-4">
-                    <p style="text-align:right;padding:6px 10px 0 0;">First name</p>
+                    <p>First name</p>
 	            </div>
 	            <div class="col-md-8">
             		<p><input class="form-control" type="text" name="first_name" data-required="true"></p>
 	            </div>
 	        </div>
         </div>
-	    <div class="col-md-6">		
+	    <div class="col-md-5 col-md-offset-2">		
 	        <div class="row">
 	            <div class="col-md-4">
-                    <p style="text-align:right;padding:6px 10px 0 0;">Last name</p>
+                    <p>Last name</p>
 	            </div>
 	            <div class="col-md-8">
             		<p><input class="form-control" type="text" name="last_name" data-required="true"></p>
@@ -722,7 +723,7 @@ input.bigfield{
 	</div>
 
 	<div class="row multi">
-	    <div class="col-md-3">
+	    <div class="col-md-4">
             <p>College / University</p>
     		<p><select class="form-control institutionselector" name="application_institution">
     		    <option></option>
@@ -731,7 +732,7 @@ input.bigfield{
     		    {% endfor %}
     		</select></p>
     	</div>
-	    <div class="col-md-3">
+	    <div class="col-md-4">
             <p>Subject</p>
     		<p><select class="form-control subjectselector" name="application_subject">
     		    <option></option>
@@ -740,7 +741,7 @@ input.bigfield{
     		    {% endfor %}
     		</select></p>
     	</div>
-	    <div class="col-md-3">
+	    <div class="col-md-2">
             <p>Level of study</p>
     		<p><select class="form-control levelselector" name="application_level">
     		    <option></option>
@@ -749,7 +750,7 @@ input.bigfield{
     		    {% endfor %}
     		</select></p>
     	</div>
-	    <div class="col-md-2 col-md-offset-1">
+	    <div class="col-md-2">
 	    </div>
 	</div>
 </div>
@@ -779,7 +780,7 @@ input.bigfield{
 	</div>
 
 	<div class="row multi">
-	    <div class="col-md-3">
+	    <div class="col-md-4">
             <p>Title</p>
     		<p><input class="form-control" type="text" name="interest_title"></p>
     	</div>
@@ -788,7 +789,7 @@ input.bigfield{
 		    <!-- add data-required="true" to the following textarea to actually make the maxwords take effect -->
     		<p><textarea class="form-control" name="interest_brief_description" data-maxwords="200" data-trigger="keyup focusout change"></textarea></p>
     	</div>
-	    <div class="col-md-2 col-md-offset-1">
+	    <div class="col-md-2">
 	    </div>
 	</div>
 
