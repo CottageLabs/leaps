@@ -228,7 +228,10 @@ body {
     width:100px;
 }
 .add-row, .delete-row {
-    width:35px;
+    padding-left:3px;
+    padding-right:3px;
+    font-size:0.9em;
+    width:45px;
 }
 /*input, textarea {
     width:200px;
@@ -749,9 +752,9 @@ input.bigfield{
                 </thead>
                 <tbody>
                     <tr>
-                		<td><input type="text" name="interest_title"></td>
+                		<td><input class="form-control" type="text" name="interest_title"></td>
 									  <!-- add data-required="true" to the following textarea to actually make the maxwords take effect -->
-                		<td><textarea class="bigfield" name="interest_brief_description" data-maxwords="200" data-trigger="keyup focusout change"></textarea></td>
+                		<td><textarea class="form-control" name="interest_brief_description" data-maxwords="200" data-trigger="keyup focusout change"></textarea></td>
                     </tr>
                 </tbody>
 	        </table>
@@ -803,7 +806,7 @@ input.bigfield{
                 		<td><input type="text" class="datepicker narrow" name="experience_date_to" placeholder="unless ongoing"></td>
                 		<td><input type="text" class="narrow" name="experience_title"></td>
 									  <!-- add data-required="true" to the following textarea to actually make the maxwords take effect -->
-                		<td><textarea class="bigfield" name="experience_brief_description" data-maxwords="200" data-trigger="keyup focusout change"></textarea></td>
+                		<td><textarea class="form-control" name="experience_brief_description" data-maxwords="200" data-trigger="keyup focusout change"></textarea></td>
                     </tr>
                 </tbody>
 	        </table>
@@ -835,7 +838,7 @@ input.bigfield{
             <p style="text-align:right;padding:6px 10px 0 0;">Please describe any career plans you may have</p>
 	    </div>
 	    <div class="col-md-6">
-            <p><textarea class="bigfield" name="career_plans"></textarea></p>
+            <p><textarea class="form-control" name="career_plans"></textarea></p>
 	    </div>
 	</div>
 
@@ -844,7 +847,7 @@ input.bigfield{
             <p style="text-align:right;padding:6px 10px 0 0;">List any additional qualifications not already mentioned (e.g. Sports Leadership etc)</p>
 	    </div>
 	    <div class="col-md-6">
-            <p><textarea class="bigfield" name="additional_qualifications"></textarea></p>
+            <p><textarea class="form-control" name="additional_qualifications"></textarea></p>
 	    </div>
 	</div>
 
@@ -855,7 +858,7 @@ input.bigfield{
 												LEAPS interview, we may discuss if this would be relevant to share with university admissions tutors.)</p>
 	    </div>
 	    <div class="col-md-6">
-            <p><textarea class="bigfield" name="issues_affecting_performance"></textarea></p>
+            <p><textarea class="form-control" name="issues_affecting_performance"></textarea></p>
 	    </div>
 	</div>
 
