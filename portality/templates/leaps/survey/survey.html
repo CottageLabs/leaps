@@ -113,6 +113,7 @@ jQuery(document).ready(function() {
                     }
                 });
                 $(this).closest('.row').append('<hr class="visible-xs visible-sm" style="border-color:#bbb;"></hr>');
+                $(this).closest('.row').find('.toprow').hide();
                 $(row).insertAfter($(this).closest('.row'));
                 preprow(row);
                 $(this).closest('.row').find('.add-row').parent().hide();
