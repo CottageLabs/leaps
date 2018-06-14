@@ -106,9 +106,12 @@ jQuery(document).ready(function() {
                 var row = $(this).closest('.row').clone(true).get(0);
                 $(row).children('div').each(function() {
                     var p = $(this).children('p').first();
-                    if ( !$(p).hasClass('toprow') ) $(p).addClass('visible-xs').addClass('visible-sm'); 
+                    if ( !$(p).hasClass('toprow') ) {
+                        $(p).addClass('visible-xs').addClass('visible-sm'); 
+                    } else {
+                        $(p).hide();
+                    }
                 });
-                $(row).find('.toprow').hide();
                 $(this).closest('.row').append('<hr class="visible-xs visible-sm" style="border-color:#bbb;"></hr>');
                 $(row).insertAfter($(this).closest('.row'));
                 preprow(row);
@@ -132,9 +135,9 @@ jQuery(document).ready(function() {
             // if this is the first row, remove the visible-xs and visible-sm classes from the p tags of the next row
             var parent = $(this).closest('.row').parent();
             $(this).closest('.row').remove();
-            $(parent).first('.row').children('div').each(function() {
-                $(this).find('.toprow').show();
+            $(parent).children('.row').first().children('div').each(function() {
                 $(this).children('p').first().removeClass('visible-xs').removeClass('visible-sm');
+                $(this).find('.toprow').show();
             });
         } else {
             var row = $(this).closest('tr').clone(true).get(0);
