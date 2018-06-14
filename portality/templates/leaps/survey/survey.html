@@ -93,7 +93,7 @@ jQuery(document).ready(function() {
     $('table.multi').find('tbody').append('<tr><td><a class="btn btn-success add-row" href="#">add</a></td></tr>');
     // add / remove rows to list items
     $('.row.multi').each(function() {
-        $(this).children().last().append('<p class="toprow hidden-xs hidden-sm">&nbsp;</p><p style="display:none;"><a class="btn btn-block btn-warning delete-row" href="#">delete</a></p><p><a class="btn btn-block btn-success add-row" href="#">add</a></p>');
+        $(this).children().last().append('<p class="toprow">&nbsp;</p><p style="display:none;"><a class="btn btn-block btn-warning delete-row" href="#">delete</a></p><p><a class="btn btn-block btn-success add-row" href="#">add</a></p>');
     });
 
     var addrow = function(event) {
@@ -109,7 +109,7 @@ jQuery(document).ready(function() {
                     if ( !$(p).hasClass('toprow') ) {
                         $(p).addClass('visible-xs').addClass('visible-sm'); 
                     } else {
-                        $(p).remove();
+                        $(p).hide();
                     }
                 });
                 $(this).closest('.row').append('<hr class="visible-xs visible-sm" style="border-color:#bbb;"></hr>');
