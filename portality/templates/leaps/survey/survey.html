@@ -92,7 +92,7 @@ jQuery(document).ready(function() {
     $('table.multi').find('tbody').append('<tr><td><a class="btn btn-success add-row" href="#">add</a></td></tr>');
     // add / remove rows to list items
     $('.row.multi').each(function() {
-        $(this).children().last().append('<p class="hidden-xs hidden-sm">&nbsp;</p><p style="display:none;"><a class="btn btn-block btn-warning delete-row" href="#">delete</a></p><p><a class="btn btn-block btn-success add-row" href="#">add</a></p>');
+        $(this).children().last().append('<p class="toprow hidden-xs hidden-sm">&nbsp;</p><p style="display:none;"><a class="btn btn-block btn-warning delete-row" href="#">delete</a></p><p><a class="btn btn-block btn-success add-row" href="#">add</a></p>');
     });
 
     var addrow = function(event) {
@@ -103,10 +103,11 @@ jQuery(document).ready(function() {
             $(this).closest('.row').siblings('.row').length == (maxrows - 1) ? $(this).hide() : false;
             if ( $(this).closest('.row').siblings('.row').length < maxrows ) {
                 var row = $(this).closest('.row').clone(true).get(0);
+                $(row).find('.toprow').remove();
                 $(row).children('div').each(function() {
                    $(this).children('p').first().addClass('visible-xs').addClass('visible-sm'); 
                 });
-                $(this).closest('.row').append('<hr class="visible-xs visible-sm" style="background-color:#bbb;"></hr>');
+                $(this).closest('.row').append('<hr class="visible-xs visible-sm" style="border-color:#bbb;"></hr>');
                 $(row).insertAfter($(this).closest('.row'));
                 preprow(row);
                 $(this).closest('.row').find('.add-row').parent().hide();
@@ -126,6 +127,10 @@ jQuery(document).ready(function() {
     var deleterow = function(event) {
         event.preventDefault();
         if ($(this).closest('table').length === 0) {
+            // if this is the first row, remove the visible-xs and visible-sm classes from the p tags of the next row
+            $(this).closest('.row').siblings('.row').first().children('div').each(function() {
+                $(this).children('p').first().removeClass('visible-xs').removeClass('visible-sm'); 
+            });;
             $(this).closest('.row').remove();
         } else {
             var row = $(this).closest('tr').clone(true).get(0);
@@ -239,7 +244,7 @@ body {
     font-size:1.2em;
 }
 hr {
-    background-color:#333;
+    border-color:#333;
 }
 #container {
     margin:0;
@@ -560,133 +565,138 @@ input.bigfield{
 	        </div>
 	    </div>
 	</div>
-
-    <h3>Third / Fourth year qualifications</h3>
-
-	<div class="row multi manyrows">
-	    <div class="col-md-3">
-            <p>Subject</p>
-    		<p><select name="qualification_subject" class="form-control select2this">
-    		    <option></option>
-    		    {% for opt in selections.subjects %}
-    		        <option>{{ opt }}</option>
-    		    {% endfor %}
-    		</select></p>
+	
+    <div> <!-- need divs round each year quals set for row add/remove to work well-->
+        <h3>Third / Fourth year qualifications</h3>
+    
+    	<div class="row multi manyrows">
+    	    <div class="col-md-3">
+                <p>Subject</p>
+        		<p><select name="qualification_subject" class="form-control select2this">
+        		    <option></option>
+        		    {% for opt in selections.subjects %}
+        		        <option>{{ opt }}</option>
+        		    {% endfor %}
+        		</select></p>
+        	</div>
+    	    <div class="col-md-2">
+                <p>School year taken</p>
+        		<p><select name="qualification_year" class="form-control">
+        		    <option>Third year</option>
+        		    <option>Fourth year</option>
+        		</select></p>
+        	</div>
+    	    <div class="col-md-3">
+                <p>Level of qualification</p>
+        		<p><select name="qualification_level" class="form-control">
+        		    <option></option>
+        		    {% for opt in selections.levels %}
+        		        <option>{{ opt }}</option>
+        		    {% endfor %}
+        		</select></p>
+        	</div>
+    	    <div class="col-md-2">
+                <p>Grade</p>
+        		<p><select name="qualification_grade" class="form-control">
+        		    <option></option>
+        		    {% for opt in selections.grades %}
+        		        <option>{{ opt }}</option>
+        		    {% endfor %}
+        		</select></p>
+        	</div>
+    	    <div class="col-md-2">
+            </div>
     	</div>
-	    <div class="col-md-2">
-            <p>School year taken</p>
-    		<p><select name="qualification_year" class="form-control">
-    		    <option>Third year</option>
-    		    <option>Fourth year</option>
-    		</select></p>
-    	</div>
-	    <div class="col-md-3">
-            <p>Level of qualification</p>
-    		<p><select name="qualification_level" class="form-control">
-    		    <option></option>
-    		    {% for opt in selections.levels %}
-    		        <option>{{ opt }}</option>
-    		    {% endfor %}
-    		</select></p>
-    	</div>
-	    <div class="col-md-2">
-            <p>Grade</p>
-    		<p><select name="qualification_grade" class="form-control">
-    		    <option></option>
-    		    {% for opt in selections.grades %}
-    		        <option>{{ opt }}</option>
-    		    {% endfor %}
-    		</select></p>
-    	</div>
-	    <div class="col-md-2">
-        </div>
 	</div>
 
     <hr></hr>
 
-    <h3>Fifth year qualifications</h3>
-
-	<div class="row multi manyrows">
-	    <div class="col-md-3">
-            <p>Subject</p>
-    		<p><select name="qualification_subject" class="form-control select2this">
-    		    <option></option>
-    		    {% for opt in selections.subjects %}
-    		        <option>{{ opt }}</option>
-    		    {% endfor %}
-    		</select></p>
+    <div>
+        <h3>Fifth year qualifications</h3>
+    
+    	<div class="row multi manyrows">
+    	    <div class="col-md-3">
+                <p>Subject</p>
+        		<p><select name="qualification_subject" class="form-control select2this">
+        		    <option></option>
+        		    {% for opt in selections.subjects %}
+        		        <option>{{ opt }}</option>
+        		    {% endfor %}
+        		</select></p>
+        	</div>
+        	<div class="col-md-2">
+                <p>School year taken</p>
+        		<p><select name="qualification_year" class="form-control">
+        		    <option>Fifth year</option>
+        		</select></p>
+        	</div>
+        	<div class="col-md-3">
+                <p>Level of qualification</p>
+        		<td><select name="qualification_level" class="form-control">
+        		    <option></option>
+        		    {% for opt in selections.levels %}
+        		        <option>{{ opt }}</option>
+        		    {% endfor %}
+        		</select></td>
+        	</div>
+        	<div class="col-md-2">
+                <p>Grade</p>
+        		<p><select name="qualification_grade" class="form-control">
+        		    <option></option>
+        		    {% for opt in selections.grades %}
+        		        <option>{{ opt }}</option>
+        		    {% endfor %}
+        		</select></p>
+        	</div>
+        	<div class="col-md-2">
+    	    </div>
     	</div>
-    	<div class="col-md-2">
-            <p>School year taken</p>
-    		<p><select name="qualification_year" class="form-control">
-    		    <option>Fifth year</option>
-    		</select></p>
-    	</div>
-    	<div class="col-md-3">
-            <p>Level of qualification</p>
-    		<td><select name="qualification_level" class="form-control">
-    		    <option></option>
-    		    {% for opt in selections.levels %}
-    		        <option>{{ opt }}</option>
-    		    {% endfor %}
-    		</select></td>
-    	</div>
-    	<div class="col-md-2">
-            <p>Grade</p>
-    		<p><select name="qualification_grade" class="form-control">
-    		    <option></option>
-    		    {% for opt in selections.grades %}
-    		        <option>{{ opt }}</option>
-    		    {% endfor %}
-    		</select></p>
-    	</div>
-    	<div class="col-md-2">
-	    </div>
-	</div>
-
+    </div>
+    
     <hr></hr>
 
-    <h3>Sixth year / other qualifications</h3>
-
-	<div class="row multi manyrows">
-	    <div class="col-md-3">
-            <p>Subject</p>
-    		<p><select name="qualification_subject" class="form-control select2this">
-    		    <option></option>
-    		    {% for opt in selections.subjects %}
-    		        <option>{{ opt }}</option>
-    		    {% endfor %}
-    		</select></p>
-        </div>
-	    <div class="col-md-2">
-            <p>School year taken</p>
-    		<p><select name="qualification_year" class="form-control">
-    		    <option>Sixth year</option>
-    		    <option>Other</option>
-    		</select></p>
-        </div>
-	    <div class="col-md-3">
-            <p>Level of qualification</p>
-    		<p><select name="qualification_level" class="form-control">
-    		    <option></option>
-    		    {% for opt in selections.levels %}
-    		        <option>{{ opt }}</option>
-    		    {% endfor %}
-    		</select></p>
-        </div>
-	    <div class="col-md-2">
-            <p>Grade</p>
-    		<p><select name="qualification_grade" class="form-control">
-    		    <option></option>
-    		    {% for opt in selections.grades %}
-    		        <option>{{ opt }}</option>
-    		    {% endfor %}
-    		</select></p>
-        </div>
-	    <div class="col-md-2">
-	    </div>
-	</div>
-
+    <div>
+        <h3>Sixth year / other qualifications</h3>
+    
+    	<div class="row multi manyrows">
+    	    <div class="col-md-3">
+                <p>Subject</p>
+        		<p><select name="qualification_subject" class="form-control select2this">
+        		    <option></option>
+        		    {% for opt in selections.subjects %}
+        		        <option>{{ opt }}</option>
+        		    {% endfor %}
+        		</select></p>
+            </div>
+    	    <div class="col-md-2">
+                <p>School year taken</p>
+        		<p><select name="qualification_year" class="form-control">
+        		    <option>Sixth year</option>
+        		    <option>Other</option>
+        		</select></p>
+            </div>
+    	    <div class="col-md-3">
+                <p>Level of qualification</p>
+        		<p><select name="qualification_level" class="form-control">
+        		    <option></option>
+        		    {% for opt in selections.levels %}
+        		        <option>{{ opt }}</option>
+        		    {% endfor %}
+        		</select></p>
+            </div>
+    	    <div class="col-md-2">
+                <p>Grade</p>
+        		<p><select name="qualification_grade" class="form-control">
+        		    <option></option>
+        		    {% for opt in selections.grades %}
+        		        <option>{{ opt }}</option>
+        		    {% endfor %}
+        		</select></p>
+            </div>
+    	    <div class="col-md-2">
+    	    </div>
+    	</div>
+    </div>
 </div>
 
 
