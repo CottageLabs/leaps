@@ -90,6 +90,11 @@ jQuery(document).ready(function() {
         $(this).children('td').first().prepend('<a class="btn btn-warning delete-row" style="margin:-10px 2px 0 0;" href="#">delete</a>').children('select, input').addClass('narrow');
     });
     $('table.multi').find('tbody').append('<tr><td><a class="btn btn-success add-row" href="#">add</a></td></tr>');
+    // add / remove rows to list items
+    $('row.multi').each(function() {
+        $(this).children().last().append('<p><a class="btn btn-warning delete-row" style="margin:-10px 2px 0 0;" href="#">delete</a></p><p><a class="btn btn-success add-row" href="#">add</a></p>');
+    });
+
     var addrow = function(event) {
         event.preventDefault();
         var maxrows = 6;
@@ -214,6 +219,9 @@ jQuery(document).ready(function() {
 <style>
 body {
     font-size:1.2em;
+}
+hr {
+    color:#333;
 }
 #container {
     margin:0;
@@ -537,45 +545,43 @@ input.bigfield{
 
     <h3>Third / Fourth year qualifications</h3>
 
-	<div class="row">
-	    <div class="col-md-12">		
-	        <table class="multi manyrows">
-                <thead>
-                    <tr>
-                        <th>Subject</th>
-                        <th>School year taken</th>
-                        <th>Level of qualification</th>
-                        <th>Grade</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                		<td><select name="qualification_subject" class="select2this">
-                		    <option></option>
-                		    {% for opt in selections.subjects %}
-                		        <option>{{ opt }}</option>
-                		    {% endfor %}
-                		</select></td>
-                		<td><select name="qualification_year">
-                		    <option>Third year</option>
-                		    <option>Fourth year</option>
-                		</select></td>
-                		<td><select name="qualification_level">
-                		    <option></option>
-                		    {% for opt in selections.levels %}
-                		        <option>{{ opt }}</option>
-                		    {% endfor %}
-                		</select></td>
-                		<td><select name="qualification_grade">
-                		    <option></option>
-                		    {% for opt in selections.grades %}
-                		        <option>{{ opt }}</option>
-                		    {% endfor %}
-                		</select></td>
-                    </tr>
-                </tbody>
-	        </table>
-	    </div>
+	<div class="row multi manyrows">
+	    <div class="col-md-3">
+            <p>Subject</p>
+    		<p><select name="qualification_subject" class="form-control select2this">
+    		    <option></option>
+    		    {% for opt in selections.subjects %}
+    		        <option>{{ opt }}</option>
+    		    {% endfor %}
+    		</select></p>
+    	</div>
+	    <div class="col-md-2">
+            <p>School year taken</p>
+    		<p><select name="qualification_year" class="form-control">
+    		    <option>Third year</option>
+    		    <option>Fourth year</option>
+    		</select></p>
+    	</div>
+	    <div class="col-md-3">
+            <p>Level of qualification</p>
+    		<p><select name="qualification_level" class="form-control">
+    		    <option></option>
+    		    {% for opt in selections.levels %}
+    		        <option>{{ opt }}</option>
+    		    {% endfor %}
+    		</select></p>
+    	</div>
+	    <div class="col-md-3">
+            <p>Grade</p>
+    		<p><select name="qualification_grade" class="form-control">
+    		    <option></option>
+    		    {% for opt in selections.grades %}
+    		        <option>{{ opt }}</option>
+    		    {% endfor %}
+    		</select></p>
+    	</div>
+	    <div class="col-md-2">
+        </div>
 	</div>
 
     <hr></hr>
@@ -892,13 +898,13 @@ input.bigfield{
 
 	<div class="row" style="margin-top:30px;">
 	    <div class="col-md-6">
-        	<p><input id="triggersave" class="btn btn-success btn-block" style="margin-left:100px;" type="submit" name="submit" value="Submit your survey" /></p>
+        	<p><input id="triggersave" class="btn btn-success btn-block" type="submit" name="submit" value="Submit your survey" /></p>
 	    </div>
 	    <div class="col-md-6">
 	        <div id="activealert" class="alert alert-warning clearfix" style="display:none;">
 	            <p>There are errors with your responses. Please click below to review your responses, then you can scroll through or use the previous / next buttons to check them. Any errors will be highlighted in red. Once there are no errors, please try to submit once again.</p>
 	        </div>
-    	    <p><button class="btn btn-warning btn-block review" style="margin-left:100px;">Review your responses</button></p>
+    	    <p><button class="btn btn-warning btn-block review">Review your responses</button></p>
 	    </div>
     </div>
 
