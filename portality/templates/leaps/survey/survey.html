@@ -92,7 +92,7 @@ jQuery(document).ready(function() {
     $('table.multi').find('tbody').append('<tr><td><a class="btn btn-success add-row" href="#">add</a></td></tr>');
     // add / remove rows to list items
     $('.row.multi').each(function() {
-        $(this).children().last().append('<p> </p><p><a class="btn btn-warning delete-row" href="#">delete</a></p><p><a class="btn btn-success add-row" href="#">add</a></p>');
+        $(this).children().last().append('<p>..</p><p><a class="btn btn-warning delete-row" href="#">delete</a></p><p><a class="btn btn-success add-row" href="#">add</a></p>');
     });
 
     var addrow = function(event) {
@@ -104,7 +104,10 @@ jQuery(document).ready(function() {
             $(this).closest('.row').siblings('.row').length == (maxrows - 1) ? $(this).hide() : false;
             if ( $(this).closest('.row').siblings('.row').length < maxrows ) {
                 var row = $(this).closest('.row').clone(true).get(0);
-                $(row).find('.addrow').remove();
+                $(row).find('.add-row').remove();
+                $(row).children('div').each(function() {
+                   $(this).children('p').first().addClass('visible-xs').addClass('visible-sm'); 
+                });
                 $(row).insertBefore($(this).closest('.row'));
                 preprow(row);
             }
@@ -253,12 +256,12 @@ hr {
 .narrow.datepicker{
     width:100px;
 }
-.add-row, .delete-row {
+/*.add-row, .delete-row {
     padding-left:3px;
     padding-right:3px;
     font-size:0.9em;
     width:45px;
-}
+}*/
 /*input, textarea {
     width:200px;
 }
