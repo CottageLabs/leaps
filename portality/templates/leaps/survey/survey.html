@@ -47,7 +47,7 @@ jQuery(document).ready(function() {
         $('#survey').parsley('validate');
         $('.part').hide();
         $(this).hasClass('prev') ? $(this).closest('.part').prev().show() : $(this).closest('.part').next().show();
-        $("body").animate({scrollTop: 0});
+        window.scrollTo(0,0);
     }
     var prevnext = '<div style="margin:20px 0 20px 0;"><button class="btn btn-info prev">previous</button> <button class="btn btn-info next">next</button></div>';
     $('.part').append(prevnext);
@@ -104,10 +104,10 @@ jQuery(document).ready(function() {
             $(this).closest('.row').siblings('.row').length == (maxrows - 1) ? $(this).hide() : false;
             if ( $(this).closest('.row').siblings('.row').length < maxrows ) {
                 var row = $(this).closest('.row').clone(true).get(0);
-                $(row).find('.toprow').hide();
                 $(row).children('div').each(function() {
                    $(this).children('p').first().addClass('visible-xs').addClass('visible-sm'); 
                 });
+                $(row).find('.toprow').hide();
                 $(this).closest('.row').append('<hr class="visible-xs visible-sm" style="border-color:#bbb;"></hr>');
                 $(row).insertAfter($(this).closest('.row'));
                 preprow(row);
