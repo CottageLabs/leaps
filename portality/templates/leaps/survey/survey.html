@@ -99,7 +99,7 @@ jQuery(document).ready(function() {
         event.preventDefault();
         var maxrows = 6;
         console.log($(this).closest('table'))
-        if (!$(this).closest('table')) {
+        if ($(this).closest('table').length === 0) {
             $(this).closest('.row').hasClass('manyrows') ? maxrows = 30 : false;
             $(this).closest('.row').siblings('.row').length == (maxrows - 1) ? $(this).hide() : false;
             if ( $(this).closest('.row').siblings('.row').length < maxrows ) {
