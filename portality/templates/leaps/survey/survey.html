@@ -83,6 +83,7 @@ jQuery(document).ready(function() {
 	    for ( var i = 0; i < subjects.length; i++ ) {
 	        stext += '<option>' + subjects[i] + '</option>';
 	    };
+        $(row).find('.select2this').select2('destroy').select2();
         $(row).find('.subjectselector').html(stext);
         $(row).find('.institutionselector').unbind('change',limitsubjects).bind('change',limitsubjects);
         $(row).find('.subjectselector').unbind('change',limitlevels).bind('change',limitlevels);
@@ -166,7 +167,8 @@ jQuery(document).ready(function() {
     $('#triggersave').bind('click',triggersave);
 
     var limitlevels = function(event) {
-        var ls = $(this).closest('tr').find('.levelselector')
+        var ls = $(this).closest('tr').find('.levelselector');
+        if (ls.hasClass('select2this')) ls.select2('destroy');
         ls.attr("disabled","disabled");
         var level = $('option:selected', this).attr('data-level');
         if ( level ) {
@@ -180,11 +182,18 @@ jQuery(document).ready(function() {
             ls.html(lopts);
         }
         ls.removeAttr("disabled");
+        if (ls.hasClass('select2this')) ls.select2();
     }
     var limitsubjects = function(event) {
         var institution = $(this).val();
-        $(this).closest('tr').find('.subjectselector').attr("disabled","disabled");
-        $(this).closest('tr').find('.levelselector').val("").attr("disabled","disabled");
+        $(this).closest('tr').find('.subjectselector').each(function() {
+            if ($(this).hasClass('select2this')) $(this).select2('destroy');
+            $(this).attr("disabled","disabled");
+        });
+        $(this).closest('tr').find('.levelselector').each(function() {
+            if ($this).hasClass('select2this')) $(this).select2('destroy');
+            $(this).val("").attr("disabled","disabled");
+        });
         if ( institution == "" ) {
             var subjects = {{ selections.advancedsubjects|tojson|safe }};
             var opts = '<option></option>';
@@ -226,7 +235,10 @@ jQuery(document).ready(function() {
                             opts += ">" + subjects[i].name + "</option>";
                         }
                     }
-                    this.obj.closest('tr').find('.subjectselector').html(opts).removeAttr("disabled");
+                    this.obj.closest('tr').find('.subjectselector').each(function() {
+                        $(this).html(opts).removeAttr("disabled");
+                        if ($(this).hasClass('select2this')) $(this).select2();
+                    })
                 }
             });
         }
@@ -234,12 +246,12 @@ jQuery(document).ready(function() {
     $('.institutionselector').bind('change',limitsubjects);
     $('.subjectselector').bind('change',limitlevels);
     
-		function checkKeys(e){
-			 e = e || event;
-			 var txtArea = /textarea/i.test((e.target || e.srcElement).tagName);
-			 return txtArea || ( (e.keyCode || e.which || e.charCode || 0) !== 13 && (e.keyCode || e.which || e.charCode || 0) !== 8 && e.type !== 'text');
-		}
-		document.querySelector('form').onkeypress = checkKeys;
+	function checkKeys(e){
+		 e = e || event;
+		 var txtArea = /textarea/i.test((e.target || e.srcElement).tagName);
+		 return txtArea || ( (e.keyCode || e.which || e.charCode || 0) !== 13 && (e.keyCode || e.which || e.charCode || 0) !== 8 && e.type !== 'text');
+	}
+	document.querySelector('form').onkeypress = checkKeys;
 	
 	$('#gender').bind('change',function(e) {
 	   $('#gender_other').val('').hide();
