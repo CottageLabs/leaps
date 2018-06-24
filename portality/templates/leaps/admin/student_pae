@@ -136,8 +136,8 @@
             </tr>
         </table> 
 
+        <!--
         <p><strong>Would you consider LEAPS Summer School reports as an indication of potential to succeed, should the student fail to meet the conditions set?</strong>
-        
         {% if 'summer_school' not in application %}
             &nbsp;&nbsp; YES / NO
         {% else %}
@@ -147,6 +147,7 @@
                 &nbsp;&nbsp; NO</p>
             {% endif %}
         {% endif %}
+        -->
         
         <p><br />Notes:</p>
         
@@ -155,8 +156,6 @@
 
         <p>** This could include academic and non-academic conditions e.g. portfolio, relevant experience, audition, interview.</p>
         
-        <p>PAE enquiry responses can be submitted via our online form at <a href="http://leapssurvey.org/universities">http://leapssurvey.org/universities</a>. If you do not have access, contact LEAPS for further information (up to date contact details available on our website).</p>
-
     </body>
 </html>
 

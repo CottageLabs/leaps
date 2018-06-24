@@ -110,6 +110,8 @@ def download_csv(recordlist,keys):
                     csvdata.write(',')
                 if key == 'simd_pc':
                     csvdata.write('"simd %"')
+                elif key == 'summer_school':
+                    csvdata.write('"summer school interest"')
                 else:
                     csvdata.write('"' + key + '"')
             csvdata.write('\n')

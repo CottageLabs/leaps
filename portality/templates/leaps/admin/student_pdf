@@ -68,7 +68,10 @@
                     <td style="width:30%;">School</td> <td>{{ record.school }}</td>
                 </tr>
                 <tr>
-                    <td style="width:30%;">LEAPS category</td> <td>{{ record.leaps_category }}</td>
+                    <td style="width:30%;">LEAPS school category</td> <td>{{ record.leaps_category }}</td>
+                </tr>
+                <tr>
+                    <td style="width:30%;">SHEP school</td> <td>{% if record.shep_school == true %}Yes{% else %}No{% endif %}</td>
                 </tr>
                 <tr>
                     <td style="width:30%;">Year group</td> <td>{{ record.year }}</td>

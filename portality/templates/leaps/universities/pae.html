@@ -72,10 +72,12 @@ jQuery(document).ready(function() {
                 <tr>
                     <td class="title">Date of birth</td> <td>{{ student.date_of_birth }}</td>
                     <td class="title">Post code<br>SIMD %</td> <td>{{ student.post_code }}<br>{{ student.simd_pc }}</td>
+                    <td></td>
                 </tr>
                 <tr>
                     <td class="title">School</td> <td>{{ student.school }}</td>
-                    <td class="title">School category</td> <td>{{ student.leaps_category }}</td>
+                    <td class="title">LEAPS school category</td> <td>{{ student.leaps_category }}</td>
+                    <td class="title">SHEP school</td> <td>{% if student.shep_school == true %}Yes{% else %}No{% endif %}</td>
                 </tr>
             </table>
 
@@ -200,12 +202,14 @@ jQuery(document).ready(function() {
                     {% endif %}
                 </td>
             </tr>
+            <!--
             <tr>
                 <td><input type="checkbox" name="summer_school"
                 {% if application.summer_school %} checked="checked"{% endif %}                
                 ></td>
                 <td>Would you be willing to consider LEAPS Summer School reports as an indication of potential to succeed, should the student fail to meet the conditions set? (Please note that LEAPS partner institutions have pledged to take Summer School reports into account. If you are from a LEAPS partner institution you MUST tick this box.)</td>
             </tr>
+            -->
         </table>
 
         
