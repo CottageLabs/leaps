@@ -119,7 +119,8 @@ jQuery(document).ready(function() {
                 preprow(row);
                 $(this).closest('.row').find('.add-row').parent().hide();
                 $(this).closest('.row').find('.delete-row').parent().show();
-                $('.select2this').select2('destroy').select2();
+                $('.select2this').select2('destroy');
+                $('.select2this').select2();
             }
         } else {
             $(this).closest('table').hasClass('manyrows') ? maxrows = 30 : false;
