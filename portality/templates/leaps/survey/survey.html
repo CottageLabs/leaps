@@ -6,7 +6,13 @@
 <script type="text/javascript" src="/static/bootstrap3/bootstrap.min.js"></script>
 
 <script>
-jQuery(document).ready(function() {    
+jQuery(document).ready(function() {
+    
+    $(document).on('touchcancel', '.select2-chosen', function(e) {
+        var field = $(e.target);
+        field.trigger('touchstart');
+        return field.trigger('touchend');
+    });
 
     $("[data-required]").attr('data-required-message',"");
 
