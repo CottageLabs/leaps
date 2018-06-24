@@ -42,12 +42,12 @@ Version: 3.2 Timestamp: Mon Sep 10 10:38:04 PDT 2012
     -moz-background-clip: padding;
     -webkit-background-clip: padding-box;
     background-clip: padding-box;
-    border: 1px solid #aaa;
+    border: 1px solid #ccc;
     display: block;
     overflow: hidden;
     white-space: nowrap;
     position: relative;
-    height: 32px;
+    height: 33px;
     line-height: 26px;
     padding: 4px 0 0 8px;
     color: #444;
