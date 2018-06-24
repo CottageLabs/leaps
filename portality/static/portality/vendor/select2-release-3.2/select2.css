@@ -47,9 +47,9 @@ Version: 3.2 Timestamp: Mon Sep 10 10:38:04 PDT 2012
     overflow: hidden;
     white-space: nowrap;
     position: relative;
-    height: 34px;
+    height: 31px;
     line-height: 26px;
-    padding: 0 0 0 8px;
+    padding: 2px 0 0 8px;
     color: #444;
     text-decoration: none;
 }
