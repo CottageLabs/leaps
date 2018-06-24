@@ -8,12 +8,6 @@
 <script>
 jQuery(document).ready(function() {
     
-    $(document).on('touchcancel', '.select2-chosen', function(e) {
-        var field = $(e.target);
-        field.trigger('touchstart');
-        return field.trigger('touchend');
-    });
-
     $("[data-required]").attr('data-required-message',"");
 
     // add a datepicker to all datepicker classes
@@ -47,7 +41,7 @@ jQuery(document).ready(function() {
     }
     $('.checkdob').bind('change',dobformat);
     
-    $('.select2this').select2({width:'100%'});
+    $('.select2this').select2({shouldFocusInput: function() { return false; }, width:'100%'});
     
     // hide survey sections and add prev/next nav-throughs
     var doprevnext = function(event) {
@@ -126,7 +120,7 @@ jQuery(document).ready(function() {
                 $(row).insertAfter($(this).closest('.row'));
                 $(this).closest('.row').find('.add-row').parent().hide();
                 $(this).closest('.row').find('.delete-row').parent().show();
-                $('.select2this').select2({width:'100%'});
+                $('.select2this').select2({shouldFocusInput: function() { return false; }, width:'100%'});
             }
         } else {
             $(this).closest('table').hasClass('manyrows') ? maxrows = 30 : false;
@@ -136,7 +130,7 @@ jQuery(document).ready(function() {
                 var row = $(this).closest('tr').prev().clone(true).get(0);
                 $(row).insertBefore($(this).closest('tr'));
                 preprow(row);
-                $('.select2this').select2({width:'100%'});
+                $('.select2this').select2({shouldFocusInput: function() { return false; }, width:'100%'});
             }
         }
     }
@@ -191,7 +185,7 @@ jQuery(document).ready(function() {
             ls.html(lopts);
         }
         ls.removeAttr("disabled");
-        if (ls.hasClass('select2this')) ls.select2({width:'100%'});
+        if (ls.hasClass('select2this')) ls.select2({shouldFocusInput: function() { return false; }, width:'100%'});
     }
     var limitsubjects = function(event) {
         var institution = $(this).val();
@@ -246,7 +240,7 @@ jQuery(document).ready(function() {
                     }
                     this.obj.closest('tr').find('.subjectselector').each(function() {
                         $(this).html(opts).removeAttr("disabled");
-                        if ($(this).hasClass('select2this')) $(this).select2({width:'100%'});
+                        if ($(this).hasClass('select2this')) $(this).select2({shouldFocusInput: function() { return false; }, width:'100%'});
                     });
                 }
             });
