@@ -191,7 +191,7 @@ jQuery(document).ready(function() {
             $(this).attr("disabled","disabled");
         });
         $(this).closest('tr').find('.levelselector').each(function() {
-            if ($this).hasClass('select2this')) $(this).select2('destroy');
+            if ($(this).hasClass('select2this')) $(this).select2('destroy');
             $(this).val("").attr("disabled","disabled");
         });
         if ( institution == "" ) {
