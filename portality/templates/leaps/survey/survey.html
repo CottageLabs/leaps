@@ -71,7 +71,7 @@ jQuery(document).ready(function() {
 
     // function of things to do whenever a row is appended
     var preprow = function(row) {
-        $(row).find('.select2this').select2('destroy');
+        $(row).find('.select2this').select2('destroy').removeAttr('id');
         $(row).find('.delete-row').bind('click',deleterow);
         $(row).find('select').val("");
         $(row).find('input').val("");
