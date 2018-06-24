@@ -71,8 +71,6 @@ jQuery(document).ready(function() {
 
     // function of things to do whenever a row is appended
     var preprow = function(row) {
-        $(row).find('.select2this').select2('destroy');
-        $(row).find('.select2this').removeAttr('id');
         $(row).find('.delete-row').bind('click',deleterow);
         $(row).find('select').val("");
         $(row).find('input').val("");
@@ -86,7 +84,6 @@ jQuery(document).ready(function() {
 	        stext += '<option>' + subjects[i] + '</option>';
 	    };
         $(row).find('.subjectselector').html(stext);
-        $(row).find('.select2this').select2({width:'100%'});
         $(row).find('.institutionselector').unbind('change',limitsubjects).bind('change',limitsubjects);
         $(row).find('.subjectselector').unbind('change',limitlevels).bind('change',limitlevels);
     }
@@ -108,6 +105,7 @@ jQuery(document).ready(function() {
             $(this).closest('.row').hasClass('manyrows') ? maxrows = 30 : false;
             $(this).closest('.row').siblings('.row').length == (maxrows - 1) ? $(this).hide() : false;
             if ( $(this).closest('.row').siblings('.row').length < maxrows ) {
+                $('.select2this').select2('destroy').removeAttr('id');
                 var row = $(this).closest('.row').clone(true).get(0);
                 $(row).children('div').each(function() {
                     var p = $(this).children('p').first();
@@ -122,14 +120,17 @@ jQuery(document).ready(function() {
                 $(row).insertAfter($(this).closest('.row'));
                 $(this).closest('.row').find('.add-row').parent().hide();
                 $(this).closest('.row').find('.delete-row').parent().show();
+                $('.select2this').select2({width:'100%'});
             }
         } else {
             $(this).closest('table').hasClass('manyrows') ? maxrows = 30 : false;
             $(this).closest('tr').siblings().length == (maxrows - 1) ? $(this).hide() : false;
             if ( $(this).closest('tr').siblings().length < maxrows ) {
+                $('.select2this').select2('destroy').removeAttr('id');
                 var row = $(this).closest('tr').prev().clone(true).get(0);
                 $(row).insertBefore($(this).closest('tr'));
                 preprow(row);
+                $('.select2this').select2({width:'100%'});
             }
         }
     }
