@@ -41,7 +41,7 @@ jQuery(document).ready(function() {
     }
     $('.checkdob').bind('change',dobformat);
     
-    $('.select2this').select2({width:'100%',height:'40px'});
+    $('.select2this').select2({width:'100%'});
     
     // hide survey sections and add prev/next nav-throughs
     var doprevnext = function(event) {
@@ -71,6 +71,7 @@ jQuery(document).ready(function() {
 
     // function of things to do whenever a row is appended
     var preprow = function(row) {
+        $(row).find('.select2this').select2('destroy');
         $(row).find('.delete-row').bind('click',deleterow);
         $(row).find('select').val("");
         $(row).find('input').val("");
@@ -83,8 +84,8 @@ jQuery(document).ready(function() {
 	    for ( var i = 0; i < subjects.length; i++ ) {
 	        stext += '<option>' + subjects[i] + '</option>';
 	    };
-        $(row).find('.select2this').select2('destroy').select2({width:'100%',height:'40px'});
         $(row).find('.subjectselector').html(stext);
+        $(row).find('.select2this').select2({width:'100%'});
         $(row).find('.institutionselector').unbind('change',limitsubjects).bind('change',limitsubjects);
         $(row).find('.subjectselector').unbind('change',limitlevels).bind('change',limitlevels);
     }
@@ -182,7 +183,7 @@ jQuery(document).ready(function() {
             ls.html(lopts);
         }
         ls.removeAttr("disabled");
-        if (ls.hasClass('select2this')) ls.select2({width:'100%',height:'40px'});
+        if (ls.hasClass('select2this')) ls.select2({width:'100%'});
     }
     var limitsubjects = function(event) {
         var institution = $(this).val();
@@ -237,7 +238,7 @@ jQuery(document).ready(function() {
                     }
                     this.obj.closest('tr').find('.subjectselector').each(function() {
                         $(this).html(opts).removeAttr("disabled");
-                        if ($(this).hasClass('select2this')) $(this).select2({width:'100%',height:'40px'});
+                        if ($(this).hasClass('select2this')) $(this).select2({width:'100%'});
                     });
                 }
             });
