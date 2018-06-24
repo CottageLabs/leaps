@@ -41,6 +41,8 @@ jQuery(document).ready(function() {
     }
     $('.checkdob').bind('change',dobformat);
     
+    $('.select2this').select2();
+    
     // hide survey sections and add prev/next nav-throughs
     var doprevnext = function(event) {
         event.preventDefault();
@@ -404,7 +406,7 @@ input.bigfield{
                     <p>School</p>
 	            </div>
 	            <div class="col-md-9">
-            		<p><select class="form-control" name="school" data-required="true">
+            		<p><select class="form-control select2this" name="school" data-required="true">
             		    <option></option>
             		    {% for opt in selections.schools %}
             		        <option>{{ opt }}</option>
@@ -460,7 +462,7 @@ input.bigfield{
             		    <p id="gender_other" style="display:none">
             		        If you want to tell us how you identify your gender, please enter it here, 
             		        or leave blank and we will simply record it as "Other": <br>
-                		    <input type="text" name="gender_other">
+                		    <input type="text" class="form-control" name="gender_other">
                 		</p>
             		</p>
 	            </div>
@@ -598,7 +600,7 @@ input.bigfield{
         	</div>
     	    <div class="col-md-3">
                 <p>Level of qualification</p>
-        		<p><select name="qualification_level" class="form-control">
+        		<p><select name="qualification_level" class="form-control select2this">
         		    <option></option>
         		    {% for opt in selections.levels %}
         		        <option>{{ opt }}</option>
@@ -607,7 +609,7 @@ input.bigfield{
         	</div>
     	    <div class="col-md-2">
                 <p>Grade</p>
-        		<p><select name="qualification_grade" class="form-control">
+        		<p><select name="qualification_grade" class="form-control select2this">
         		    <option></option>
         		    {% for opt in selections.grades %}
         		        <option>{{ opt }}</option>
@@ -642,7 +644,7 @@ input.bigfield{
         	</div>
         	<div class="col-md-3">
                 <p>Level of qualification</p>
-        		<td><select name="qualification_level" class="form-control">
+        		<td><select name="qualification_level" class="form-control select2this">
         		    <option></option>
         		    {% for opt in selections.levels %}
         		        <option>{{ opt }}</option>
@@ -651,7 +653,7 @@ input.bigfield{
         	</div>
         	<div class="col-md-2">
                 <p>Grade</p>
-        		<p><select name="qualification_grade" class="form-control">
+        		<p><select name="qualification_grade" class="form-control select2this">
         		    <option></option>
         		    {% for opt in selections.grades %}
         		        <option>{{ opt }}</option>
@@ -687,7 +689,7 @@ input.bigfield{
             </div>
     	    <div class="col-md-3">
                 <p>Level of qualification</p>
-        		<p><select name="qualification_level" class="form-control">
+        		<p><select name="qualification_level" class="form-control select2this">
         		    <option></option>
         		    {% for opt in selections.levels %}
         		        <option>{{ opt }}</option>
@@ -696,7 +698,7 @@ input.bigfield{
             </div>
     	    <div class="col-md-2">
                 <p>Grade</p>
-        		<p><select name="qualification_grade" class="form-control">
+        		<p><select name="qualification_grade" class="form-control select2this">
         		    <option></option>
         		    {% for opt in selections.grades %}
         		        <option>{{ opt }}</option>
@@ -730,7 +732,7 @@ input.bigfield{
 	<div class="row multi">
 	    <div class="col-md-4">
             <p>College / University</p>
-    		<p><select class="form-control institutionselector" name="application_institution">
+    		<p><select class="form-control institutionselector select2this" name="application_institution">
     		    <option></option>
     		    {% for opt in selections.institutions %}
     		        <option>{{ opt }}</option>
@@ -739,7 +741,7 @@ input.bigfield{
     	</div>
 	    <div class="col-md-4">
             <p>Subject</p>
-    		<p><select class="form-control subjectselector" name="application_subject">
+    		<p><select class="form-control subjectselector select2this" name="application_subject">
     		    <option></option>
     		    {% for opt in selections.advancedsubjects %}
     		        <option>{{ opt }}</option>
@@ -748,7 +750,7 @@ input.bigfield{
     	</div>
 	    <div class="col-md-2">
             <p>Level of study</p>
-    		<p><select class="form-control levelselector" name="application_level">
+    		<p><select class="form-control levelselector select2this" name="application_level">
     		    <option></option>
     		    {% for opt in selections.advancedlevels %}
     		        <option>{{ opt }}</option>
