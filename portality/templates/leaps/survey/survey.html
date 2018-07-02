@@ -42,6 +42,7 @@ jQuery(document).ready(function() {
     $('.checkdob').bind('change',dobformat);
     
     $('.select2this').select2({width:'100%'});
+    $('.select2thisRequired').siblings('.select2-container').each(function() { $(this).css({'background-color':'red'}) });
 
     // hide survey sections and add prev/next nav-throughs
     var doprevnext = function(event) {
@@ -293,6 +294,9 @@ hr {
 textarea {
     min-height:150px;
 }
+.select2-container {
+    height:60px;
+}
 /*.add-row, .delete-row {
     padding-left:3px;
     padding-right:3px;
@@ -421,7 +425,7 @@ input.bigfield{
                     <p>School</p>
 	            </div>
 	            <div class="col-md-9">
-            		<p><select class="select2this" data-containerCssClass="parsley-error" name="school" data-required="true">
+            		<p><select class="select2this select2thisRequired" name="school" data-required="true">
             		    <option></option>
             		    {% for opt in selections.schools %}
             		        <option>{{ opt }}</option>
