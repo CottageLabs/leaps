@@ -41,9 +41,6 @@ jQuery(document).ready(function() {
     }
     $('.checkdob').bind('change',dobformat);
     
-    $('.select2this').select2({width:'100%'}).on('select2:open',function(e) { e.preventDefault(); return false; });
-    $('.select2thisRequired').on('select2:select',function() { $('.select2thisRequired').removeClass('parsley-error').addClass('parsley-success'); });
-
     // hide survey sections and add prev/next nav-throughs
     var doprevnext = function(event) {
         event.preventDefault();
@@ -422,7 +419,7 @@ input.bigfield{
                     <p>School</p>
 	            </div>
 	            <div class="col-md-9">
-            		<p><select class="select2this select2thisRequired parsley-validated parsley-error" name="school" data-required="true">
+            		<p><select class="select2this" data-containerCssClass="parsley-error" name="school" data-required="true">
             		    <option></option>
             		    {% for opt in selections.schools %}
             		        <option>{{ opt }}</option>
