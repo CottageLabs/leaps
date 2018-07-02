@@ -42,7 +42,8 @@ jQuery(document).ready(function() {
     $('.checkdob').bind('change',dobformat);
     
     $('.select2this').select2({width:'100%'});
-    $('.select2thisRequired').siblings('.select2-container').find('.select2-selection').each(function() { $(this).addClass('parsley-error') });
+    $('.select2thisRequired').siblings('.select2-container').find('.select2-selection').each(function() { $(this).css({'background-color':'#F2DEDE'}) });
+    $('.select2thisRequired').on('select2:select',function() { $(this).css({'background-color':'#468847'}) });
 
     // hide survey sections and add prev/next nav-throughs
     var doprevnext = function(event) {
@@ -295,7 +296,7 @@ textarea {
     min-height:150px;
 }
 .select2-container > .selection > .select2-selection {
-    height:30px;
+    height:36px;
 }
 /*.add-row, .delete-row {
     padding-left:3px;
