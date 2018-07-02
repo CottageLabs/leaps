@@ -41,7 +41,8 @@ jQuery(document).ready(function() {
     }
     $('.checkdob').bind('change',dobformat);
     
-    $('.select2this').select2({shouldFocusInput: function() { return false; }, width:'100%'});
+    $('.select2this').select2({width:'100%'}).on('select2:open',function(e) { e.preventDefault(); return false; });
+    $('.select2thisRequired').select2({width:'100%',containerCss:'background-color:red;'}).on('select2:open',function(e) { e.preventDefault(); return false; });
     
     // hide survey sections and add prev/next nav-throughs
     var doprevnext = function(event) {
@@ -120,7 +121,7 @@ jQuery(document).ready(function() {
                 $(row).insertAfter($(this).closest('.row'));
                 $(this).closest('.row').find('.add-row').parent().hide();
                 $(this).closest('.row').find('.delete-row').parent().show();
-                $('.select2this').select2({shouldFocusInput: function() { return false; }, width:'100%'});
+                $('.select2this').select2({width:'100%'});
             }
         } else {
             $(this).closest('table').hasClass('manyrows') ? maxrows = 30 : false;
@@ -130,7 +131,7 @@ jQuery(document).ready(function() {
                 var row = $(this).closest('tr').prev().clone(true).get(0);
                 $(row).insertBefore($(this).closest('tr'));
                 preprow(row);
-                $('.select2this').select2({shouldFocusInput: function() { return false; }, width:'100%'});
+                $('.select2this').select2({width:'100%'});
             }
         }
     }
@@ -185,7 +186,7 @@ jQuery(document).ready(function() {
             ls.html(lopts);
         }
         ls.removeAttr("disabled");
-        if (ls.hasClass('select2this')) ls.select2({shouldFocusInput: function() { return false; }, width:'100%'});
+        if (ls.hasClass('select2this')) ls.select2({width:'100%'});
     }
     var limitsubjects = function(event) {
         var institution = $(this).val();
@@ -240,7 +241,7 @@ jQuery(document).ready(function() {
                     }
                     this.obj.closest('tr').find('.subjectselector').each(function() {
                         $(this).html(opts).removeAttr("disabled");
-                        if ($(this).hasClass('select2this')) $(this).select2({shouldFocusInput: function() { return false; }, width:'100%'});
+                        if ($(this).hasClass('select2this')) $(this).select2({width:'100%'});
                     });
                 }
             });
@@ -421,7 +422,7 @@ input.bigfield{
                     <p>School</p>
 	            </div>
 	            <div class="col-md-9">
-            		<p><select class="select2this" name="school" data-required="true">
+            		<p><select class="select2thisRequired" name="school" data-required="true">
             		    <option></option>
             		    {% for opt in selections.schools %}
             		        <option>{{ opt }}</option>
