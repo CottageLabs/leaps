@@ -41,9 +41,8 @@ jQuery(document).ready(function() {
     }
     $('.checkdob').bind('change',dobformat);
     
-    $('.select2this').select2({width:'100%'}).on('select2:open',function(e) { e.preventDefault(); return false; });
-    $('.select2thisRequired').select2({width:'100%',containerCss:'background-color:red;'}).on('select2:open',function(e) { e.preventDefault(); return false; });
-    
+    $('.select2this').select2({width:'100%'}).on('select2:opening',function(e) { e.preventDefault(); return false; });
+
     // hide survey sections and add prev/next nav-throughs
     var doprevnext = function(event) {
         event.preventDefault();
@@ -294,6 +293,9 @@ hr {
 textarea {
     min-height:150px;
 }
+.select2thisRequired {
+    background-color:red;
+}
 /*.add-row, .delete-row {
     padding-left:3px;
     padding-right:3px;
@@ -422,7 +424,7 @@ input.bigfield{
                     <p>School</p>
 	            </div>
 	            <div class="col-md-9">
-            		<p><select class="select2thisRequired" name="school" data-required="true">
+            		<p><select class="select2this select2thisRequired" name="school" data-required="true">
             		    <option></option>
             		    {% for opt in selections.schools %}
             		        <option>{{ opt }}</option>
