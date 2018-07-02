@@ -41,6 +41,8 @@ jQuery(document).ready(function() {
     }
     $('.checkdob').bind('change',dobformat);
     
+    $('.select2this').select2({width:'100%'});
+
     // hide survey sections and add prev/next nav-throughs
     var doprevnext = function(event) {
         event.preventDefault();
