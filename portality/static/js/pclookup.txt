@@ -1,0 +1,45 @@
+<div style="max-width:800px;margin:10px auto 10px auto;">
+  <div id="leaps_pc_start">
+    <p>If you attend one of these schools, and are likely to sit a minimum of 3 highers by the time you leave school, you may be eligible for LEAPS support. Please choose your school from this list.</p>
+    <select id="leaps_pc_school"></select>
+  </div>
+
+  <div class="leaps_pc_statements" id="leaps_pc_cat1" style="display:none;">
+    <p>As you attend a LEAPS Group 1<span id="leaps_pc_cat1plus" style="display:none;">+</span> school, as long as you have the potential to achieve 3 highers by the time you leave school, you are eligible for LEAPS support.</p>
+  </div>
+
+  <div id="leaps_pc_search" style="display:none;">
+    <p>Please input your home post code.</p>
+    <input id="leaps_pc_lookup" placeholder="Enter your post code" type="text" /><button id="leaps_pc_lookup_trigger">Search</button>
+  </div>
+
+  <div id="leaps_pc_result">&nbsp;</div>
+
+  <div class="leaps_pc_statements" id="leaps_pc_simd_1_2" style="display:none;">
+    <p>Based on the school and postcode you have entered, as long as you have the potential to achieve 3 highers by the time you leave school, you are eligible for LEAPS support.</p>
+  </div>
+
+  <div class="leaps_pc_statements" id="leaps_pc_simd_3_10" style="display:none;">
+    <p>You are not currently eligible based on your postcode alone BUT you may still be eligible under our other criteria - please check this below.</p>
+  </div>
+
+  <div class="leaps_pc_statements" id="leaps_pc_simd_unknown" style="display:none;">
+    <p>Unfortunately we are currently unable to confirm LEAPS eligibility based on this postcode. However, you may still be eligible under our other criteria - please check this below.</p>
+  </div>
+
+  <div class="leaps_pc_statements" id="leaps_pc_simd_other" style="display:none;">
+    <p><b>Other LEAPS Eligibility Criteria (for <a href="/about/our-schools">Group 2 schools</a>)</b></p>
+
+    <p>In <a href="/about/our-schools">Group 2 schools</a>, we support students who have the potential to achieve a minimum of 3 highers by the time they finish school and match one or more of the following LEAPS eligibility criteria:</p>
+
+    <ul>
+    	<li>student who is first generation in family to apply to higher education or whose parents do not already have a degree. This includes students whose parents may have briefly participated in higher education but did not achieve a degree. (Please note that a student whose parent/guardian/carer has achieved any degree - irrespective of mode of study, type of institution, location of study - would not be LEAPS eligible under this criterion.)</li>
+    	<li>student from a low income background (for instance, where a student is entitled to EMA, free meals in school, or where the family is on income support).</li>
+    	<li>student who has spent time in care or being looked after</li>
+    	<li>student who is a young carer - by this we mean a young person who cares, unpaid, for a friend or family member who due to illness, disability, a mental health problem or an addiction cannot cope without their support.</li>
+    </ul>
+
+    <p>If you are unsure if you or an individual is eligible for LEAPS support, please <a href="/contact-us">contact us</a> for clarification.</p>
+  </div>
+</div>
+
