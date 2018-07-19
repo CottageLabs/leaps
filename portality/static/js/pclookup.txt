@@ -5,7 +5,11 @@
   </div>
 
   <div class="leaps_pc_statements" id="leaps_pc_cat1" style="display:none;">
-    <p>As you attend a LEAPS Group 1<span id="leaps_pc_cat1plus" style="display:none;">+</span> school, as long as you have the potential to achieve 3 highers by the time you leave school, you are eligible for LEAPS support.</p>
+    <p>As you attend a LEAPS Group 1 school, as long as you have the potential to achieve 3 highers by the time you leave school, you are eligible for LEAPS support.</p>
+  </div>
+
+  <div class="leaps_pc_statements" id="leaps_pc_cat1plus" style="display:none;">
+    <p>As you attend a LEAPS Group 1+ school, as long as you have the potential to achieve 3 highers by the time you leave school, you are eligible for LEAPS support.</p>
   </div>
 
   <div id="leaps_pc_search" style="display:none;">
