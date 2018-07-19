@@ -26,10 +26,10 @@ jQuery(function ($) {
     var schoolCheck = function(e) {
       $('.leaps_pc_statements').hide();
       $('#leaps_pc_lookup').val('');
-      if (parseInt(schools[$('#leaps_pc_school').val()].leaps_category) === 1) {
+      if (schools[$('#leaps_pc_school').val()].leaps_category === "1+") {
+      } else if (parseInt(schools[$('#leaps_pc_school').val()].leaps_category) === 1) {
         $('#leaps_pc_search').hide();
         $('#leaps_pc_cat1').show();
-      } else if (schools[$('#leaps_pc_school').val()].leaps_category === "1+") {
         $('#leaps_pc_search').hide();
         $('#leaps_pc_cat1plus').show();
       } else {
