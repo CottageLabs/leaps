@@ -180,7 +180,7 @@ def student(uuid=None):
                 selections=selections
             )
 
-@blueprint.route('/student/<uuid>/fix', methods=['GET','POST','DELETE'])
+@blueprint.route('/student/<uuid>/fix', methods=['GET'])
 def studentfix(uuid=None):
     student = models.Student.pull(uuid)
     for appn in student.data['applications']:
