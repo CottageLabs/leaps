@@ -751,7 +751,12 @@ fieldset{
                 		{% elif current_user.do_admin %}
                 		<td>
                         <select name="application_pae_requested"><option>No</option><option>Yes</option></select>
+                		{% if app['pae_reply_received'] %} *{% endif %}
                 		</td>
+                		{% else %}
+                		<td>
+               		    <input class="noclone" type="hidden" name="application_pae_requested" value="">
+               		    </td>
                 		{% endif %}
                     </tr>
                         {% endfor %}

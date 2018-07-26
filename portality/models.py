@@ -263,7 +263,7 @@ class Student(DomainObject):
                                     rec['status'] = 'paes_in_progress'
                                 if rec['status'] not in ['paes_in_progress']:
                                     rec['status'] = 'paes_requested'
-                        elif request.form.getlist('application_pae_requested')[k] != "No":
+                        elif request.form.getlist('application_pae_requested')[k] != "No" and request.form.getlist('application_pae_requested')[k] != "":
                             appn['pae_requested'] = request.form.getlist('application_pae_requested')[k]
                     except:
                         pass
