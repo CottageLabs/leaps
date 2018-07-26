@@ -191,7 +191,7 @@ def studentfix(uuid=None):
                     del apd['pae_requested']
                     break
     student.save()
-    return redirect('/student/' + uuid)
+    return redirect('/admin/student/' + uuid)
 
 # move a particular record from one archive to another
 @blueprint.route('/student/<uuid>/archive/<aid>', methods=['GET'])
