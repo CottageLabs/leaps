@@ -180,6 +180,18 @@ def student(uuid=None):
                 selections=selections
             )
 
+@blueprint.route('/student/<uuid>/fix', methods=['GET','POST','DELETE'])
+def studentfix(uuid=None):
+    student = models.Student.pull(uuid)
+    for appn in student.data['applications']:
+        if appn.get('pae_reply_received',False) and not appn.get('pae_requested',False):
+            for apd in student.data['applications']:
+                if apd.get('pae_requested',False) and not apd.get('pae_reply_received',False):
+                    appn['pae_requested'] = apd['pae_requested']
+                    del apd['pae_requested']
+                    break
+    student.save()
+    return redirect('/student/' + uuid)
 
 # move a particular record from one archive to another
 @blueprint.route('/student/<uuid>/archive/<aid>', methods=['GET'])
