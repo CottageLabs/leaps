@@ -259,10 +259,10 @@ class Student(DomainObject):
                                 appn['pae_requested'] = datetime.now().strftime("%d/%m/%Y")
                             if '_process_paes_date' not in rec:
                                 rec['_process_paes_date'] = datetime.now().strftime("%d/%m/%Y")
-                                if rec['status'] == 'paes_all_received':
-                                    rec['status'] = 'paes_in_progress'
-                                if rec['status'] not in ['paes_in_progress']:
-                                    rec['status'] = 'paes_requested'
+                            if rec['status'] == 'paes_complete':
+                                rec['status'] = 'paes_in_progress'
+                            if rec['status'] not in ['paes_in_progress']:
+                                rec['status'] = 'paes_requested'
                         elif request.form.getlist('application_pae_requested')[k] != "No" and request.form.getlist('application_pae_requested')[k] != "":
                             appn['pae_requested'] = request.form.getlist('application_pae_requested')[k]
                     except:
