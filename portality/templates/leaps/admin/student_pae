@@ -46,11 +46,11 @@
             <tr>
                 <td class="title">Post code</td> <td>{{ record.post_code }}</td>
                 <td class="title">School</td> <td>{{ record.school }}</td>
-                <td class="title">School category</td> <td>{{ record.LEAPS_category }}</td>
+                <td class="title">LEAPS school category</td> <td>{{ record.leaps_category }}</td>
             </tr>
             <tr>
                 <td class="title">SIMD %</td> <td>{{ record.simd_pc }}</td>
-                <td class="title"></td> <td></td>
+                <td class="title">SHEP school</td> <td>{% if record.shep_school == true %}Yes{% else %}No{% endif %}</td>
                 <td class="title"></td> <td></td>
             </tr>
         </table>
