@@ -107,7 +107,7 @@ jQuery(document).ready(function() {
             $(this).closest('.row').hasClass('manyrows') ? maxrows = 30 : false;
             $(this).closest('.row').siblings('.row').length == (maxrows - 1) ? $(this).hide() : false;
             if ( $(this).closest('.row').siblings('.row').length < maxrows ) {
-                $('.select2this').select2('destroy').removeAttr('id');
+                $('.select2this').select2('destroy').removeAttr('id').removeAttr('data-select2-id');
                 var row = $(this).closest('.row').clone(true).get(0);
                 $(row).children('div').each(function() {
                     var p = $(this).children('p').first();
@@ -128,7 +128,7 @@ jQuery(document).ready(function() {
             $(this).closest('table').hasClass('manyrows') ? maxrows = 30 : false;
             $(this).closest('tr').siblings().length == (maxrows - 1) ? $(this).hide() : false;
             if ( $(this).closest('tr').siblings().length < maxrows ) {
-                $('.select2this').select2('destroy').removeAttr('id');
+                $('.select2this').select2('destroy').removeAttr('id').removeAttr('data-select2-id');
                 var row = $(this).closest('tr').prev().clone(true).get(0);
                 $(row).insertBefore($(this).closest('tr'));
                 preprow(row);
@@ -173,7 +173,7 @@ jQuery(document).ready(function() {
 
     var limitlevels = function(event) {
         var ls = $(this).closest('tr').find('.levelselector');
-        if (ls.hasClass('select2this')) ls.select2('destroy');
+        if (ls.hasClass('select2this')) ls.select2('destroy').removeAttr('id').removeAttr('data-select2-id');
         ls.attr("disabled","disabled");
         var level = $('option:selected', this).attr('data-level');
         if ( level ) {
@@ -192,11 +192,11 @@ jQuery(document).ready(function() {
     var limitsubjects = function(event) {
         var institution = $(this).val();
         $(this).closest('tr').find('.subjectselector').each(function() {
-            if ($(this).hasClass('select2this')) $(this).select2('destroy');
+            if ($(this).hasClass('select2this')) $(this).select2('destroy').removeAttr('id').removeAttr('data-select2-id');
             $(this).attr("disabled","disabled");
         });
         $(this).closest('tr').find('.levelselector').each(function() {
-            if ($(this).hasClass('select2this')) $(this).select2('destroy');
+            if ($(this).hasClass('select2this')) $(this).select2('destroy').removeAttr('id').removeAttr('data-select2-id');
             $(this).val("").attr("disabled","disabled");
         });
         if ( institution == "" ) {
