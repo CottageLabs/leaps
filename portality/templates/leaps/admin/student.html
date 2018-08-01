@@ -259,6 +259,11 @@ jQuery(document).ready(function() {
 
 {% endif %}
 
+	$('#gender').bind('change',function(e) {
+	   $('#gender_other').val('').hide();
+	   if ( $('#gender').val() == 'Other' ) $('#gender_other').show();
+	});
+
 });
 </script>
 
@@ -385,21 +390,28 @@ fieldset{
                 		</select></td>
 
 	                    <td style="text-align:right;padding:6px 10px 0 100px;">Gender</td>
-                		<td><select name="gender">
-                		    <option></option>
-                		    <option
-                		    {% if record %}{% if record.data.gender == "Male" %} selected="selected"{% endif %}{% endif %}
-                		    >Male</option>
-                		    <option
-                		    {% if record %}{% if record.data.gender == "Female" %} selected="selected"{% endif %}{% endif %}
-                		    >Female</option>
-                		    <option
-												{% if record %}{% if record.data.gender == "Other" %} selected="selected"{% endif %}{% endif %}
-												>Other</option>
-                		    <option
-	                		  {% if record %}{% if record.data.gender == "Do not wish to disclose" %} selected="selected"{% endif %}{% endif %}
-												>Do not wish to disclose</option>
-                		</select></td>
+                		<td>
+                		    <select name="gender">
+                    		    <option></option>
+                    		    <option
+                    		    {% if record %}{% if record.data.gender == "Male" %} selected="selected"{% endif %}{% endif %}
+                    		    >Male</option>
+                    		    <option
+                    		    {% if record %}{% if record.data.gender == "Female" %} selected="selected"{% endif %}{% endif %}
+                    		    >Female</option>
+                    		    <option
+    												{% if record %}{% if record.data.gender == "Other" %} selected="selected"{% endif %}{% endif %}
+    												>Other</option>
+                    		    <option
+    	                		  {% if record %}{% if record.data.gender == "Do not wish to disclose" %} selected="selected"{% endif %}{% endif %}
+    												>Do not wish to disclose</option>
+                		    </select>
+                		    <p id="gender_other"{% if not record or record.data.gender != "Other" %}style="display:none"{% endif %}>
+                		        Describe gender identity here, 
+                		        or leave blank to record it as "Other": <br>
+                    		    <input type="text" class="form-control" name="gender_other"{% if record %} value="{{record.data.gender_other}}"{% endif %}>
+                    		</p>
+                		</td>
                     </tr>
         	        <tr>
 	                    <td style="text-align:right;padding:6px 10px 0 0;">Email address</td>

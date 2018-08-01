@@ -62,7 +62,13 @@
                     <td style="width:30%;">UCAS number</td> <td>{{ record.ucas_number }}</td>
                 </tr>
                 <tr>
-                    <td style="width:30%;">Gender</td> <td>{{ record.gender }}</td>
+                    <td style="width:30%;">Gender</td>
+                    <td>
+                        {{ record.gender }}
+                        {% if record.gender_other %}
+                        <br>{{ record.gender_other }}
+                        {% endif %}
+                    </td>
                 </tr>
                 <tr>
                     <td style="width:30%;">School</td> <td>{{ record.school }}</td>
