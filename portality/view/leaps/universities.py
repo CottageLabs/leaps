@@ -30,7 +30,7 @@ def restrict():
     if current_user.is_anonymous():
         return redirect('/account/login?next=' + request.path)
     dp = current_user.data['last_updated'].split(' ')[0].split('-')
-    if datetime.date(int(dp[0],int(dp[1]),int(dp[2]))) < datetime.date(2018,8,1) and current_user.data.get('agreed_policy',False) == True:
+    if datetime.date(int(dp[0]),int(dp[1]),int(dp[2])) < datetime.date(2018,8,1) and current_user.data.get('agreed_policy',False) == True:
         current_user.data['previously_agreed_policy'] = True
         current_user.data['agreed_policy'] = False
         current_user.save()
