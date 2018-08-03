@@ -25,6 +25,8 @@ def restrict():
         abort(401)
     elif request.method == 'DELETE' and not current_user.do_admin:
         abort(401)
+    if not current_user.agreed_policy:
+        return redirect('/account/policy?next=' + request.path)
     elif not current_user.view_admin:
         abort(401)
 

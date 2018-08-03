@@ -24,7 +24,7 @@ def restrict():
         return render_template('leaps/admin/closed.html')
     if current_user.is_anonymous():
         return redirect('/account/login?next=' + request.path)
-    if not current_user.agreed_policy and not current_user.view_admin:
+    if not current_user.agreed_policy:
         return redirect('/account/policy?next=' + request.path)
     if not current_user.is_school:
         abort(401)

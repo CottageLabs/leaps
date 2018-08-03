@@ -5,6 +5,8 @@ from flask import render_template
 from flask.ext.login import login_user, logout_user, current_user
 from flask.ext.wtf import Form, TextField, TextAreaField, SelectField, BooleanField, PasswordField, HiddenField, validators, ValidationError
 
+from datetime import datetime
+
 from urlparse import urlparse, urljoin
 
 from portality.view.leaps.forms import dropdowns
@@ -139,6 +141,12 @@ def login():
         user = models.Account.pull(username)
         if user is None:
             user = models.Account.pull_by_email(username)
+        if user is not None:
+            dp = user.data['last_updated'].split(' ')[0].split('-')
+            if datetime.date(int(dp[0],int(dp[1]),int(dp[2]))) < datetime.date(2018,8,1) and user.data.get('agreed_policy',False) == True:
+                user.data['previously_agreed_policy'] = True
+                user.data['agreed_policy'] = False
+                user.save()
         if user is not None and user.check_password(password):
             login_user(user, remember=True)
             flash('Welcome back.', 'success')
