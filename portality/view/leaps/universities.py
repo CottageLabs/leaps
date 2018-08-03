@@ -4,7 +4,7 @@ from flask import Blueprint, request, flash, abort, make_response, render_templa
 from flask.ext.login import current_user
 
 import time
-from datetime import datetime
+import datetime
 from copy import deepcopy
 
 from flask_weasyprint import HTML, render_pdf

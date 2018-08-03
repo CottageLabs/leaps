@@ -5,7 +5,7 @@ from flask import render_template
 from flask.ext.login import login_user, logout_user, current_user
 from flask.ext.wtf import Form, TextField, TextAreaField, SelectField, BooleanField, PasswordField, HiddenField, validators, ValidationError
 
-from datetime import datetime
+import datetime
 
 from urlparse import urlparse, urljoin
 

@@ -10,7 +10,7 @@ from portality.core import app
 from portality.view.leaps.forms import dropdowns
 import portality.models as models
 
-from datetime import datetime
+import datetime
 
 
 blueprint = Blueprint('admin', __name__)

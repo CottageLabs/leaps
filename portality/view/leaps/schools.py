@@ -12,7 +12,7 @@ from portality.view.leaps.forms import dropdowns
 from portality.view.leaps.admin import pdf
 from portality.view.leaps.exports import download_csv
 
-from datetime import datetime
+import datetime
 
 
 blueprint = Blueprint('schools', __name__)
