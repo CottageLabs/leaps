@@ -4,7 +4,7 @@ from flask import Blueprint, request, flash, abort, make_response, render_templa
 from flask.ext.login import current_user
 
 import time
-import datetime
+from datetime import datetime
 from copy import deepcopy
 
 from flask_weasyprint import HTML, render_pdf
@@ -29,11 +29,11 @@ def restrict():
         return render_template('leaps/admin/closed.html')
     if current_user.is_anonymous():
         return redirect('/account/login?next=' + request.path)
-    dp = current_user.data['last_updated'].split(' ')[0].split('-')
-    if datetime.date(int(dp[0]),int(dp[1]),int(dp[2])) < datetime.date(2018,8,1) and current_user.data.get('agreed_policy',False) == True:
-        current_user.data['previously_agreed_policy'] = True
-        current_user.data['agreed_policy'] = False
-        current_user.save()
+    #dp = current_user.data['last_updated'].split(' ')[0].split('-')
+    #if datetime.date(int(dp[0]),int(dp[1]),int(dp[2])) < datetime.date(2018,8,1) and current_user.data.get('agreed_policy',False) == True:
+    #    current_user.data['previously_agreed_policy'] = True
+    #    current_user.data['agreed_policy'] = False
+    #    current_user.save()
     if not current_user.agreed_policy and not current_user.view_admin:
         return redirect('/account/policy?next=' + request.path)
     if not current_user.is_institution:

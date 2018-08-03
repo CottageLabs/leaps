@@ -26,11 +26,11 @@ def restrict():
         abort(401)
     elif request.method == 'DELETE' and not current_user.do_admin:
         abort(401)
-    dp = current_user.data['last_updated'].split(' ')[0].split('-')
-    if datetime.date(int(dp[0]),int(dp[1]),int(dp[2])) < datetime.date(2018,8,1) and current_user.data.get('agreed_policy',False) == True:
-        current_user.data['previously_agreed_policy'] = True
-        current_user.data['agreed_policy'] = False
-        current_user.save()
+    #dp = current_user.data['last_updated'].split(' ')[0].split('-')
+    #if datetime.date(int(dp[0]),int(dp[1]),int(dp[2])) < datetime.date(2018,8,1) and current_user.data.get('agreed_policy',False) == True:
+    #    current_user.data['previously_agreed_policy'] = True
+    #    current_user.data['agreed_policy'] = False
+    #    current_user.save()
     if not current_user.agreed_policy:
         return redirect('/account/policy?next=' + request.path)
     elif not current_user.view_admin:
