@@ -12,7 +12,7 @@ from portality.view.leaps.forms import dropdowns
 from portality.view.leaps.admin import pdf
 from portality.view.leaps.exports import download_csv
 
-from datetime import datetime
+from datetime import date
 
 
 blueprint = Blueprint('schools', __name__)
@@ -26,11 +26,11 @@ def restrict():
         return render_template('leaps/admin/closed.html')
     if current_user.is_anonymous():
         return redirect('/account/login?next=' + request.path)
-    #dp = current_user.data['last_updated'].split(' ')[0].split('-')
-    #if datetime.date(int(dp[0]),int(dp[1]),int(dp[2])) < datetime.date(2018,8,1) and current_user.data.get('agreed_policy',False) == True:
-    #    current_user.data['previously_agreed_policy'] = True
-    #    current_user.data['agreed_policy'] = False
-    #    current_user.save()
+    dp = current_user.data['last_updated'].split(' ')[0].split('-')
+    if date(int(dp[0]),int(dp[1]),int(dp[2])) < date(2018,8,1) and current_user.data.get('agreed_policy',False) == True:
+        current_user.data['previously_agreed_policy'] = True
+        current_user.data['agreed_policy'] = False
+        current_user.save()
     if not current_user.agreed_policy:
         return redirect('/account/policy?next=' + request.path)
     if not current_user.is_school:
