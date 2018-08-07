@@ -562,10 +562,7 @@ class Account(DomainObject, UserMixin):
             
     @property
     def agreed_policy(self):
-        if not isinstance(self.is_school,bool) or not isinstance(self.is_institution,bool):
-            return self.data.get('agreed_policy',False)
-        else:
-            return True
+        return self.data.get('agreed_policy',False)
 
     
 # a special object that allows a search onto all index types - FAILS TO CREATE INSTANCES
