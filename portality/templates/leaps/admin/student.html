@@ -395,16 +395,16 @@ fieldset{
                     		    <option></option>
                     		    <option
                     		    {% if record %}{% if record.data.gender == "Male" %} selected="selected"{% endif %}{% endif %}
-                    		    >Male</option>
+                    		    >Man / Male (including trans man)</option>
                     		    <option
                     		    {% if record %}{% if record.data.gender == "Female" %} selected="selected"{% endif %}{% endif %}
-                    		    >Female</option>
+                    		    >Woman / Female (including trans woman)</option>
                     		    <option
-    												{% if record %}{% if record.data.gender == "Other" %} selected="selected"{% endif %}{% endif %}
-    												>Other</option>
+								{% if record %}{% if record.data.gender == "Other" %} selected="selected"{% endif %}{% endif %}
+								>In another way</option>
                     		    <option
-    	                		  {% if record %}{% if record.data.gender == "Do not wish to disclose" %} selected="selected"{% endif %}{% endif %}
-    												>Do not wish to disclose</option>
+    	                   		{% if record %}{% if record.data.gender == "Do not wish to disclose" %} selected="selected"{% endif %}{% endif %}
+								>Prefer not to say</option>
                 		    </select>
                 		    <p id="gender_other"{% if not record or record.data.gender != "Other" %}style="display:none"{% endif %}>
                 		        Describe gender identity here, 
