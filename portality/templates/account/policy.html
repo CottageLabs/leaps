@@ -35,11 +35,19 @@
         
         <p>If you would like further information regarding our privacy policy, please <a href="/policy">see here</a>.</p>
 
-        <form method="POST" action="">
+        <form id="agree" method="POST" action="">
             <input class="btn" type="submit" name="submit" value="I wish to proceed to the LEAPS survey database">
         </form>
     </div>
 </div>
+
+<script>
+jQuery(document).ready(function() {
+  if (window.location.search.indexOf('next=') === -1) {
+    $('#agree').hide();
+  }
+});
+</script>
 
 {% endblock %}
 
