@@ -201,7 +201,6 @@ def policy():
         if user:
             user.data['agreed_policy'] = True
             user.save()
-            flash('Thank you for agreeing to our policy. Please continue.', 'success')
             return redirect(get_redirect_target())
         else:
             flash('There was an error. Please try again.', 'error')
