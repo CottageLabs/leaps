@@ -269,8 +269,9 @@ jQuery(document).ready(function() {
 	document.querySelector('form').onkeypress = checkKeys;
 	
 	$('#gender').bind('change',function(e) {
-	   $('#gender_other').val('').hide();
-	   if ( $('#gender').val() == 'Other' ) $('#gender_other').show();
+	   $('#gender_other').val('');
+	   $('#show_gender_other').hide();
+	   if ( $('#gender').val() == 'Other' ) $('#show_gender_other').show();
 	});
 });
 </script>
@@ -492,10 +493,10 @@ input.bigfield{
             		    <option value="Other">In another way</option>
             		    <option value="Do not wish to disclose">Prefer not to say</option>
             		    </select>
-            		    <p id="gender_other" style="display:none">
+            		    <p id="show_gender_other" style="display:none">
             		        If you want to tell us how you identify your gender, please enter it here, 
             		        or leave blank and we will simply record it as "Other": <br>
-                		    <input type="text" class="form-control" name="gender_other">
+                		    <input type="text" class="form-control" id="gender_other" name="gender_other">
                 		</p>
             		</p>
 	            </div>
