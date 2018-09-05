@@ -393,16 +393,16 @@ fieldset{
                 		<td>
                 		    <select name="gender">
                     		    <option></option>
-                    		    <option
+                    		    <option value="Male"
                     		    {% if record %}{% if record.data.gender == "Male" %} selected="selected"{% endif %}{% endif %}
                     		    >Man / Male (including trans man)</option>
-                    		    <option
+                    		    <option value="Female"
                     		    {% if record %}{% if record.data.gender == "Female" %} selected="selected"{% endif %}{% endif %}
                     		    >Woman / Female (including trans woman)</option>
-                    		    <option
+                    		    <option value="Other"
 								{% if record %}{% if record.data.gender == "Other" %} selected="selected"{% endif %}{% endif %}
 								>In another way</option>
-                    		    <option
+                    		    <option value="Do not wish to disclose"
     	                   		{% if record %}{% if record.data.gender == "Do not wish to disclose" %} selected="selected"{% endif %}{% endif %}
 								>Prefer not to say</option>
                 		    </select>
