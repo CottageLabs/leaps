@@ -391,7 +391,7 @@ fieldset{
 
 	                    <td style="text-align:right;padding:6px 10px 0 100px;">Gender</td>
                 		<td>
-                		    <select name="gender">
+                		    <select name="gender" id="gender">
                     		    <option></option>
                     		    <option value="Male"
                     		    {% if record %}{% if record.data.gender == "Male" %} selected="selected"{% endif %}{% endif %}
@@ -406,7 +406,7 @@ fieldset{
     	                   		{% if record %}{% if record.data.gender == "Do not wish to disclose" %} selected="selected"{% endif %}{% endif %}
 								>Prefer not to say</option>
                 		    </select>
-                		    <p id="gender_other"{% if not record or record.data.gender != "Other" %}style="display:none"{% endif %}>
+                		    <p id="gender_other"{% if not record or record.data.gender != "Other" %} style="display:none"{% endif %}>
                 		        Describe gender identity here, 
                 		        or leave blank to record it as "Other": <br>
                     		    <input type="text" class="form-control" name="gender_other"{% if record %} value="{{record.data.gender_other}}"{% endif %}>
