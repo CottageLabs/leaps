@@ -95,6 +95,9 @@ def download_csv(recordlist,keys):
     if 'applications' in keys:
         keys.remove('applications')
         keys = keys + ['applications','pae_requested','pae_replied','pae_consider','pae_conditions']
+    if 'gender' in keys:
+        keys.remove('gender')
+        keys = keys + ['gender','gender_other']
 
     # make a csv string of the records
     csvdata = StringIO.StringIO()
@@ -193,6 +196,15 @@ def download_csv(recordlist,keys):
                             tidykey = str(dec)
                         except:
                             tidykey = '';
+                elif key == 'gender' and datetime(int(record['created_date'].split('-')[0]),int(record['created_date'].split('-')[1]),int(record['created_date'].split('-')[2].split(' ')[0])) > datetime(2018,8,1):
+                    if record[key] == 'Male':
+                        tidykey = 'Man / Male (including trans man)'
+                    elif record[key] == 'Female':
+                        tidykey = 'Woman / Female (including trans woman)'
+                    elif record[key] == 'Other':
+                        tidykey = 'In another way'
+                    elif record[key] == 'Do not wish to disclose':
+                        tidykey = 'Prefer not to say'
                 else:
                     if isinstance(record[key],bool):
                         if record[key]:
