@@ -208,7 +208,7 @@ def download_csv(recordlist,keys):
                             tidykey = 'Prefer not to say'
                     else:
                         tidykey = record[key]
-                    tidykey = '","' + fixify(record.get('gender_other','').replace('"',''))
+                    tidykey += '","' + fixify(record.get('gender_other','').replace('"',''))
                 elif key in ['gender_other']:
                     tidykey = ""
                 else:
