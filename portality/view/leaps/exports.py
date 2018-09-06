@@ -210,7 +210,7 @@ def download_csv(recordlist,keys):
                         else:
                             tidykey = record[key]
                     else:
-                        tidykey = record[key]
+                        tidykey = record.get(key,'')
                     tidykey += '","' + fixify(record.get('gender_other','').replace('"',''))
                 elif key == 'gender_other':
                     tidykey = ""
