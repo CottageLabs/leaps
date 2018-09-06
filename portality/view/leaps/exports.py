@@ -128,7 +128,7 @@ def download_csv(recordlist,keys):
                 firstkey = False
             elif key != 'gender_other':
                 csvdata.write(',')
-            if key in record.keys() or key in ['address','simd_pc']) and key != 'gender_other':
+            if (key in record.keys() or key in ['address','simd_pc']) and key != 'gender_other':
                 if key == 'applications':
                     appns = ""
                     reqs = ""
@@ -232,7 +232,7 @@ def download_csv(recordlist,keys):
                 except:
                     print "errored on writing a key to the csvdata, probably because of ascii error"
             else:
-                csvdata.write('""');
+                csvdata.write('""')
     # dump to the browser as a csv attachment
     csvdata.seek(0)
     return send_file(
