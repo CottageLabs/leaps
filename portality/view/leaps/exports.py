@@ -236,8 +236,6 @@ def download_csv(recordlist,keys):
                         csvdata.write('"' + tidykey + '"')
                 except:
                     print "errored on writing a key to the csvdata, probably because of ascii error"
-            else:
-                csvdata.write('""')
     # dump to the browser as a csv attachment
     csvdata.seek(0)
     return send_file(
