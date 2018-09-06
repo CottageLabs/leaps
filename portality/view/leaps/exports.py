@@ -124,11 +124,11 @@ def download_csv(recordlist,keys):
         # and then add each record as a line with the keys as chosen by the user
         firstkey = True
         for key in keys:
-            if firstkey:
-                firstkey = False
-            else:
-                csvdata.write(',')
             if key in record.keys() or key in ['address','simd_pc']:
+                if firstkey:
+                    firstkey = False
+                else:
+                    csvdata.write(',')
                 if key == 'applications':
                     appns = ""
                     reqs = ""
