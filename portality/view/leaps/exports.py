@@ -124,7 +124,7 @@ def download_csv(recordlist,keys):
         # and then add each record as a line with the keys as chosen by the user
         firstkey = True
         for key in keys:
-            if (key in record.keys() or key in ['address','simd_pc']) and key not in ['gender_other']:
+            if (key in record.keys() or key in ['address','simd_pc']) and key != 'gender_other':
                 if firstkey:
                     firstkey = False
                 else:
@@ -231,6 +231,8 @@ def download_csv(recordlist,keys):
                     csvdata.write('"' + tidykey + '"')
                 except:
                     print "errored on writing a key to the csvdata, probably because of ascii error"
+            elif key != 'gender_other':
+                csvdata.write("")
     # dump to the browser as a csv attachment
     csvdata.seek(0)
     return send_file(
