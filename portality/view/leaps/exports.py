@@ -231,7 +231,7 @@ def download_csv(recordlist,keys):
                     csvdata.write('"' + tidykey + '"')
                 except:
                     print "errored on writing a key to the csvdata, probably because of ascii error"
-            elif key != 'gender_other':
+            elif key not in ['pae_requested','pae_replied','pae_consider','pae_conditions','gender_other']:
                 csvdata.write("")
     # dump to the browser as a csv attachment
     csvdata.seek(0)
