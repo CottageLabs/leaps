@@ -232,7 +232,7 @@ def download_csv(recordlist,keys):
                     except:
                         pass
                 try:
-                    if key not in ['pae_requested','pae_replied','pae_consider','pae_conditions','gender_other']:
+                    if not key in ['pae_requested','pae_replied','pae_consider','pae_conditions','gender_other']:
                         csvdata.write('"' + tidykey + '"')
                 except:
                     print "errored on writing a key to the csvdata, probably because of ascii error"
