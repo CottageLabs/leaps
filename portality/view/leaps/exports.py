@@ -83,6 +83,9 @@ def download_csv(recordlist,keys):
     if 'address' in keys:
         keys.remove('address')
         keys = ['address'] + keys
+    if 'gender' in keys:
+        keys.remove('gender')
+        keys = ['gender','gender_other'] + keys
     if 'date_of_birth' in keys:
         keys.remove('date_of_birth')
         keys = ['date_of_birth'] + keys
@@ -95,9 +98,6 @@ def download_csv(recordlist,keys):
     if 'applications' in keys:
         keys.remove('applications')
         keys = keys + ['applications','pae_requested','pae_replied','pae_consider','pae_conditions']
-    if 'gender' in keys:
-        keys.remove('gender')
-        keys = keys + ['gender','gender_other']
 
     # make a csv string of the records
     csvdata = StringIO.StringIO()
@@ -196,15 +196,21 @@ def download_csv(recordlist,keys):
                             tidykey = str(dec)
                         except:
                             tidykey = '';
-                elif key == 'gender' and datetime(int(record['created_date'].split('-')[0]),int(record['created_date'].split('-')[1]),int(record['created_date'].split('-')[2].split(' ')[0])) > datetime(2018,8,1):
-                    if record[key] == 'Male':
-                        tidykey = 'Man / Male (including trans man)'
-                    elif record[key] == 'Female':
-                        tidykey = 'Woman / Female (including trans woman)'
-                    elif record[key] == 'Other':
-                        tidykey = 'In another way'
-                    elif record[key] == 'Do not wish to disclose':
-                        tidykey = 'Prefer not to say'
+                elif key == 'gender':
+                    if datetime(int(record['created_date'].split('-')[0]),int(record['created_date'].split('-')[1]),int(record['created_date'].split('-')[2].split(' ')[0])) > datetime(2018,6,1):
+                        if record[key] == 'Male':
+                            tidykey = 'Man / Male (including trans man)'
+                        elif record[key] == 'Female':
+                            tidykey = 'Woman / Female (including trans woman)'
+                        elif record[key] == 'Other':
+                            tidykey = 'In another way'
+                        elif record[key] == 'Do not wish to disclose':
+                            tidykey = 'Prefer not to say'
+                    else:
+                        tidykey = record[key]
+                    tidykey += '","' + fixify(record.get('gender_other','').replace('"',''))
+                elif key in ['gender_other']:
+                    tidykey = ""
                 else:
                     if isinstance(record[key],bool):
                         if record[key]:
@@ -223,7 +229,7 @@ def download_csv(recordlist,keys):
                     except:
                         pass
                 try:
-                    if key not in ['pae_requested','pae_replied','pae_consider','pae_conditions']:
+                    if key not in ['pae_requested','pae_replied','pae_consider','pae_conditions','gender_other']:
                         csvdata.write('"' + tidykey + '"')
                 except:
                     print "errored on writing a key to the csvdata, probably because of ascii error"
