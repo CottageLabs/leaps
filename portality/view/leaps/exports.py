@@ -197,6 +197,7 @@ def download_csv(recordlist,keys):
                         except:
                             tidykey = ''
                 elif key == 'gender':
+                    tidykey = ''
                     if datetime(int(record['created_date'].split('-')[0]),int(record['created_date'].split('-')[1]),int(record['created_date'].split('-')[2].split(' ')[0])) > datetime(2018,6,1):
                         if record[key] == 'Male':
                             tidykey = 'Man / Male (including trans man)'
@@ -206,10 +207,12 @@ def download_csv(recordlist,keys):
                             tidykey = 'In another way'
                         elif record[key] == 'Do not wish to disclose':
                             tidykey = 'Prefer not to say'
+                        else:
+                            tidykey = record[key]
                     else:
                         tidykey = record[key]
                     tidykey += '","' + fixify(record.get('gender_other','').replace('"',''))
-                elif key in ['gender_other']:
+                elif key == 'gender_other':
                     tidykey = ""
                 else:
                     if isinstance(record[key],bool):
