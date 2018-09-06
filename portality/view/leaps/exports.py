@@ -208,7 +208,7 @@ def download_csv(recordlist,keys):
                         elif record[key] == 'Do not wish to disclose':
                             tidykey = 'Prefer not to say'
                         else:
-                            tidykey = record[key]
+                            tidykey = fixify(record[key]).replace('"','')
                     else:
                         tidykey = record.get(key,'')
                     tidykey += '","' + fixify(record.get('gender_other','').replace('"',''))
