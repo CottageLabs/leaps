@@ -182,7 +182,11 @@ jQuery(document).ready(function() {
     $('#triggersave').bind('click',triggersave);
 
     var limitlevels = function(event) {
-        var ls = $(this).closest('tr').find('.levelselector');
+        if ($(this).closest('table').length === 0) {
+            var ls = $(this).closest('.row').find('.levelselector');
+        } else {
+            var ls = $(this).closest('tr').find('.levelselector');
+        }
         if (ls.hasClass('select2this')) ls.select2('destroy').removeAttr('id').removeAttr('data-select2-id');
         ls.attr("disabled","disabled");
         var level = $('option:selected', this).attr('data-level');
@@ -201,22 +205,30 @@ jQuery(document).ready(function() {
     }
     var limitsubjects = function(event) {
         var institution = $(this).val();
-        $(this).closest('tr').find('.subjectselector').each(function() {
+        if ($(this).closest('table').length === 0) {
+            var ss = $(this).closest('.row').find('.subjectselector');
+            var ls = $(this).closest('.row').find('.levelselector');
+        } else {
+            var ss = $(this).closest('tr').find('.subjectselector');
+            var ls = $(this).closest('tr').find('.levelselector');
+        }
+        ss.each(function() {
             if ($(this).hasClass('select2this')) $(this).select2('destroy').removeAttr('id').removeAttr('data-select2-id');
             $(this).attr("disabled","disabled");
         });
-        $(this).closest('tr').find('.levelselector').each(function() {
+        ls.each(function() {
             if ($(this).hasClass('select2this')) $(this).select2('destroy').removeAttr('id').removeAttr('data-select2-id');
             $(this).val("").attr("disabled","disabled");
         });
+        }
         if ( institution == "" ) {
             var subjects = {{ selections.advancedsubjects|tojson|safe }};
             var opts = '<option></option>';
             for ( var i = 0; i < subjects.length; i++ ) {
                 opts += "<option>" + subjects[i] + "</option>";
             }
-            $(this).closest('tr').find('.subjectselector').html(opts).removeAttr("disabled");
-            $(this).closest('tr').find('.levelselector').html(opts).removeAttr("disabled");
+            ss.html(opts).removeAttr("disabled");
+            ls.html(opts).removeAttr("disabled");
         } else {
             var qry = {
                 "query": {
@@ -232,6 +244,7 @@ jQuery(document).ready(function() {
                 datatype:'JSON',
                 url:url,
                 obj:$(this),
+                oss:ss,
                 success: function(data) {
                     if ( data.hits.total == 0 ) {
                         var subjects = {{ selections.advancedsubjects|tojson|safe }};
@@ -250,7 +263,7 @@ jQuery(document).ready(function() {
                             opts += ">" + subjects[i].name + "</option>";
                         }
                     }
-                    this.obj.closest('tr').find('.subjectselector').each(function() {
+                    this.oss.each(function() {
                         $(this).html(opts).removeAttr("disabled");
                         if ($(this).hasClass('select2this')) $(this).select2({width:'100%'});
                     });
