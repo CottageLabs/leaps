@@ -220,7 +220,6 @@ jQuery(document).ready(function() {
             if ($(this).hasClass('select2this')) $(this).select2('destroy').removeAttr('id').removeAttr('data-select2-id');
             $(this).val("").attr("disabled","disabled");
         });
-        }
         if ( institution == "" ) {
             var subjects = {{ selections.advancedsubjects|tojson|safe }};
             var opts = '<option></option>';
