@@ -101,11 +101,6 @@ jQuery(document).ready(function() {
     }
 
     // add / remove rows to list items
-    $('table.multi').find('tbody').children('tr').each(function() {
-        $(this).children('td').first().prepend('<a class="btn btn-warning delete-row" style="margin:-10px 2px 0 0;" href="#">delete</a>').children('select, input').addClass('narrow');
-    });
-    $('table.multi').find('tbody').append('<tr><td><a class="btn btn-success add-row" href="#">add</a></td></tr>');
-    // add / remove rows to list items
     $('.row.multi').each(function() {
         $(this).children().last().append('<p class="toprow">&nbsp;</p><p style="display:none;"><a class="btn btn-block btn-warning delete-row" href="#">delete</a></p><p><a class="btn btn-block btn-success add-row" href="#">add</a></p>');
     });
@@ -113,61 +108,37 @@ jQuery(document).ready(function() {
     var addrow = function(event) {
         event.preventDefault();
         var maxrows = 6;
-        if ($(this).closest('table').length === 0) {
-            $(this).closest('.row').hasClass('manyrows') ? maxrows = 30 : false;
-            $(this).closest('.row').siblings('.row').length == (maxrows - 1) ? $(this).hide() : false;
-            if ( $(this).closest('.row').siblings('.row').length < maxrows ) {
-                $('.select2this').select2('destroy').removeAttr('id').removeAttr('data-select2-id');
-                var row = $(this).closest('.row').clone(true).get(0);
-                $(row).children('div').each(function() {
-                    var p = $(this).children('p').first();
-                    if ( !$(p).hasClass('toprow') ) {
-                        $(p).addClass('visible-xs').addClass('visible-sm'); 
-                    } else {
-                        $(p).hide();
-                    }
-                });
-                $(this).closest('.row').append('<hr class="visible-xs visible-sm" style="border-color:#bbb;"></hr>');
-                preprow(row);
-                $(row).insertAfter($(this).closest('.row'));
-                $(this).closest('.row').find('.add-row').parent().hide();
-                $(this).closest('.row').find('.delete-row').parent().show();
-                $('.select2this').select2({width:'100%'});
-            }
-        } else {
-            $(this).closest('table').hasClass('manyrows') ? maxrows = 30 : false;
-            $(this).closest('tr').siblings().length == (maxrows - 1) ? $(this).hide() : false;
-            if ( $(this).closest('tr').siblings().length < maxrows ) {
-                $('.select2this').select2('destroy').removeAttr('id').removeAttr('data-select2-id');
-                var row = $(this).closest('tr').prev().clone(true).get(0);
-                $(row).insertBefore($(this).closest('tr'));
-                preprow(row);
-                $('.select2this').select2({width:'100%'});
-            }
+        $(this).closest('.row').hasClass('manyrows') ? maxrows = 30 : false;
+        $(this).closest('.row').siblings('.row').length == (maxrows - 1) ? $(this).hide() : false;
+        if ( $(this).closest('.row').siblings('.row').length < maxrows ) {
+            $('.select2this').select2('destroy').removeAttr('id').removeAttr('data-select2-id');
+            var row = $(this).closest('.row').clone(true).get(0);
+            $(row).children('div').each(function() {
+                var p = $(this).children('p').first();
+                if ( !$(p).hasClass('toprow') ) {
+                    $(p).addClass('visible-xs').addClass('visible-sm'); 
+                } else {
+                    $(p).hide();
+                }
+            });
+            $(this).closest('.row').append('<hr class="visible-xs visible-sm" style="border-color:#bbb;"></hr>');
+            preprow(row);
+            $(row).insertAfter($(this).closest('.row'));
+            $(this).closest('.row').find('.add-row').parent().hide();
+            $(this).closest('.row').find('.delete-row').parent().show();
+            $('.select2this').select2({width:'100%'});
         }
     }
     $('.add-row').bind('click',addrow);
     var deleterow = function(event) {
         event.preventDefault();
-        if ($(this).closest('table').length === 0) {
-            // if this is the first row, remove the visible-xs and visible-sm classes from the p tags of the next row
-            var parent = $(this).closest('.row').parent();
-            $(this).closest('.row').remove();
-            $(parent).children('.row').first().children('div').each(function() {
-                $(this).children('p').first().removeClass('visible-xs').removeClass('visible-sm');
-                $(this).find('.toprow').show();
-            });
-        } else {
-            var row = $(this).closest('tr').clone(true).get(0);
-            var maxrows = 6;
-            $(this).closest('table').hasClass('manyrows') ? maxrows = 30 : false;
-            $(this).closest('tr').siblings().length == maxrows ? $(this).closest('tr').siblings().find('.add-row').show() : false;
-            if ( $(this).closest('tr').siblings().length == 1 ) {
-                $(row).insertBefore($(this).closest('tr'));
-                preprow(row);
-            }
-            $(this).closest('tr').remove();
-        }
+        // if this is the first row, remove the visible-xs and visible-sm classes from the p tags of the next row
+        var parent = $(this).closest('.row').parent();
+        $(this).closest('.row').remove();
+        $(parent).children('.row').first().children('div').each(function() {
+            $(this).children('p').first().removeClass('visible-xs').removeClass('visible-sm');
+            $(this).find('.toprow').show();
+        });
     }
     $('.delete-row').bind('click',deleterow);
 
@@ -182,16 +153,12 @@ jQuery(document).ready(function() {
     $('#triggersave').bind('click',triggersave);
 
     var limitlevels = function(event) {
-        if ($(this).closest('table').length === 0) {
-            var ls = $(this).closest('.row').find('.levelselector');
-        } else {
-            var ls = $(this).closest('tr').find('.levelselector');
-        }
+        var ls = $(this).closest('.row').find('.levelselector');
         if (ls.hasClass('select2this')) ls.select2('destroy').removeAttr('id').removeAttr('data-select2-id');
         ls.attr("disabled","disabled");
         var level = $('option:selected', this).attr('data-level');
         if ( level ) {
-            ls.html('<option></option><option selected="selected">' + level + '</option>')
+            ls.html('<option></option><option selected="selected">' + level + '</option>');
         } else {
             var levels = {{ selections.advancedlevels|tojson|safe }};
             var lopts = '<option></option>';
@@ -205,21 +172,12 @@ jQuery(document).ready(function() {
     }
     var limitsubjects = function(event) {
         var institution = $(this).val();
-        if ($(this).closest('table').length === 0) {
-            var ss = $(this).closest('.row').find('.subjectselector');
-            var ls = $(this).closest('.row').find('.levelselector');
-        } else {
-            var ss = $(this).closest('tr').find('.subjectselector');
-            var ls = $(this).closest('tr').find('.levelselector');
-        }
-        ss.each(function() {
-            if ($(this).hasClass('select2this')) $(this).select2('destroy').removeAttr('id').removeAttr('data-select2-id');
-            $(this).attr("disabled","disabled");
-        });
-        ls.each(function() {
-            if ($(this).hasClass('select2this')) $(this).select2('destroy').removeAttr('id').removeAttr('data-select2-id');
-            $(this).val("").attr("disabled","disabled");
-        });
+        var ss = $(this).closest('.row').find('.subjectselector');
+        if (ss.hasClass('select2this')) ss.select2('destroy').removeAttr('id').removeAttr('data-select2-id');
+        ss.attr("disabled","disabled");
+        var ls = $(this).closest('.row').find('.levelselector');
+        if (ls.hasClass('select2this')) ls.select2('destroy').removeAttr('id').removeAttr('data-select2-id');
+        ls.val("").attr("disabled","disabled");
         if ( institution == "" ) {
             var subjects = {{ selections.advancedsubjects|tojson|safe }};
             var opts = '<option></option>';
@@ -227,7 +185,8 @@ jQuery(document).ready(function() {
                 opts += "<option>" + subjects[i] + "</option>";
             }
             ss.html(opts).removeAttr("disabled");
-            ls.html(opts).removeAttr("disabled");
+            if (ss.hasClass('select2this')) ss.select2({width:'100%'});
+            if (ls.hasClass('select2this')) ls.select2({width:'100%'});
         } else {
             var qry = {
                 "query": {
@@ -243,7 +202,6 @@ jQuery(document).ready(function() {
                 datatype:'JSON',
                 url:url,
                 obj:$(this),
-                oss:ss,
                 success: function(data) {
                     if ( data.hits.total == 0 ) {
                         var subjects = {{ selections.advancedsubjects|tojson|safe }};
@@ -262,10 +220,11 @@ jQuery(document).ready(function() {
                             opts += ">" + subjects[i].name + "</option>";
                         }
                     }
-                    this.oss.each(function() {
-                        $(this).html(opts).removeAttr("disabled");
-                        if ($(this).hasClass('select2this')) $(this).select2({width:'100%'});
-                    });
+                    var oss = this.obj.closest('.row').find('.subjectselector');
+                    oss.html(opts).removeAttr("disabled");
+                    if (oss.hasClass('select2this')) oss.select2({width:'100%'});
+                    var ols = this.obj.closest('.row').find('.levelselector');
+                    if (ols.hasClass('select2this')) ols.select2({width:'100%'});
                 }
             });
         }
