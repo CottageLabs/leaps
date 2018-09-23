@@ -219,6 +219,7 @@ def export():
         'post_code',
         'school',
         'leaps_category',
+        'simd_decile',
 #        'late_decision_to_apply',
 #        'had_recent_careers_interview',
         'issues_affecting_performance',
