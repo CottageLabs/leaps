@@ -1091,17 +1091,10 @@ fieldset{
         	        <tr>
 	                    <td style="text-align:right;padding:6px 10px 0 0;">Mothers occupation</td>
 	                    <td><input type="text" name="mothers_occupation"{% if record %} value="{{ record.data.mothers_occupation }}"{% endif %}></td>
-
-                		<td rowspan="4" colspan="2">
-                		<p>Additional comments (will be shown on all PAEs)</p>
-                		<textarea class="bigfield" name="additional_comments" placeholder="additional comments (will be shown on all PAEs)">{% if record %}{{record.data.additional_comments}}{% endif %}</textarea>
-                		</td>
-
                     </tr>
         	        <tr>
 	                    <td style="text-align:right;padding:6px 10px 0 0;">Fathers occupation</td>
 	                    <td><input type="text" name="fathers_occupation"{% if record %} value="{{ record.data.fathers_occupation }}"{% endif %}></td>
-
                     </tr>
         	        <tr style="display:none;">
 	                    <td style="text-align:right;padding:6px 10px 0 0;">Number of siblings</td>
@@ -1124,14 +1117,21 @@ fieldset{
         	        <tr>
 	                    <td style="text-align:right;padding:6px 10px 0 0;">Main language at home</td>
 	                    <td><input type="text" name="main_language_at_home"{% if record %} value="{{ record.data.main_language_at_home }}"{% endif %}></td>
-
                     </tr>
-                    <tr>
-                        <td colspan="2">
-                            <p>LEAPS internal notes</p>
-                    		<textarea class="bigfield" name="leaps_notes" placeholder="LEAPS notes">{% if record %}{{record.data.leaps_notes}}{% endif %}</textarea>
+                </tbody>
+            </table>
+	        <table>
+	            <tbody>
+        	        <tr>
+                        <td>
+                            <p>LEAPS internal notes (only visible here)</p>
+                    		<textarea class="bigfield" name="leaps_notes" placeholder="LEAPS internal notes">{% if record %}{{record.data.leaps_notes}}{% endif %}</textarea>
                         </td>
-                    </tr>
+                		<td>
+                    		<p>Additional comments (will show on PDFs and PAEs)</p>
+                    		<textarea class="bigfield" name="additional_comments" placeholder="additional comments (will be shown on all PAEs)">{% if record %}{{record.data.additional_comments}}{% endif %}</textarea>
+                		</td>
+        	        </tr>
                 </tbody>
             </table>
         </div>
