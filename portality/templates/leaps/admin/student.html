@@ -789,8 +789,8 @@ fieldset{
                		    </td>
                 		{% endif %}
                 		<td>
-               		    <a class="paenotes" href="{{app.appid}}">Notes</a>
-               		    <textarea class="bigfield noclone paenote {{app.appid}}" type="hidden" name="application_notes">{% if app.notes %}{{app.notes}}{% endif %}</textarea>
+               		    <a class="btn btn-info paenotes" href="{{app.appid}}">Notes</a>
+               		    <textarea class="bigfield noclone paenote {{app.appid}}" style="display:none;" name="application_notes">{% if app.notes %}{{app.notes}}{% endif %}</textarea>
                         </td>
                     </tr>
                         {% endfor %}
