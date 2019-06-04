@@ -43,27 +43,31 @@ jQuery(document).ready(function($) {
                     <div class="well" style="height:55px;">
                         {% if current_user.is_super %}
                             <p style="margin-top:-10px;">
-                                <a style="font-size:14px;color:#000;" href="/admin">UoE LEAPS super admin</a>
-                            </p>
-                            <p style="text-align:right;margin-top:-10px;">
-                                <a style="font-size:14px;" href="/account">Manage users</a><br>
-                                Enable survey: <input type="checkbox" name="survey" class="adminsettings" 
-                                {% if adminsettings %}
-                                {% if adminsettings.survey %}
-                                checked="checked"
-                                {% endif %}
-                                {% endif %}
-                                ><br>
-                                Enable schools / unis: <input type="checkbox" class="adminsettings" name="schools_unis" 
-                                {% if adminsettings %}
-                                {% if adminsettings.schools_unis %}
-                                checked="checked"
-                                {% endif %}
-                                {% endif %}
-                                >
+                                <a style="font-size:14px;color:#000;" href="/admin">LEAPS super admin</a>
                             </p>
                         {% else %}
-                            <h1 style="padding-top:5px;"><a style="font-size:22px;" href="/admin">LEAPS admin</a></h1>
+                            <p style="margin-top:-10px;">
+                                <a style="font-size:14px;color:#000;" href="/admin">LEAPS admin</a>
+                            </p>
+                        {% endif %}
+                        {% if current_user.do_admin %}
+                        <p style="text-align:right;margin-top:-10px;">
+                            <a style="font-size:14px;" href="/account">Manage users</a><br>
+                            Enable survey: <input type="checkbox" name="survey" class="adminsettings" 
+                            {% if adminsettings %}
+                            {% if adminsettings.survey %}
+                            checked="checked"
+                            {% endif %}
+                            {% endif %}
+                            ><br>
+                            Enable schools / unis: <input type="checkbox" class="adminsettings" name="schools_unis" 
+                            {% if adminsettings %}
+                            {% if adminsettings.schools_unis %}
+                            checked="checked"
+                            {% endif %}
+                            {% endif %}
+                            >
+                        </p>
                         {% endif %}
                     </div>
                 </div>

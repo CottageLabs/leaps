@@ -6,7 +6,7 @@ from flask import request
 # used in account management to check if logged in user can edit user details
 def update(obj,user):
     if obj.__type__ == 'account':
-        if is_super(user):
+        if do_admin(user):
             return True
         else:
             return not user.is_anonymous() and user.id == obj.id

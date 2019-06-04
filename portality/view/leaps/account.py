@@ -22,7 +22,7 @@ blueprint = Blueprint('account', __name__)
 def index():
     if current_user.is_anonymous():
         abort(401)
-    if not current_user.is_super:
+    if not current_user.do_admin:
         return redirect('/account/' + current_user.id)
     users = models.Account.query(q={"query":{"match_all":{}},"sort":{'id.exact':{'order':'asc'}}, "size":100000})
     userstats = {
@@ -234,7 +234,7 @@ class RegisterForm(Form):
 
 @blueprint.route('/register', methods=['GET', 'POST'])
 def register():
-    if not app.config.get('PUBLIC_REGISTER',False) and not current_user.is_super:
+    if not app.config.get('PUBLIC_REGISTER',False) and not current_user.do_admin:
         abort(401)
     form = RegisterForm(request.form, csrf_enabled=False)
     if request.method == 'POST' and form.validate():

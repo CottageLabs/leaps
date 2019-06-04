@@ -97,6 +97,13 @@ def dropdowns(model,key='name'):
     qry['facets'][key] = {"terms":{"field":key+app.config['FACET_FIELD'],"order":'term', "size":100000}}
     klass = getattr(models, model[0].capitalize() + model[1:] )
     r = klass().query(q=qry)
-    return [i.get('term','') for i in r.get('facets',{}).get(key,{}).get("terms",[])]
+    terms = [i.get('term','') for i in r.get('facets',{}).get(key,{}).get("terms",[])]
+    if model.lower() == 'levels':
+        tops = ['Currently sitting','A*','A','B','C','D','E','F','No Award']
+        for top in tops.reverse():
+            if top in terms:
+                terms.remove(top)
+                terms.insert(top,0)
+    return terms
 
 

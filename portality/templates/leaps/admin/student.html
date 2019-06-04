@@ -240,6 +240,13 @@ jQuery(document).ready(function() {
     $('#triggerdelete').bind('click',triggerdelete);
     $('input, textarea, select').bind('change',promptsave);
 
+    var paenotes = function(e) {
+        e.preventDefault();
+        $('.paenote.' + $(this).attr('href')).toggle();
+    }
+    $('.paenotes').bind('click',paenotes);
+
+
 {% elif current_user.do_admin and record and record.archive != 'current' %}
     $('input, select, textarea').not('#archiveselection').attr('disabled','disabled');
  		var movearchive = function(event) {
@@ -346,10 +353,20 @@ fieldset{
                 		{% if record %} value="{{record.data.date_of_birth}}"{% endif %}
                 		></td>
 
+                        {% if record %}
+                        {% if record.data.ucas_number %}
 	                    <td style="text-align:right;padding:6px 10px 0 100px;">UCAS number</td>
-                		<td><input type="text" name="ucas_number"
-                		{% if record %} value="{{record.data.ucas_number}}"{% endif %}
+                		<td><input type="text" name="ucas_number" value="{{record.data.ucas_number}}"></td>
+                		{% else %}
+	                    <td style="text-align:right;padding:6px 10px 0 100px;">SCN number</td>
+                		<td><input type="text" name="scn_number" value="{{record.data.scn_number}}"></td>
+                		{% endif %}
+                        {% else %}
+	                    <td style="text-align:right;padding:6px 10px 0 100px;">SCN number</td>
+                		<td><input type="text" name="scn_number"
+                		{% if record %} value="{{record.data.scn_number}}"{% endif %}
                 		></td>
+                		{% endif %}
                     </tr>
         	        <tr>
 	                    <td style="text-align:right;padding:6px 10px 0 0;">School</td>
@@ -768,6 +785,8 @@ fieldset{
                 		{% else %}
                 		<td>
                		    <input class="noclone" type="hidden" name="application_pae_requested" value="">
+               		    <a class="paenotes" href="{{app.appid}}">Notes</a>
+               		    <textarea class="bigfield noclone paenote {{app.appid}}" type="hidden" name="application_notes">{% if app.notes %}{{app.notes}}{% endif %}</textarea>
                		    </td>
                 		{% endif %}
                     </tr>
@@ -1071,7 +1090,8 @@ fieldset{
 	                    <td><input type="text" name="mothers_occupation"{% if record %} value="{{ record.data.mothers_occupation }}"{% endif %}></td>
 
                 		<td rowspan="4" colspan="2">
-                		<textarea class="bigfield" name="additional_comments" placeholder="additional comments">{% if record %}{{record.data.additional_comments}}{% endif %}</textarea>
+                		<p>Additional comments (will be shown on all PAEs)</p>
+                		<textarea class="bigfield" name="additional_comments" placeholder="additional comments (will be shown on all PAEs)">{% if record %}{{record.data.additional_comments}}{% endif %}</textarea>
                 		</td>
 
                     </tr>
@@ -1102,6 +1122,12 @@ fieldset{
 	                    <td style="text-align:right;padding:6px 10px 0 0;">Main language at home</td>
 	                    <td><input type="text" name="main_language_at_home"{% if record %} value="{{ record.data.main_language_at_home }}"{% endif %}></td>
 
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            <p>LEAPS internal notes</p>
+                    		<textarea class="bigfield" name="leaps_notes" placeholder="LEAPS notes">{% if record %}{{record.data.leaps_notes}}{% endif %}</textarea>
+                        </td>
                     </tr>
                 </tbody>
             </table>

@@ -59,7 +59,11 @@
                     <td style="width:30%;">Date of birth</td> <td>{{ record.date_of_birth }}</td>
                 </tr>
                 <tr>
+                    {% if record.ucas_number %}
                     <td style="width:30%;">UCAS number</td> <td>{{ record.ucas_number }}</td>
+                    {% else %}
+                    <td style="width:30%;">SCN number</td> <td>{{ record.scn_number }}</td>
+                    {% endif %}
                 </tr>
                 <tr>
                     <td style="width:30%;">Gender</td>

@@ -112,7 +112,7 @@ def index():
 # update admin settings
 @blueprint.route('/settings', methods=['GET','POST'])
 def settings():
-    if request.method == 'POST':
+    if request.method == 'POST' and current_user.do_admin:
         inputs = request.json
         acc = models.Account.pull(app.config['SUPER_USER'][0])
         if 'settings' not in acc.data: acc.data['settings'] = {}

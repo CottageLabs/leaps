@@ -52,8 +52,8 @@ def initialise_index(app):
                 "api_key":str(uuid.uuid4()),
                 "password":generate_password_hash(un)
             }
-            c = requests.post(ia, data=json.dumps(su))
-            print "first superuser account created for user " + un + " with password " + un 
+            #c = requests.post(ia, data=json.dumps(su))
+            #print "first superuser account created for user " + un + " with password " + un 
 
 def setup_error_email(app):
     ADMINS = app.config.get('ADMINS', '')

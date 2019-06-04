@@ -9,6 +9,9 @@ setup(
         "Flask-Login==0.2.6",
         "Flask-WTF==0.8.4",
         "requests==1.1.0",
+        "tinycss2==0.6.1",
+        "cairocffi==0.5",
+        "WeasyPrint==0.40",
         "Flask-WeasyPrint==0.4"
     ],
     url = 'http://cottagelabs.com/',

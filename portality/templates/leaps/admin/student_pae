@@ -116,11 +116,14 @@
             {% if record.main_language_at_home and record.main_language_at_home != "" %}
                 Main language at home is {{ record.main_language_at_home }}<br>
             {% endif %}
-            {% if record.additional_comments != "" %}
-                {{ record.additional_comments|safe }}
-            {% endif %}
-            <br><br>
         </p>
+        {% if application.notes != "" %}
+            <p>{{ application.notes|safe }}</p>
+        {% endif %}
+        {% if record.additional_comments != "" %}
+            <p>{{ record.additional_comments|safe }}</p>
+        {% endif %}
+        <br><br>
 
         <h3>Course enquiry</h3>
         <table>
