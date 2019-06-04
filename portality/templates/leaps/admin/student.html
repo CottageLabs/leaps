@@ -1123,12 +1123,12 @@ fieldset{
 	        <table>
 	            <tbody>
         	        <tr>
-                        <td>
-                            <p>LEAPS internal notes (only visible here)</p>
+                        <td style="min-width:45%;">
+                            <p><br>LEAPS internal notes (only visible here):</p>
                     		<textarea class="bigfield" name="leaps_notes" placeholder="LEAPS internal notes">{% if record %}{{record.data.leaps_notes}}{% endif %}</textarea>
                         </td>
                 		<td>
-                    		<p>Additional comments (will show on PDFs and PAEs)</p>
+                    		<p><br>Additional comments (will show on PDFs and PAEs):</p>
                     		<textarea class="bigfield" name="additional_comments" placeholder="additional comments (will be shown on all PAEs)">{% if record %}{{record.data.additional_comments}}{% endif %}</textarea>
                 		</td>
         	        </tr>
