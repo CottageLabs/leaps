@@ -736,6 +736,7 @@ fieldset{
                         <th style="min-width:150px;">Subject</th>
                         <th style="min-width:100px;">Level of study</th>
                         <th style="min-width:200px;">PAE requested / replied / emailed</th>
+                        <th></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -785,10 +786,12 @@ fieldset{
                 		{% else %}
                 		<td>
                		    <input class="noclone" type="hidden" name="application_pae_requested" value="">
-               		    <a class="paenotes" href="{{app.appid}}">Notes</a>
-               		    <textarea class="bigfield noclone paenote {{app.appid}}" type="hidden" name="application_notes">{% if app.notes %}{{app.notes}}{% endif %}</textarea>
                		    </td>
                 		{% endif %}
+                		<td>
+               		    <a class="paenotes" href="{{app.appid}}">Notes</a>
+               		    <textarea class="bigfield noclone paenote {{app.appid}}" type="hidden" name="application_notes">{% if app.notes %}{{app.notes}}{% endif %}</textarea>
+                        </td>
                     </tr>
                         {% endfor %}
                     {% endif %}
