@@ -1121,14 +1121,18 @@ fieldset{
                 </tbody>
             </table>
 	        <table>
+                <thead>
+                    <tr>
+                        <th style="min-width:45%;"><br>LEAPS internal notes (only visible here):</th>
+                        <th style="min-width:45%;"><br>Additional comments (will show on PDFs and PAEs):</th>
+                    </tr>
+                </thead>
 	            <tbody>
         	        <tr>
                         <td style="min-width:45%;">
-                            <p><br>LEAPS internal notes (only visible here):</p>
                     		<textarea class="bigfield" name="leaps_notes" placeholder="LEAPS internal notes">{% if record %}{{record.data.leaps_notes}}{% endif %}</textarea>
                         </td>
                 		<td>
-                    		<p><br>Additional comments (will show on PDFs and PAEs):</p>
                     		<textarea class="bigfield" name="additional_comments" placeholder="additional comments (will be shown on all PAEs)">{% if record %}{{record.data.additional_comments}}{% endif %}</textarea>
                 		</td>
         	        </tr>
