@@ -100,7 +100,7 @@ def dropdowns(model,key='name'):
     terms = [i.get('term','') for i in r.get('facets',{}).get(key,{}).get("terms",[])]
     if model.lower() == 'level':
         tops = ['Currently sitting','A*','A','B','C','D','E','F','No Award']
-        for top in tops.reverse():
+        for top in reversed(tops):
             if top in terms:
                 terms.remove(top)
                 terms.insert(top,0)
