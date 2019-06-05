@@ -103,7 +103,7 @@ def dropdowns(model,key='name'):
         for top in reversed(tops):
             if top in terms:
                 terms.remove(top)
-                terms.insert(top,0)
+                terms.insert(0,top)
     return terms
 
 
