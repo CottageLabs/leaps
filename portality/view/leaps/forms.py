@@ -99,7 +99,7 @@ def dropdowns(model,key='name'):
     r = klass().query(q=qry)
     terms = [i.get('term','') for i in r.get('facets',{}).get(key,{}).get("terms",[])]
     if model.lower() == 'grade':
-        tops = ['Currently sitting','A*','A','B','C','D','E','F','No Award']
+        tops = ['Currently sitting','A','B','C','D','E','F','No Award','A*']
         for top in reversed(tops):
             if top in terms:
                 terms.remove(top)

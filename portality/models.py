@@ -204,6 +204,10 @@ class Student(DomainObject):
                     except:
                         appn['appid'] = Student.makeid()
                     try:
+                        appn['notes'] = request.form.getlist('application_notes')[k]
+                    except:
+                        pass
+                    try:
                         appn['pae_reply_received'] = request.form.getlist('application_pae_reply_received')[k]
                     except:
                         pass

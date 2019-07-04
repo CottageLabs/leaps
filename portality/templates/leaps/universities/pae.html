@@ -66,7 +66,11 @@ jQuery(document).ready(function() {
         <form id="paeform" method="POST" action="">
 
         <div class="well">
+            {% if student.scn_number %}
+            <h1>{{ student.first_name }} {{ student.last_name }} <small>(SCN: {{ student.scn_number }})</small></h1>
+            {% else %}
             <h1>{{ student.first_name }} {{ student.last_name }}</h1>
+            {% endif %}
 
             <table class="table table-bordered">
                 <tr>
