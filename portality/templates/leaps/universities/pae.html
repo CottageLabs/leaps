@@ -149,6 +149,9 @@ jQuery(document).ready(function() {
             {% if student.additional_comments != "" %}
                 <strong>LEAPS staff comments:</strong> {{ student.additional_comments|safe }}
             {% endif %}
+            {% if application.notes != "" %}
+                <br>{{ application.notes|safe }}
+            {% endif %}
             </p>
 
 
