@@ -238,6 +238,8 @@ def export():
 #        'pae_requested',
         'applications'
     ]
+    print 'starting export with keys'
+    print keys
     return download_csv(students,keys)
 
 

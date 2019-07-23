@@ -55,6 +55,8 @@ def fixify(strng):
     return newstr
 
 def download_csv(recordlist,keys):
+    print 'received keys for download'
+    print keys
     # re-order some of the keys
     if 'simd_pc' in keys:
         keys.remove('simd_pc')
@@ -149,7 +151,7 @@ def download_csv(recordlist,keys):
                         else:
                             reqs += splitter
                         if 'notes' in line:
-                            notes += splitter + line['notes']
+                            notes += splitter + line['notes'].replace('\n','---')
                         else:
                             notes += splitter
                         if line.get('pae_reply_received',"") != "":

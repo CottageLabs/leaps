@@ -60,11 +60,6 @@ def getpdf(sid):
         abort(401)
 
 
-# view students of the school of the logged-in person that have submitted forms
-@blueprint.route('/export')
-def export(sid):
-    school = current_user.is_school
-    
 # export data for a particular school
 @blueprint.route('/export')
 def export():
