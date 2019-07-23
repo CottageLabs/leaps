@@ -55,8 +55,6 @@ def fixify(strng):
     return newstr
 
 def download_csv(recordlist,keys):
-    print 'received keys for download'
-    print keys
     # re-order some of the keys
     if 'simd_pc' in keys:
         keys.remove('simd_pc')
@@ -85,6 +83,9 @@ def download_csv(recordlist,keys):
     if 'address' in keys:
         keys.remove('address')
         keys = ['address'] + keys
+    if 'scn_number' in keys:
+        keys.remove('scn_number')
+        keys = ['scn_number'] + keys
     if 'gender' in keys:
         keys.remove('gender')
         keys = ['gender','gender_other'] + keys
@@ -146,24 +147,11 @@ def download_csv(recordlist,keys):
                         else:
                             splitter = '\n'
                         appns += splitter + line['level'] + " " + line['subject'] + " at " + line['institution']
-                        if 'pae_requested' in line:
-                            reqs += splitter + line['pae_requested']
-                        else:
-                            reqs += splitter
-                        if 'notes' in line:
-                            notes += splitter + line['notes'].replace('\n','---')
-                        else:
-                            notes += splitter
-                        if line.get('pae_reply_received',"") != "":
-                            repls += splitter + line['pae_reply_received']
-                            try:
-                                cons += splitter + line['consider']
-                            except:
-                                cons += splitter
-                            try:
-                                conds += splitter + fixify(line['conditions'])
-                            except:
-                                conds += splitter
+                        reqs += splitter + line.get('pae_requested','')
+                        notes += splitter + line.get('notes','').replace('\n','---')
+                        repls += splitter + line.get('pae_reply_received','')
+                        cons += splitter + line.get('consider','')
+                        conds += splitter + fixify(line.get('conditions',''))
                     tidykey = appns + '","' + reqs + '","' + notes + '","' + repls + '","' + cons + '","' + conds
                 elif key in ['interests','qualifications','experience']:
                     tidykey = ""
@@ -238,7 +226,7 @@ def download_csv(recordlist,keys):
                     csvdata.write('"' + tidykey + '"')
                 except:
                     print "errored on writing a key to the csvdata, probably because of ascii error"
-            elif key not in ['pae_requested','notes','pae_replied','pae_consider','pae_conditions','gender_other']:
+            elif key not in ['gender_other']:
                 csvdata.write("")
     # dump to the browser as a csv attachment
     csvdata.seek(0)

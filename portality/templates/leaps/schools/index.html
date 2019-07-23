@@ -5,13 +5,23 @@
 <script>
 jQuery(document).ready(function() { 
     $(".tablesorter").tablesorter(); 
+
+    function makeid(length) {
+        var result = '';
+        var characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+        var charactersLength = characters.length;
+        for ( var i = 0; i < length; i++ ) result += characters.charAt(Math.floor(Math.random() * charactersLength));
+        return result;
+    }
+    $('#export').attr('href', $('#export').attr('href') + ($('#export').attr('href').indexOf('?') === -1 ? '?' : '&') + makeid(6) + '=' + makeid(6));
+
 }); 
 </script>
 
     <div class="row-fluid">
         <div class="span12">
             <p style="text-align:right;">
-                <a class="btn btn-primary" href="/schools/export{% if current_user.view_admin and current_user.is_school != True %}?school={{current_user.is_school}}{% endif %}">Export</a>
+                <a id="export" class="btn btn-primary" href="/schools/export{% if current_user.view_admin and current_user.is_school != True %}?school={{current_user.is_school}}{% endif %}">Export</a>
                 <a class="btn" href="/account/logout">Logout</a>
             </p>
         </div>
