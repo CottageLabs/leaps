@@ -13,7 +13,11 @@ jQuery(document).ready(function() {
         for ( var i = 0; i < length; i++ ) result += characters.charAt(Math.floor(Math.random() * charactersLength));
         return result;
     }
-    $('#export').attr('href', $('#export').attr('href') + ($('#export').attr('href').indexOf('?') === -1 ? '?' : '&') + makeid(6) + '=' + makeid(6));
+    var randomise = function() {
+        $('#export').attr('href', $('#export').attr('href') + ($('#export').attr('href').indexOf('?') === -1 ? '?' : '&') + makeid(6) + '=' + makeid(6));
+    }
+    randomise();
+    $('#export').bind('click',randomise);
 
 }); 
 </script>

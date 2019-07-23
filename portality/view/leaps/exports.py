@@ -55,8 +55,6 @@ def fixify(strng):
     return newstr
 
 def download_csv(recordlist,keys):
-    print recordlist
-    print keys
     # re-order some of the keys
     if 'simd_pc' in keys:
         keys.remove('simd_pc')
@@ -133,7 +131,7 @@ def download_csv(recordlist,keys):
                 firstkey = False
             elif key not in ['pae_requested','notes','pae_replied','pae_consider','pae_conditions','gender_other']:
                 csvdata.write(',')
-            if (key in record.keys() or key in ['address','simd_pc']) and key != 'gender_other':
+            if (key in record.keys() or key in ['address','simd_pc']) and key != 'gender_other' and key != 'pae_requested':
                 if key == 'applications':
                     appns = ""
                     reqs = ""
@@ -228,7 +226,7 @@ def download_csv(recordlist,keys):
                     csvdata.write('"' + tidykey + '"')
                 except:
                     print "errored on writing a key to the csvdata, probably because of ascii error"
-            elif key not in ['gender_other']:
+            elif key not in ['gender_other','pae_requested']:
                 csvdata.write("")
     # dump to the browser as a csv attachment
     csvdata.seek(0)

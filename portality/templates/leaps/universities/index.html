@@ -9,14 +9,18 @@ jQuery(document).ready(function() {
         "headers":{7:{"sorter":false}}
     }); 
 
-    function makeid(length) {
+    var makeid = function(length) {
         var result = '';
         var characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
         var charactersLength = characters.length;
         for ( var i = 0; i < length; i++ ) result += characters.charAt(Math.floor(Math.random() * charactersLength));
         return result;
     }
-    $('#export').attr('href', $('#export').attr('href') + ($('#export').attr('href').indexOf('?') === -1 ? '?' : '&') + makeid(6) + '=' + makeid(6));
+    var randomise = function() {
+        $('#export').attr('href', $('#export').attr('href') + ($('#export').attr('href').indexOf('?') === -1 ? '?' : '&') + makeid(6) + '=' + makeid(6));
+    }
+    randomise();
+    $('#export').bind('click',randomise);
 }); 
 </script>
 
