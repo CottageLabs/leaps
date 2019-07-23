@@ -54,6 +54,7 @@ jQuery(document).ready(function() {
                     <tr>
                         <th>First Name</th>
                         <th>Last Name</th>
+                        <th>Candidate No.</th>
                         <th>Date of Birth</th>
                         <th style="width:200px;">Subject</th>
                         <th>Level</th>
@@ -69,6 +70,7 @@ jQuery(document).ready(function() {
                         <tr>
                             <td>{{ student.first_name }}</td>
                             <td>{{ student.last_name }}</td>
+                            {% if student.scn_number %}<td>{{ student.scn_number }}</td>{% else %}<td></td>{% endif %}
                             <td>{{ student.date_of_birth }}</td>
                             <td>{{ appn.subject }}</td>
                             <td>{{ appn.level }}</td>

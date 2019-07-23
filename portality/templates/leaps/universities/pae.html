@@ -66,11 +66,7 @@ jQuery(document).ready(function() {
         <form id="paeform" method="POST" action="">
 
         <div class="well">
-            {% if student.scn_number %}
-            <h1>{{ student.first_name }} {{ student.last_name }} <small>(SCN: {{ student.scn_number }})</small></h1>
-            {% else %}
             <h1>{{ student.first_name }} {{ student.last_name }}</h1>
-            {% endif %}
 
             <table class="table table-bordered">
                 <tr>
@@ -83,6 +79,11 @@ jQuery(document).ready(function() {
                     <td class="title">LEAPS school category</td> <td>{{ student.leaps_category }}</td>
                     <td class="title">SHEP school</td> <td>{% if student.shep_school == true %}Yes{% else %}No{% endif %}</td>
                 </tr>
+                {% if student.scn_number %}
+                <tr>
+                    <td class="title">Candidate No.</td> <td>{{ student.scn_number }})</td>
+                </tr>
+                {% endif %}
             </table>
 
             <h2>Qualifications</h2>

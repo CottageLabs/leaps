@@ -214,6 +214,7 @@ def export():
     keys = [
         'first_name',
         'last_name',
+        'scn_number',
         'date_of_birth',
 #        'gender',
         'post_code',
