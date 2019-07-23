@@ -55,6 +55,8 @@ def fixify(strng):
     return newstr
 
 def download_csv(recordlist,keys):
+    print recordlist
+    print keys
     # re-order some of the keys
     if 'simd_pc' in keys:
         keys.remove('simd_pc')
@@ -205,7 +207,7 @@ def download_csv(recordlist,keys):
                     else:
                         tidykey = record.get(key,'')
                     tidykey += '","' + fixify(record.get('gender_other','').replace('"',''))
-                elif key not in ['pae_requested','notes','pae_replied','pae_consider','pae_conditions','gender_other']:
+                elif key not in ['gender_other']:
                     if isinstance(record[key],bool):
                         if record[key]:
                             tidykey = "true"
