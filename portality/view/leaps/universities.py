@@ -437,6 +437,11 @@ def _get_students(institution):
         if len(allowedapps) > 0:
             for a in allowedapps:
                 s = deepcopy(student)
+                if 'paequals' in s and 'qid' in a and a['qid'] in s['paequals']:
+                    s['qualifications'] = s['paequals'][a['qid']]
+                if 'paelocs' in s and 'qid' in a and a['qid'] in s['paelocs']:
+                    for key in s['paelocs'][a['qid']]:
+                        s[key] = s['paelocs'][a['qid']][key]
                 s['applications'] = [a]
                 s['pae_requested'] = a.get('pae_requested','')
                 matchedstudents.append(s)
