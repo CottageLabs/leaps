@@ -28,7 +28,7 @@ jQuery(document).ready(function($) {
         $(this).closest('tr').siblings().length == 10000 ? $(this).hide() : false;
         if ( $(this).closest('tr').siblings().length < 10001 ) {
             var row = $(this).closest('tr').prev().prev().clone(true).get(0);
-            $(row).insertBefore($(this).closest('tr'));
+            $(row).insertBefore($(this).closest('tr').prev());
             preprow(row);
         }
     }

@@ -427,8 +427,8 @@ class School(DomainObject):
                 else:
                     rec[key] = val
 
-        if len(rec['contacts']) == 0: del rec['contacts']
-        if len(rec['subjects']) == 0: del rec['subjects']
+        if len(rec['contacts']) == 0 and len(self.data.get('contacts',[])) != 0: del self.data['contacts']
+        if len(rec['subjects']) == 0 and len(self.data.get('subjects',[])) != 0: del self.data['subjects']
         for k, v in rec.items():
             self.data[k] = v
         
