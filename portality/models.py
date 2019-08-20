@@ -286,6 +286,11 @@ class Student(DomainObject):
                 except:
                     pass
 
+        #if 'gender_other' in request.form:
+        #    if len(request.form['gender_other']) > 0:
+        #        request.form['gender'] = request.form['gender_other']
+        #    del request.form['gender_other']
+
         if self.id is not None: rec['id'] = self.id
         self.data = rec
         self.save()
@@ -410,10 +415,6 @@ class School(DomainObject):
                 except:
                     pass
 
-        if 'gender_other' in request.form:
-            if len(request.form['gender_other']) > 0:
-                request.form['gender'] = request.form['gender_other']
-            del request.form['gender_other']
         rec['shep_school'] = False
         for key in request.form.keys():
             if not key.startswith("contact_") and not key.startswith("subject_") and key not in ['submit']: #,'agreed']: removed this again, cos form already has agreement in it

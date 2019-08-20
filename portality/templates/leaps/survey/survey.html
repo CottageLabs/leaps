@@ -240,9 +240,7 @@ jQuery(document).ready(function() {
                 url:url,
                 obj:$(this),
                 success: function(data) {
-                    if ( data.hits.total == 0 ) {
-                        var subjects = {{ selections.advancedsubjects|tojson|safe }};
-                    } else if ( data.hits.hits[0]._source.subjects !== undefined && data.hits.hits[0]._source.subjects.length > 0 ) {
+                    if ( data.hits.total != 0 && data.hits.hits[0]._source.subjects !== undefined && data.hits.hits[0]._source.subjects.length > 0 ) {
                         var subjects = data.hits.hits[0]._source.subjects;
                     } else {
                         var subjects = {{ selections.advancedsubjects|tojson|safe }};
