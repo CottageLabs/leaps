@@ -9,6 +9,7 @@ jQuery(document).ready(function($) {
 
     var preprow = function(row) {
         $(row).find('.noclone').remove();
+        $(row).find('.add-row').bind('click',addrow);
         $(row).find('.delete-row').bind('click',deleterow);
         $(row).find('select').val("");
         $(row).find('input').val("");
@@ -19,17 +20,20 @@ jQuery(document).ready(function($) {
     $('table.multi').find('tbody').children('tr').each(function() {
         $(this).children('td').first().prepend('<a class="btn btn-warning delete-row" style="margin:-10px 2px 0 0;" href="#">delete</a>').children('select, input').addClass('narrow');
     });
+    $('table.multi').find('tbody').append('<tr><td><a class="btn btn-warning delete-rows" href="#">delete all</a></td></tr>');
     $('table.multi').find('tbody').append('<tr><td><a class="btn btn-success add-row" href="#">add</a></td></tr>');
 
     var addrow = function(event) {
         event.preventDefault();
         $(this).closest('tr').siblings().length == 10000 ? $(this).hide() : false;
         if ( $(this).closest('tr').siblings().length < 10001 ) {
-            var row = $(this).closest('tr').prev().clone(true).get(0);
+            var row = $(this).closest('tr').prev().prev().clone(true).get(0);
             $(row).insertBefore($(this).closest('tr'));
             preprow(row);
         }
     }
+    $('.add-row').bind('click',addrow);
+    
     var deleterow = function(event) {
         event.preventDefault();
         var row = $(this).closest('tr').clone(true).get(0);
@@ -40,8 +44,19 @@ jQuery(document).ready(function($) {
         }
         $(this).closest('tr').remove();
     }
-    $('.add-row').bind('click',addrow);
     $('.delete-row').bind('click',deleterow);
+    
+    var deleterows = function(event) {
+        event.preventDefault();
+        var row = $(this).closest('tr').prev().clone(true).get(0);
+        var adder = $(this).closest('tr').next().clone(true).get(0);
+        $(this).closest('tr').siblings().remove();
+        $(row).insertBefore($(this).closest('tr'));
+        preprow(row);
+        $(adder).insertAfter($(this).closest('tr'));
+        preprow(adder);
+    }
+    $('.delete-rows').bind('click',deleterows);
 
 {% endif %}
 
