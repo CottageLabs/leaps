@@ -204,7 +204,7 @@ jQuery(document).ready(function() {
                     for ( var s in data.hits.hits[i]._source.subjects ) {
                         var n = data.hits.hits[i]._source.subjects[s].name;
                         if (subjectslist[nm][n] === undefined) subjectslist[nm][n] = [];
-                        subjectslist[nm][n].push(data.hits.hits[i]._source.subjects[nm][s].level);
+                        subjectslist[nm][n].push(data.hits.hits[i]._source.subjects[s].level);
                     }
                 }
             }
