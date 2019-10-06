@@ -108,6 +108,8 @@ jQuery(document).ready(function() {
     }
     $('.review').bind('click',showall);
 
+    var subjects = {{ selections.advancedsubjects|tojson|safe }};
+
     // function of things to do whenever a row is appended
     var preprow = function(row) {
         $(row).find('.delete-row').bind('click',deleterow);
@@ -127,7 +129,6 @@ jQuery(document).ready(function() {
         $(row).find('.datepicker').datepicker("destroy");
         $(row).find('.datepicker').removeClass("hasDatepicker").removeAttr('id');
         $(row).find('.datepicker').datepicker(opts);
-        var subjects = {{ selections.advancedsubjects|tojson|safe }};
         var stext = '<option></option>';
 	    for ( var i = 0; i < subjects.length; i++ ) {
 	        stext += '<option>' + subjects[i] + '</option>';
@@ -188,22 +189,48 @@ jQuery(document).ready(function() {
         }
     };
     $('#triggersave').bind('click',triggersave);
+    
+    var subjectslist = {};
+    try {
+        $.ajax({
+            cache:false,
+            method:'GET',
+            datatype:'JSON',
+            url:'/query/institution/_search?source=' + JSON.stringify({"size":1000, "query": {"query_string": {"query": "subjects.name:*"}}}),
+            success: function(data) {
+                for ( var i in data.hits.hits ) {
+                    var nm = data.hits.hits[i]._source.name;
+                    if (subjectslist[nm] === undefined) subjectslist[nm] = {};
+                    for ( var s in data.hits.hits[i]._source.subjects ) {
+                        var n = data.hits.hits[i]._source.subjects[s].name;
+                        if (subjectslist[nm][n] === undefined) subjectslist[nm][n] = [];
+                        subjectslist[nm][n].push(data.hits.hits[i]._source.subjects[nm][s].level);
+                    }
+                }
+            }
+        });        
+    } catch(err) {}
 
     var limitlevels = function(event) {
         var ls = $(this).closest('.row').find('.levelselector');
         if (ls.hasClass('select2this')) ls.select2('destroy').removeAttr('id').removeAttr('data-select2-id');
         ls.attr("disabled","disabled");
-        var level = $('option:selected', this).attr('data-level');
-        if ( level ) {
-            ls.html('<option></option><option selected="selected">' + level + '</option>');
+        var institution = $(this).closest('.row').find('.institutionselector');
+        var subject = $(this).val();
+        var lopts = '<option></option>';
+        if ( subjectslist[institution] ) {
+            for ( var i in subjectslist[institution][subject] ) {
+                lopts += "<option";
+                if (subjectslist[institution][subject].length === 1) lopts += ' selected="selected"'; 
+                lopts += ">" + i + "</option>";
+            }
         } else {
             var levels = {{ selections.advancedlevels|tojson|safe }};
-            var lopts = '<option></option>';
             for ( var i = 0; i < levels.length; i++ ) {
                 lopts += "<option>" + levels[i] + "</option>";
             }
-            ls.html(lopts);
         }
+        ls.html(lopts);
         ls.removeAttr("disabled");
         if (ls.hasClass('select2this')) ls.select2({width:'100%'});
     }
@@ -215,8 +242,7 @@ jQuery(document).ready(function() {
         var ls = $(this).closest('.row').find('.levelselector');
         if (ls.hasClass('select2this')) ls.select2('destroy').removeAttr('id').removeAttr('data-select2-id');
         ls.val("").attr("disabled","disabled");
-        if ( institution == "" ) {
-            var subjects = {{ selections.advancedsubjects|tojson|safe }};
+        if ( institution == "" || subjectslist[institution] === undefined) {
             var opts = '<option></option>';
             for ( var i = 0; i < subjects.length; i++ ) {
                 opts += "<option>" + subjects[i] + "</option>";
@@ -225,43 +251,13 @@ jQuery(document).ready(function() {
             if (ss.hasClass('select2this')) ss.select2({width:'100%'});
             if (ls.hasClass('select2this')) ls.select2({width:'100%'});
         } else {
-            var qry = {
-                "query": {
-                    "term": {
-                        "name.exact": institution
-                    }
-                }
-            };
-            var url = '/query/institution/_search?source=' + JSON.stringify(qry);
-            $.ajax({
-                cache:false,
-                method:'GET',
-                datatype:'JSON',
-                url:url,
-                obj:$(this),
-                success: function(data) {
-                    if ( data.hits.total != 0 && data.hits.hits[0]._source.subjects !== undefined && data.hits.hits[0]._source.subjects.length > 0 ) {
-                        var subjects = data.hits.hits[0]._source.subjects;
-                    } else {
-                        var subjects = {{ selections.advancedsubjects|tojson|safe }};
-                    }
-                    var opts = '<option></option>';
-                    for ( var i = 0; i < subjects.length; i++ ) {
-                        if ( subjects[i].name === undefined ) {
-                            opts += "<option>" + subjects[i] + "</option>";
-                        } else {
-                            opts += "<option";
-                            subjects[i].level !== undefined ? opts += ' data-level="' + subjects[i].level + '"' : false;
-                            opts += ">" + subjects[i].name + "</option>";
-                        }
-                    }
-                    var oss = this.obj.closest('.row').find('.subjectselector');
-                    oss.html(opts).removeAttr("disabled");
-                    if (oss.hasClass('select2this')) oss.select2({width:'100%'});
-                    var ols = this.obj.closest('.row').find('.levelselector');
-                    if (ols.hasClass('select2this')) ols.select2({width:'100%'});
-                }
-            });
+            var opts = '<option></option>';
+            for ( var i in subjectslist[institution] ) opts += "<option>" + i + "</option>";
+            var oss = this.obj.closest('.row').find('.subjectselector');
+            oss.html(opts).removeAttr("disabled");
+            if (oss.hasClass('select2this')) oss.select2({width:'100%'});
+            var ols = this.obj.closest('.row').find('.levelselector');
+            if (ols.hasClass('select2this')) ols.select2({width:'100%'});
         }
     }
     $('.institutionselector').bind('change',limitsubjects);
