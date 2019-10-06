@@ -216,13 +216,14 @@ jQuery(document).ready(function() {
         if (ls.hasClass('select2this')) ls.select2('destroy').removeAttr('id').removeAttr('data-select2-id');
         ls.attr("disabled","disabled");
         var institution = $(this).closest('.row').find('.institutionselector');
+        console.log(institution)
         var subject = $(this).val();
         var lopts = '<option></option>';
-        if ( subjectslist[institution] ) {
+        if ( subjectslist[institution] !== undefined && typeof subjectslist[institution][subject] === 'object') {
             for ( var i in subjectslist[institution][subject] ) {
                 lopts += "<option";
                 if (subjectslist[institution][subject].length === 1) lopts += ' selected="selected"'; 
-                lopts += ">" + i + "</option>";
+                lopts += ">" + subjectslist[institution][subject][i] + "</option>";
             }
         } else {
             var levels = {{ selections.advancedlevels|tojson|safe }};
