@@ -220,7 +220,6 @@ jQuery(document).ready(function() {
         var lopts = '<option></option>';
         if ( subjectslist[institution] !== undefined && typeof subjectslist[institution][subject] === 'object') {
             for ( var i in subjectslist[institution][subject] ) {
-                console.log(subjectslist[institution][subject][i])
                 lopts += "<option";
                 if (subjectslist[institution][subject].length === 1) lopts += ' selected="selected"'; 
                 lopts += ">" + subjectslist[institution][subject][i] + "</option>";
