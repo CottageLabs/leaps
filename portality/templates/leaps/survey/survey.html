@@ -253,10 +253,10 @@ jQuery(document).ready(function() {
         } else {
             var opts = '<option></option>';
             for ( var i in subjectslist[institution] ) opts += "<option>" + i + "</option>";
-            var oss = this.obj.closest('.row').find('.subjectselector');
+            var oss = $(this).closest('.row').find('.subjectselector');
             oss.html(opts).removeAttr("disabled");
             if (oss.hasClass('select2this')) oss.select2({width:'100%'});
-            var ols = this.obj.closest('.row').find('.levelselector');
+            var ols = $(this).closest('.row').find('.levelselector');
             if (ols.hasClass('select2this')) ols.select2({width:'100%'});
         }
     }
