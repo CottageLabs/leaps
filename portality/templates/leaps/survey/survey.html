@@ -214,13 +214,15 @@ jQuery(document).ready(function() {
     var limitlevels = function(event) {
         var ls = $(this).closest('.row').find('.levelselector');
         if (ls.hasClass('select2this')) ls.select2('destroy').removeAttr('id').removeAttr('data-select2-id');
-        ls.attr("disabled","disabled");
+        ls.val("").attr("disabled","disabled");
         var institution = $(this).closest('.row').find('.institutionselector');
         console.log(institution)
         var subject = $(this).val();
+        console.log(subject)
         var lopts = '<option></option>';
         if ( subjectslist[institution] !== undefined && typeof subjectslist[institution][subject] === 'object') {
             for ( var i in subjectslist[institution][subject] ) {
+                console.log(subjectslist[institution][subject][i])
                 lopts += "<option";
                 if (subjectslist[institution][subject].length === 1) lopts += ' selected="selected"'; 
                 lopts += ">" + subjectslist[institution][subject][i] + "</option>";
@@ -231,8 +233,7 @@ jQuery(document).ready(function() {
                 lopts += "<option>" + levels[i] + "</option>";
             }
         }
-        ls.html(lopts);
-        ls.removeAttr("disabled");
+        ls.html(lopts).removeAttr("disabled");
         if (ls.hasClass('select2this')) ls.select2({width:'100%'});
     }
     var limitsubjects = function(event) {
@@ -243,23 +244,15 @@ jQuery(document).ready(function() {
         var ls = $(this).closest('.row').find('.levelselector');
         if (ls.hasClass('select2this')) ls.select2('destroy').removeAttr('id').removeAttr('data-select2-id');
         ls.val("").attr("disabled","disabled");
+        var opts = '<option></option>';
         if ( institution == "" || subjectslist[institution] === undefined) {
-            var opts = '<option></option>';
-            for ( var i = 0; i < subjects.length; i++ ) {
-                opts += "<option>" + subjects[i] + "</option>";
-            }
-            ss.html(opts).removeAttr("disabled");
-            if (ss.hasClass('select2this')) ss.select2({width:'100%'});
-            if (ls.hasClass('select2this')) ls.select2({width:'100%'});
+            for ( var i in subjects ) opts += "<option>" + subjects[i] + "</option>";
         } else {
-            var opts = '<option></option>';
-            for ( var i in subjectslist[institution] ) opts += "<option>" + i + "</option>";
-            var oss = $(this).closest('.row').find('.subjectselector');
-            oss.html(opts).removeAttr("disabled");
-            if (oss.hasClass('select2this')) oss.select2({width:'100%'});
-            var ols = $(this).closest('.row').find('.levelselector');
-            if (ols.hasClass('select2this')) ols.select2({width:'100%'});
+            for ( var i in subjectslist[institution] ) opts += "<option>" + subjectslist[institution][i] + "</option>";
         }
+        ss.html(opts).removeAttr("disabled");
+        if (ss.hasClass('select2this')) ss.select2({width:'100%'});
+        if (ls.hasClass('select2this')) ls.select2({width:'100%'});
     }
     $('.institutionselector').bind('change',limitsubjects);
     $('.subjectselector').bind('change',limitlevels);
