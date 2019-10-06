@@ -248,7 +248,7 @@ jQuery(document).ready(function() {
         if ( institution == "" || subjectslist[institution] === undefined) {
             for ( var i in subjects ) opts += "<option>" + subjects[i] + "</option>";
         } else {
-            for ( var i in subjectslist[institution] ) opts += "<option>" + subjectslist[institution][i] + "</option>";
+            for ( var i in subjectslist[institution] ) opts += "<option>" + i + "</option>";
         }
         ss.html(opts).removeAttr("disabled");
         if (ss.hasClass('select2this')) ss.select2({width:'100%'});
