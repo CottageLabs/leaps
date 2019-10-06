@@ -215,10 +215,8 @@ jQuery(document).ready(function() {
         var ls = $(this).closest('.row').find('.levelselector');
         if (ls.hasClass('select2this')) ls.select2('destroy').removeAttr('id').removeAttr('data-select2-id');
         ls.val("").attr("disabled","disabled");
-        var institution = $(this).closest('.row').find('.institutionselector');
-        console.log(institution)
+        var institution = $(this).closest('.row').find('.institutionselector').val();
         var subject = $(this).val();
-        console.log(subject)
         var lopts = '<option></option>';
         if ( subjectslist[institution] !== undefined && typeof subjectslist[institution][subject] === 'object') {
             for ( var i in subjectslist[institution][subject] ) {
