@@ -8,7 +8,7 @@ setup(
         "Flask==0.8",
         "Flask-Login==0.2.6",
         "Flask-WTF==0.8.4",
-        "requests==1.1.0",
+        "requests==2.20.0",
         "tinycss2==0.6.1",
         "cairocffi==0.5",
         "WeasyPrint==0.40",
