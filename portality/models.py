@@ -148,7 +148,7 @@ class Student(DomainObject):
                     rec[key] = True
                 elif val == "off":
                     rec[key] = False
-                elif key in ['additional_qualifications','career_plans','issues_affecting_performance']:
+                elif key in ['additional_qualifications','career_plans','issues_affecting_performance','particular_queries']:
                     rec[key] = util.dewindows(val)
                 else:
                     rec[key] = val
@@ -257,6 +257,7 @@ class Student(DomainObject):
                             locset['simd40'] = self.data.get('simd40',False)
                             locset['school'] = self.data['school']
                             locset['leaps_category'] = rec['leaps_category']
+                            # TODO add any LEAPS eligibility criteria here that LEAPS want to freeze at time of PAE
                             rec['paelocs'][qid] = locset
                             appn['qid'] = qid
                             if 'pae_requested' not in appn:

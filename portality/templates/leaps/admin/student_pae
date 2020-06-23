@@ -116,6 +116,12 @@
             {% if record.main_language_at_home and record.main_language_at_home != "" %}
                 Main language at home is {{ record.main_language_at_home }}<br>
             {% endif %}
+            {% if record.estranged %}
+                This student is currently estranged<br>
+            {% endif %}
+            {% if record.transition_course %}
+                This student is undertaking the LEAPS Transition Course
+            {% endif %}
         </p>
         {% if application.notes != "" %}
             <p>{{ application.notes|safe }}</p>

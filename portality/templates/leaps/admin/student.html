@@ -1007,6 +1007,10 @@ fieldset{
                         <td style="text-align:right;padding:6px 10px 0 0;">Please describe any career plans you may have</td>
                         <td><textarea class="bigfield" name="career_plans">{% if record %}{{record.data.career_plans}}{% endif %}</textarea></td>
                     </tr>
+                    <tr>
+                        <td style="text-align:right;padding:6px 10px 0 0;">Do you have any particular queries or concerns that you would like covered at your LEAPS Interview?</td>
+                        <td><textarea class="bigfield" name="particular_queries">{% if record %}{{record.data.particular_queries}}{% endif %}</textarea></td>
+                    </tr>
                 </tbody>
 	        </table>
 	    </div>
@@ -1046,10 +1050,12 @@ fieldset{
                 		{% if record %}{% if record.data.early_application %} checked="checked"{% endif %}{% endif %}
                 		> Early application</td>
 
-                                <td><input type="checkbox" name="hn_only_candidate"
-                		{% if record %}{% if record.data.hn_only_candidate %} checked="checked"{% endif %}{% endif %}
-                		> HN only candidate</td>
-                        </tr>
+                        <td>
+                            <input type="checkbox" name="hn_only_candidate"
+                		    {% if record %}{% if record.data.hn_only_candidate %} checked="checked"{% endif %}{% endif %}
+                		    > HN only candidate
+                		</td>
+                    </tr>
         	        <tr>
                 		<td><input type="checkbox" name="looked_after_child"
                 		{% if record %}{% if record.data.looked_after_child %} checked="checked"{% endif %}{% endif %}
@@ -1083,9 +1089,17 @@ fieldset{
                 		    {% if record %}{% if record.data.summer_school_applicant %}{% if record.data.summer_school_applicant == "yes" %} checked="checked"{% endif %}{% endif %}{% endif %}
                 		    > Summer school applicant<br>
                 		</td>
-                        <td><input type="checkbox" name="pae_action"
-                		{% if record %}{% if record.data.pae_action %} checked="checked"{% endif %}{% endif %}
-                		> PAE action</td>
+                        <td>
+                            <input type="checkbox" name="estranged"
+                		    {% if record %}{% if record.data.estranged %} checked="checked"{% endif %}{% endif %}
+                		    > Estranged<br>
+                            <input type="checkbox" name="transition_course"
+                		    {% if record %}{% if record.data.transition_course %} checked="checked"{% endif %}{% endif %}
+                		    > Transition course<br>
+                            <input type="checkbox" name="pae_action"
+                		    {% if record %}{% if record.data.pae_action %} checked="checked"{% endif %}{% endif %}
+                		    > PAE action
+                		</td>
                     </tr>
 
         	        <tr>

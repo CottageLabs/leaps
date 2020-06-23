@@ -135,6 +135,8 @@
                 <tr><td style="width:30%;">Any issues affecting academic performance e.g. a period of absence from school, time spent in care, 
                 health issues, caring responsibilities, bereavement. (We can discuss if this would be relevant to share with university 
                 admissions tutors.)</td><td>{{ record.issues_affecting_performance }}<br /><br /><br /></td></tr>
+                <tr><td style="width:30%;">Any particular queries to be discussed at LEAPS interview</td>
+                <td>{{ record.particular_queries }}<br /><br /><br /></td></tr>
             </table>
 
             <h2>INTERESTS</h2>
@@ -313,6 +315,14 @@
                 <tr>
                     <td style="width:30%;">Previous interview in S5?</td>
                     <td>{% if record.previous_interview %}{% if record.previous_interview %}Yes{% else %}No{% endif %}{% else %}Yes/No{% endif %}</td>
+                </tr>
+                <tr>
+                    <td style="width:30%;">Estranged</td>
+                    <td>{% if record.estranged %}{% if record.estranged %}Yes{% else %}No{% endif %}{% else %}Yes/No{% endif %}</td>
+                </tr>
+                <tr>
+                    <td style="width:30%;">LEAPS transition course</td>
+                    <td>{% if record.transition_course %}{% if record.transition_course %}Yes{% else %}No{% endif %}{% else %}Yes/No{% endif %}</td>
                 </tr>
                 <tr>
                     <td style="width:30%;">PAE action</td>
