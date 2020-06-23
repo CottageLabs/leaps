@@ -138,8 +138,8 @@ def pae(appid):
 
                 try:
                     to = [app.config['LEAPS_EMAIL']]
-                    if app.config.get('ADMIN_EMAIL',False):
-                        to.append(app.config['ADMIN_EMAIL'])
+                    #if app.config.get('ADMIN_EMAIL',False):
+                    #    to.append(app.config['ADMIN_EMAIL'])
                     fro = app.config['LEAPS_EMAIL']
                     subject = "PAE response received"
                     text = "A response has been received via the online PAE response form.\n\n"
@@ -247,8 +247,8 @@ def _email_pae(student, application, flashable=True):
         fro = app.config['LEAPS_EMAIL']
 
         to = [app.config['LEAPS_EMAIL']]
-        if app.config.get('ADMIN_EMAIL',False):
-            to.append(app.config['ADMIN_EMAIL'])
+        #if app.config.get('ADMIN_EMAIL',False):
+        #    to.append(app.config['ADMIN_EMAIL'])
         if 'email' in student:
             to.append(student['email'])
 

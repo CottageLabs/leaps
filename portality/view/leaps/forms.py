@@ -74,8 +74,8 @@ def student():
 
         try:
             to = [app.config['LEAPS_EMAIL']]
-            if app.config.get('ADMIN_EMAIL',False):
-                to.append(app.config['ADMIN_EMAIL'])
+            #if app.config.get('ADMIN_EMAIL',False):
+            #    to.append(app.config['ADMIN_EMAIL'])
             fro = app.config['LEAPS_EMAIL']
             subject = "New student survey submitted"
             text = 'A student has just submitted a survey. View it in the admin interfacet at '
