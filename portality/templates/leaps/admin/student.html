@@ -216,8 +216,8 @@ jQuery(document).ready(function() {
                 datatype:'JSON',
                 url:url,
                 obj:$(this),
+                sv: $(this).closest('tr').find('.subjectselector').attr('sv'),
                 success: function(data) {
-                    var sv = this.obj.closest('tr').find('.subjectselector').attr('sv');
                     if ( data.hits.total == 0 ) {
                         var subjects = {{ selections.advancedsubjects|tojson|safe }};
                     } else if ( data.hits.hits[0]._source.subjects !== undefined && data.hits.hits[0]._source.subjects.length > 0 ) {
@@ -229,7 +229,7 @@ jQuery(document).ready(function() {
                     for ( var i = 0; i < subjects.length; i++ ) {
                         if ( subjects[i].name === undefined ) {
                             opts += "<option"
-                            if (sv === subjects[i]) opts += ' selected="selected"';
+                            if (this.sv === subjects[i]) opts += ' selected="selected"';
                             opts += ">" + subjects[i] + "</option>";
                         } else {
                             opts += "<option";
@@ -238,7 +238,6 @@ jQuery(document).ready(function() {
                             opts += ">" + subjects[i].name + "</option>";
                         }
                     }
-                    this.obj.closest('tr').find('.subjectselector').removeAttr('sv');
                     this.obj.closest('tr').find('.subjectselector').html(opts).removeAttr("disabled");
                 }
             });
