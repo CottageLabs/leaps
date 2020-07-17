@@ -101,8 +101,11 @@ jQuery(document).ready(function() {
                 var stl = $(this).children('input[type="text"]').first().attr('style');
                 $(this).children('input[type="hidden"]').not('.noedit').remove();
                 $(this).children('input[type="text"]').remove();
-                var selector = '<select name="' + name + '" class="needselect2"';
-                if (stl) selector += 'style="' + stl + '"';
+                var selector = '<select name="' + name + '" class="needselect2';
+                if (name.indexOf('application_') === 0) selector += ' ' + name.replace('application_','') + 'selector';
+                selector += '"';
+                if (name.indexOf('application_') === 0) selector += ' sv="' + val + '"';
+                if (stl) selector += ' style="' + stl + '"';
                 selector += '><option></option>';
                 if ( seltype == "years" ) {
                     var selchoices = ["Third year","Fourth year","Fifth year","Sixth year","Other"];
@@ -118,6 +121,9 @@ jQuery(document).ready(function() {
                 }
                 selector += '</select>';
                 $(this).append(selector);
+                if (name.indexOf('application_') === 0 && $(this).prev().children('input') && $(this).prev().children('input').first().attr('name').indexOf('application_') === 0) {
+                    $(this).prev().children('input').first().trigger('change');
+                }
             }
         })
     }
@@ -160,7 +166,8 @@ jQuery(document).ready(function() {
 
 
     var limitlevels = function(event) {
-        var ls = $(this).closest('tr').find('.levelselector')
+        var ls = $(this).closest('tr').find('.levelselector');
+        var sv = ls.attr('sv');
         ls.attr("disabled","disabled");
         var level = $('option:selected', this).attr('data-level');
         if ( level ) {
@@ -169,7 +176,9 @@ jQuery(document).ready(function() {
             var levels = {{ selections.advancedlevels|tojson|safe }};
             var lopts = '<option></option>';
             for ( var i = 0; i < levels.length; i++ ) {
-                lopts += "<option>" + levels[i] + "</option>";
+                lopts += "<option";
+                if (sv && sv === levels[i]) lopts += ' selected="selected"';
+                lopts += ">" + levels[i] + "</option>";
             }
             ls.html(lopts);
         }
@@ -202,6 +211,7 @@ jQuery(document).ready(function() {
                 url:url,
                 obj:$(this),
                 success: function(data) {
+                    var sv = this.obj.closest('tr').find('.subjectselector').attr('sv');
                     if ( data.hits.total == 0 ) {
                         var subjects = {{ selections.advancedsubjects|tojson|safe }};
                     } else if ( data.hits.hits[0]._source.subjects !== undefined && data.hits.hits[0]._source.subjects.length > 0 ) {
@@ -212,10 +222,13 @@ jQuery(document).ready(function() {
                     var opts = '<option></option>';
                     for ( var i = 0; i < subjects.length; i++ ) {
                         if ( subjects[i].name === undefined ) {
-                            opts += "<option>" + subjects[i] + "</option>";
+                            opts += "<option"
+                            if (sv && sv === subjects[i]) opts += ' selected="selected"';
+                            opts += ">" + subjects[i] + "</option>";
                         } else {
                             opts += "<option";
                             subjects[i].level !== undefined ? opts += ' data-level="' + subjects[i].level + '"' : false;
+                            if (sv && sv === subjects[i]) opts += ' selected="selected"';
                             opts += ">" + subjects[i].name + "</option>";
                         }
                     }
