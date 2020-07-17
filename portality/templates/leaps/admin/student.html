@@ -67,16 +67,16 @@ jQuery(document).ready(function() {
 
     // fit a static row remover for old content
     $('table.multidisplay').find('tbody').children('tr').each(function() {
-				{% if current_user.do_admin %}
-        var adder = '<a class="btn btn-warning static-delete-row" style="margin:-10px 2px 0 0;" href="#">delete</a>';
-				{% else %}
-				var adder;
-				if ( !$(this).parents('table').hasClass('isapplications') ) {
-        	adder = '<a class="btn btn-warning static-delete-row" style="margin:-10px 2px 0 0;" href="#">delete</a>';
-				} else {
-        	adder = '<a class="btn btn-warning static-delete-row" style="margin:-10px 2px 0 0;visibility:hidden;" href="#">delete</a>';
-				}
-				{% endif %}
+		{% if current_user.do_admin %}
+            var adder = '<a class="btn btn-warning static-delete-row" style="margin:-10px 2px 0 0;" href="#">delete</a>';
+		{% else %}
+			var adder;
+			if ( !$(this).parents('table').hasClass('isapplications') ) {
+            	adder = '<a class="btn btn-warning static-delete-row" style="margin:-10px 2px 0 0;" href="#">delete</a>';
+			} else {
+            	adder = '<a class="btn btn-warning static-delete-row" style="margin:-10px 2px 0 0;visibility:hidden;" href="#">delete</a>';
+			}
+		{% endif %}
         adder += '<a class="btn edit-row" style="margin:-10px 2px 0 0;';
         if ( !$(this).parents('table').hasClass('editablerows') ) { adder += 'visibility:hidden;'; }
         adder += '" href="#">edit</a>';
@@ -90,31 +90,33 @@ jQuery(document).ready(function() {
     $('.static-delete-row').bind('click',staticdeleterow);
 
     var sels = {{ selections|tojson|safe }};
-    // add an edit row that allows a qualifications row to become editable
+    // add an edit row that allows a qualifications or applications row to become editable
     var editrow = function(event) {
         event.preventDefault();
         $(this).parent().parent().children('td').each(function() {
-            var val = $(this).children('input').first().val();
-            var name = $(this).children('input').first().attr('name');
-            var seltype = name.split('_')[1] + 's';
-            $(this).children('input[type="hidden"]').remove();
-            $(this).children('input[type="text"]').remove();
-            var selector = '<select name="' + name + '" class="needselect2">';
-            selector += '<option></option>';
-            if ( seltype == "years" ) {
-                var selchoices = ["Third year","Fourth year","Fifth year","Sixth year","Other"];
-            } else {
-                var selchoices = sels[seltype];
-            }
-            for ( var t in selchoices ) {
-                selector += '<option';
-                if ( selchoices[t] == val ) {
-                    selector += ' selected="selected"';
+            if (!(this).hasClass('noedit') && $(this).children('input').length) {
+                var val = $(this).children('input').first().val();
+                var name = $(this).children('input').first().attr('name');
+                var seltype = name.split('_')[1] + 's';
+                $(this).children('input[type="hidden"]').not('.noedit').remove();
+                $(this).children('input[type="text"]').remove();
+                var selector = '<select name="' + name + '" class="needselect2">';
+                selector += '<option></option>';
+                if ( seltype == "years" ) {
+                    var selchoices = ["Third year","Fourth year","Fifth year","Sixth year","Other"];
+                } else {
+                    var selchoices = sels[seltype];
                 }
-                selector += '>' + selchoices[t] + '</option>';
+                for ( var t in selchoices ) {
+                    selector += '<option';
+                    if ( selchoices[t] == val ) {
+                        selector += ' selected="selected"';
+                    }
+                    selector += '>' + selchoices[t] + '</option>';
+                }
+                selector += '</select>';
+                $(this).append(selector);
             }
-            selector += '</select>';
-            $(this).append(selector);
         })
     }
 
@@ -136,7 +138,7 @@ jQuery(document).ready(function() {
             preprow(row);
         }
     }
-		$('table.multi').find('tbody').append('<tr><td><a class="btn btn-success add-row" href="#">add</a></td></tr>');
+	$('table.multi').find('tbody').append('<tr><td><a class="btn btn-success add-row" href="#">add</a></td></tr>');
     $('.add-row').bind('click',addrow);
 		
     var deleterow = function(event) {
@@ -729,7 +731,7 @@ fieldset{
 
 	<div class="row-fluid">
 	    <div class="span12">		
-	        <table class="multidisplay isapplications">
+	        <table class="multidisplay isapplications editablerows">
                 <thead>
                     <tr>
                         <th style="min-width:200px;">College / University</th>
@@ -743,26 +745,22 @@ fieldset{
                     {% if record %}
                         {% for app in record.data.applications %}
                     <tr>
-                		<td><input type="text" disabled="disabled" value="{{app.institution}}" style="width:170px;"></td>
-                		<td><input type="text" disabled="disabled" value="{{app.subject}}" style="width:170px;"></td>
+                		<td><input class="noclone" type="hidden" name="application_institution" value="{% if app.institution %}{{app.institution}}{% endif %}"><input type="text" disabled="disabled" value="{{app.institution}}" style="width:170px;"></td>
+                		<td><input class="noclone" type="hidden" name="application_subject" value="{% if app.subject %}{{app.subject}}{% endif %}"><input type="text" disabled="disabled" value="{{app.subject}}" style="width:170px;"></td>
                 		<td>
                 		    <input type="text" disabled="disabled" value="{{app.level}}" style="width:100px;">
-
-                   		    <input class="noclone" type="hidden" name="application_institution" value="{% if app.institution %}{{app.institution}}{% endif %}">
-                   		    <input class="noclone" type="hidden" name="application_subject" value="{% if app.subject %}{{app.subject}}{% endif %}">
                    		    <input class="noclone" type="hidden" name="application_level" value="{% if app.level %}{{app.level}}{% endif %}">
-                   		    <input class="noclone" type="hidden" name="application_appid" value="{% if app.appid %}{{app.appid}}{% endif %}">
-                   		    <input class="noclone" type="hidden" name="application_pae_reply_received" value="{% if app.pae_reply_received %}{{app.pae_reply_received}}{% endif %}">
-                   		    <input class="noclone" type="hidden" name="application_pae_emailed" value="{% if app.pae_emailed %}{{app.pae_emailed}}{% endif %}">
-                   		    <input class="noclone" type="hidden" name="application_consider" value="{% if app.consider %}{{app.consider}}{% endif %}">
-                   		    <input class="noclone" type="hidden" name="application_conditions" value="{% if app.conditions %}{{app.conditions}}{% endif %}">
-                   		    <input class="noclone" type="hidden" name="application_summer_school" value="{% if app.summer_school %}{{app.summer_school}}{% endif %}">
-                   		    <input class="noclone" type="hidden" name="application_qid" value="{% if app.qid %}{{app.qid}}{% endif %}">
-
+                   		    <input class="noclone noedit" type="hidden" name="application_appid" value="{% if app.appid %}{{app.appid}}{% endif %}">
+                   		    <input class="noclone noedit" type="hidden" name="application_pae_reply_received" value="{% if app.pae_reply_received %}{{app.pae_reply_received}}{% endif %}">
+                   		    <input class="noclone noedit" type="hidden" name="application_pae_emailed" value="{% if app.pae_emailed %}{{app.pae_emailed}}{% endif %}">
+                   		    <input class="noclone noedit" type="hidden" name="application_consider" value="{% if app.consider %}{{app.consider}}{% endif %}">
+                   		    <input class="noclone noedit" type="hidden" name="application_conditions" value="{% if app.conditions %}{{app.conditions}}{% endif %}">
+                   		    <input class="noclone noedit" type="hidden" name="application_summer_school" value="{% if app.summer_school %}{{app.summer_school}}{% endif %}">
+                   		    <input class="noclone noedit" type="hidden" name="application_qid" value="{% if app.qid %}{{app.qid}}{% endif %}">
                 		</td>
                 		
                 		{% if app['pae_requested'] %}
-                		<td class="noclone">
+                		<td class="noclone noedit">
                    		    <input class="noclone" type="hidden" name="application_pae_requested" value="{{app.pae_requested}}">
                 		    <span style="margin:5px 5px 0 5px;">
                 		    {% if current_user.view_admin %}<a class="btn" href="/universities/pae/{{app.appid}}">{{ app['pae_requested'] }}</a>{% endif %}
@@ -779,16 +777,16 @@ fieldset{
                 		    </span>
                 		</td>
                 		{% elif current_user.do_admin %}
-                		<td>
+                		<td class="noedit">
                         <select name="application_pae_requested"><option>No</option><option>Yes</option></select>
                 		{% if app['pae_reply_received'] %} *{% endif %}
                 		</td>
                 		{% else %}
-                		<td>
+                		<td class="noedit">
                		    <input class="noclone" type="hidden" name="application_pae_requested" value="">
                		    </td>
                 		{% endif %}
-                		<td>
+                		<td class="noedit">
                		    <a class="btn btn-info paenotes" href="{{app.appid}}">Notes</a>
                		    <textarea class="bigfield noclone paenote {{app.appid}}" style="display:none;" name="application_notes">{% if app.notes %}{{app.notes}}{% endif %}</textarea>
                         </td>

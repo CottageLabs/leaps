@@ -257,7 +257,11 @@ class Student(DomainObject):
                             locset['simd40'] = self.data.get('simd40',False)
                             locset['school'] = self.data['school']
                             locset['leaps_category'] = rec['leaps_category']
-                            # TODO add any LEAPS eligibility criteria here that LEAPS want to freeze at time of PAE
+                            if 'first_attending_university' in rec: locset['first_attending_university'] = rec['first_attending_university']
+                            if 'looked_after_child' in rec: locset['looked_after_child'] = rec['looked_after_child']
+                            if 'low_income_family' in rec: locset['low_income_family'] = rec['low_income_family']
+                            if 'estranged' in rec: locset['estranged'] = rec['estranged']
+                            if 'young_carer' in rec: locset['young_carer'] = rec['young_carer']
                             rec['paelocs'][qid] = locset
                             appn['qid'] = qid
                             if 'pae_requested' not in appn:
