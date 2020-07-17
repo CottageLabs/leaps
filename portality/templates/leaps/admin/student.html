@@ -226,7 +226,6 @@ jQuery(document).ready(function() {
                         var subjects = {{ selections.advancedsubjects|tojson|safe }};
                     }
                     var opts = '<option></option>';
-                    console.log(sv)
                     for ( var i = 0; i < subjects.length; i++ ) {
                         if ( subjects[i].name === undefined ) {
                             opts += "<option"
