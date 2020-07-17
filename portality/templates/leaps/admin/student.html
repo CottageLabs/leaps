@@ -218,7 +218,7 @@ jQuery(document).ready(function() {
                 obj:$(this),
                 success: function(data) {
                     var sv = this.obj.closest('tr').find('.subjectselector').attr('sv');
-                    if (sv) this.obj.closest('tr').find('.subjectselector').removeAttr('sv');
+                    console.log(sv);
                     if ( data.hits.total == 0 ) {
                         var subjects = {{ selections.advancedsubjects|tojson|safe }};
                     } else if ( data.hits.hits[0]._source.subjects !== undefined && data.hits.hits[0]._source.subjects.length > 0 ) {
@@ -230,15 +230,16 @@ jQuery(document).ready(function() {
                     for ( var i = 0; i < subjects.length; i++ ) {
                         if ( subjects[i].name === undefined ) {
                             opts += "<option"
-                            if (sv && sv === subjects[i]) opts += ' selected="selected"';
+                            if (sv === subjects[i]) opts += ' selected="selected"';
                             opts += ">" + subjects[i] + "</option>";
                         } else {
                             opts += "<option";
                             subjects[i].level !== undefined ? opts += ' data-level="' + subjects[i].level + '"' : false;
-                            if (sv && sv === subjects[i].name) opts += ' selected="selected"';
+                            if (sv === subjects[i].name) opts += ' selected="selected"';
                             opts += ">" + subjects[i].name + "</option>";
                         }
                     }
+                    //this.obj.closest('tr').find('.subjectselector').removeAttr('sv');
                     this.obj.closest('tr').find('.subjectselector').html(opts).removeAttr("disabled");
                 }
             });
