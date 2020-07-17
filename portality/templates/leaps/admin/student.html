@@ -97,6 +97,7 @@ jQuery(document).ready(function() {
             if (!$(this).hasClass('noedit') && $(this).children('input').length) {
                 var val = $(this).children('input[type="hidden"]').first().val();
                 var name = $(this).children('input[type="hidden"]').first().attr('name');
+                console.log(name,val)
                 var seltype = name.split('_')[1] + 's';
                 var stl = $(this).children('input[type="text"]').first().attr('style');
                 $(this).children('input[type="hidden"]').not('.noedit').remove();
@@ -218,7 +219,6 @@ jQuery(document).ready(function() {
                 obj:$(this),
                 success: function(data) {
                     var sv = this.obj.closest('tr').find('.subjectselector').attr('sv');
-                    console.log(sv);
                     if ( data.hits.total == 0 ) {
                         var subjects = {{ selections.advancedsubjects|tojson|safe }};
                     } else if ( data.hits.hits[0]._source.subjects !== undefined && data.hits.hits[0]._source.subjects.length > 0 ) {
@@ -239,7 +239,7 @@ jQuery(document).ready(function() {
                             opts += ">" + subjects[i].name + "</option>";
                         }
                     }
-                    //this.obj.closest('tr').find('.subjectselector').removeAttr('sv');
+                    this.obj.closest('tr').find('.subjectselector').removeAttr('sv');
                     this.obj.closest('tr').find('.subjectselector').html(opts).removeAttr("disabled");
                 }
             });
