@@ -748,8 +748,8 @@ fieldset{
                 		<td><input class="noclone" type="hidden" name="application_institution" value="{% if app.institution %}{{app.institution}}{% endif %}"><input type="text" disabled="disabled" value="{{app.institution}}" style="width:170px;"></td>
                 		<td><input class="noclone" type="hidden" name="application_subject" value="{% if app.subject %}{{app.subject}}{% endif %}"><input type="text" disabled="disabled" value="{{app.subject}}" style="width:170px;"></td>
                 		<td>
-                		    <input type="text" disabled="disabled" value="{{app.level}}" style="width:100px;">
                    		    <input class="noclone" type="hidden" name="application_level" value="{% if app.level %}{{app.level}}{% endif %}">
+                		    <input type="text" disabled="disabled" value="{{app.level}}" style="width:100px;">
                    		    <input class="noclone noedit" type="hidden" name="application_appid" value="{% if app.appid %}{{app.appid}}{% endif %}">
                    		    <input class="noclone noedit" type="hidden" name="application_pae_reply_received" value="{% if app.pae_reply_received %}{{app.pae_reply_received}}{% endif %}">
                    		    <input class="noclone noedit" type="hidden" name="application_pae_emailed" value="{% if app.pae_emailed %}{{app.pae_emailed}}{% endif %}">
