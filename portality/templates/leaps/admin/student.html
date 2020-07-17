@@ -97,7 +97,6 @@ jQuery(document).ready(function() {
             if (!$(this).hasClass('noedit') && $(this).children('input').length) {
                 var val = $(this).children('input[type="hidden"]').first().val();
                 var name = $(this).children('input[type="hidden"]').first().attr('name');
-                console.log(name,val)
                 var seltype = name.split('_')[1] + 's';
                 var stl = $(this).children('input[type="text"]').first().attr('style');
                 $(this).children('input[type="hidden"]').not('.noedit').remove();
@@ -107,6 +106,7 @@ jQuery(document).ready(function() {
                 selector += '"';
                 if (name.indexOf('application_') === 0) selector += ' sv="' + val + '"';
                 if (stl) selector += ' style="' + stl + '"';
+                console.log(selector)
                 selector += '><option></option>';
                 if ( seltype == "years" ) {
                     var selchoices = ["Third year","Fourth year","Fifth year","Sixth year","Other"];
