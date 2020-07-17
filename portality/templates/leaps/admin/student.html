@@ -226,19 +226,28 @@ jQuery(document).ready(function() {
                         var subjects = {{ selections.advancedsubjects|tojson|safe }};
                     }
                     var opts = '<option></option>';
+                    var slctd = false;
                     for ( var i = 0; i < subjects.length; i++ ) {
                         if ( subjects[i].name === undefined ) {
                             opts += "<option"
-                            if (this.sv === subjects[i]) opts += ' selected="selected"';
+                            if (this.sv === subjects[i]) {
+                                slctd = true;
+                                opts += ' selected="selected"';
+                            }
                             opts += ">" + subjects[i] + "</option>";
                         } else {
                             opts += "<option";
                             subjects[i].level !== undefined ? opts += ' data-level="' + subjects[i].level + '"' : false;
-                            if (this.sv === subjects[i].name) opts += ' selected="selected"';
+                            if (this.sv === subjects[i].name) {
+                                opts += ' selected="selected"';
+                                slctd = true;
+                            }
                             opts += ">" + subjects[i].name + "</option>";
                         }
                     }
                     this.obj.closest('tr').find('.subjectselector').html(opts).removeAttr("disabled");
+                    this.obj.closest('tr').find('.subjectselector').html(opts).removeAttr("sv");
+                    if (slctd) this.obj.closest('tr').find('.subjectselector').trigger('change');
                 }
             });
         }
