@@ -106,7 +106,6 @@ jQuery(document).ready(function() {
                 selector += '"';
                 if (name.indexOf('application_') === 0) selector += ' sv="' + val + '"';
                 if (stl) selector += ' style="' + stl + '"';
-                console.log(selector)
                 selector += '><option></option>';
                 if ( seltype == "years" ) {
                     var selchoices = ["Third year","Fourth year","Fifth year","Sixth year","Other"];
@@ -227,6 +226,7 @@ jQuery(document).ready(function() {
                         var subjects = {{ selections.advancedsubjects|tojson|safe }};
                     }
                     var opts = '<option></option>';
+                    console.log(sv)
                     for ( var i = 0; i < subjects.length; i++ ) {
                         if ( subjects[i].name === undefined ) {
                             opts += "<option"
