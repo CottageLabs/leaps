@@ -95,13 +95,15 @@ jQuery(document).ready(function() {
         event.preventDefault();
         $(this).parent().parent().children('td').each(function() {
             if (!$(this).hasClass('noedit') && $(this).children('input').length) {
-                var val = $(this).children('input').first().val();
-                var name = $(this).children('input').first().attr('name');
+                var val = $(this).children('input[type="hidden"]').first().val();
+                var name = $(this).children('input[type="hidden"]').first().attr('name');
                 var seltype = name.split('_')[1] + 's';
+                var stl = $(this).children('input[type="text"]').first().attr('style');
                 $(this).children('input[type="hidden"]').not('.noedit').remove();
                 $(this).children('input[type="text"]').remove();
-                var selector = '<select name="' + name + '" class="needselect2">';
-                selector += '<option></option>';
+                var selector = '<select name="' + name + '" class="needselect2"
+                if (stl) selector += 'style="' + stl + '"';
+                selector += '><option></option>';
                 if ( seltype == "years" ) {
                     var selchoices = ["Third year","Fourth year","Fifth year","Sixth year","Other"];
                 } else {
