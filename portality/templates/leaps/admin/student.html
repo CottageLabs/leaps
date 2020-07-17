@@ -101,7 +101,7 @@ jQuery(document).ready(function() {
                 var stl = $(this).children('input[type="text"]').first().attr('style');
                 $(this).children('input[type="hidden"]').not('.noedit').remove();
                 $(this).children('input[type="text"]').remove();
-                var selector = '<select name="' + name + '" class="needselect2"
+                var selector = '<select name="' + name + '" class="needselect2"';
                 if (stl) selector += 'style="' + stl + '"';
                 selector += '><option></option>';
                 if ( seltype == "years" ) {
