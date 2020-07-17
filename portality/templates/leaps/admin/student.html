@@ -121,8 +121,13 @@ jQuery(document).ready(function() {
                 }
                 selector += '</select>';
                 $(this).append(selector);
-                if (name.indexOf('application_') === 0 && $(this).prev().children('select').length && $(this).prev().children('select').first().attr('name').indexOf('application_') === 0) {
-                    $(this).prev().children('select').first().trigger('change');
+                if (name.indexOf('application_') === 0)
+                    var nb = name.replace('application_','');
+                    if (nb === 'institution') $(this).children('.institutionselector').bind('change', limitsubjects);
+                    if (nb === 'subject') $(this).children('.subjectselector').bind('change', limitlevels);
+                    if ($(this).prev().children('select').length && $(this).prev().children('select').first().attr('name').indexOf('application_') === 0) {
+                        $(this).prev().children('select').first().trigger('change');
+                    }
                 }
             }
         })
