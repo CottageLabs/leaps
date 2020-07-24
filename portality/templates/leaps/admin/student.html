@@ -775,9 +775,9 @@ fieldset{
                     {% if record %}
                         {% for app in record.data.applications %}
                 		{% if app['pae_requested'] %}
-                    <tr>
-                        {% else %}
                     <tr class="noedit">
+                        {% else %}
+                    <tr>
                         {% endif %}
                 		<td><input class="noclone" type="hidden" name="application_institution" value="{% if app.institution %}{{app.institution}}{% endif %}"><input type="text" disabled="disabled" value="{{app.institution}}" style="width:170px;"></td>
                 		<td><input class="noclone" type="hidden" name="application_subject" value="{% if app.subject %}{{app.subject}}{% endif %}"><input type="text" disabled="disabled" value="{{app.subject}}" style="width:170px;"></td>
