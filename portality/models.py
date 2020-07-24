@@ -257,11 +257,11 @@ class Student(DomainObject):
                             locset['simd40'] = self.data.get('simd40',False)
                             locset['school'] = self.data['school']
                             locset['leaps_category'] = rec['leaps_category']
-                            if 'first_attending_university' in rec: locset['first_attending_university'] = rec['first_attending_university']
-                            if 'looked_after_child' in rec: locset['looked_after_child'] = rec['looked_after_child']
-                            if 'low_income_family' in rec: locset['low_income_family'] = rec['low_income_family']
-                            if 'estranged' in rec: locset['estranged'] = rec['estranged']
-                            if 'young_carer' in rec: locset['young_carer'] = rec['young_carer']
+                            locset['first_attending_university'] = rec.get('first_attending_university',False)
+                            locset['looked_after_child'] = rec.get('looked_after_child',False)
+                            locset['low_income_family'] = rec.get('low_income_family',False)
+                            locset['estranged'] = rec.get('estranged',False)
+                            locset['young_carer'] = rec.get('young_carer',False)
                             rec['paelocs'][qid] = locset
                             appn['qid'] = qid
                             if 'pae_requested' not in appn:
