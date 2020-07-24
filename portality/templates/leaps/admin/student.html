@@ -78,7 +78,7 @@ jQuery(document).ready(function() {
 			}
 		{% endif %}
         adder += '<a class="btn edit-row" style="margin:-10px 2px 0 0;';
-        if ( $(this).parents('tr').hasClass('editablerows') || !$(this).parents('table').hasClass('editablerows') ) { adder += 'visibility:hidden;'; }
+        if ( $(this).parents('tr').hasClass('noedit') || !$(this).parents('table').hasClass('editablerows') ) { adder += 'visibility:hidden;'; }
         adder += '" href="#">edit</a>';
         $(this).children('td').first().prepend(adder).children('select, input').addClass('narrow');
     });
