@@ -63,27 +63,27 @@
                 <th>Subject</th>
                 <th>Grade</th>
             </tr>
-            {% for object in quals %}
+            {% for object in record.qualifications %}
                 {% if object.year|lower == "third year" %}
                     <tr><td>{{ object.year }}</td><td>{{ object.level }}</td><td>{{ object.subject }}</td><td>{{ object.grade }}</td></tr>
                 {% endif %}
             {% endfor %}
-            {% for object in quals %}
+            {% for object in record.qualifications %}
                 {% if object.year|lower == "fourth year" %}
                     <tr><td>{{ object.year }}</td><td>{{ object.level }}</td><td>{{ object.subject }}</td><td>{{ object.grade }}</td></tr>
                 {% endif %}
             {% endfor %}
-            {% for object in quals %}
+            {% for object in record.qualifications %}
                 {% if object.year|lower == "fifth year" %}
                     <tr><td>{{ object.year }}</td><td>{{ object.level }}</td><td>{{ object.subject }}</td><td>{{ object.grade }}</td></tr>
                 {% endif %}
             {% endfor %}
-            {% for object in quals %}
+            {% for object in record.qualifications %}
                 {% if object.year|lower == "sixth year" %}
                     <tr><td>{{ object.year }}</td><td>{{ object.level }}</td><td>{{ object.subject }}</td><td>{{ object.grade }}</td></tr>
                 {% endif %}
             {% endfor %}
-            {% for object in quals %}
+            {% for object in record.qualifications %}
                 {% if object.year|lower != "third year" and object.year|lower != "fourth year" and object.year|lower != "fifth year" and object.year|lower != "sixth year" %}
                     <tr><td>{{ object.year }}</td><td>{{ object.level }}</td><td>{{ object.subject }}</td><td>{{ object.grade }}</td></tr>
                 {% endif %}
@@ -92,8 +92,11 @@
 
         <h3>Further information</h3>
         <p>
-            {% if record.simd20 or record.simd40 %}
-                This student has a home post code relating to SIMD {{record.simd_pc}}%<br />
+            {% if record.simd20 %}
+                This student has a home post code relating to SIMD 20%<br />
+            {% endif %}
+            {% if record.simd40 %}
+                This student has a home post code relating to SIMD 40%<br />
             {% endif %}
             {% if record.first_attending_university %}
                 This student is the first from their family attending university<br />

@@ -79,13 +79,6 @@ def pae(appid):
 
     else:
         student, application = _get_student_for_appn(appid)
-        if not student.get('simd_pc',False):
-            dec = int(student['simd_decile'])
-            if dec == 10 and int(student.get('simd_quintile',0)) == 5:
-                dec = 100
-            elif dec < 10:
-                dec = dec * 10
-            student['simd_pc'] = str(dec)
         
         if request.method == 'GET':
             if application.get('pae_reply_received',False):
@@ -95,19 +88,11 @@ def pae(appid):
                 else:
                     msg += ". It cannot be altered."
                 flash(msg)
-            if 'paequals' in student and 'qid' in application and application['qid'] in student['paequals']:
-                quals = student['paequals'][application['qid']]
-            else:
-                quals = student['qualifications']
-            if 'paelocs' in student and 'qid' in application and application['qid'] in student['paelocs']:
-                for key in student['paelocs'][application['qid']]:
-                    student[key] = student['paelocs'][application['qid']][key]
             return render_template(
                 'leaps/universities/pae.html', 
                 student=student, 
                 institution=current_user.is_institution, 
-                application=application,
-                quals=quals
+                application=application
             )
 
         elif request.method == 'POST':
@@ -161,21 +146,7 @@ def paepdf(appid,giveback=False):
     student, application = _get_student_for_appn(appid)
     if student is None: abort(404)
 
-    if 'paequals' in student and 'qid' in application and application['qid'] in student['paequals']:
-        quals = student['paequals'][application['qid']]
-    else:
-        quals = student['qualifications']
-    if 'paelocs' in student and 'qid' in application and application['qid'] in student['paelocs']:
-        for key in student['paelocs'][application['qid']]:
-            student[key] = student['paelocs'][application['qid']][key]
-    if not student.get('simd_pc',False):
-        dec = int(student['simd_decile'])
-        if dec == 10 and int(student.get('simd_quintile',0)) == 5:
-            dec = 100
-        elif dec < 10:
-            dec = dec * 10
-        student['simd_pc'] = str(dec)
-    thepdf = render_template('leaps/admin/student_pae', record=student, application=application, quals=quals)
+    thepdf = render_template('leaps/admin/student_pae', record=student, application=application)
     if giveback:
         return HTML(string=thepdf).write_pdf()
     else:
@@ -349,7 +320,6 @@ def _get_student_for_appn(appid):
             qry['query']['bool']['must'].append({'term':{'applications.institution'+app.config['FACET_FIELD']:institution}})
 
         s = models.Student.query(q=qry)['hits']['hits'][0]['_source']['id']
-
         student = models.Student.pull(s)
         if student is None:
             return None, None
@@ -357,6 +327,18 @@ def _get_student_for_appn(appid):
             application = {}
             for appn in student.data['applications']:
                 if appn['appid'] == appid: application = appn
+            if not student.get('simd_pc',False):
+                dec = int(student['simd_decile'])
+                if dec == 10 and int(student.get('simd_quintile',0)) == 5:
+                    dec = 100
+                elif dec < 10:
+                    dec = dec * 10
+                student['simd_pc'] = str(dec)
+            if 'paequals' in student and 'qid' in application and application['qid'] in student['paequals']:
+                student['qualifications'] = student['paequals'][application['qid']]
+            if 'paelocs' in student and 'qid' in application and application['qid'] in student['paelocs']:
+                for key in student['paelocs'][application['qid']]:
+                    student[key] = student['paelocs'][application['qid']][key]
             return student, application
 
     except:

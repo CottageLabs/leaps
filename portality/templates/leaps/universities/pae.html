@@ -96,27 +96,27 @@ jQuery(document).ready(function() {
                     <th>Subject</th>
                     <th>Grade</th>
                 </tr>
-								{% for object in quals %}
+								{% for object in student.qualifications %}
 										{% if object.year|lower == "third year" %}
 												<tr><td>{{ object.year }}</td><td>{{ object.level }}</td><td>{{ object.subject }}</td><td>{{ object.grade }}</td></tr>
 										{% endif %}
 								{% endfor %}
-								{% for object in quals %}
+								{% for object in student.qualifications %}
 										{% if object.year|lower == "fourth year" %}
 												<tr><td>{{ object.year }}</td><td>{{ object.level }}</td><td>{{ object.subject }}</td><td>{{ object.grade }}</td></tr>
 										{% endif %}
 								{% endfor %}
-								{% for object in quals %}
+								{% for object in student.qualifications %}
 										{% if object.year|lower == "fifth year" %}
 												<tr><td>{{ object.year }}</td><td>{{ object.level }}</td><td>{{ object.subject }}</td><td>{{ object.grade }}</td></tr>
 										{% endif %}
 								{% endfor %}
-								{% for object in quals %}
+								{% for object in student.qualifications %}
 										{% if object.year|lower == "sixth year" %}
 												<tr><td>{{ object.year }}</td><td>{{ object.level }}</td><td>{{ object.subject }}</td><td>{{ object.grade }}</td></tr>
 										{% endif %}
 								{% endfor %}
-								{% for object in quals %}
+								{% for object in student.qualifications %}
 										{% if object.year|lower != "third year" and object.year|lower != "fourth year" and object.year|lower != "fifth year" and object.year|lower != "sixth year" %}
 												<tr><td>{{ object.year }}</td><td>{{ object.level }}</td><td>{{ object.subject }}</td><td>{{ object.grade }}</td></tr>
 										{% endif %}
@@ -125,8 +125,11 @@ jQuery(document).ready(function() {
 
             <h2>Further information</h2>
             <p>
-            {% if student.simd20 or student.simd40 %}
-                This student has a home post code relating to SIMD {{student.simd_pc}}%<br />
+            {% if student.simd20 %}
+                This student has a home post code relating to SIMD 20%<br />
+            {% endif %}
+            {% if student.simd40 %}
+                This student has a home post code relating to SIMD 40%<br />
             {% endif %}
             {% if student.first_attending_university %}
                 This student is the first from their family attending university<br />
@@ -148,6 +151,12 @@ jQuery(document).ready(function() {
             {% endif %}
             {% if student.main_language_at_home %}
                 Main language at home is {{ student.main_language_at_home }}<br>
+            {% endif %}
+            {% if student.estranged %}
+                This student is currently estranged<br>
+            {% endif %}
+            {% if student.transition_course %}
+                This student is undertaking the LEAPS Transition Course
             {% endif %}
             {% if student.additional_comments != "" %}
                 <strong>LEAPS staff comments:</strong> {{ student.additional_comments|safe }}
