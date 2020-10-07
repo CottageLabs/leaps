@@ -391,13 +391,12 @@ class School(DomainObject):
         r = requests.delete(self.target() + self.id)
 
     def save_from_form(self, request):
-        rec = {
-            "contacts": [],
-            "subjects": []
-        }
-        
+        rec = {}
+
         for k,v in enumerate(request.form.getlist('contact_email')):
             if v is not None and len(v) > 0 and v != " ":
+                if "contacts" not in rec:
+                    rec["contacts"] = []
                 try:
                     rec["contacts"].append({
                         "name": request.form.getlist('contact_name')[k],
@@ -411,6 +410,8 @@ class School(DomainObject):
 
         for k,v in enumerate(request.form.getlist('subject_name')):
             if v is not None and len(v) > 0 and v != " ":
+                if "subjects" not in rec:
+                    rec["subjects"] = []
                 try:
                     rec["subjects"].append({
                         "name": v,
@@ -420,7 +421,8 @@ class School(DomainObject):
                 except:
                     pass
 
-        rec['shep_school'] = False
+        if self.__type__ == 'school':
+            rec['shep_school'] = False
         for key in request.form.keys():
             if not key.startswith("contact_") and not key.startswith("subject_") and key not in ['submit']: #,'agreed']: removed this again, cos form already has agreement in it
                 val = request.form[key]
@@ -432,8 +434,6 @@ class School(DomainObject):
                 else:
                     rec[key] = val
 
-        if len(rec['contacts']) == 0 and len(self.data.get('contacts',[])) != 0: del self.data['contacts']
-        if len(rec['subjects']) == 0 and len(self.data.get('subjects',[])) != 0: del self.data['subjects']
         for k, v in rec.items():
             self.data[k] = v
         
