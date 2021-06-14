@@ -374,7 +374,7 @@ input.bigfield{
 	        <p>If you need to <strong>insert extra rows</strong>, press <strong>add</strong> to get another row.</p>
 	        <p>If you want to <strong>delete a row</strong>, press <strong>delete</strong> to remove the row.</p>
 	        <p>Required inputs have an asterisk and are shown in red, until they are completed appropriately, when they will become green. You should check that all required inputs are green before proceeding. Inputs that are optional remain white.</p>
-	        <p>You can navigate between parts using the <strong>Previous</strong> or <strong>Next</strong> buttons.</p>
+	        <!--<p>You can navigate between parts using the <strong>Previous</strong> or <strong>Next</strong> buttons.</p>-->
 	        <p>At the end of the form you will be directed to review your responses and you will not be able to submit until all the required questions have been answered.</p>
         </div>
 	</div>
@@ -624,9 +624,17 @@ input.bigfield{
 	</div>
 	
     <div> <!-- need divs round each year quals set for row add/remove to work well-->
-        <h3>Third / Fourth year qualifications</h3>
-    
+
     	<div class="row multi manyrows">
+    	    <div class="col-md-2">
+                <p>School year taken</p>
+        		<p><select name="qualification_year" class="form-control">
+        		    <option>Third year</option>
+        		    <option>Fourth year</option>
+        		    <option>Fifth year</option>
+        		    <option>Sixth year</option>
+        		</select></p>
+        	</div>
     	    <div class="col-md-3">
                 <p>Subject</p>
         		<p><select name="qualification_subject" class="select2this">
@@ -634,13 +642,6 @@ input.bigfield{
         		    {% for opt in selections.subjects %}
         		        <option>{{ opt }}</option>
         		    {% endfor %}
-        		</select></p>
-        	</div>
-    	    <div class="col-md-2">
-                <p>School year taken</p>
-        		<p><select name="qualification_year" class="form-control">
-        		    <option>Third year</option>
-        		    <option>Fourth year</option>
         		</select></p>
         	</div>
     	    <div class="col-md-3">
@@ -666,6 +667,7 @@ input.bigfield{
     	</div>
 	</div>
 
+    <!--
     <hr></hr>
 
     <div>
@@ -754,6 +756,7 @@ input.bigfield{
     	    </div>
     	</div>
     </div>
+    -->
 </div>
 
 
