@@ -152,7 +152,7 @@ jQuery(document).ready(function() {
         if ( $(this).closest('.row').siblings('.row').length < maxrows ) {
             $('.select2this').select2('destroy').removeAttr('id').removeAttr('data-select2-id');
             var row = $(this).closest('.row').clone(true).get(0);
-            $(row).children('div').each(function() {
+            /*$(row).children('div').each(function() {
                 var p = $(this).children('p').first();
                 if ( !$(p).hasClass('toprow') ) {
                     $(p).addClass('visible-xs').addClass('visible-sm'); 
@@ -160,7 +160,7 @@ jQuery(document).ready(function() {
                     $(p).hide();
                 }
             });
-            $(this).closest('.row').append('<hr class="visible-xs visible-sm" style="border-color:#bbb;"></hr>');
+            $(this).closest('.row').append('<hr class="visible-xs visible-sm" style="border-color:#bbb;"></hr>');*/
             preprow(row);
             $(row).insertAfter($(this).closest('.row'));
             $(this).closest('.row').find('.add-row').parent().hide();
@@ -277,10 +277,9 @@ body {
 hr {
     border-color:#333;
 }
-/*#container {
-    margin:0;
-    width:100%;
-}*/
+h2 {
+    margin-top: 0px;
+}
 .content {
     margin:0;
     width:100%;
@@ -318,27 +317,6 @@ textarea {
 .btn-warning {
     color:#333;
 }
-
-/*.add-row, .delete-row {
-    padding-left:3px;
-    padding-right:3px;
-    font-size:0.9em;
-    width:45px;
-}*/
-/*input, textarea {
-    width:200px;
-}
-select {
-    width:210px;
-}
-textarea.bigfield{
-    width:400px;
-    height:150px;
-}
-input.bigfield{
-    width:360px;
-    height:150px;
-}*/
 </style>
 
 <div id="logo">
@@ -371,11 +349,9 @@ input.bigfield{
 	        <p>Each part presents <strong>instructions at the top</strong> on how to complete the questions in that part.</p> 
 	        <p>Some fields will offer <strong>suggestions as you type</strong>. Choose a suitable suggestion if one is presented, otherwise 
 	        continue to type and your text will be accepted.</p>
-	        <p>If you need to <strong>insert extra rows</strong>, press <strong>add</strong> to get another row.</p>
-	        <p>If you want to <strong>delete a row</strong>, press <strong>delete</strong> to remove the row.</p>
-	        <p>Required inputs have an asterisk and are shown in red, until they are completed appropriately, when they will become green. You should check that all required inputs are green before proceeding. Inputs that are optional remain white.</p>
+	        <p>If you need to <strong>insert extra rows</strong>, press <strong>add</strong> to get another row. If you want to <strong>delete a row</strong>, press <strong>delete</strong> to remove the row.</p>
+	        <p>Required inputs have an asterisk and are shown in red, until they are completed appropriately, when they will become green. You should check that all required inputs are green before proceeding. Inputs that are optional remain white. You will only be able to submit the form once all required questions have been answered.</p>
 	        <!--<p>You can navigate between parts using the <strong>Previous</strong> or <strong>Next</strong> buttons.</p>-->
-	        <p>At the end of the form you will be directed to review your responses and you will not be able to submit until all the required questions have been answered.</p>
         </div>
 	</div>
 
@@ -618,7 +594,11 @@ input.bigfield{
 	    <div class="col-md-12">
 	        <div class="well">
 	            <h2>Qualifications and currently sitting</h2>
-	            <p><strong>Part 2 of 6</strong> - <strong>Please input details of all qualifications you have (or are studying for current year) for each year of school</strong>. <br><b>Please include any qualifications you sat but did not pass.</b><br /><br />If you do not yet know your grade, select Unknown in the Grade field. If you have any qualifications that do not meet the criteria below, you will have the option to describe them on the following pages. Use one row per qualification.</p>
+	            <p><strong>Part 2 of 6</strong> - Please input details of all qualifications 
+	            you have (or are studying for current year) for each year of school. 
+	            Please include any qualifications you sat but did not pass. If you do not yet know your grade, 
+	            select Unknown in the Grade field. If you have any qualifications that do not meet the criteria 
+	            below, you will have the option to describe them on the following pages. Use one row per qualification.</p>
 	        </div>
 	    </div>
 	</div>
@@ -888,12 +868,12 @@ input.bigfield{
 	    <div class="col-md-3">
             <p>Date from</p>
     		<p><input type="text" class="form-control datepicker" name="experience_date_from"></p>
-            <p>Job title</p>
-    		<p><input type="text" class="form-control" name="experience_title"></p>
+            <p>Date to</p>
+    		<p><input type="text" class="form-control datepicker" name="experience_date_to" placeholder="unless ongoing"></p>
     	</div>
 	    <div class="col-md-3">
-            <p>To (if completed)</p>
-    		<p><input type="text" class="form-control datepicker" name="experience_date_to" placeholder="unless ongoing"></p>
+            <p>Job title</p>
+    		<p><input type="text" class="form-control" name="experience_title"></p>
     	</div>
 	</div>
 
