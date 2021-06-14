@@ -83,14 +83,14 @@ jQuery(document).ready(function() {
     $('.select2thisRequired').on('select2:select', function() { $('.select2thisRequired').siblings('.select2-container').find('.select2-selection').each(function() { $(this).css({'background-color':'#DFF0D8'}) }); });
 
     // hide survey sections and add prev/next nav-throughs
-    var doprevnext = function(event) {
+    /*var doprevnext = function(event) {
         event.preventDefault();
         $('#survey').parsley('validate');
         $('.part').hide();
         $(this).hasClass('prev') ? $(this).closest('.part').prev().show() : $(this).closest('.part').next().show();
         window.scrollTo(0,0);
-    }
-    var prevnext = '<div style="margin:20px 0 20px 0;"><button class="btn btn-info prev">previous</button> <button class="btn btn-info next">next</button></div>';
+    }*/
+    //var prevnext = '<div style="margin:20px 0 20px 0;"><button class="btn btn-info prev">previous</button> <button class="btn btn-info next">next</button></div>';
     //$('.part').append(prevnext);
     //$('.part:first').find('.prev').remove();
     //$('.part:last').find('.next').remove();
@@ -98,6 +98,7 @@ jQuery(document).ready(function() {
     //$('.next').bind('click',doprevnext);
     //$('.part').hide();
     //$('.part:first').show();
+    $('#survey').parsley('validate'); // validate to show warnings at start
 
     // review button show all
     var showall = function(event) {
