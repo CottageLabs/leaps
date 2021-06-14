@@ -374,20 +374,40 @@ textarea {
 	<div class="row">
 	    <div class="col-md-5">
 	        <div class="row">
-	            <div class="col-md-3">
+	            <div class="col-md-4">
+                    <p>Email address *</p>
+	            </div>
+	            <div class="col-md-8">
+            		<p><input class="form-control" type="text" name="email" data-type="email" data-required="true" data-trigger="keyup focusout"></p>
+	            </div>
+	        </div>
+        </div>
+	    <div class="col-md-7">
+	        <div class="row">
+	            <div class="col-md-12">
+	                <p>We recommend using blah... etc email info to go here</p>
+	            </div>
+	        </div>
+        </div>
+	</div>
+
+	<div class="row">
+	    <div class="col-md-5">
+	        <div class="row">
+	            <div class="col-md-4">
                     <p>First name *</p>
 	            </div>
-	            <div class="col-md-9">
+	            <div class="col-md-8">
             		<p><input class="form-control" type="text" name="first_name" data-required="true"></p>
 	            </div>
 	        </div>
         </div>
 	    <div class="col-md-5 col-md-offset-2">		
 	        <div class="row">
-	            <div class="col-md-3">
+	            <div class="col-md-4">
                     <p>Last name *</p>
 	            </div>
-	            <div class="col-md-9">
+	            <div class="col-md-8">
             		<p><input class="form-control" type="text" name="last_name" data-required="true"></p>
 	            </div>
 	        </div>
@@ -408,68 +428,10 @@ textarea {
         </div>
 	    <div class="col-md-5 col-md-offset-2">
 	        <div class="row">
-	            <div class="col-md-3">
-                    <p>Scottish Candidate Number (SCN)</p>
-	            </div>
-	            <div class="col-md-9">
-            		<p><input class="form-control" type="text" name="scn_number"></p>
-	            </div>
-	        </div>
-        </div>
-    </div>
-                    
-	<div class="row">
-	    <div class="col-md-5">
-	        <div class="row">
-	            <div class="col-md-3">
-                    <p>School *</p>
-	            </div>
-	            <div class="col-md-9">
-            		<p><select class="select2this select2thisRequired" name="school" data-required="true">
-            		    <option></option>
-            		    {% for opt in selections.schools %}
-            		        <option>{{ opt }}</option>
-            		    {% endfor %}
-            		</select></p>
-	            </div>
-	        </div>
-        </div>
-	    <div class="col-md-5 col-md-offset-2">
-	        <div class="row">
-	            <div class="col-md-3">
-                    <p>School house</p>
-	            </div>
-	            <div class="col-md-9">
-            		<p><input class="form-control" type="text" name="school_house"></p>
-	            </div>
-	        </div>
-        </div>
-    </div>
-                    
-	<div class="row">
-	    <div class="col-md-5">
-	        <div class="row">
-	            <div class="col-md-3">
-                    <p>Year group *</p>
-	            </div>
-	            <div class="col-md-9">
-            		<p><select class="form-control" name="year" data-required="true">
-            		    <option></option>
-            		    <option>Third year</option>
-            		    <option>Fourth year</option>
-            		    <option>Fifth year</option>
-            		    <option>Sixth year</option>
-            		    <option>Other</option>
-            		</select></p>
-	            </div>
-	        </div>
-        </div>
-	    <div class="col-md-5 col-md-offset-2">
-	        <div class="row">
-	            <div class="col-md-3">
+	            <div class="col-md-4">
                     <p>Gender *</p>
 	            </div>
-	            <div class="col-md-9">
+	            <div class="col-md-8">
             		<p>
             		    <select class="form-control" id="gender" name="gender" data-required="true">
             		    <option></option>
@@ -490,46 +452,22 @@ textarea {
     </div>
 
 	<div class="row">
-	    <div class="col-md-5">
-	        <div class="row">
-	            <div class="col-md-3">
-                    <p>Home phone</p>
-	            </div>
-	            <div class="col-md-9">
-            		<p><input class="form-control" type="text" name="home_phone"></p>
-	            </div>
-	        </div>
-        </div>
-	    <div class="col-md-5 col-md-offset-2">
-	        <div class="row">
-	            <div class="col-md-3">
-                    <p>Mobile phone</p>
-	            </div>
-	            <div class="col-md-9">
-            		<p><input class="form-control checkmobile" type="text" name="mobile_phone" id="mobile_phone"></p>
-            		<p class="mobilewarning" style="color:red;font-size:0.8em;margin-bottom:10px;display:none;">For UK mobile numbers please enter in format starting 07, no +44, no spaces, 11 digits. Thank you.</p>
-	            </div>
-	        </div>
-        </div>
-    </div>
-
-	<div class="row">
 	    <div class="col-md-5">		
 	        <div class="row">
-	            <div class="col-md-3">
+	            <div class="col-md-4">
                     <p>Address *</p>
 	            </div>
-	            <div class="col-md-9">
+	            <div class="col-md-8">
             		<p><input class="form-control" type="text" name="address_line_1" data-required="true"></p>
 	            </div>
 	        </div>
         </div>
 	    <div class="col-md-5 col-md-offset-2">
 	        <div class="row">
-	            <div class="col-md-3">
+	            <div class="col-md-4">
                     <p>Address line 2</p>
 	            </div>
-	            <div class="col-md-9">
+	            <div class="col-md-8">
             		<p><input class="form-control" type="text" name="address_line_2"></p>
 	            </div>
 	        </div>
@@ -539,20 +477,20 @@ textarea {
 	<div class="row">
 	    <div class="col-md-5">
 	        <div class="row">
-	            <div class="col-md-3">
+	            <div class="col-md-4">
                     <p>City *</p>
 	            </div>
-	            <div class="col-md-9">
+	            <div class="col-md-8">
             		<p><input class="form-control" type="text" name="city" data-required="true"></p>
 	            </div>
 	        </div>
         </div>
 	    <div class="col-md-5 col-md-offset-2">
 	        <div class="row">
-	            <div class="col-md-3">
+	            <div class="col-md-4">
                     <p>Region</p>
 	            </div>
-	            <div class="col-md-9">
+	            <div class="col-md-8">
             		<p><input class="form-control" type="text" name="region"></p>
 	            </div>
 	        </div>
@@ -562,22 +500,94 @@ textarea {
 	<div class="row">
 	    <div class="col-md-5">
 	        <div class="row">
-	            <div class="col-md-3">
+	            <div class="col-md-4">
                     <p>Post code</p>
 	            </div>
-	            <div class="col-md-9">
+	            <div class="col-md-8">
             		<p><input class="form-control checkpostcode" type="text" name="post_code" id="post_code" data-required="true"></p>
             		<p class="postcodewarning" style="color:red;font-size:0.8em;margin-bottom:10px;display:none;">Please enter a valid UK post code</p>
 	            </div>
 	        </div>
         </div>
+    </div>
+
+	<div class="row">
+	    <div class="col-md-5">
+	        <div class="row">
+	            <div class="col-md-4">
+                    <p>Home phone</p>
+	            </div>
+	            <div class="col-md-8">
+            		<p><input class="form-control" type="text" name="home_phone"></p>
+	            </div>
+	        </div>
+        </div>
 	    <div class="col-md-5 col-md-offset-2">
 	        <div class="row">
-	            <div class="col-md-3">
-                    <p>Email address *</p>
+	            <div class="col-md-4">
+                    <p>Mobile phone</p>
 	            </div>
-	            <div class="col-md-9">
-            		<p><input class="form-control" type="text" name="email" data-type="email" data-required="true" data-trigger="keyup focusout"></p>
+	            <div class="col-md-8">
+            		<p><input class="form-control checkmobile" type="text" name="mobile_phone" id="mobile_phone"></p>
+            		<p class="mobilewarning" style="color:red;font-size:0.8em;margin-bottom:10px;display:none;">For UK mobile numbers please enter in format starting 07, no +44, no spaces, 11 digits. Thank you.</p>
+	            </div>
+	        </div>
+        </div>
+    </div>
+                    
+	<div class="row">
+	    <div class="col-md-5">
+	        <div class="row">
+	            <div class="col-md-4">
+                    <p>School *</p>
+	            </div>
+	            <div class="col-md-8">
+            		<p><select class="select2this select2thisRequired" name="school" data-required="true">
+            		    <option></option>
+            		    {% for opt in selections.schools %}
+            		        <option>{{ opt }}</option>
+            		    {% endfor %}
+            		</select></p>
+	            </div>
+	        </div>
+        </div>
+	    <div class="col-md-5 col-md-offset-2">
+	        <div class="row">
+	            <div class="col-md-4">
+                    <p>School house</p>
+	            </div>
+	            <div class="col-md-8">
+            		<p><input class="form-control" type="text" name="school_house"></p>
+	            </div>
+	        </div>
+        </div>
+    </div>
+                    
+	<div class="row">
+	    <div class="col-md-5">
+	        <div class="row">
+	            <div class="col-md-4">
+                    <p>Year group *</p>
+	            </div>
+	            <div class="col-md-8">
+            		<p><select class="form-control" name="year" data-required="true">
+            		    <option></option>
+            		    <option>Third year</option>
+            		    <option>Fourth year</option>
+            		    <option>Fifth year</option>
+            		    <option>Sixth year</option>
+            		    <option>Other</option>
+            		</select></p>
+	            </div>
+	        </div>
+        </div>
+	    <div class="col-md-5 col-md-offset-2">
+	        <div class="row">
+	            <div class="col-md-4">
+                    <p>Scottish Candidate Number (SCN)</p>
+	            </div>
+	            <div class="col-md-8">
+            		<p><input class="form-control" type="text" name="scn_number"></p>
 	            </div>
 	        </div>
         </div>
