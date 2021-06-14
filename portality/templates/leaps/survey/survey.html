@@ -91,13 +91,13 @@ jQuery(document).ready(function() {
         window.scrollTo(0,0);
     }
     var prevnext = '<div style="margin:20px 0 20px 0;"><button class="btn btn-info prev">previous</button> <button class="btn btn-info next">next</button></div>';
-    $('.part').append(prevnext);
-    $('.part:first').find('.prev').remove();
-    $('.part:last').find('.next').remove();
-    $('.prev').bind('click',doprevnext);
-    $('.next').bind('click',doprevnext);
-    $('.part').hide();
-    $('.part:first').show();
+    //$('.part').append(prevnext);
+    //$('.part:first').find('.prev').remove();
+    //$('.part:last').find('.next').remove();
+    //$('.prev').bind('click',doprevnext);
+    //$('.next').bind('click',doprevnext);
+    //$('.part').hide();
+    //$('.part:first').show();
 
     // review button show all
     var showall = function(event) {
@@ -968,20 +968,20 @@ input.bigfield{
 <!-- the form submission button -->
 <div class="part submit">
 
-	<div class="row">
+	<!--<div class="row">
 	    <div class="col-md-12">
 	        <div class="jumbotron">
 	            <h2>Ready to submit</h2>
 	            <p>You cannot edit your responses once you submit them.</p>
 	        </div>
 	    </div>
-	</div>
+	</div>-->
 
 	<div class="row" style="margin-top:30px;">
-	    <div class="col-md-6">
+	    <div class="col-md-12">
         	<p><input id="triggersave" class="btn btn-success btn-block" type="submit" name="submit" value="Submit your survey" /></p>
 	    </div>
-	    <div class="col-md-6">
+	    <div class="col-md-6" style="display: none;">
 	        <div id="activealert" class="alert alert-warning clearfix" style="display:none;">
 	            <p>There are errors with your responses. Please click below to review your responses, then you can scroll through or use the previous / next buttons to check them. Any errors will be highlighted in red. Once there are no errors, please try to submit once again.</p>
 	        </div>
