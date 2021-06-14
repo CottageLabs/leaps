@@ -39,7 +39,7 @@ body {
 }
 
 #container{
-	width:1000px;
+	max-width:1000px;
 	margin:20px auto 50px auto;
 	padding:0px 10px;
 	background:#ffffff;
