@@ -141,8 +141,7 @@ jQuery(document).ready(function() {
 
     var triggersave = function(event) {
         if ( !$('#survey').parsley('validate') ) {
-            event.preventDefault();
-            $('#activealert').show();
+            event.preventDefault(); // this also focuses the first wrong element
         }
     };
     $('#triggersave').bind('click',triggersave);
@@ -828,9 +827,6 @@ p.pregrey > span > span > span > span.select2-selection__rendered {
 	<div class="row" style="margin-top:30px;">
 	    <div class="col-sm-12">
         	<p><input id="triggersave" class="btn btn-success btn-block" type="submit" name="submit" value="Submit your survey" /></p>
-	        <div id="activealert" class="alert alert-warning clearfix" style="display:none; margin-top:10px;">
-	            <p>There are errors with your responses. Please click below to review your responses, then you can scroll through or use the previous / next buttons to check them. Any errors will be highlighted in red. Once there are no errors, please try to submit once again.</p>
-	        </div>
 	    </div>
 	</div>
 
