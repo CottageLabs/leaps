@@ -122,7 +122,7 @@ jQuery(document).ready(function() {
 
     // add / remove rows to list items
     $('.row.multi').each(function() {
-        $(this).children().last().append('<p style="display:none;"><a class="btn btn-block btn-warning delete-row" href="#">delete</a></p><p><a class="btn btn-block btn-success add-row" href="#">add</a></p>');
+        $(this).children().last().append('<p class="toprow hidden-xs">&nbsp;</p><p style="display:none;"><a class="btn btn-block btn-warning delete-row" href="#">delete</a></p><p><a class="btn btn-block btn-success add-row" href="#">add</a></p>');
     });
 
     var addrow = function(event) {
