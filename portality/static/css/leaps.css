@@ -30,10 +30,6 @@ ul.parsley-error-list li {
 
 
 
-
-
-
-
 body {
 	/*font:14px Arial, Helvetica, sans-serif; */
 	color:#0c2335; 
@@ -107,29 +103,4 @@ span.counter{
 td span.counter{
     display:block;
 }
-
-label{
-	font-weight:bold; 
-	color:#666;	
-	width:250px;
-	display:block;
-	float:left;
-	clear:both;
-}
-
-form legend{
-	font-weight:bold;
-	background:#f2f2e6; 
-	font:17px Calibri, Arial, Helvetica, sans-serif; 
-	padding:0 10px; 
-	margin:0; 
-	font-weight:bold; 
-	border:1px solid #e5e5c3; 
-}
-form label{
-	display:inline-block;
-	line-height:1.8;
-	vertical-align:top;
-}
-
 
