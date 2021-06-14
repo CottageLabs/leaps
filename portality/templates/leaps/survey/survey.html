@@ -78,7 +78,7 @@ jQuery(document).ready(function() {
     }
     $('.checkmobile').bind('change',mobileformat);
 
-    $('.select2this').select2({width:'100%'});
+    //$('.select2this').select2({width:'100%'});
     //$('#survey').parsley('validate'); // validate to show warnings at start
 
     // review button show all
@@ -146,7 +146,7 @@ jQuery(document).ready(function() {
             $(row).insertAfter($(this).closest('.row'));
             $(this).closest('.row').find('.add-row').parent().hide();
             $(this).closest('.row').find('.delete-row').parent().show();
-            $('.select2this').select2({width:'100%'});
+            //$('.select2this').select2({width:'100%'});
         }
     }
     $('.add-row').bind('click',addrow);
@@ -213,7 +213,7 @@ jQuery(document).ready(function() {
             }
         }
         ls.html(lopts).removeAttr("disabled");
-        if (ls.hasClass('select2this')) ls.select2({width:'100%'});
+        //if (ls.hasClass('select2this')) ls.select2({width:'100%'});
     }
     var limitsubjects = function(event) {
         var institution = $(this).val();
@@ -230,8 +230,8 @@ jQuery(document).ready(function() {
             for ( var i in subjectslist[institution] ) opts += "<option>" + i + "</option>";
         }
         ss.html(opts).removeAttr("disabled");
-        if (ss.hasClass('select2this')) ss.select2({width:'100%'});
-        if (ls.hasClass('select2this')) ls.select2({width:'100%'});
+        //if (ss.hasClass('select2this')) ss.select2({width:'100%'});
+        //if (ls.hasClass('select2this')) ls.select2({width:'100%'});
     }
     $('.institutionselector').bind('change',limitsubjects);
     $('.subjectselector').bind('change',limitlevels);
@@ -600,7 +600,7 @@ p.pregrey > span > span > span > span.select2-selection__rendered {
         	</div>
     	    <div class="col-sm-3">
                 <p class="hidden-xs">Subject</p>
-        		<p class="pregrey"><select name="qualification_subject" class="select2this" style="color: #999;">
+        		<p class="pregrey"><select name="qualification_subject" class="form-control select2this" style="color: #999;">
         		    <option value="" disabled="disabled" selected="selected">select Subject</option>
         		    {% for opt in selections.subjects %}
         		        <option>{{ opt }}</option>
@@ -609,7 +609,7 @@ p.pregrey > span > span > span > span.select2-selection__rendered {
         	</div>
     	    <div class="col-sm-3">
                 <p class="hidden-xs">Level of qualification</p>
-        		<p class="pregrey"><select name="qualification_level" class="select2this" style="color: #999;">
+        		<p class="pregrey"><select name="qualification_level" class="form-control select2this" style="color: #999;">
         		    <option value="" disabled="disabled" selected="selected">select Level of qualification</option>
         		    {% for opt in selections.levels %}
         		        <option>{{ opt }}</option>
@@ -618,7 +618,7 @@ p.pregrey > span > span > span > span.select2-selection__rendered {
         	</div>
     	    <div class="col-sm-2">
                 <p class="hidden-xs">Grade</p>
-        		<p class="pregrey"><select name="qualification_grade" class="select2this" style="color: #999;">
+        		<p class="pregrey"><select name="qualification_grade" class="form-control select2this" style="color: #999;">
         		    <option value="" disabled="disabled" selected="selected">select Grade</option>
         		    {% for opt in selections.grades %}
         		        <option>{{ opt }}</option>
@@ -657,7 +657,7 @@ p.pregrey > span > span > span > span.select2-selection__rendered {
 	<div class="row multi">
 	    <div class="col-sm-4">
             <p class="hidden-xs">College / University</p>
-    		<p class="pregrey"><select class="institutionselector select2this" name="application_institution" style="color: #999;">
+    		<p class="pregrey"><select class="form-control institutionselector select2this" name="application_institution" style="color: #999;">
     		    <option value="" disabled="disabled" selected="selected">select College / University</option>
     		    {% for opt in selections.institutions %}
     		        <option>{{ opt }}</option>
@@ -666,7 +666,7 @@ p.pregrey > span > span > span > span.select2-selection__rendered {
     	</div>
 	    <div class="col-sm-4">
             <p class="hidden-xs">Subject</p>
-    		<p class="pregrey"><select class="subjectselector select2this" name="application_subject" style="color: #999;">
+    		<p class="pregrey"><select class="form-control subjectselector select2this" name="application_subject" style="color: #999;">
     		    <option value="" disabled="disabled" selected="selected">select Subject</option>
     		    {% for opt in selections.advancedsubjects %}
     		        <option>{{ opt }}</option>
@@ -675,7 +675,7 @@ p.pregrey > span > span > span > span.select2-selection__rendered {
     	</div>
 	    <div class="col-sm-2">
             <p class="hidden-xs">Level of study</p>
-    		<p class="pregrey"><select class="levelselector select2this" name="application_level" style="color: #999;">
+    		<p class="pregrey"><select class="form-control levelselector select2this" name="application_level" style="color: #999;">
     		    <option value="" disabled="disabled" selected="selected">select Level of study</option>
     		    {% for opt in selections.advancedlevels %}
     		        <option>{{ opt }}</option>
