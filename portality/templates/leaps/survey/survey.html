@@ -374,7 +374,7 @@ textarea {
                     <p>First name *</p>
 	            </div>
 	            <div class="col-sm-7">
-            		<p><input class="form-control" type="text" name="first_name" data-required="true" placeholder="First name"></p>
+            		<p><input class="form-control" type="text" name="first_name" data-required="true" placeholder="First name *"></p>
 	            </div>
 	        </div>
         </div>
@@ -384,7 +384,7 @@ textarea {
                     <p>Last name *</p>
 	            </div>
 	            <div class="col-sm-7">
-            		<p><input class="form-control" type="text" name="last_name" data-required="true" placeholder="Last name"></p>
+            		<p><input class="form-control" type="text" name="last_name" data-required="true" placeholder="Last name *"></p>
 	            </div>
 	        </div>
         </div>
@@ -393,24 +393,24 @@ textarea {
 	<div class="row">
 	    <div class="col-sm-6">
 	        <div class="row">
-	            <div class="col-sm-3">
+	            <div class="col-sm-3 hidden-xs">
                     <p>Date of birth *</p>
 	            </div>
 	            <div class="col-sm-7">
-            		<p><input type="text" class="form-control dobdatepicker checkdob" id="date_of_birth" name="date_of_birth" data-required="true" data-trigger="keyup change focusout"></p>
+            		<p><input type="text" class="form-control dobdatepicker checkdob" id="date_of_birth" name="date_of_birth" data-required="true" data-trigger="keyup change focusout" placeholder="Date of birth *"></p>
             		<p class="dobwarning" style="color:red;font-size:0.8em;margin-bottom:10px;display:none;">format must be DD/MM/YYYY</p>
 	            </div>
 	        </div>
         </div>
 	    <div class="col-sm-6">
 	        <div class="row">
-	            <div class="col-sm-3 col-sm-offset-2">
+	            <div class="col-sm-3 col-sm-offset-2 hidden-xs">
                     <p>Gender *</p>
 	            </div>
 	            <div class="col-sm-7">
             		<p>
             		    <select class="form-control" id="gender" name="gender" data-required="true">
-            		    <option></option>
+            		    <option value="">select Gender *</option>
             		    <option value="Male">Man / Male (including trans man)</option>
             		    <option value="Female">Woman / Female (including trans woman)</option>
             		    <option value="Other">In another way</option>
@@ -430,21 +430,21 @@ textarea {
 	<div class="row">
 	    <div class="col-sm-6">
 	        <div class="row">
-	            <div class="col-sm-3">
+	            <div class="col-sm-3 hidden-xs">
                     <p>Address *</p>
 	            </div>
 	            <div class="col-sm-7">
-            		<p><input class="form-control" type="text" name="address_line_1" data-required="true"></p>
+            		<p><input class="form-control" type="text" name="address_line_1" data-required="true" placeholder="Address *"></p>
 	            </div>
 	        </div>
         </div>
 	    <div class="col-sm-6">
 	        <div class="row">
-	            <div class="col-sm-3 col-sm-offset-2">
+	            <div class="col-sm-3 col-sm-offset-2 hidden-xs">
                     <p>Address line 2</p>
 	            </div>
 	            <div class="col-sm-7">
-            		<p><input class="form-control" type="text" name="address_line_2"></p>
+            		<p><input class="form-control" type="text" name="address_line_2" placeholder="Address line 2"></p>
 	            </div>
 	        </div>
         </div>
@@ -453,21 +453,21 @@ textarea {
 	<div class="row">
 	    <div class="col-sm-6">
 	        <div class="row">
-	            <div class="col-sm-3">
+	            <div class="col-sm-3 hidden-xs">
                     <p>City *</p>
 	            </div>
 	            <div class="col-sm-7">
-            		<p><input class="form-control" type="text" name="city" data-required="true"></p>
+            		<p><input class="form-control" type="text" name="city" data-required="true" placeholder="City *"></p>
 	            </div>
 	        </div>
         </div>
 	    <div class="col-sm-6">
 	        <div class="row">
-	            <div class="col-sm-3 col-sm-offset-2">
+	            <div class="col-sm-3 col-sm-offset-2 hidden-xs">
                     <p>Region</p>
 	            </div>
 	            <div class="col-sm-7">
-            		<p><input class="form-control" type="text" name="region"></p>
+            		<p><input class="form-control" type="text" name="region" placeholder="Region"></p>
 	            </div>
 	        </div>
         </div>
@@ -476,22 +476,22 @@ textarea {
 	<div class="row">
 	    <div class="col-sm-6">
 	        <div class="row">
-	            <div class="col-sm-3">
-                    <p>Post code</p>
+	            <div class="col-sm-3 hidden-xs">
+                    <p>Post code *</p>
 	            </div>
 	            <div class="col-sm-7">
-            		<p><input class="form-control checkpostcode" type="text" name="post_code" id="post_code" data-required="true"></p>
+            		<p><input class="form-control checkpostcode" type="text" name="post_code" id="post_code" data-required="true" placeholder="Post code *"></p>
             		<p class="postcodewarning" style="color:red;font-size:0.8em;margin-bottom:10px;display:none;">Please enter a valid UK post code</p>
 	            </div>
 	        </div>
         </div>
 	    <div class="col-sm-6">
 	        <div class="row">
-	            <div class="col-sm-3 col-sm-offset-2">
+	            <div class="col-sm-3 col-sm-offset-2 hidden-xs">
                     <p>Email address *</p>
 	            </div>
 	            <div class="col-sm-7">
-            		<p><input class="form-control" type="text" name="email" data-type="email" data-required="true" data-trigger="keyup focusout"></p>
+            		<p><input class="form-control" type="text" name="email" data-type="email" data-required="true" data-trigger="keyup focusout" placeholder="Email address *"></p>
 	            </div>
             </div>
         </div>
@@ -500,21 +500,21 @@ textarea {
 	<div class="row">
 	    <div class="col-sm-6">
 	        <div class="row">
-	            <div class="col-sm-3">
+	            <div class="col-sm-3 hidden-xs">
                     <p>Home phone</p>
 	            </div>
 	            <div class="col-sm-7">
-            		<p><input class="form-control" type="text" name="home_phone"></p>
+            		<p><input class="form-control" type="text" name="home_phone" placeholder="Home phone"></p>
 	            </div>
 	        </div>
         </div>
 	    <div class="col-sm-6">
 	        <div class="row">
-	            <div class="col-sm-3 col-sm-offset-2">
+	            <div class="col-sm-3 col-sm-offset-2 hidden-xs">
                     <p>Mobile phone</p>
 	            </div>
 	            <div class="col-sm-7">
-            		<p><input class="form-control checkmobile" type="text" name="mobile_phone" id="mobile_phone"></p>
+            		<p><input class="form-control checkmobile" type="text" name="mobile_phone" id="mobile_phone" placeholder="Mobile phone"></p>
             		<p class="mobilewarning" style="color:red;font-size:0.8em;margin-bottom:10px;display:none;">For UK mobile numbers please enter in format starting 07, no +44, no spaces, 11 digits. Thank you.</p>
 	            </div>
 	        </div>
@@ -524,12 +524,12 @@ textarea {
 	<div class="row">
 	    <div class="col-sm-6">
 	        <div class="row">
-	            <div class="col-sm-3">
+	            <div class="col-sm-3 hidden-xs">
                     <p>School *</p>
 	            </div>
 	            <div class="col-sm-7">
             		<p><select class="form-control select2this select2thisRequired" name="school" data-required="true">
-            		    <option></option>
+            		    <option value="">select School *</option>
             		    {% for opt in selections.schools %}
             		        <option>{{ opt }}</option>
             		    {% endfor %}
@@ -539,11 +539,11 @@ textarea {
         </div>
 	    <div class="col-sm-6">
 	        <div class="row">
-	            <div class="col-sm-3 col-sm-offset-2">
+	            <div class="col-sm-3 col-sm-offset-2 hidden-xs">
                     <p>School house</p>
 	            </div>
 	            <div class="col-sm-7">
-            		<p><input class="form-control" type="text" name="school_house"></p>
+            		<p><input class="form-control" type="text" name="school_house" placeholder="School house"></p>
 	            </div>
 	        </div>
         </div>
@@ -552,12 +552,12 @@ textarea {
 	<div class="row">
 	    <div class="col-sm-6">
 	        <div class="row">
-	            <div class="col-sm-3">
+	            <div class="col-sm-3 hidden-xs">
                     <p>Year group *</p>
 	            </div>
 	            <div class="col-sm-7">
             		<p><select class="form-control" name="year" data-required="true">
-            		    <option></option>
+            		    <option value="">select Year group *</option>
             		    <option>Third year</option>
             		    <option>Fourth year</option>
             		    <option>Fifth year</option>
@@ -569,11 +569,11 @@ textarea {
         </div>
 	    <div class="col-sm-6">
 	        <div class="row">
-	            <div class="col-sm-5">
+	            <div class="col-sm-5 hidden-xs">
                     <p>Scottish Candidate Number (SCN)</p>
 	            </div>
 	            <div class="col-sm-7">
-            		<p><input class="form-control" type="text" name="scn_number"></p>
+            		<p><input class="form-control" type="text" name="scn_number" placeholder="Scottish Candidate Number (SCN)"></p>
 	            </div>
 	        </div>
         </div>
