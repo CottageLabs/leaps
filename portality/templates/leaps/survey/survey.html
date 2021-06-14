@@ -79,16 +79,6 @@ jQuery(document).ready(function() {
     $('.checkmobile').bind('change',mobileformat);
 
     $('.select2this').select2();
-    //$('#survey').parsley('validate'); // validate to show warnings at start
-
-    // review button show all
-    var showall = function(event) {
-        event.preventDefault();
-        $('#activealert').hide();
-        $('.part').show();
-        $("html, body").animate({ scrollTop: $('.part.student').offset().top }, "fast");
-    }
-    $('.review').bind('click',showall);
 
     var subjects = {{ selections.advancedsubjects|tojson|safe }};
 
@@ -152,8 +142,6 @@ jQuery(document).ready(function() {
     var triggersave = function(event) {
         if ( !$('#survey').parsley('validate') ) {
             event.preventDefault();
-            $('.part').hide();
-            $(this).closest('.part').show();
             $('#activealert').show();
         }
     };
@@ -319,7 +307,7 @@ p.pregrey > span > span > span > span.select2-selection__rendered {
 	        <p>Some fields will offer <strong>suggestions as you type</strong>. Choose a suitable suggestion if one is presented, otherwise 
 	        continue to type and your text will be accepted.</p>
 	        <p>If you need to <strong>insert extra rows</strong>, press <strong>add</strong> to get another row. If you want to <strong>delete a row</strong>, press <strong>delete</strong> to remove the row.</p>
-	        <p>Required inputs have an asterisk and are shown in red, until they are completed appropriately, when they will become green. You should check that all required inputs are green before proceeding. Inputs that are optional remain white. You will only be able to submit the form once all required questions have been answered.</p>
+	        <p>Required inputs have an asterisk. Once entered they will become red if there is a problem. You should check that all required inputs are green before proceeding. Inputs that are optional remain white. You will only be able to submit the form once all required questions have been answered.</p>
 	        <!--<p>You can navigate between parts using the <strong>Previous</strong> or <strong>Next</strong> buttons.</p>-->
         </div>
 	</div>
@@ -347,7 +335,7 @@ p.pregrey > span > span > span > span.select2-selection__rendered {
                     <p>First name *</p>
 	            </div>
 	            <div class="col-sm-7">
-            		<p><input class="form-control" type="text" name="first_name" data-required="true" placeholder="First name *"></p>
+            		<p><input class="form-control" type="text" name="first_name" data-required="true" data-trigger="focusout" placeholder="First name *"></p>
 	            </div>
 	        </div>
         </div>
@@ -357,7 +345,7 @@ p.pregrey > span > span > span > span.select2-selection__rendered {
                     <p>Last name *</p>
 	            </div>
 	            <div class="col-sm-7">
-            		<p><input class="form-control" type="text" name="last_name" data-required="true" placeholder="Last name *"></p>
+            		<p><input class="form-control" type="text" name="last_name" data-required="true" data-trigger="focusout" placeholder="Last name *"></p>
 	            </div>
 	        </div>
         </div>
@@ -370,7 +358,7 @@ p.pregrey > span > span > span > span.select2-selection__rendered {
                     <p>Date of birth *</p>
 	            </div>
 	            <div class="col-sm-7">
-            		<p><input type="text" class="form-control dobdatepicker checkdob" id="date_of_birth" name="date_of_birth" data-required="true" data-trigger="keyup change focusout" placeholder="Date of birth *"></p>
+            		<p><input type="text" class="form-control dobdatepicker checkdob" id="date_of_birth" name="date_of_birth" data-required="true" data-trigger="change focusout" placeholder="Date of birth *"></p>
             		<p class="dobwarning" style="color:red;font-size:0.8em;margin-bottom:10px;display:none;">format must be DD/MM/YYYY</p>
 	            </div>
 	        </div>
@@ -382,7 +370,7 @@ p.pregrey > span > span > span > span.select2-selection__rendered {
 	            </div>
 	            <div class="col-sm-7">
             		<p>
-            		    <select class="form-control" id="gender" name="gender" data-required="true" style="color: #999;">
+            		    <select class="form-control" id="gender" name="gender" data-required="true" data-trigger="change focusout" style="color: #999;">
             		    <option value="" disabled="disabled" selected="selected">select Gender *</option>
             		    <option value="Male">Man / Male (including trans man)</option>
             		    <option value="Female">Woman / Female (including trans woman)</option>
@@ -407,7 +395,7 @@ p.pregrey > span > span > span > span.select2-selection__rendered {
                     <p>Address *</p>
 	            </div>
 	            <div class="col-sm-7">
-            		<p><input class="form-control" type="text" name="address_line_1" data-required="true" placeholder="Address *"></p>
+            		<p><input class="form-control" type="text" name="address_line_1" data-required="true" data-trigger="focusout" placeholder="Address *"></p>
 	            </div>
 	        </div>
         </div>
@@ -430,7 +418,7 @@ p.pregrey > span > span > span > span.select2-selection__rendered {
                     <p>City *</p>
 	            </div>
 	            <div class="col-sm-7">
-            		<p><input class="form-control" type="text" name="city" data-required="true" placeholder="City *"></p>
+            		<p><input class="form-control" type="text" name="city" data-required="true" data-trigger="focusout" placeholder="City *"></p>
 	            </div>
 	        </div>
         </div>
@@ -453,7 +441,7 @@ p.pregrey > span > span > span > span.select2-selection__rendered {
                     <p>Post code *</p>
 	            </div>
 	            <div class="col-sm-7">
-            		<p><input class="form-control checkpostcode" type="text" name="post_code" id="post_code" data-required="true" placeholder="Post code *"></p>
+            		<p><input class="form-control checkpostcode" type="text" name="post_code" id="post_code" data-required="true" data-trigger="focusout" placeholder="Post code *"></p>
             		<p class="postcodewarning" style="color:red;font-size:0.8em;margin-bottom:10px;display:none;">Please enter a valid UK post code</p>
 	            </div>
 	        </div>
@@ -501,7 +489,7 @@ p.pregrey > span > span > span > span.select2-selection__rendered {
                     <p>School *</p>
 	            </div>
 	            <div class="col-sm-7">
-            		<p class="pregrey"><select class="form-control select2this" name="school" data-required="true" style="color: #999;">
+            		<p class="pregrey"><select class="form-control select2this" name="school" data-required="true" data-trigger="change focusout" style="color: #999;">
             		    <option value="" disabled="disabled" selected="selected">select School *</option>
             		    {% for opt in selections.schools %}
             		        <option>{{ opt }}</option>
@@ -529,7 +517,7 @@ p.pregrey > span > span > span > span.select2-selection__rendered {
                     <p>Year group *</p>
 	            </div>
 	            <div class="col-sm-7">
-            		<p><select class="form-control" name="year" data-required="true" style="color: #999;">
+            		<p><select class="form-control" name="year" data-required="true" data-trigger="change focusout" style="color: #999;">
             		    <option value="" disabled="disabled" selected="selected">select Year group *</option>
             		    <option>Third year</option>
             		    <option>Fourth year</option>
@@ -840,14 +828,11 @@ p.pregrey > span > span > span > span.select2-selection__rendered {
 	<div class="row" style="margin-top:30px;">
 	    <div class="col-sm-12">
         	<p><input id="triggersave" class="btn btn-success btn-block" type="submit" name="submit" value="Submit your survey" /></p>
-	    </div>
-	    <div class="col-sm-6" style="display: none;">
-	        <div id="activealert" class="alert alert-warning clearfix" style="display:none;">
+	        <div id="activealert" class="alert alert-warning clearfix" style="display:none; margin-top:10px;">
 	            <p>There are errors with your responses. Please click below to review your responses, then you can scroll through or use the previous / next buttons to check them. Any errors will be highlighted in red. Once there are no errors, please try to submit once again.</p>
 	        </div>
-    	    <p><button class="btn btn-warning btn-block review">Review your responses</button></p>
 	    </div>
-    </div>
+	</div>
 
 </div>
 
