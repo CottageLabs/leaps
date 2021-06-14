@@ -6,6 +6,13 @@
 
 {% block content %}
 
+{% if current_user.view_admin %}
+{% else %}
+<div id="logo">
+	<img src="/static/leaps_banner.png" alt="A group of students from the Lothians Equal Access Programme for Schools" title="A group of students from the Lothians Equal Access Programme for Schools" />
+</div>
+{% endif %}
+
 <div class="row-fluid">
     <div class="span12">
         <h1>Please find below our User Access Terms</h1>
