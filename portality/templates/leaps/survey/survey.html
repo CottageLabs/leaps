@@ -122,7 +122,7 @@ jQuery(document).ready(function() {
 
     // add / remove rows to list items
     $('.row.multi').each(function() {
-        $(this).children().last().append('<p class="toprow">&nbsp;</p><p style="display:none;"><a class="btn btn-block btn-warning delete-row" href="#">delete</a></p><p><a class="btn btn-block btn-success add-row" href="#">add</a></p>');
+        $(this).children().last().append('<p style="display:none;"><a class="btn btn-block btn-warning delete-row" href="#">delete</a></p><p><a class="btn btn-block btn-success add-row" href="#">add</a></p>');
     });
 
     var addrow = function(event) {
@@ -133,14 +133,6 @@ jQuery(document).ready(function() {
         if ( $(this).closest('.row').siblings('.row').length < maxrows ) {
             $('.select2this').select2('destroy').removeAttr('id').removeAttr('data-select2-id');
             var row = $(this).closest('.row').clone(true).get(0);
-            /*$(row).children('div').each(function() {
-                var p = $(this).children('p').first();
-                if ( !$(p).hasClass('toprow') ) {
-                    $(p).addClass('visible-xs').addClass('visible-sm'); 
-                } else {
-                    $(p).hide();
-                }
-            });*/
             $(this).closest('.row').append('<hr class="visible-xs visible-sm" style="border-color:#bbb;"></hr>');
             preprow(row);
             $(row).insertAfter($(this).closest('.row'));
@@ -152,13 +144,8 @@ jQuery(document).ready(function() {
     $('.add-row').bind('click',addrow);
     var deleterow = function(event) {
         event.preventDefault();
-        // if this is the first row, remove the visible-xs and visible-sm classes from the p tags of the next row
         var parent = $(this).closest('.row').parent();
         $(this).closest('.row').remove();
-        $(parent).children('.row').first().children('div').each(function() {
-            $(this).children('p').first().removeClass('visible-xs').removeClass('visible-sm');
-            $(this).find('.toprow').show();
-        });
     }
     $('.delete-row').bind('click',deleterow);
 
