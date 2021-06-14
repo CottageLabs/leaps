@@ -530,8 +530,8 @@ textarea {
                     <p>School *</p>
 	            </div>
 	            <div class="col-sm-7">
-            		<p><select class="form-control select2this select2thisRequired" name="school" data-required="true">
-            		    <option value="">select School *</option>
+            		<p><select class="form-control select2this select2thisRequired" name="school" data-required="true" style="color: #999;">
+            		    <option value="" disabled="disabled" selected="selected">select School *</option>
             		    {% for opt in selections.schools %}
             		        <option>{{ opt }}</option>
             		    {% endfor %}
@@ -558,8 +558,8 @@ textarea {
                     <p>Year group *</p>
 	            </div>
 	            <div class="col-sm-7">
-            		<p><select class="form-control" name="year" data-required="true">
-            		    <option value="">select Year group *</option>
+            		<p><select class="form-control" name="year" data-required="true" style="color: #999;">
+            		    <option value="" disabled="disabled" selected="selected">select Year group *</option>
             		    <option>Third year</option>
             		    <option>Fourth year</option>
             		    <option>Fifth year</option>
@@ -605,8 +605,9 @@ textarea {
 
     	<div class="row multi manyrows">
     	    <div class="col-sm-2">
-                <p>School year taken</p>
+                <p>School year</p>
         		<p><select name="qualification_year" class="form-control">
+        		    <option value="" disabled="disabled" selected="selected">select School year</option>
         		    <option>Third year</option>
         		    <option>Fourth year</option>
         		    <option>Fifth year</option>
@@ -616,7 +617,7 @@ textarea {
     	    <div class="col-sm-3">
                 <p>Subject</p>
         		<p><select name="qualification_subject" class="select2this">
-        		    <option></option>
+        		    <option value="" disabled="disabled" selected="selected">select Subject</option>
         		    {% for opt in selections.subjects %}
         		        <option>{{ opt }}</option>
         		    {% endfor %}
@@ -625,7 +626,7 @@ textarea {
     	    <div class="col-sm-3">
                 <p>Level of qualification</p>
         		<p><select name="qualification_level" class="select2this">
-        		    <option></option>
+        		    <option value="" disabled="disabled" selected="selected">select Level of qualification</option>
         		    {% for opt in selections.levels %}
         		        <option>{{ opt }}</option>
         		    {% endfor %}
@@ -634,7 +635,7 @@ textarea {
     	    <div class="col-sm-2">
                 <p>Grade</p>
         		<p><select name="qualification_grade" class="select2this">
-        		    <option></option>
+        		    <option value="" disabled="disabled" selected="selected">select Grade</option>
         		    {% for opt in selections.grades %}
         		        <option>{{ opt }}</option>
         		    {% endfor %}
@@ -763,7 +764,7 @@ textarea {
 	    <div class="col-sm-4">
             <p>College / University</p>
     		<p><select class="institutionselector select2this" name="application_institution">
-    		    <option></option>
+    		    <option value="" disabled="disabled" selected="selected">select College / University</option>
     		    {% for opt in selections.institutions %}
     		        <option>{{ opt }}</option>
     		    {% endfor %}
@@ -772,7 +773,7 @@ textarea {
 	    <div class="col-sm-4">
             <p>Subject</p>
     		<p><select class="subjectselector select2this" name="application_subject">
-    		    <option></option>
+    		    <option value="" disabled="disabled" selected="selected">select Subject</option>
     		    {% for opt in selections.advancedsubjects %}
     		        <option>{{ opt }}</option>
     		    {% endfor %}
@@ -781,7 +782,7 @@ textarea {
 	    <div class="col-sm-2">
             <p>Level of study</p>
     		<p><select class="levelselector select2this" name="application_level">
-    		    <option></option>
+    		    <option value="" disabled="disabled" selected="selected">select Level of study</option>
     		    {% for opt in selections.advancedlevels %}
     		        <option>{{ opt }}</option>
     		    {% endfor %}
@@ -864,14 +865,14 @@ textarea {
     		<p><textarea class="form-control" name="experience_brief_description" data-maxwords="200" data-trigger="keyup focusout change"></textarea></p>
     	</div>
 	    <div class="col-sm-3">
-            <p>Date from</p>
-    		<p><input type="text" class="form-control datepicker" name="experience_date_from"></p>
-            <p>Date to</p>
-    		<p><input type="text" class="form-control datepicker" name="experience_date_to" placeholder="unless ongoing"></p>
+            <p style="hidden-xs">Date from</p>
+    		<p><input type="text" class="form-control datepicker" name="experience_date_from" placeholder="Date from"></p>
+            <p style="hidden-xs">Date to</p>
+    		<p><input type="text" class="form-control datepicker" name="experience_date_to" placeholder="Date to (unless ongoing)"></p>
     	</div>
 	    <div class="col-sm-3">
-            <p>Job title</p>
-    		<p><input type="text" class="form-control" name="experience_title"></p>
+            <p style="hidden-xs">Job title</p>
+    		<p><input type="text" class="form-control" name="experience_title" placeholder="Job title"></p>
     	</div>
 	</div>
 
