@@ -268,7 +268,7 @@ jQuery(document).ready(function() {
 	   if ( $('#gender').val() == 'Other' ) $('#show_gender_other').show();
 	});
 	
-	$('select').bind('change' function() { $(this).css({color: '#555'}); })
+	$('select').bind('change', function() { $(this).css({color: '#555'}); })
 });
 </script>
 
@@ -411,7 +411,7 @@ textarea {
 	            </div>
 	            <div class="col-sm-7">
             		<p>
-            		    <select class="form-control" id="gender" name="gender" data-required="true" style="color: #bbb;">
+            		    <select class="form-control" id="gender" name="gender" data-required="true" style="color: #aaa;">
             		    <option value="" disabled="disabled" selected="selected">select Gender *</option>
             		    <option value="Male">Man / Male (including trans man)</option>
             		    <option value="Female">Woman / Female (including trans woman)</option>
