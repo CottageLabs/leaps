@@ -37,13 +37,13 @@ ul.parsley-error-list li {
 body {
 	font:14px Arial, Helvetica, sans-serif; 
 	color:#0c2335; 
-	background:#0c2335; 
+	background: #ffffff; /*#0c2335; */
 	padding:0;
 	margin:0;
 }
 
 #container{
-	width:900px;
+	width:1000px;
 	margin:20px auto 50px auto;
 	padding:10px;
 	background:#ffffff;
