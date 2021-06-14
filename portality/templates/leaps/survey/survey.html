@@ -589,8 +589,8 @@ p.pregrey > span > span > span > span.select2-selection__rendered {
 
     	<div class="row multi manyrows">
     	    <div class="col-sm-2">
-                <p>School year</p>
-        		<p><select name="qualification_year" class="form-control">
+                <p class="hidden-xs">School year</p>
+        		<p class="pregrey"><select name="qualification_year" class="form-control" style="color: #999;">
         		    <option value="" disabled="disabled" selected="selected">select School year</option>
         		    <option>Third year</option>
         		    <option>Fourth year</option>
@@ -599,7 +599,7 @@ p.pregrey > span > span > span > span.select2-selection__rendered {
         		</select></p>
         	</div>
     	    <div class="col-sm-3">
-                <p>Subject</p>
+                <p class="hidden-xs">Subject</p>
         		<p class="pregrey"><select name="qualification_subject" class="select2this" style="color: #999;">
         		    <option value="" disabled="disabled" selected="selected">select Subject</option>
         		    {% for opt in selections.subjects %}
@@ -608,7 +608,7 @@ p.pregrey > span > span > span > span.select2-selection__rendered {
         		</select></p>
         	</div>
     	    <div class="col-sm-3">
-                <p>Level of qualification</p>
+                <p class="hidden-xs">Level of qualification</p>
         		<p class="pregrey"><select name="qualification_level" class="select2this" style="color: #999;">
         		    <option value="" disabled="disabled" selected="selected">select Level of qualification</option>
         		    {% for opt in selections.levels %}
@@ -617,7 +617,7 @@ p.pregrey > span > span > span > span.select2-selection__rendered {
         		</select></p>
         	</div>
     	    <div class="col-sm-2">
-                <p>Grade</p>
+                <p class="hidden-xs">Grade</p>
         		<p class="pregrey"><select name="qualification_grade" class="select2this" style="color: #999;">
         		    <option value="" disabled="disabled" selected="selected">select Grade</option>
         		    {% for opt in selections.grades %}
@@ -656,7 +656,7 @@ p.pregrey > span > span > span > span.select2-selection__rendered {
 
 	<div class="row multi">
 	    <div class="col-sm-4">
-            <p>College / University</p>
+            <p class="hidden-xs">College / University</p>
     		<p class="pregrey"><select class="institutionselector select2this" name="application_institution" style="color: #999;">
     		    <option value="" disabled="disabled" selected="selected">select College / University</option>
     		    {% for opt in selections.institutions %}
@@ -665,7 +665,7 @@ p.pregrey > span > span > span > span.select2-selection__rendered {
     		</select></p>
     	</div>
 	    <div class="col-sm-4">
-            <p>Subject</p>
+            <p class="hidden-xs">Subject</p>
     		<p class="pregrey"><select class="subjectselector select2this" name="application_subject" style="color: #999;">
     		    <option value="" disabled="disabled" selected="selected">select Subject</option>
     		    {% for opt in selections.advancedsubjects %}
@@ -674,7 +674,7 @@ p.pregrey > span > span > span > span.select2-selection__rendered {
     		</select></p>
     	</div>
 	    <div class="col-sm-2">
-            <p>Level of study</p>
+            <p class="hidden-xs">Level of study</p>
     		<p class="pregrey"><select class="levelselector select2this" name="application_level" style="color: #999;">
     		    <option value="" disabled="disabled" selected="selected">select Level of study</option>
     		    {% for opt in selections.advancedlevels %}
@@ -759,13 +759,13 @@ p.pregrey > span > span > span > span.select2-selection__rendered {
     		<p><textarea class="form-control" name="experience_brief_description" data-maxwords="200" data-trigger="keyup focusout change"></textarea></p>
     	</div>
 	    <div class="col-sm-3">
-            <p style="hidden-xs">Date from</p>
+            <p class="hidden-xs">Date from</p>
     		<p><input type="text" class="form-control datepicker" name="experience_date_from" placeholder="Date from"></p>
-            <p style="hidden-xs">Date to</p>
+            <p class="hidden-xs">Date to</p>
     		<p><input type="text" class="form-control datepicker" name="experience_date_to" placeholder="Date to (unless ongoing)"></p>
     	</div>
 	    <div class="col-sm-3">
-            <p style="hidden-xs">Job title</p>
+            <p class="hidden-xs">Job title</p>
     		<p><input type="text" class="form-control" name="experience_title" placeholder="Job title"></p>
     	</div>
 	</div>
