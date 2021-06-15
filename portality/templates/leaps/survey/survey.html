@@ -53,11 +53,11 @@ jQuery(document).ready(function() {
                 $('#claimed_simd20').prop("checked", false);
                 $('#claimed_simd40').prop("checked", false);
                 console.log(data.hits.hits);
-                var rec = data.hits.hits[0]._source;
                 try {
-                    if (false) {
+                    var rec = data.hits.hits[0]._source;
+                    if (['1','2','3','4'].indexOf(rec.simd_decile) !== -1) {
                         $('#can_claim_simd').show();
-                        if (false) {
+                        if (['1','2'].indexOf(rec.simd_decile) !== -1) {
                             $('#claimed_simd20').prop("checked", true);
                         } else {
                             $('#claimed_simd40').prop("checked", true);
