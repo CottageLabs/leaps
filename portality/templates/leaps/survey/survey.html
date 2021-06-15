@@ -52,7 +52,6 @@ jQuery(document).ready(function() {
                 $('#can_claim_simd').hide();
                 $('#claimed_simd20').prop("checked", false);
                 $('#claimed_simd40').prop("checked", false);
-                console.log(data.hits.hits);
                 try {
                     var rec = data.hits.hits[0]._source;
                     if (['1','2','3','4'].indexOf(rec.simd_decile) !== -1) {
