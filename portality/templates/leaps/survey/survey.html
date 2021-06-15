@@ -41,7 +41,7 @@ jQuery(document).ready(function() {
         }
     }
     $('.checkdob').bind('change',dobformat);
-    var checksimd = function() {
+    /*var checksimd = function() {
         var postcode = $('#post_code').val().toLowerCase().replace(/ /g,'');
         $.ajax({
             cache:false,
@@ -64,9 +64,8 @@ jQuery(document).ready(function() {
                     }
                 } catch (err) {}
             }
-        });        
-
-    }
+        });
+    }*/
     var postcodeformat = function(event) {
         event.preventDefault();
         var str = $('#post_code').val().toLowerCase().replace(/ /g,'');
@@ -77,7 +76,7 @@ jQuery(document).ready(function() {
         } else {
             $('.postcodewarning').hide();
             $('#post_code').removeClass('parsley-error').addClass('parsley-validated').addClass('parsley-success');
-            checksimd()
+            //checksimd();
         }
     }
     $('.checkpostcode').bind('change',postcodeformat);
@@ -829,44 +828,42 @@ p.pregrey > span > span > span > span.select2-selection__rendered {
 
 	<div class="row">
 	    <div class="col-sm-4">
-          <p>Which of the following statements do you think would apply to you?</p>
+          <p>Please indicate which of these criteria applies to make you LEAPS eligible. These will be discussed
+          and confirmed at your interview.</p>
           <p id="can_claim_simd" style="display: none;">(Your SIMD post code eligibility has already been set for you, based on the post code you provided above.)</p>
 	    </div>
 	    <div class="col-sm-8">
-          <div class="row">
-            <div class="col-sm-12">
-            		<input type="checkbox" name="claimed_first_attending_university" style="margin-top:-3px;"> You would be first in your family to attend university<br><br>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-sm-6">
-            		<input type="checkbox" name="claimed_law_application" style="margin-top:-3px;"> You are applying to study Law<br><br>
-            		<input type="checkbox" name="claimed_early_application" style="margin-top:-3px;"> You are making an early application<br><br>
-                <input type="checkbox" name="claimed_hn_only_candidate" style="margin-top:-3px;"> You are an HN only candidate<br><br>
-            		<input type="checkbox" name="claimed_looked_after_child" style="margin-top:-3px;"> You are a looked after child<br><br>
-            </div>
-            <div class="col-sm-6">
-            		<input type="checkbox" name="claimed_low_income_family" style="margin-top:-3px;"> You are from a low income family<br><br>
-            		<input type="checkbox" name="claimed_young_carer" style="margin-top:-3px;"> You look after someone else in your family<br><br>
-                <input type="checkbox" name="claimed_estranged" style="margin-top:-3px;"> You are estranged from your family<br><br>
-                <input type="checkbox" name="claimed_transition_course" style="margin-top:-3px;"> You are on a transition course<br><br>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-sm-6">
-                <input type="checkbox" name="claimed_summer_school" style="margin-top:-3px;"> You are interested in LEAPS Summer school<br><br>
-                <input type="checkbox" name="claimed_summer_school_applicant" style="margin-top:-3px;"> You have applied to LEAPS Summer school<br><br>
-            </div>
-            <div class="col-sm-6">
-								<input type="checkbox" name="claimed_simd20" id="claimed_simd20" style="margin-top:-3px;"> You live in an SIMD 20 post code<br><br>
-								<input type="checkbox" name="claimed_simd40" id="claimed_simd40" style="margin-top:-3px;"> You live in an SIMD 40 post code<br><br>
-            </div>
-          </div>
+      		<input type="checkbox" name="claimed_first_attending_university" style="margin-top:-3px;">
+      		Student who is first generation in family to apply to higher education (this includes students
+          whose parents do not already have a degree and students whose parents may have briefly
+          participated in higher education but did not achieve a degree.)
+          <br><br>
+      		<input type="checkbox" name="claimed_low_income_family" style="margin-top:-3px;">
+          Student from a low income background (for instance where a student is entitled to EMA, free meals
+          in school, or where the family is entitled to a benefit such as Universal Credit)
+      		<br><br>
+      		<input type="checkbox" name="claimed_young_carer" style="margin-top:-3px;">
+          Young carer (Anyone who provides unpaid care, for a friend, partner or family member, who due to
+          illness, frailty, disability, a mental health problem or an addiction cannot cope without their
+          support.)
+      		<br><br>
+      		<input type="checkbox" name="claimed_looked_after_child" style="margin-top:-3px;">
+          Care experienced (any student who,or is currently, in care.)
+      		<br><br>
+          <input type="checkbox" name="claimed_estranged" style="margin-top:-3px;">
+          Estranged (a young person who currently has little or no contact with either of their parents and/or
+          their legal guardian)
+
+          <!--Attend a Group 1 or Group 1+ school (Alloa, Armadale, Bannockburn, Castlebrae, Craigroyston,
+          Drummond, Eyemouth, Forrester, Gracemount, Grangemouth, Liberton, Lornshill, Newbattle, Ross, St
+          Davids, Tynecastle, WHEC
+          
+          SIMD 20 (you would have had an alert when you filled out your postcode on page 1):-->
+
 	    </div>
 	</div>
 
 </div>
-
 
 
 
