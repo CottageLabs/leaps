@@ -47,7 +47,7 @@ jQuery(document).ready(function() {
             cache:false,
             method:'GET',
             datatype:'JSON',
-            url:'/query/simd/search?q=id:"' + postcode + '"&sort=post_code',
+            url:'/query/simd/_search?q=id:"' + postcode + '"&sort=post_code',
             success: function(data) {
                 $('#can_claim_simd').hide();
                 $('#claimed_simd20').prop("checked", false);
@@ -854,8 +854,6 @@ p.pregrey > span > span > span > span.select2-selection__rendered {
                 <input type="checkbox" name="claimed_summer_school"> You are interested in LEAPS Summer school<br>
                 <input type="checkbox" name="claimed_summer_school_applicant"> You have applied to LEAPS Summer school
             </div>
-          </div>
-          <div class="row">
             <div class="col-sm-6">
 								<input type="checkbox" name="claimed_simd20" id="claimed_simd20"> You live in an SIMD 20 post code<br>
 								<input type="checkbox" name="claimed_simd40" id="claimed_simd40"> You live in an SIMD 40 post code
