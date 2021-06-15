@@ -275,7 +275,7 @@
             <h2 style="page-break-before:always">INTERVIEW</h2>
             <table style="page-break-after:always">
                 <tr>
-                    <td style="width:30%;">First attending University?</td> 
+                    <td style="width:30%;{% if record.claimed_first_attending_university %}text-decoration:underline;{% endif %}">First attending University?</td> 
                     <td>{% if record.first_attending_university %}{% if record.first_attending_university %}Yes{% else %}No{% endif %}{% else %}Yes/No{% endif %}</td>
 
                 </tr>
@@ -297,15 +297,15 @@
                     <td style="width:30%;">Main language at home</td> <td>{{ record.main_language_at_home }}</td>
                 </tr>
                 <tr>
-                    <td style="width:30%;">Looked after child?</td>
+                    <td style="width:30%;{% if record.claimed_looked_after_child %}text-decoration:underline;{% endif %}">Looked after child?</td>
                     <td>{% if record.looked_after_child %}{% if record.looked_after_child %}Yes{% else %}No{% endif %}{% else %}Yes/No{% endif %}</td>
                 </tr>
                 <tr>
-                    <td style="width:30%;">Low income family?</td>
+                    <td style="width:30%;{% if record.claimed_low_income_family %}text-decoration:underline;{% endif %}">Low income family?</td>
                     <td>{% if record.low_income_family %}{% if record.low_income_family %}Yes{% else %}No{% endif %}{% else %}Yes/No{% endif %}</td>
                 </tr>
                 <tr>
-                    <td style="width:30%;">Young carer?</td>
+                    <td style="width:30%;{% if record.claimed_young_carer %}text-decoration:underline;{% endif %}">Young carer?</td>
                     <td>{% if record.young_carer %}{% if record.young_carer %}Yes{% else %}No{% endif %}{% else %}Yes/No{% endif %}</td>
                 </tr>
                 <tr>
@@ -317,7 +317,7 @@
                     <td>{% if record.previous_interview %}{% if record.previous_interview %}Yes{% else %}No{% endif %}{% else %}Yes/No{% endif %}</td>
                 </tr>
                 <tr>
-                    <td style="width:30%;">Estranged</td>
+                    <td style="width:30%;{% if record.claimed_estranged %}text-decoration:underline;{% endif %}">Estranged</td>
                     <td>{% if record.estranged %}{% if record.estranged %}Yes{% else %}No{% endif %}{% else %}Yes/No{% endif %}</td>
                 </tr>
                 <tr>
