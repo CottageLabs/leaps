@@ -1097,7 +1097,7 @@ fieldset{
                 		{% if record %}{% if record.data.previous_interview %} checked="checked"{% endif %}{% endif %}
                 		> Previous interview</td>
                     </tr>
-                    <tr style="height:40px;">
+                    <tr>
 						<td><input type="checkbox" name="simd20"
 						{% if record %}{% if record.data.simd20 %} checked="checked"{% endif %}{% endif %}
 						> SIMD 20</td>
@@ -1107,7 +1107,7 @@ fieldset{
                         <td><input type="checkbox" name="summer_school"
             		    {% if record %}{% if record.data.summer_school %}{% if record.data.summer_school == "yes" %} checked="checked"{% endif %}{% endif %}{% endif %}
             		    > Summer school interest</td>
-                        <td{% if record %}{% if record.data.claimed_estranged %} style="text-decoration:underline:"{% endif %}{% endif %}><input type="checkbox" name="estranged"
+                        <td{% if record %}{% if record.data.claimed_estranged %} style="text-decoration:underline;"{% endif %}{% endif %}><input type="checkbox" name="estranged"
             		    {% if record %}{% if record.data.estranged %} checked="checked"{% endif %}{% endif %}
             		    > Estranged</td>
                     </tr>
