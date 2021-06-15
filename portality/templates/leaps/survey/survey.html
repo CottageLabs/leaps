@@ -41,6 +41,33 @@ jQuery(document).ready(function() {
         }
     }
     $('.checkdob').bind('change',dobformat);
+    var checksimd = function() {
+        var postcode = $('#post_code').val().toLowerCase().replace(/ /g,'');
+        $.ajax({
+            cache:false,
+            method:'GET',
+            datatype:'JSON',
+            url:'/query/simd/search?q=id:"' + postcode + '"&sort=post_code',
+            success: function(data) {
+                $('#can_claim_simd').hide();
+                $('#claimed_simd20').prop("checked", false);
+                $('#claimed_simd40').prop("checked", false);
+                console.log(data.hits.hits);
+                var rec = data.hits.hits[0]._source;
+                try {
+                    if (false) {
+                        $('#can_claim_simd').show();
+                        if (false) {
+                            $('#claimed_simd20').prop("checked", true);
+                        } else {
+                            $('#claimed_simd40').prop("checked", true);
+                        }
+                    }
+                } catch (err) {}
+            }
+        });        
+
+    }
     var postcodeformat = function(event) {
         event.preventDefault();
         var str = $('#post_code').val().toLowerCase().replace(/ /g,'');
@@ -51,6 +78,7 @@ jQuery(document).ready(function() {
         } else {
             $('.postcodewarning').hide();
             $('#post_code').removeClass('parsley-error').addClass('parsley-validated').addClass('parsley-success');
+            checksimd()
         }
     }
     $('.checkpostcode').bind('change',postcodeformat);
@@ -796,10 +824,49 @@ p.pregrey > span > span > span > span.select2-selection__rendered {
 	    </div>
 	</div>
 
+	<div class="row">
+	    <div class="col-sm-4">
+          <p>Which of the following statements do you think would apply to you?</p>
+          <p id="can_claim_simd" style="display: none;">Your SIMD post code eligibility has already been set for you, based on the post code you provided above.</p>
+	    </div>
+	    <div class="col-sm-8">
+          <div class="row">
+            <div class="col-sm-12">
+            		<input type="checkbox" name="claimed_first_attending_university"> You would be first in your family to attend university
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-6">
+            		<input type="checkbox" name="claimed_law_application"> You are applying to study Law
+            		<input type="checkbox" name="claimed_early_application"> You are making an early application
+                <input type="checkbox" name="claimed_hn_only_candidate"> You are an HN only candidate
+            		<input type="checkbox" name="claimed_looked_after_child"> You are a looked after child
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-6">
+            		<input type="checkbox" name="claimed_low_income_family"> You are from a low income family
+            		<input type="checkbox" name="claimed_young_carer"> You look after someone else in your family
+                <input type="checkbox" name="claimed_estranged"> You are estranged from your family
+                <input type="checkbox" name="claimed_transition_course"> You are on a transition course
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-6">
+                <input type="checkbox" name="claimed_summer_school"> You are interested in LEAPS Summer school
+                <input type="checkbox" name="claimed_summer_school_applicant"> You have applied to LEAPS Summer school
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-6">
+								<input type="checkbox" name="claimed_simd20" id="claimed_simd20"> You live in an SIMD 20 post code
+								<input type="checkbox" name="claimed_simd40" id="claimed_simd40"> You live in an SIMD 40 post code
+            </div>
+          </div>
+	    </div>
+	</div>
+
 </div>
-
-
-
 
 
 
