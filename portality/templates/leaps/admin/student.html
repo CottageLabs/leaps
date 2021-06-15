@@ -1072,34 +1072,46 @@ fieldset{
         	        <tr>
                 		<td style="width:230px;"><input type="checkbox" name="first_attending_university"
                 		{% if record %}{% if record.data.first_attending_university %} checked="checked"{% endif %}{% endif %}
-                		> First attending university</td>
+                		> First attending university
+                		{% if record %}{% if record.data.claimed_first_attending_university %} &#10003;{% endif %}{% endif %}
+                		</td>
 
                 		<td style="width:250px;"><input type="checkbox" name="law_application"
                 		{% if record %}{% if record.data.law_application %} checked="checked"{% endif %}{% endif %}
-                		> Law application</td>
+                		> Law application
+                		{% if record %}{% if record.data.claimed_law_application %} &#10003;{% endif %}{% endif %}
+                		</td>
 
                 		<td><input type="checkbox" name="early_application"
                 		{% if record %}{% if record.data.early_application %} checked="checked"{% endif %}{% endif %}
-                		> Early application</td>
+                		> Early application
+                		{% if record %}{% if record.data.claimed_early_application %} &#10003;{% endif %}{% endif %}
+                		</td>
 
-                        <td>
-                            <input type="checkbox" name="hn_only_candidate"
-                		    {% if record %}{% if record.data.hn_only_candidate %} checked="checked"{% endif %}{% endif %}
-                		    > HN only candidate
+                        <td><input type="checkbox" name="hn_only_candidate"
+                		{% if record %}{% if record.data.hn_only_candidate %} checked="checked"{% endif %}{% endif %}
+                		> HN only candidate
+                		{% if record %}{% if record.data.claimed_hn_only_candidate %} &#10003;{% endif %}{% endif %}
                 		</td>
                     </tr>
         	        <tr>
                 		<td><input type="checkbox" name="looked_after_child"
                 		{% if record %}{% if record.data.looked_after_child %} checked="checked"{% endif %}{% endif %}
-                		> Looked after child</td>
+                		> Looked after child
+                		{% if record %}{% if record.data.claimed_looked_after_child %} &#10003;{% endif %}{% endif %}
+                		</td>
 
                 		<td><input type="checkbox" name="low_income_family"
                 		{% if record %}{% if record.data.low_income_family %} checked="checked"{% endif %}{% endif %}
-                		> Low income family</td>
+                		> Low income family
+                		{% if record %}{% if record.data.claimed_low_income_family %} &#10003;{% endif %}{% endif %}
+                		</td>
 
                 		<td><input type="checkbox" name="young_carer"
                 		{% if record %}{% if record.data.young_carer %} checked="checked"{% endif %}{% endif %}
-                		> Young carer</td>
+                		> Young carer
+                		{% if record %}{% if record.data.claimed_young_carer %} &#10003;{% endif %}{% endif %}
+                		</td>
 
                 		<td><input type="checkbox" name="previous_interview"
                 		{% if record %}{% if record.data.previous_interview %} checked="checked"{% endif %}{% endif %}
@@ -1107,30 +1119,40 @@ fieldset{
 
                     </tr>
                     <tr style="height:40px;">
-												<td><input type="checkbox" name="simd20"
-												{% if record %}{% if record.data.simd20 %} checked="checked"{% endif %}{% endif %}
-												> SIMD 20</td>
-												<td><input type="checkbox" name="simd40"
-												{% if record %}{% if record.data.simd40 %} checked="checked"{% endif %}{% endif %}
-												> SIMD 40</td>
-                        <td>
-                            <input type="checkbox" name="summer_school"
-                		    {% if record %}{% if record.data.summer_school %}{% if record.data.summer_school == "yes" %} checked="checked"{% endif %}{% endif %}{% endif %}
-                		    > Summer school interest<br>
-                            <input type="checkbox" name="summer_school_applicant"
-                		    {% if record %}{% if record.data.summer_school_applicant %}{% if record.data.summer_school_applicant == "yes" %} checked="checked"{% endif %}{% endif %}{% endif %}
-                		    > Summer school applicant<br>
+						<td><input type="checkbox" name="simd20"
+						{% if record %}{% if record.data.simd20 %} checked="checked"{% endif %}{% endif %}
+						> SIMD 20
+                		{% if record %}{% if record.data.claimed_simd20 %} &#10003;{% endif %}{% endif %}
                 		</td>
-                        <td>
-                            <input type="checkbox" name="estranged"
-                		    {% if record %}{% if record.data.estranged %} checked="checked"{% endif %}{% endif %}
-                		    > Estranged<br>
-                            <input type="checkbox" name="transition_course"
-                		    {% if record %}{% if record.data.transition_course %} checked="checked"{% endif %}{% endif %}
-                		    > Transition course<br>
-                            <input type="checkbox" name="pae_action"
-                		    {% if record %}{% if record.data.pae_action %} checked="checked"{% endif %}{% endif %}
-                		    > PAE action
+						<td><input type="checkbox" name="simd40"
+						{% if record %}{% if record.data.simd40 %} checked="checked"{% endif %}{% endif %}
+						> SIMD 40
+                		{% if record %}{% if record.data.claimed_simd40 %} &#10003;{% endif %}{% endif %}
+                		</td>
+                        <td><input type="checkbox" name="summer_school"
+            		    {% if record %}{% if record.data.summer_school %}{% if record.data.summer_school == "yes" %} checked="checked"{% endif %}{% endif %}{% endif %}
+            		    > Summer school interest
+                		{% if record %}{% if record.data.claimed_summer_school %} &#10003;{% endif %}{% endif %}
+                		<br>
+                        <input type="checkbox" name="summer_school_applicant"
+            		    {% if record %}{% if record.data.summer_school_applicant %}{% if record.data.summer_school_applicant == "yes" %} checked="checked"{% endif %}{% endif %}{% endif %}
+            		    > Summer school applicant
+                		{% if record %}{% if record.data.claimed_summer_school_applicant %} &#10003;{% endif %}{% endif %}
+                		<br>
+                		</td>
+                        <td><input type="checkbox" name="estranged"
+            		    {% if record %}{% if record.data.estranged %} checked="checked"{% endif %}{% endif %}
+            		    > Estranged
+                		{% if record %}{% if record.data.claimed_estranged %} &#10003;{% endif %}{% endif %}
+                		<br>
+                        <input type="checkbox" name="transition_course"
+            		    {% if record %}{% if record.data.transition_course %} checked="checked"{% endif %}{% endif %}
+            		    > Transition course
+                		{% if record %}{% if record.data.claimed_transition_course %} &#10003;{% endif %}{% endif %}
+                		<br>
+                        <input type="checkbox" name="pae_action"
+            		    {% if record %}{% if record.data.pae_action %} checked="checked"{% endif %}{% endif %}
+            		    > PAE action
                 		</td>
                     </tr>
 
