@@ -55,8 +55,7 @@ def student():
         selections['school_categories'] = {}
         r = models.School().query(q={'query':{'match_all':{}},'size': 1000})
         for s in r['hits']['hits']:
-            pass
-            #selections['school_categories'][s['_source']['school']] = s['_source']['leaps_category']
+            selections['school_categories'][s['_source']['name']] = s['_source']['leaps_category']
             
         if current_user.is_anonymous() or not current_user.do_admin:
             if 'TEST' in selections['schools']:
