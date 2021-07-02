@@ -42,7 +42,7 @@ jQuery(document).ready(function() {
     }
     $('.checkdob').bind('change',dobformat);
     var checkschool = function() {
-        var school = $('#school').val().toLowerCase().replace(/^[a-z]/g,'');
+        var school = $('#school').val().toLowerCase().replace(/[^a-z]/g,'');
         $('#can_claim_school').hide();
         $('#claimed_group_school').prop("checked", false);
         $('#claimed_group_school').attr("disabled", false);
