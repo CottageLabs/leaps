@@ -1094,7 +1094,7 @@ fieldset{
                 		<!--<td{% if record %}{% if record.data.claimed_looked_after_child %} style="text-decoration:underline;font-weight:bold;"{% endif %}{% endif %}><input type="checkbox" name="looked_after_child"-->
                 		<td><input type="checkbox" name="looked_after_child"
                 		{% if record %}{% if record.data.looked_after_child %} checked="checked"{% endif %}{% endif %}
-                		> Looked after child</td>
+                		> Care experienced</td>
 
         	            {% if record %}<input type="hidden" name="claimed_low_income_family" value="{{record.data.claimed_low_income_family}}">{% endif %}
                 		<!--<td{% if record %}{% if record.data.claimed_low_income_family %} style="text-decoration:underline;font-weight:bold;"{% endif %}{% endif %}><input type="checkbox" name="low_income_family"-->
