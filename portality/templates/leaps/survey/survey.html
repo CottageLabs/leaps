@@ -41,7 +41,19 @@ jQuery(document).ready(function() {
         }
     }
     $('.checkdob').bind('change',dobformat);
-    /*var checksimd = function() {
+    var checkschool = function() {
+        var school = $('#school').val().toLowerCase().replace(/ /g,'');
+        $('#can_claim_school').hide();
+        $('#claimed_group_school').prop("checked", false);
+        $('#claimed_group_school').attr("disabled", false);
+        var schools = {{ selections.school_categories|tojson|safe }};
+        if (school && (schools[school] === "1" || schools[school] === "1+")) {
+            $('#can_claim_school').show();
+            $('#claimed_group_school').prop("checked", true);
+            $('#claimed_group_school').attr("disabled", true);
+        }
+    }
+    var checksimd = function() {
         var postcode = $('#post_code').val().toLowerCase().replace(/ /g,'');
         $.ajax({
             cache:false,
@@ -51,21 +63,23 @@ jQuery(document).ready(function() {
             success: function(data) {
                 $('#can_claim_simd').hide();
                 $('#claimed_simd20').prop("checked", false);
-                $('#claimed_simd40').prop("checked", false);
+                $('#claimed_simd20').attr("disabled", false);
+                //$('#claimed_simd40').prop("checked", false);
                 try {
                     var rec = data.hits.hits[0]._source;
                     if (['1','2','3','4'].indexOf(rec.simd_decile) !== -1) {
                         $('#can_claim_simd').show();
                         if (['1','2'].indexOf(rec.simd_decile) !== -1) {
                             $('#claimed_simd20').prop("checked", true);
+                            $('#claimed_simd20').attr("disabled", true);
                         } else {
-                            $('#claimed_simd40').prop("checked", true);
+                            //$('#claimed_simd40').prop("checked", true);
                         }
                     }
                 } catch (err) {}
             }
         });
-    }*/
+    }
     var postcodeformat = function(event) {
         event.preventDefault();
         var str = $('#post_code').val().toLowerCase().replace(/ /g,'');
@@ -76,10 +90,11 @@ jQuery(document).ready(function() {
         } else {
             $('.postcodewarning').hide();
             $('#post_code').removeClass('parsley-error').addClass('parsley-validated').addClass('parsley-success');
-            //checksimd();
+            checksimd();
         }
     }
     $('.checkpostcode').bind('change',postcodeformat);
+    $('#school').bind('change',checkschool);
     var mobileformat = function(event) {
         event.preventDefault();
         var str = $('#mobile_phone').val();
@@ -512,7 +527,7 @@ p.pregrey > span > span > span > span.select2-selection__rendered {
                     <p>School *</p>
 	            </div>
 	            <div class="col-sm-7">
-            		<p class="pregrey"><select class="form-control" name="school" data-required="true" data-trigger="change focusout" style="color: #999;">
+            		<p class="pregrey"><select class="form-control" id="school" name="school" data-required="true" data-trigger="change focusout" style="color: #999;">
             		    <option value="" disabled="disabled" selected="selected">select School *</option>
             		    {% for opt in selections.schools %}
             		        <option>{{ opt }}</option>
@@ -830,35 +845,44 @@ p.pregrey > span > span > span > span.select2-selection__rendered {
 	    <div class="col-sm-4">
           <p>Please indicate which of these criteria applies to make you LEAPS eligible. These will be discussed
           and confirmed at your interview.</p>
-          <!--<p id="can_claim_simd" style="display: none;">(Your SIMD post code eligibility has already been set for you, based on the post code you provided above.)</p>-->
+          <p id="can_claim_simd" style="display: none;">(Your SIMD eligibility has already been set for you, based on the post code you provided above.)</p>
+          <p id="can_claim_school" style="display: none;">(Your school group already been set for you, based on the school you provided above.)</p>
 	    </div>
 	    <div class="col-sm-8">
+      		<br><br>
+          <input type="checkbox" name="claimed_simd20" style="margin-top:-3px;">
+          SIMD 20 (you would have had an alert when you filled out your postcode above)
+
+      		<br><br>
+          <input type="checkbox" name="claimed_group_school" style="margin-top:-3px;">
+          Attend a Group 1 or Group 1+ school (Alloa, Armadale, Bannockburn, Castlebrae, Craigroyston,
+          Drummond, Eyemouth, Forrester, Gracemount, Grangemouth, Liberton, Lornshill, Newbattle, Ross, St
+          Davids, Tynecastle, WHEC
+
       		<input type="checkbox" name="claimed_first_attending_university" style="margin-top:-3px;">
       		Student who is first generation in family to apply to higher education (this includes students
           whose parents do not already have a degree and students whose parents may have briefly
           participated in higher education but did not achieve a degree.)
           <br><br>
+
       		<input type="checkbox" name="claimed_low_income_family" style="margin-top:-3px;">
           Student from a low income background (for instance where a student is entitled to EMA, free meals
           in school, or where the family is entitled to a benefit such as Universal Credit)
       		<br><br>
+
       		<input type="checkbox" name="claimed_young_carer" style="margin-top:-3px;">
           Young carer (Anyone who provides unpaid care, for a friend, partner or family member, who due to
           illness, frailty, disability, a mental health problem or an addiction cannot cope without their
           support.)
       		<br><br>
+
       		<input type="checkbox" name="claimed_looked_after_child" style="margin-top:-3px;">
           Care experienced (any student who,or is currently, in care.)
       		<br><br>
+
           <input type="checkbox" name="claimed_estranged" style="margin-top:-3px;">
           Estranged (a young person who currently has little or no contact with either of their parents and/or
           their legal guardian)
-
-          <!--Attend a Group 1 or Group 1+ school (Alloa, Armadale, Bannockburn, Castlebrae, Craigroyston,
-          Drummond, Eyemouth, Forrester, Gracemount, Grangemouth, Liberton, Lornshill, Newbattle, Ross, St
-          Davids, Tynecastle, WHEC
-          
-          SIMD 20 (you would have had an alert when you filled out your postcode on page 1):-->
 
 	    </div>
 	</div>

@@ -1070,7 +1070,10 @@ fieldset{
 	        <table>
 	            <tbody>
         	        <tr>
-                		<td style="width:230px;{% if record %}{% if record.data.claimed_first_attending_university %}text-decoration:underline;font-weight:bold;{% endif %}{% endif %}"><input type="checkbox" name="first_attending_university"
+        	            {% if record %}<input type="hidden" name="claimed_first_attending_university" value="{{record.data.claimed_first_attending_university}}">{% endif %}
+                		<!-- this was designed as a way to show on the admin screen that a claim had been made, but LEAPS don't want that to show on admin, only on interview, so commented out in case could be added later -->
+                		<!--<td style="width:230px;{% if record %}{% if record.data.claimed_first_attending_university %}text-decoration:underline;font-weight:bold;{% endif %}{% endif %}"><input type="checkbox" name="first_attending_university"-->
+                		<td style="width:230px;"><input type="checkbox" name="first_attending_university"
                 		{% if record %}{% if record.data.first_attending_university %} checked="checked"{% endif %}{% endif %}
                 		> First attending university</td>
 
@@ -1078,7 +1081,7 @@ fieldset{
                 		{% if record %}{% if record.data.early_application %} checked="checked"{% endif %}{% endif %}
                 		> Early application</td>
 
-                        <td><input type="checkbox" name="hn_only_candidate"
+                        <td style="width:230px;"><input type="checkbox" name="hn_only_candidate"
                 		{% if record %}{% if record.data.hn_only_candidate %} checked="checked"{% endif %}{% endif %}
                 		> HN only candidate</td>
 
@@ -1087,27 +1090,38 @@ fieldset{
             		    > Transition course</td>
                     </tr>
         	        <tr>
-                		<td{% if record %}{% if record.data.claimed_looked_after_child %} style="text-decoration:underline;font-weight:bold;"{% endif %}{% endif %}><input type="checkbox" name="looked_after_child"
+        	            {% if record %}<input type="hidden" name="claimed_looked_after_child" value="{{record.data.claimed_looked_after_child}}">{% endif %}
+                		<!--<td{% if record %}{% if record.data.claimed_looked_after_child %} style="text-decoration:underline;font-weight:bold;"{% endif %}{% endif %}><input type="checkbox" name="looked_after_child"-->
+                		<td><input type="checkbox" name="looked_after_child"
                 		{% if record %}{% if record.data.looked_after_child %} checked="checked"{% endif %}{% endif %}
                 		> Looked after child</td>
 
-                		<td{% if record %}{% if record.data.claimed_low_income_family %} style="text-decoration:underline;font-weight:bold;"{% endif %}{% endif %}><input type="checkbox" name="low_income_family"
+        	            {% if record %}<input type="hidden" name="claimed_low_income_family" value="{{record.data.claimed_low_income_family}}">{% endif %}
+                		<!--<td{% if record %}{% if record.data.claimed_low_income_family %} style="text-decoration:underline;font-weight:bold;"{% endif %}{% endif %}><input type="checkbox" name="low_income_family"-->
+                		<td><input type="checkbox" name="low_income_family"
                 		{% if record %}{% if record.data.low_income_family %} checked="checked"{% endif %}{% endif %}
                 		> Low income family</td>
 
-                		<td{% if record %}{% if record.data.claimed_young_carer %} style="text-decoration:underline;font-weight:bold;"{% endif %}{% endif %}><input type="checkbox" name="young_carer"
+        	            {% if record %}<input type="hidden" name="claimed_young_carer" value="{{record.data.claimed_young_carer}}">{% endif %}
+                		<!--<td{% if record %}{% if record.data.claimed_young_carer %} style="text-decoration:underline;font-weight:bold;"{% endif %}{% endif %}><input type="checkbox" name="young_carer"-->
+                		<td><input type="checkbox" name="young_carer"
                 		{% if record %}{% if record.data.young_carer %} checked="checked"{% endif %}{% endif %}
                 		> Young carer</td>
 
-                        <td{% if record %}{% if record.data.claimed_estranged %} style="text-decoration:underline;font-weight:bold;"{% endif %}{% endif %}><input type="checkbox" name="estranged"
+        	            {% if record %}<input type="hidden" name="claimed_estranged" value="{{record.data.claimed_estranged}}">{% endif %}
+                        <!--<td{% if record %}{% if record.data.claimed_estranged %} style="text-decoration:underline;font-weight:bold;"{% endif %}{% endif %}><input type="checkbox" name="estranged"-->
+                        <td><input type="checkbox" name="estranged"
             		    {% if record %}{% if record.data.estranged %} checked="checked"{% endif %}{% endif %}
             		    > Estranged</td>
                     </tr>
                     <tr>
+        	            {% if record %}<input type="hidden" name="claimed_simd20" value="{{record.data.claimed_simd20}}">{% endif %}
 						<td><input type="checkbox" name="simd20"
 						{% if record %}{% if record.data.simd20 %} checked="checked"{% endif %}{% endif %}
 						> SIMD 20</td>
 
+        	            {% if record %}<input type="hidden" name="claimed_group_school" value="{{record.data.claimed_group_school}}">{% endif %}
+        	            <!-- the hidden field above is not the same as the one below, which is ok - students are asked to claim a different question -->
 						<td><input type="checkbox" name="simd40"
 						{% if record %}{% if record.data.simd40 %} checked="checked"{% endif %}{% endif %}
 						> SIMD 40</td>

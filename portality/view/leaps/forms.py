@@ -43,7 +43,7 @@ def student():
     
     if request.method == 'GET':
         # TODO: if people are logged in it may be necessary to render a form with previously submitted data
-        selections={
+        selections = {
             "schools": dropdowns('school'),
             "subjects": dropdowns('subject'),
             "advancedsubjects": dropdowns('advancedsubject'),
@@ -52,6 +52,11 @@ def student():
             "institutions": dropdowns('institution'),
             "advancedlevels": dropdowns('advancedlevel')
         }
+        selections['school_categories'] = {}
+        r = School().query(q={'query':{'match_all':{}},'size': 1000})
+        for s in r['hits']['hits']:
+            selections['school_categories'][s['_source']['school']] = s['_source']['leaps_category']
+            
         if current_user.is_anonymous() or not current_user.do_admin:
             if 'TEST' in selections['schools']:
                 selections['schools'] = [i for i in selections['schools'] if i != 'TEST']
