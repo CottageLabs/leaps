@@ -176,8 +176,7 @@ def forgot():
             text = "A password reset request for LEAPS account " + account.id + " has been received and processed.\n\n"
             text += "The new password for this account is " + newpass + ".\n\n"
             text += "You can access your account here:\n\n"
-            text += '<a href="https://leapssurvey.org/account/' + account.id
-            text += '">https://leapssurvey.org/account/' + account.id + '</a>\n\n'
+            text += 'https://leapssurvey.org/account/' + account.id + '\n\n'
             text += "If you did NOT request this change, please contact LEAPS immediately.\n\n"
             try:
                 util.send_mail(to=to, fro=fro, subject=subject, text=text)
