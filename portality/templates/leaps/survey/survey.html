@@ -47,7 +47,7 @@ jQuery(document).ready(function() {
         $('#claimed_group_school').prop("checked", false);
         $('#claimed_group_school').attr("disabled", false);
         var schools = {{ selections.school_categories|tojson|safe }};
-        console.log(schools)
+        console.log(schools[school])
         if (school && (schools[school] === "1" || schools[school] === "1+")) {
             $('#can_claim_school').show();
             $('#claimed_group_school').prop("checked", true);
