@@ -41,7 +41,7 @@ def index():
         students = []
         for i in s.get('hits',{}).get('hits',[]): 
             if len(selected) == 0 or i['_source']['id'] in selected:
-                if 'applications' in keys and len(i['_source'].get('applications', []]) > 1:
+                if 'applications' in keys and len(i['_source'].get('applications', []) > 1:
                     for ap in i['_source']['applications']:
                         s = deepcopy(i['_source'])
                         s['applications'] = [ap]
