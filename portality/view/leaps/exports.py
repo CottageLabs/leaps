@@ -106,7 +106,7 @@ def download_csv(recordlist,keys):
         keys = ['first_name'] + keys
     if 'applications' in keys:
         keys.remove('applications')
-        keys = keys + ['applications','university','pae_requested','notes','pae_replied','pae_consider','pae_conditions']
+        keys = keys + ['applications','institution','pae_requested','notes','pae_replied','pae_consider','pae_conditions']
 
     # make a csv string of the records
     csvdata = StringIO.StringIO()
@@ -135,7 +135,7 @@ def download_csv(recordlist,keys):
         for key in keys:
             if firstkey:
                 firstkey = False
-            elif key not in ['pae_requested','notes','pae_replied','pae_consider','pae_conditions','gender_other']:
+            elif key not in ['institution','pae_requested','notes','pae_replied','pae_consider','pae_conditions','gender_other']:
                 csvdata.write(',')
             if (key in record.keys() or key in ['address','simd_pc']) and key != 'gender_other' and key != 'pae_requested':
                 if key == 'applications':
@@ -154,7 +154,7 @@ def download_csv(recordlist,keys):
                         else:
                             splitter = '\n'
                         appns += splitter + line['level'] + " " + line['subject'] #+ " at " + 
-                        unis += line.get('institution','')
+                        unis += splitter + line.get('institution','')
                         reqs += splitter + line.get('pae_requested','')
                         notes += splitter + line.get('notes','').replace('\n','---')
                         repls += splitter + line.get('pae_reply_received','')
