@@ -106,7 +106,7 @@ def download_csv(recordlist,keys):
         keys = ['first_name'] + keys
     if 'applications' in keys:
         keys.remove('applications')
-        keys = keys + ['applications','pae_requested','notes','pae_replied','pae_consider','pae_conditions']
+        keys = keys + ['applications','university','pae_requested','notes','pae_replied','pae_consider','pae_conditions']
 
     # make a csv string of the records
     csvdata = StringIO.StringIO()
@@ -140,6 +140,7 @@ def download_csv(recordlist,keys):
             if (key in record.keys() or key in ['address','simd_pc']) and key != 'gender_other' and key != 'pae_requested':
                 if key == 'applications':
                     appns = ""
+                    unis = ""
                     reqs = ""
                     notes = ""
                     repls = ""
@@ -152,7 +153,8 @@ def download_csv(recordlist,keys):
                             firstline = False
                         else:
                             splitter = '\n'
-                        appns += splitter + line['level'] + " " + line['subject'] + " at " + line['institution']
+                        appns += splitter + line['level'] + " " + line['subject'] #+ " at " + 
+                        unis += line.get('institution','')
                         reqs += splitter + line.get('pae_requested','')
                         notes += splitter + line.get('notes','').replace('\n','---')
                         repls += splitter + line.get('pae_reply_received','')
