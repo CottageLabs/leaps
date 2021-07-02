@@ -160,7 +160,7 @@ def download_csv(recordlist,keys):
                         repls += splitter + line.get('pae_reply_received','')
                         cons += splitter + line.get('consider','')
                         conds += splitter + fixify(line.get('conditions',''))
-                    tidykey = appns + '","' + reqs + '","' + notes + '","' + repls + '","' + cons + '","' + conds
+                    tidykey = appns + '","' + unis + '","' + reqs + '","' + notes + '","' + repls + '","' + cons + '","' + conds
                 elif key in ['interests','qualifications','experience']:
                     tidykey = ""
                     firstline = True
