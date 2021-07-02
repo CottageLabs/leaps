@@ -53,9 +53,9 @@ def student():
             "advancedlevels": dropdowns('advancedlevel')
         }
         selections['school_categories'] = {}
-        r = models.School.query(q={'query':{'match_all':{}},'size': 1000})
-        for s in r['hits']['hits']:
-            selections['school_categories'][s['_source']['school']] = s['_source']['leaps_category']
+        r = models.School().query(q={'query':{'match_all':{}},'size': 1000})
+        #for s in r['hits']['hits']:
+        #    selections['school_categories'][s['_source']['school']] = s['_source']['leaps_category']
             
         if current_user.is_anonymous() or not current_user.do_admin:
             if 'TEST' in selections['schools']:
