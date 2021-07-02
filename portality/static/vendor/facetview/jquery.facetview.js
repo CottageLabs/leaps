@@ -1144,7 +1144,8 @@ search box - the end user will not know they are happening.
         };
         var orderby = function(event) {
             event ? event.preventDefault() : "";
-            var sortchoice = $('.facetview_orderby', obj).val() + '.exact';
+            var sortchoice = $('.facetview_orderby', obj).val();
+            if (['last_name', 'first_name', 'school', 'status'].indexOf(sortchoice) !== -1) sortchoice += '.exact';
             if ( sortchoice.length != 0 ) {
                 var sorting = {};
                 var sorton = sortchoice;
