@@ -47,6 +47,7 @@ jQuery(document).ready(function() {
         $('#claimed_group_school').prop("checked", false);
         $('#claimed_group_school').attr("disabled", false);
         var schools = {{ selections.school_categories|tojson|safe }};
+        console.log(schools)
         if (school && (schools[school] === "1" || schools[school] === "1+")) {
             $('#can_claim_school').show();
             $('#claimed_group_school').prop("checked", true);
@@ -94,7 +95,7 @@ jQuery(document).ready(function() {
         }
     }
     $('.checkpostcode').bind('change',postcodeformat);
-    $('#school').bind('change',checkschool);
+    $('.checkschool').bind('change',checkschool);
     var mobileformat = function(event) {
         event.preventDefault();
         var str = $('#mobile_phone').val();
@@ -527,7 +528,7 @@ p.pregrey > span > span > span > span.select2-selection__rendered {
                     <p>School *</p>
 	            </div>
 	            <div class="col-sm-7">
-            		<p class="pregrey"><select class="form-control" id="school" name="school" data-required="true" data-trigger="change focusout" style="color: #999;">
+            		<p class="pregrey"><select class="form-control checkschool" name="school" data-required="true" data-trigger="change focusout" style="color: #999;">
             		    <option value="" disabled="disabled" selected="selected">select School *</option>
             		    {% for opt in selections.schools %}
             		        <option>{{ opt }}</option>
