@@ -4,7 +4,7 @@ A forms system
 Build a form template, build a handler for its submission, receive data from end users
 '''
 
-import json
+import json, re
 
 from flask import Blueprint, request, abort, make_response, render_template, flash, redirect, url_for
 from flask.ext.login import current_user
@@ -55,7 +55,7 @@ def student():
         selections['school_categories'] = {}
         r = models.School().query(q={'query':{'match_all':{}},'size': 1000})
         for s in r['hits']['hits']:
-            selections['school_categories'][s['_source']['name']] = s['_source']['leaps_category']
+            selections['school_categories'][re.sub('[^a-z]+', '', s['_source']['name'].lower())] = s['_source']['leaps_category']
             
         if current_user.is_anonymous() or not current_user.do_admin:
             if 'TEST' in selections['schools']:

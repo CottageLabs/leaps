@@ -42,11 +42,13 @@ jQuery(document).ready(function() {
     }
     $('.checkdob').bind('change',dobformat);
     var checkschool = function() {
-        var school = $('#school').val().toLowerCase().replace(/ /g,'');
+        var school = $('#school').val().toLowerCase().replace(/^[a-z]/g,'');
         $('#can_claim_school').hide();
         $('#claimed_group_school').prop("checked", false);
         $('#claimed_group_school').attr("disabled", false);
         var schools = {{ selections.school_categories|tojson|safe }};
+        console.log(schools)
+        console.log(school)
         console.log(schools[school])
         if (school && (schools[school] === "1" || schools[school] === "1+")) {
             $('#can_claim_school').show();
