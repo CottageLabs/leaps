@@ -1,4 +1,5 @@
 
+from copy import deepcopy
 from datetime import datetime
 import cStringIO as StringIO
 
@@ -40,11 +41,11 @@ def index():
         students = []
         for i in s.get('hits',{}).get('hits',[]): 
             if len(selected) == 0 or i['_source']['id'] in selected:
-                if False: #'applications' in keys and i['_source'].get('applications',False) and len(i['_source']['applications']) != 0:
-                    apns = i['_source']['applications'].copy()
-                    for ap in apns:
-                        i['_source']['applications'] = [ap]
-                        students.append(i['_source'])
+                if 'applications' in keys and len(i['_source'].get('applications', []]) > 1:
+                    for ap in i['_source']['applications']:
+                        s = deepcopy(i['_source'])
+                        s['applications'] = [ap]
+                        students.append(s)
                 else:
                     students.append(i['_source'])
         
