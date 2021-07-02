@@ -47,9 +47,6 @@ jQuery(document).ready(function() {
         $('#claimed_group_school').prop("checked", false);
         $('#claimed_group_school').attr("disabled", false);
         var schools = {{ selections.school_categories|tojson|safe }};
-        console.log(schools)
-        console.log(school)
-        console.log(schools[school])
         if (school && (schools[school] === "1" || schools[school] === "1+")) {
             $('#can_claim_school').show();
             $('#claimed_group_school').prop("checked", true);
@@ -853,11 +850,11 @@ p.pregrey > span > span > span > span.select2-selection__rendered {
 	    </div>
 	    <div class="col-sm-8">
       		<br><br>
-          <input type="checkbox" name="claimed_simd20" style="margin-top:-3px;">
+          <input type="checkbox" id="claimed_simd20" name="claimed_simd20" style="margin-top:-3px;">
           SIMD 20 (you would have had an alert when you filled out your postcode above)
 
       		<br><br>
-          <input type="checkbox" name="claimed_group_school" style="margin-top:-3px;">
+          <input type="checkbox" id="claimed_group_school" name="claimed_group_school" style="margin-top:-3px;">
           Attend a Group 1 or Group 1+ school (Alloa, Armadale, Bannockburn, Castlebrae, Craigroyston,
           Drummond, Eyemouth, Forrester, Gracemount, Grangemouth, Liberton, Lornshill, Newbattle, Ross, St
           Davids, Tynecastle, WHEC
