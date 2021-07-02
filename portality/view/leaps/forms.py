@@ -53,7 +53,7 @@ def student():
             "advancedlevels": dropdowns('advancedlevel')
         }
         selections['school_categories'] = {}
-        r = models.School().query(q={'query':{'match_all':{}},'size': 1000})
+        r = models.School.query(q={'query':{'match_all':{}},'size': 1000})
         for s in r['hits']['hits']:
             selections['school_categories'][s['_source']['school']] = s['_source']['leaps_category']
             
