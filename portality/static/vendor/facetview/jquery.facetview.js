@@ -1144,11 +1144,11 @@ search box - the end user will not know they are happening.
         };
         var orderby = function(event) {
             event ? event.preventDefault() : "";
-            var sortchoice = $('.facetview_orderby', obj).val();
+            var sortchoice = $('.facetview_orderby', obj).val() + '.exact';
             if ( sortchoice.length != 0 ) {
                 var sorting = {};
                 var sorton = sortchoice;
-                sorting[sorton] = {'order': $('.facetview_order', obj).attr('href') + '.exact'};
+                sorting[sorton] = {'order': $('.facetview_order', obj).attr('href')};
                 options.sort = [sorting];
             } else {
                 options.sort = [];
