@@ -528,7 +528,7 @@ p.pregrey > span > span > span > span.select2-selection__rendered {
                     <p>School *</p>
 	            </div>
 	            <div class="col-sm-7">
-            		<p class="pregrey"><select class="form-control checkschool" name="school" data-required="true" data-trigger="change focusout" style="color: #999;">
+            		<p class="pregrey"><select class="form-control checkschool" id="school" name="school" data-required="true" data-trigger="change focusout" style="color: #999;">
             		    <option value="" disabled="disabled" selected="selected">select School *</option>
             		    {% for opt in selections.schools %}
             		        <option>{{ opt }}</option>
