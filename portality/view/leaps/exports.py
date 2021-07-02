@@ -40,7 +40,7 @@ def index():
         students = []
         for i in s.get('hits',{}).get('hits',[]): 
             if len(selected) == 0 or i['_source']['id'] in selected:
-                if 'applications' in keys and i['_source'].get('applications',False) and len(i['_source']['applications']) != 0:
+                if False: #'applications' in keys and i['_source'].get('applications',False) and len(i['_source']['applications']) != 0:
                     apns = i['_source']['applications'].copy()
                     for ap in apns:
                         i['_source']['applications'] = [ap]
