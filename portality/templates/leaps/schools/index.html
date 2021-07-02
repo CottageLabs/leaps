@@ -4,7 +4,13 @@
 
 <script>
 jQuery(document).ready(function() { 
-    $(".tablesorter").tablesorter(); 
+    $(".tablesorter").tablesorter({
+        "dateFormat": "uk",
+        "headers":{
+            2: {"sorter": "shortDate" },
+            6: {"sorter": false}
+        }
+    });
 
     function makeid(length) {
         var result = '';
