@@ -34,13 +34,19 @@ def index():
 
     elif request.method == 'POST':
         keys = request.form.keys()
+        keys = [ i for i in keys if i not in ['query','submit','selected']]
+
         s = models.Student.query(q=query)
         students = []
         for i in s.get('hits',{}).get('hits',[]): 
             if len(selected) == 0 or i['_source']['id'] in selected:
-                students.append(i['_source'])
-        
-        keys = [ i for i in keys if i not in ['query','submit','selected']]
+                if 'applications' in keys and i['_source'].get('applications',False) and len(i['_source']['applications']) != 0:
+                    apns = i['_source']['applications'].copy()
+                    for ap in apns:
+                        i['_source']['applications'] = [ap]
+                        students.append(i['_source'])
+                else:
+                    students.append(i['_source'])
         
         return download_csv(students,keys)
 

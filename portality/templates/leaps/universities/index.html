@@ -5,8 +5,15 @@
 <script>
 jQuery(document).ready(function() { 
     $(".tablesorter").tablesorter({
+        "dateFormat": "dd/mm/yyyy", // TODO may need to update tablesorter to newer version to get this to work https://mottie.github.io/tablesorter/docs/example-option-date-format.html
         "sortList": [[5,1]],
-        "headers":{7:{"sorter":false}}
+        "headers":{
+            3: {"sorter": "shortDate" },
+            6: {"sorter": "shortDate" },
+            7: {"sorter": "shortDate" },
+            9: {"sorter": "shortDate" },
+            8: {"sorter": false}
+        }
     }); 
 
     var makeid = function(length) {

@@ -1148,7 +1148,7 @@ search box - the end user will not know they are happening.
             if ( sortchoice.length != 0 ) {
                 var sorting = {};
                 var sorton = sortchoice;
-                sorting[sorton] = {'order': $('.facetview_order', obj).attr('href')};
+                sorting[sorton] = {'order': $('.facetview_order', obj).attr('href') + '.exact'};
                 options.sort = [sorting];
             } else {
                 options.sort = [];

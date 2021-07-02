@@ -279,10 +279,12 @@
                     <td>{% if record.first_attending_university %}{% if record.first_attending_university %}Yes{% else %}No{% endif %}{% else %}Yes/No{% endif %}</td>
 
                 </tr>
+                {% if record.law_application %}
                 <tr>
                     <td style="width:30%;">Law application?</td> 
                     <td>{% if record.law_application %}{% if record.law_application %}Yes{% else %}No{% endif %}{% else %}Yes/No{% endif %}</td>
                 </tr>
+                {% endif %}
                 <tr>
                     <td style="width:30%;">Early application?</td> 
                     <td>{% if record.early_application %}{% if record.early_application %}Yes{% else %}No{% endif %}{% else %}Yes/No{% endif %}</td>
@@ -312,10 +314,12 @@
                     <td style="width:30%;">HN only candidate?</td>
                     <td>{% if record.hn_only_candidate %}{% if record.hn_only_candidate %}Yes{% else %}No{% endif %}{% else %}Yes/No{% endif %}</td>
                 </tr>
+                {% if record.previous_interview %}
                 <tr>
                     <td style="width:30%;">Previous interview in S5?</td>
                     <td>{% if record.previous_interview %}{% if record.previous_interview %}Yes{% else %}No{% endif %}{% else %}Yes/No{% endif %}</td>
                 </tr>
+                {% endif %}
                 <tr>
                     <td style="width:30%;{% if record.claimed_estranged %}text-decoration:underline;font-weight:bold;{% endif %}">Estranged</td>
                     <td>{% if record.estranged %}{% if record.estranged %}Yes{% else %}No{% endif %}{% else %}Yes/No{% endif %}</td>
@@ -324,10 +328,12 @@
                     <td style="width:30%;">LEAPS transition course</td>
                     <td>{% if record.transition_course %}{% if record.transition_course %}Yes{% else %}No{% endif %}{% else %}Yes/No{% endif %}</td>
                 </tr>
+                {% if record.pae_action %}
                 <tr>
                     <td style="width:30%;">PAE action</td>
                     <td>{% if record.pae_action %}{% if record.pae_action %}Yes{% else %}No{% endif %}{% else %}Yes/No{% endif %}</td>
                 </tr>
+                {% endif %}
                 <tr>
                     <td colspan="2" style="min-height:400px;">Additional comments<br /><br />{{ record.additional_comments|safe }}</td>
                 </tr>

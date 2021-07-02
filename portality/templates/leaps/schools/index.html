@@ -63,6 +63,7 @@ jQuery(document).ready(function() {
                         <th>Last Name</th>
                         <th>Date of Birth</th>
                         <th>Status</th>
+                        <th>LEAPS Eligibility</th>
                         <th>School House</th>
                         <th>&nbsp;</th>
                     </tr>
@@ -74,6 +75,17 @@ jQuery(document).ready(function() {
                         <td>{{ student.last_name }}</td>
                         <td>{{ student.date_of_birth }}</td>
                         <td>{{ student.status }}</td>
+                        <td>
+                        {% if student.status in ["new","query","absent","awaiting_interview","interviewed"] %}
+                            To be confirmed - check back later
+                        {% elif student.status in ["not_eligible_interviewed","not_eligible_not_interviewed","not_applying_not_interviewed"] %}
+                            Not LEAPS eligible
+                        {% elif student.status in ["not_applying_interviewed","paes_requested","paes_in_progress","paes_complete","complete"] %}
+                            LEAPS eligible
+                        {% else %}
+                            Unknown - check with LEAPS staff
+                        {% endif %}
+                        </td>
                         <td>{{ student.school_house }}</td>
                         <td>
                         {% if student.status in ["new","awaiting_interview","absent"] %}
