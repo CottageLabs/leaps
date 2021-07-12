@@ -1,5 +1,5 @@
 
-from flask import Blueprint, request, abort, render_template, redirect
+from flask import Blueprint, request, flash, abort, render_template, redirect
 from flask.ext.login import current_user
 
 from flask_weasyprint import HTML, render_pdf
@@ -64,7 +64,7 @@ def interviewForm(sid):
         abort(404)
     elif interviewer != True and interviewer != student.data.get('interviewer'):
         abort(401)
-    elif request.method is 'GET':
+    elif request.method == 'GET':
         student = models.Student.pull(sid)
         return render_template('leaps/interviews/form.html', student=student)
     else:
@@ -86,7 +86,7 @@ def interviewPlan(sid):
         abort(404)
     elif interviewer != True and interviewer != student.data.get('interviewer'):
         abort(401)
-    elif request.method is 'GET':
+    elif request.method == 'GET':
         interviewer = current_user.perform_interviews
         student = models.Student.pull(sid)
         return render_template('leaps/interviews/plan.html', student=student)
