@@ -6,6 +6,7 @@ from flask_weasyprint import HTML, render_pdf
 
 from portality.core import app
 import portality.models as models
+from portality.view.leaps.forms import dropdowns
 import portality.util as util
 
 from datetime import datetime, date
@@ -60,13 +61,24 @@ def interviewPDF(sid):
 def interviewForm(sid):
     student = models.Student.pull(sid)
     interviewer = current_user.perform_interviews
+    
+    selections={
+        "schools": dropdowns('school')
+        #"subjects": dropdowns('subject'),
+        #"advancedsubjects": dropdowns('advancedsubject'),
+        #"levels": dropdowns('level'),
+        #"grades": dropdowns('grade'),
+        #"institutions": dropdowns('institution'),
+        #"advancedlevels": dropdowns('advancedlevel')
+    }
+
     if student is None:
         abort(404)
     elif interviewer != True and interviewer != student.data.get('interviewer'):
         abort(401)
     elif request.method == 'GET':
         student = models.Student.pull(sid)
-        return render_template('leaps/interviews/form.html', student=student)
+        return render_template('leaps/interviews/form.html', student=student, selections=selections)
     else:
         # save the form into the student record
         if not student.data.get('interview',False):
@@ -76,7 +88,7 @@ def interviewForm(sid):
         student.data['interview']['form_date'] = datetime.now().strftime("%Y-%m-%d %H%M")
         student.save()
         flash('The interview admin form data has been saved to the student record')
-        return render_template('leaps/interviews/form.html', student=student)
+        return render_template('leaps/interviews/form.html', student=student, selections=selections)
         
 @blueprint.route('/<sid>/plan', methods=['GET', 'POST'])
 def interviewPlan(sid):
