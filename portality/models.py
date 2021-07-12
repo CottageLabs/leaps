@@ -135,6 +135,10 @@ class Student(DomainObject):
             rec['paelocs'] = self.data['paelocs']
         else:
             rec['paelocs'] = {}
+        if 'interview' in self.data:
+            rec['interview'] = self.data['interview']
+        else:
+            rec['interview'] = {}
         
         for key in request.form.keys():
             if not key.startswith("qualification_") and not key.startswith("interest_") and not key.startswith("application_") and not key.startswith("experience_") and key not in ['submit']:
@@ -569,6 +573,10 @@ class Account(DomainObject, UserMixin):
     @property
     def is_school(self):
         return auth.user.is_school(self)
+
+    @property
+    def perform_interviews(self):
+        return auth.user.perform_interviews(self)
             
     @property
     def agreed_policy(self):

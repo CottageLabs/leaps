@@ -62,6 +62,14 @@ def is_school(user):
     else:
         return view_admin(user)
 
+# a user that can be assigned to interviews, who can see students assigned to them for interview
+def perform_interviews(user):
+    if user.data.get('perform_interviews',False):
+        return user.data['id']
+    elif view_admin(user) and request.values.get('interviewer',False):
+        return request.values['interviewer']
+    else:
+        return view_admin(user)
 
 
 

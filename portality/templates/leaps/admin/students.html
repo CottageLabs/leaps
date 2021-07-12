@@ -2,12 +2,22 @@
 
 {% block options %}
             {% if current_user.edit_students %}
-            <a class="btn btn-primary" href="/admin/student/new">add new student survey</a>
+            <a class="btn btn-primary" href="/admin/student/new">Add new student survey</a>
             {% endif %}
             {% if current_user.do_admin %}
             <a id="export" class="btn" href="/admin/export">Export selected</a>
             {% endif %}
             <a id="print" class="btn" href="/admin/student/selected.pdf">Print selected</a>
+            {% if current_user.edit_students %}
+            <br>
+            <a id="interviewers" class="btn btn-primary" href="/admin/assign">Assign interviewer</a>
+            <select id="assign" style="display: none;">
+                <option></option>
+            {% for name in interviewers %}
+                <option>{{ name }}</option>
+            {% endfor %}
+            </select>
+            {% endif %}
 {% endblock %}
 
 
@@ -37,6 +47,45 @@ jQuery(document).ready(function() {
     }
     $('#export').bind('click',getthese);
     $('#print').bind('click',getthese);
+    
+    var interviewers = function(event) {
+        event.preventDefault();
+        var selected = false;
+        $('.selectthis').each(function() {
+            if ($(this).is(':checked')) selected = true;
+        });
+        if (selected) {
+            $('#assign').toggle();
+            $('#interviewers').toggle();
+        }
+    }
+    $('#interviewers').bind('click',interviewers);
+    var assign = function(event) {
+        event.preventDefault();
+        var selected = [];
+        var qry = $.parseJSON($.fn.facetview.options.querystring);
+        delete qry.fields;
+        if ( $('#selecttotal').is(':checked') ) {
+            qry.size = $.fn.facetview.options.rawdata.hits.total;
+        } else if ( $('#selectall').is(':checked') ) {
+        } else {
+            $('.selectthis').each(function() {
+                if ($(this).is(':checked')) selected.push($(this).attr('name').replace("select_",""));
+            });
+        }
+        var si = $('#assign').val();
+        if (si) {
+            var loc = '/admin/student/assign?interviewer=' + si + '&q=' + JSON.stringify(qry);
+            if ( selected.length > 0 ) {
+                loc += '&selected=' + JSON.stringify(selected);
+            }
+            $('#assign').replaceWith('Updating...');
+            alert('Does nothing yet...');
+            console.log(loc);
+            //$.ajax({url: loc, success: function() { location.reload(); }});
+        }
+    }
+    $('#assign').bind('change',assign);
     
     var post = function() {
         if ( $('#default_current').length == 0 ) {
@@ -78,9 +127,10 @@ jQuery(document).ready(function() {
             {'field':'simd_decile.exact', 'display': 'SIMD decile', 'size':1000},
             {'field':'status.exact', 'display': 'status', 'size':1000},
             {'field':'applications.institution.exact', 'display': 'Application institutions', 'size':1000},
-            {'field':'summer_school.exact', 'display': 'Summer school'}
+            {'field':'summer_school.exact', 'display': 'Summer school'},
+            {'field':'interviewer.exact', 'display': 'Interviewer', 'size':100}
         ],
-        fields: ['last_name', 'first_name', 'date_of_birth','post_code','simd_decile','school','status','archive','id'],
+        fields: ['last_name', 'first_name', 'date_of_birth','post_code','simd_decile','school','interviewer','status','archive','id'],
         paging: {
             from: 0,
             size: 100
@@ -169,6 +219,11 @@ jQuery(document).ready(function() {
                 {
                     "pre": "<td>",
                     "field": "status",
+                    "post": "</td>"
+                },
+                {
+                    "pre": "<td>",
+                    "field": "interviewer",
                     "post": "</td>"
                 },
                 {

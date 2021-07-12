@@ -128,8 +128,14 @@ def settings():
 @blueprint.route('/student')
 @blueprint.route('/student/<uuid>', methods=['GET','POST','DELETE'])
 def student(uuid=None):
+    interviewers = []
+    users = models.Account.query(q={"query":{"query_string":{"query": "perform_interviews:*"}},"sort":{'id.exact':{'order':'asc'}}, "size":100000})
+    if users['hits']['total'] != 0:
+        for i in users['hits']['hits']]:
+            if i.get('_source',{}).get('perform_interviews',False): interviewers.append(i['_source']['id'])
+
     if uuid is None:
-        return render_template('leaps/admin/students.html')
+        return render_template('leaps/admin/students.html', interviewers=interviewers)
 
     if uuid == "new":
         student = models.Student()
@@ -168,7 +174,8 @@ def student(uuid=None):
         return render_template(
             'leaps/admin/student.html', 
             record=student, 
-            selections=selections
+            selections=selections,
+            interviewers=interviewers
         )
     elif ( request.method == 'POST' and request.values.get('submit','') == "Delete" ) or request.method == 'DELETE':
         student.delete()
@@ -185,7 +192,8 @@ def student(uuid=None):
             return render_template(
                 'leaps/admin/student.html', 
                 record=student, 
-                selections=selections
+                selections=selections,
+                interviewers=interviewers
             )
 
 @blueprint.route('/student/<uuid>/fix', methods=['GET'])
@@ -200,6 +208,23 @@ def studentfix(uuid=None):
                     break
     student.save()
     return redirect('/admin/student/' + uuid)
+
+@blueprint.route('/student/assign', methods=['GET'])
+def studentassign():
+    interviewer = request.values.get('interviewer')
+    query = json.loads(request.values.get('q','{"query":{"match_all":{}}}'))
+    selected = json.loads(request.values.get('selected','[]'))
+    if interviewer:
+        s = models.Student.query(q=query)
+        counter = 0
+        for i in s.get('hits',{}).get('hits',[]): 
+            if len(selected) == 0 or i['_source']['id'] in selected:
+                student = models.Student.pull(uuid)
+                if student.data.get('interviewer', False) != interviewer:
+                    student.data.interviewer = interviewer
+                    student.save()
+                    counter += 1
+    return counter
 
 # move a particular record from one archive to another
 @blueprint.route('/student/<uuid>/archive/<aid>', methods=['GET'])

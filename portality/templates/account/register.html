@@ -18,6 +18,7 @@ jQuery(document).ready(function($) {
                 {{ render_field(form.c, placeholder="********") }}
                 {{ render_field(form.school) }}
                 {{ render_field(form.institution) }}
+                {{ render_field(form.perform_interviews) }}
                 {{ render_field(form.view_admin) }}
                 {{ render_field(form.edit_students) }}
                 {{ render_field(form.do_admin) }}
@@ -32,6 +33,9 @@ jQuery(document).ready(function($) {
             / universities supporting data.</p>
             <p style="font-size:14px;">Schools / universities users should have a username that matches their email address, and must be associated 
               with a school or university. NOTE THESE USERS SHOULD NOT BE GIVEN VIEW_ADMIN, EDIT_STUDENTS, OR DO_ADMIN PRIVILEGES.</p>
+            <p>Users where "perform interviews" is selected will be available to LEAPS admin users to select as an interviewer to assign a student 
+                survey to. They will also be able to login to the interviewers page, view students assigned to them, and perform related interview actions.
+                NOTE a user can "perform interviews" whilst also having other attributes such as being a school contact.</p>
             <p style="font-size:14px;">For LEAPS admin users, create a user with your preferred username, and select if the user should have DO_ADMIN, 
               EDIT_STUDENTS, or VIEW_ADMIN privileges. Although you can more than one, the permissions cascade down anyway.</p>
             <p style="font-size:14px;">VIEW_ADMIN allows a user to access the LEAPS /admin area and to view any information there, but NOT to edit 

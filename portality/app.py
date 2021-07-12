@@ -10,6 +10,7 @@ from portality.view.leaps.account import blueprint as account
 from portality.view.leaps.admin import blueprint as admin
 from portality.view.leaps.universities import blueprint as universities
 from portality.view.leaps.schools import blueprint as schools
+from portality.view.leaps.interviews import blueprint as interviews
 from portality.view.leaps.forms import blueprint as forms
 from portality.view.leaps.imports import blueprint as imports
 from portality.view.leaps.exports import blueprint as exports
@@ -23,6 +24,7 @@ app.register_blueprint(account, url_prefix='/account')
 app.register_blueprint(admin, url_prefix='/admin')
 app.register_blueprint(universities, url_prefix='/universities')
 app.register_blueprint(schools, url_prefix='/schools')
+app.register_blueprint(schools, url_prefix='/interviews')
 app.register_blueprint(forms, url_prefix='/survey')
 app.register_blueprint(imports, url_prefix='/admin/import')
 app.register_blueprint(exports, url_prefix='/admin/export')

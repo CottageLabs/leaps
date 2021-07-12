@@ -9,11 +9,12 @@
     {% if userstats %}
         <p>
           There are <a href="?users=super">{{ userstats.super_user }}</a> super users, 
-          <a href="?users=do_admin">{{ userstats.do_admin }}</a> users with adminstrative access, 
-          <a href="?users=edit_students">{{ userstats.edit_students }}</a> users with edit students access to admin, 
-          <a href="?users=view_admin">{{ userstats.view_admin }}</a> users with view access to admin, 
-          <a href="?users=school">{{ userstats.school_users }}</a> associated school accounts, 
-          and <a href="?users=institution">{{ userstats.institution_users }}</a> associated institution accounts.</p>
+          <a href="?users=do_admin">{{ userstats.do_admin }}</a> with access to admin, 
+          <a href="?users=edit_students">{{ userstats.edit_students }}</a> users who can edit students in admin, 
+          <a href="?users=view_admin">{{ userstats.view_admin }}</a> users who can only view admin, 
+          <a href="?users=school">{{ userstats.school_users }}</a> school accounts, 
+          <a href="?users=institution">{{ userstats.institution_users }}</a> institution accounts,
+          and <a href="?users=perform_interviews">{{ userstats.perform_interviews }}</a> interviewer accounts.</p>
     {% endif %}
     {% if showing %}
     <p>Showing {{ showing }} users.</p>

@@ -27,6 +27,7 @@ def index():
     users = models.Account.query(q={"query":{"match_all":{}},"sort":{'id.exact':{'order':'asc'}}, "size":100000})
     userstats = {
         "super_user": 0,
+        "perform_interviews": 0,
         "do_admin": 0,
         "edit_students": 0,
         "view_admin": 0,
@@ -46,13 +47,14 @@ def index():
                 userstats["edit_students"] += 1
             elif acc.data.get('view_admin',False):
                 userstats["view_admin"] += 1
+            if acc.data.get('perform_interviews',False): userstats["perform_interviews"] += 1
             if acc.data.get('school',"") != "": userstats["school_users"] += 1
             if acc.data.get('institution',"") != "": userstats["institution_users"] += 1
 
             user = {'id':acc.id}
             if 'created_date' in acc.data:
                 user['created_date'] = acc.data['created_date']
-            if request.values.get('users',False) == False or (request.values['users'] == 'school' and acc.data.get('school','') != '') or (request.values['users'] == 'institution' and acc.data.get('institution','') != '') or (request.values['users'] == 'super' and acc.id in app.config['SUPER_USER']) or (request.values['users'] not in ['school','institution','super'] and acc.data.get(request.values['users'],False)):
+            if request.values.get('users',False) == False or (request.values['users'] == 'perform_interviews' and acc.data.get('perform_interviews','') != '') or (request.values['users'] == 'school' and acc.data.get('school','') != '') or (request.values['users'] == 'institution' and acc.data.get('institution','') != '') or (request.values['users'] == 'super' and acc.id in app.config['SUPER_USER']) or (request.values['users'] not in ['school','institution','super'] and acc.data.get(request.values['users'],False)):
                 users.append(user)
     if util.request_wants_json():
         resp = make_response( json.dumps(users, sort_keys=True, indent=4) )
@@ -227,7 +229,8 @@ class RegisterForm(Form):
     c = PasswordField('Repeat Password')
     school = SelectField('School', choices=[(i,i) for i in [""]+dropdowns('school')])
     institution = SelectField('Institution', choices=[(i,i) for i in [""]+dropdowns('institution')])
-    view_admin = BooleanField('View admin')
+    perform_interviews = BooleanField('Perform interviews')
+    view_admin = BooleanField('View admin area')
     edit_students = BooleanField('Edit students')
     do_admin = BooleanField('Do admin')
 
@@ -244,6 +247,7 @@ def register():
             api_key=api_key,
             school = form.school.data,
             institution = form.institution.data,
+            perform_interviews = form.perform_interviews.data,
             view_admin = form.view_admin.data,
             edit_students = form.edit_students.data,
             do_admin = form.do_admin.data
