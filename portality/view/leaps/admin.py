@@ -131,7 +131,7 @@ def student(uuid=None):
     interviewers = []
     users = models.Account.query(q={"query":{"query_string":{"query": "perform_interviews:*"}},"sort":{'id.exact':{'order':'asc'}}, "size":100000})
     if users['hits']['total'] != 0:
-        for i in users['hits']['hits']]:
+        for i in users['hits']['hits']:
             if i.get('_source',{}).get('perform_interviews',False): interviewers.append(i['_source']['id'])
 
     if uuid is None:
