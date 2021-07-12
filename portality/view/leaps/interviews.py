@@ -71,7 +71,7 @@ def interviewForm(sid):
         # save the form into the student record
         if not student.data.get('interview',False):
             student.data['interview'] = {}
-        for field in request.form.keys()
+        for field in request.form.keys():
             student.data['interview'][field] = request.form[field]
         student.data['interview']['form_date'] = datetime.now().strftime("%Y-%m-%d %H%M")
         student.save()
