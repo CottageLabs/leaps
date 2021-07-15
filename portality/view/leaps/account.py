@@ -73,6 +73,16 @@ def username(username):
         time.sleep(1)
         flash("Account " + str(acc.id) + " deleted")
         return redirect('/account')
+    elif current_user.do_admin and ( ( request.method == 'POST' and request.values.get('submit','') == "Add interview capability to this account" ) ):
+        acc.data.perform_interviews = True
+        acc.save()
+        flash("Account updated", "success")
+        return render_template('account/view.html', account=acc)
+    elif current_user.do_admin and ( ( request.method == 'POST' and request.values.get('submit','') == "Remove this account from interview capability" ) ):
+        acc.data.perform_interviews = False
+        acc.save()
+        flash("Account updated", "success")
+        return render_template('account/view.html', account=acc)
     elif request.method == 'POST':
         if not auth.user.update(acc,current_user):
             abort(401)

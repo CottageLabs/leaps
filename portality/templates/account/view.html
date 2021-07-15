@@ -42,6 +42,16 @@
                 {% if account.data.institution %}
                     <p><input name="institution" type="text" value="{{account.data.institution}}" disabled="disabled"></p>
                 {% endif %}
+                {% if account.data.perform_interviews %}
+                    <p>This account can perform perform interviews.</p>
+                    <form action="" method="post">
+                	    <input id="disable_interview" class="btn btn-info" type="submit" name="submit" value="Remove this account from interview capability">
+                	</form>
+                {% else %}
+                    <form action="" method="post">
+                	    <input id="enable_interview" class="btn btn-primary" type="submit" name="submit" value="Add interview capability to this account">
+                	</form>
+                {% endif %}
                 {% if account.data.do_admin %}
                 <p>This account can perform admin area actions.</p>
                 {% endif %}

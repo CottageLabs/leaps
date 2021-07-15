@@ -27,17 +27,14 @@
         </div>
     </div>
     <div class="span3">
-        <div class="alert alert-success" style="min-height:110px;">
-            <p>You are logged in as {{current_user.id}}. 
-            {% if current_user.is_super %}
-                You are the super user. You can edit anything, edit user accounts, and turn surveys and interfaces on and off.
-            {% else %}
-                {% if current_user.do_admin %} You have full edit and export ability.
-                {% elif current_user.edit_students %} You can create and edit student records.
-                {% else %} You can view administrative data, but you cannot edit.
-                {% endif %}
+        <div class="alert alert-info" style="min-height:110px;">
+            <p><span style="font-size:24px;">{{stats.number_of_interviews_done}}</span> interview forms have been done.</p>
+            <p><span style="font-size:24px;">{{stats.number_of_action_plans_awaiting_email}}</span> action plans have not been emailed.</p>
+            {% if current_user.do_admin %}
+            {% if stats.number_of_action_plans_awaiting_email != 0 %}
+            <p><a class="btn btn-info" href="/interview/unemailed/email">Email the {{stats.number_of_action_plans_awaiting_email}} action plans</a></p>
             {% endif %}
-            </p>
+            {% endif %}
         </div>
     </div>
 </div>    
@@ -68,10 +65,21 @@
     </div>
     <div class="span3">
         <div class="alert alert-success" style="min-height:110px;">
-            {% if current_user.view_admin %}
-            <p><a class="btn btn-success" href="/account/{{current_user.id}}" style="min-width:110px;">Account settings</a></p>
+            <p>You are logged in as {{current_user.id}}. 
+            {% if current_user.is_super %}
+                You are the super user. You can edit anything, edit user accounts, and turn surveys and interfaces on and off.
+            {% else %}
+                {% if current_user.do_admin %} You have full edit and export ability.
+                {% elif current_user.edit_students %} You can create and edit student records.
+                {% else %} You can view administrative data, but you cannot edit.
+                {% endif %}
             {% endif %}
-            <p><a class="btn btn-success" href="/account/logout" style="min-width:110px;">Logout of LEAPS</a></p>
+            </p>
+            <p>
+            {% if current_user.view_admin %}
+            <a class="btn btn-success" href="/account/{{current_user.id}}" style="min-width:110px;">Account settings</a>
+            {% endif %}
+            <a class="btn btn-success" href="/account/logout" style="min-width:110px;">Logout of LEAPS</a></p>
         </div>
     </div>
 </div>

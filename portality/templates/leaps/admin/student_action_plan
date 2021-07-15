@@ -35,7 +35,7 @@
     <body>
 
         <h3>Lothians Equal Access Programme for Schools<br />
-        Action Plan</h3>
+        Student Action Plan</h3>
 
         <table>
             <tr>
@@ -54,7 +54,10 @@
                 <td class="title">SHEP school</td> <td>{% if record.shep_school == true %}Yes{% else %}No{% endif %}</td>
             </tr>
         </table>
+        
+        <h3>TODO finish display of action plan data</h3>
 
+        <!--
         <h3>Qualifications</h3>
         <table>
             <tr>
@@ -133,6 +136,7 @@
             <p>{{ record.additional_comments|safe }}</p>
         {% endif %}
         <br><br>
+        -->
 
     </body>
 </html>

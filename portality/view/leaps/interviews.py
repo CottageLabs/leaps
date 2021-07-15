@@ -145,7 +145,7 @@ def interviewEmail(sid):
                 abort(404)
             else:
                 _email_interview(student)
-                return redirect('/interviews')
+                return redirect('/admin')
     else:
         abort(401) 
            
@@ -201,22 +201,13 @@ The LEAPS TEAM'''
         subject = "LEAPS interview action plan"
 
         files = [{
-            'content': paepdf(application['appid'],giveback=True), 
+            'content': interviewPlanPDF(student.data.id,giveback=True), 
             'filename': 'LEAPS_interview_' + studentname.replace(" ","_") + '_action_plan.pdf'
         }]
 
         util.send_mail(to=to, fro=fro, subject=subject, text=text, files=files)
 
-        all_mailed = True
-        for appn in student.data['applications']:
-            if appn['appid'] == application['appid']:
-                appn['pae_emailed'] = datetime.now().strftime("%d/%m/%Y")
-            elif appn.get('pae_requested',False) and not appn.get('pae_emailed',False):
-                all_mailed = False
-
-        if all_mailed and student.data['status'].startswith('paes'):
-            student.data['status'] = 'paes_complete'
-
+        student.data['interview']['emailed_date'] = datetime.now().strftime("%d/%m/%Y")
         student.save()
 
         if flashable:
@@ -235,17 +226,17 @@ def _get_interviews_awaiting_email():
                         {'archive'+app.config['FACET_FIELD']:'current'}
                     },
                     {'query_string':
-                        {'query':'*','default_field':'pae_reply_received'}
+                        {'query':'*','default_field':'interview.form_date'}
                     }
                 ],
                 'must_not':[
-                    {'term':
-                        {'status'+app.config['FACET_FIELD']:'paes_complete'}
+                    {'query_string':
+                        {'query':'*','default_field':'interview.emailed_date'}
                     }
                 ]
             }
         },
-        "sort":[{"_process_paes_date"+app.config['FACET_FIELD']:{"order":"desc"}}],
+        "sort":[{"interview.form_date"+app.config['FACET_FIELD']:{"order":"desc"}}],
         'size':10000
     }
 
