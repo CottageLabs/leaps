@@ -104,7 +104,7 @@ def index():
         }
         stats["schools_with_students_submitted"] = len(models.Student.query(q=qr)['facets']['schools']['terms'])
 
-        delete qr.facets
+        del qr['facets']
         qr['query']['bool']['must'][1] = {"query_string":{"default_field": "interview.form_date", "query": "*"}}
         st = models.Student.query(q=qr)
         stats["number_of_interviews_done"] = st.hits.total
