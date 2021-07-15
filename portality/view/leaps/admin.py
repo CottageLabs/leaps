@@ -95,7 +95,7 @@ def index():
         st = models.Student.query(q=qr)
         stats["number_of_interviews_done"] = st['hits']['total']
 
-        qr['query']['bool']['must_not'][1] = {"query_string":{"default_field": "interview.emailed_date", "query": "*"}}
+        qr['query']['bool']['must_not'].append({"query_string":{"default_field": "interview.emailed_date", "query": "*"}})
         st = models.Student.query(q=qr)
         stats["number_of_action_plans_awaiting_email"] = st['hits']['total']
 
