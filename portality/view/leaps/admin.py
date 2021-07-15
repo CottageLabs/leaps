@@ -90,9 +90,18 @@ def index():
                     stats["number_of_pae_issued"] += 1
                 if ('pae_reply_received' in appn and len(appn['pae_reply_received']) > 0) and not ('pae_emailed' in appn and len(appn['pae_emailed']) > 0):
                     stats["number_of_pae_awaiting_email"] += 1
-        
+
+        qr['query']['bool']['must'][1] = {"query_string":{"default_field": "interview.form_date", "query": "*"}}
+        st = models.Student.query(q=qr)
+        stats["number_of_interviews_done"] = st.hits.total
+
+        qr['query']['bool']['must_not'] = [{"query_string":{"default_field": "interview.emailed_date", "query": "*"}}]
+        st = models.Student.query(q=qr)
+        stats["number_of_action_plans_awaiting_email"] = st.hits.total
+
         stats["total_schools"] = models.School.query()['hits']['total']
         
+        del qr['query']['bool']['must_not']
         qr['query']['bool']['must'] = [qr['query']['bool']['must'][0]]
         qr['facets'] = {
             "schools":{
@@ -103,15 +112,6 @@ def index():
             }
         }
         stats["schools_with_students_submitted"] = len(models.Student.query(q=qr)['facets']['schools']['terms'])
-
-        del qr['facets']
-        qr['query']['bool']['must'][1] = {"query_string":{"default_field": "interview.form_date", "query": "*"}}
-        st = models.Student.query(q=qr)
-        stats["number_of_interviews_done"] = st.hits.total
-
-        qr['query']['bool']['must_not'] = [{"query_string":{"default_field": "interview.emailed_date", "query": "*"}}]
-        st = models.Student.query(q=qr)
-        stats["number_of_action_plans_awaiting_email"] = st.hits.total
 
     else:
         stats = None
