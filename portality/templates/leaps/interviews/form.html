@@ -99,7 +99,7 @@ td > p {
                     <tr>
                         <td><p>First attending university?</p></td>
                         <td>
-                            <input type="checkbox" name="first_attending_university" value="yes"{% if student %}{% if student.data.interview %}{% if student.data.interview.law_application %}checked{% endif %}{% endif %}{% endif %}>
+                            <input type="checkbox" name="first_attending_university" value="yes"{% if student %}{% if student.data.interview %}{% if student.data.interview.first_attending_university %}checked{% endif %}{% endif %}{% endif %}>
                         </td>
                     </tr>
                     <tr>
