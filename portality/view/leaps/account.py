@@ -74,12 +74,12 @@ def username(username):
         flash("Account " + str(acc.id) + " deleted")
         return redirect('/account')
     elif current_user.do_admin and ( ( request.method == 'POST' and request.values.get('submit','') == "Add interview capability to this account" ) ):
-        acc.data.perform_interviews = True
+        acc.data['perform_interviews'] = True
         acc.save()
         flash("Account updated", "success")
         return render_template('account/view.html', account=acc)
     elif current_user.do_admin and ( ( request.method == 'POST' and request.values.get('submit','') == "Remove this account from interview capability" ) ):
-        acc.data.perform_interviews = False
+        acc.data['perform_interviews'] = False
         acc.save()
         flash("Account updated", "success")
         return render_template('account/view.html', account=acc)
