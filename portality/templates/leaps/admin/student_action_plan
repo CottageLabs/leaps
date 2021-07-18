@@ -35,108 +35,194 @@
     <body>
 
         <h3>Lothians Equal Access Programme for Schools<br />
-        Student Action Plan</h3>
+        Pre-UCAS Interview Student Action Plan</h3>
 
         <table>
             <tr>
-                <td class="title">First name</td> <td>{{ record.first_name }}</td>
-                <td class="title">Last name</td> <td>{{ record.last_name }}</td>
-                <td class="title">Date of birth</td> <td>{{ record.date_of_birth }}</td>
+                <td class="title">Date of interview</td> <td>{{ record.interview.form_date }}</td>
+                <td class="title">Name of interviewer</td> <td>{{ record.interviewer }}</td>
             </tr>
             <tr>
-                <td class="title">Post code</td> <td>{{ record.post_code }}</td>
+                <td class="title">Student first name</td> <td>{{ record.first_name }}</td>
+                <td class="title">Student last name</td> <td>{{ record.last_name }}</td>
+            </tr>
+            <tr>
                 <td class="title">School</td> <td>{{ record.school }}</td>
-                <td class="title">SCN number</td> <td>{{ record.scn_number }}</td>
-            </tr>
-            <tr>
-                <td class="title">SIMD %</td> <td>{{ record.simd_pc }}</td>
-                <td class="title">LEAPS school category</td> <td>{{ record.leaps_category }}</td>
-                <td class="title">SHEP school</td> <td>{% if record.shep_school == true %}Yes{% else %}No{% endif %}</td>
             </tr>
         </table>
         
-        <h3>TODO finish display of action plan data</h3>
-
-        <!--
-        <h3>Qualifications</h3>
         <table>
             <tr>
-                <th>Year</th>
-                <th>Level</th>
-                <th>Subject</th>
-                <th>Grade</th>
+                <td><h3>Summary of discussion / key action points</h3></td>
             </tr>
-            {% for object in record.qualifications %}
-                {% if object.year|lower == "third year" %}
-                    <tr><td>{{ object.year }}</td><td>{{ object.level }}</td><td>{{ object.subject }}</td><td>{{ object.grade }}</td></tr>
-                {% endif %}
-            {% endfor %}
-            {% for object in record.qualifications %}
-                {% if object.year|lower == "fourth year" %}
-                    <tr><td>{{ object.year }}</td><td>{{ object.level }}</td><td>{{ object.subject }}</td><td>{{ object.grade }}</td></tr>
-                {% endif %}
-            {% endfor %}
-            {% for object in record.qualifications %}
-                {% if object.year|lower == "fifth year" %}
-                    <tr><td>{{ object.year }}</td><td>{{ object.level }}</td><td>{{ object.subject }}</td><td>{{ object.grade }}</td></tr>
-                {% endif %}
-            {% endfor %}
-            {% for object in record.qualifications %}
-                {% if object.year|lower == "sixth year" %}
-                    <tr><td>{{ object.year }}</td><td>{{ object.level }}</td><td>{{ object.subject }}</td><td>{{ object.grade }}</td></tr>
-                {% endif %}
-            {% endfor %}
-            {% for object in record.qualifications %}
-                {% if object.year|lower != "third year" and object.year|lower != "fourth year" and object.year|lower != "fifth year" and object.year|lower != "sixth year" %}
-                    <tr><td>{{ object.year }}</td><td>{{ object.level }}</td><td>{{ object.subject }}</td><td>{{ object.grade }}</td></tr>
-                {% endif %}
-            {% endfor %}
-        </table> 
+            <tr>
+                <td><p>{{ record.interview.action_points }}</p></td>
+            </tr>
+        </table>
 
-        <h3>Further information</h3>
-        <p>
-            {% if record.simd20 %}
-                This student has a home post code relating to SIMD 20%<br />
-            {% endif %}
-            {% if record.simd40 %}
-                This student has a home post code relating to SIMD 40%<br />
-            {% endif %}
-            {% if record.first_attending_university %}
-                This student is the first from their family attending university<br />
-            {% endif %}
-            {% if record.looked_after_child %}
-                This student was a looked after child<br />
-            {% endif %}
-            {% if record.low_income_family %}
-                This student is from a low income family<br />
-            {% endif %}
-            {% if record.young_carer %}
-                This student is a young carer<br />
-            {% endif %}
-            {% if record.law_application %}
-                This student is making a law application<br />
-            {% endif %}
-            {% if record.early_application %}
-                This student is making an early application<br />
-            {% endif %}
-            {% if record.main_language_at_home and record.main_language_at_home != "" %}
-                Main language at home is {{ record.main_language_at_home }}<br>
-            {% endif %}
-            {% if record.estranged %}
-                This student is currently estranged<br>
-            {% endif %}
-            {% if record.transition_course %}
-                This student is undertaking the LEAPS Transition Course
-            {% endif %}
-        </p>
-        {% if application.notes != "" %}
-            <p>{{ application.notes|safe }}</p>
+        <table>
+            <tr>
+                <td><h3>Courses discussed</h3></td>
+            </tr>
+            <tr>
+                <td><p>{{ record.interview.courses_discussed }}</p></td>
+            </tr>
+        </table>
+
+        <table>
+            <tr>
+                <td><h3>Specific subjects required</h3></td>
+            </tr>
+            <tr>
+                <td><p>{{ record.interview.specific_subjects_required }}</p></td>
+            </tr>
+        </table>
+        
+        <table>
+            <tr>
+                <td><h3>Any other subject requirements</h3></td>
+            </tr>
+            <tr>
+                <td><p>{{ record.interview.other_subjects_required }}</p></td>
+            </tr>
+        </table>
+        
+        <table>
+            <tr>
+                <td><h3>HNC / HND courses / articulation routes discussed, to research</h3></td>
+            </tr>
+            <tr>
+                <td><p>{{ record.interview.hn_courses_discussed }}</p></td>
+            </tr>
+        </table>
+
+        <table>
+            <tr>
+                <td
+                    <h3>Pre-application enquiries</h3>
+                    <p>Pre-application enquires will be raised on your behalf, for the following 
+                    courses, if any:</p>
+                </td>
+            </tr>
+            <tr>
+                <td><p>TODO show the list of PAEs to be raised</p></td>
+            </tr>
+            <tr>
+                <td>
+                    <p>Find out more about pre-application enquiries in our pre-application enquiries blog post at 
+                    <a href="https://leapsonline.org/schoolstudents/s6-blog/what-pre-application-enquiry">https://leapsonline.org/schoolstudents/s6-blog/what-pre-application-enquiry</a></p>
+                </td>
+            </tr>
+        </table>
+        
+        {% if record.looked_after_child %}
+        <table>
+            <tr>
+                <td><h3>Experienced Care</h3></td>
+            </tr>
+            <tr>
+                <td>
+                    <p>LEAPS will be in touch with you with more information relating to support for students who Experienced Care.</p>
+                    <p>Please tick the 'Have you been in care?' box on the UCAS form when you apply. Find out more about this UCAS tick 
+                    box at <a href="https://www.ucas.com/file/37276/download?token=-o8W4U-c">https://www.ucas.com/file/37276/download?token=-o8W4U-c</a>.</p>
+                </td>
+            </tr>
+        </table>
         {% endif %}
-        {% if record.additional_comments != "" %}
-            <p>{{ record.additional_comments|safe }}</p>
+
+        {% if record.young_carer %}
+        <table>
+            <tr>
+                <td><h3>Young carer</h3></td>
+            </tr>
+            <tr>
+                <td>
+                    <p>LEAPS will be in touch with you with more information relating to support for students who are Young Carers.</p>
+                    <p>Please note, LEAPS does not require you be registered as a young carer in order for you to be eligible for LEAPS support.</p>
+                </td>
+            </tr>
+        </table>
         {% endif %}
-        <br><br>
-        -->
+
+        {% if record.estranged %}
+        <table>
+            <tr>
+                <td><h3>Estranged</h3></td>
+            </tr>
+            <tr>
+                <td>
+                    <p>LEAPS will be in touch with you with more information relating to support for students who are Estranged.</p>
+                </td>
+            </tr>
+        </table>
+        {% endif %}
+            
+        
+        <table>
+            <tr>
+                <td>
+                    <h3>Further options<h3>
+                    <p>To help you explore your higher education study options further, we'd suggest you look at:</p>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <h4>UCAS Website</h4>
+                    <p>For general guidance on applying to higher education visit www.ucas.com and use the UCAS
+                    Search tool at https://digital.ucas.com/search to research courses.</p>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <h4>University and College Prospectuses/Websites</h4>
+                    <p>Look at university/college websites/prospectuses to research courses and institutions.</p>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <h4>Open Days</h4>
+                    <p>You might not be able to attend college/university open days in person just now, but keep an
+                    eye out for updates as some might be available as online/virtual events and some might take
+                    place on campuses later in the year if they are able to go ahead.</p>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <h4>UCAS Open Days information</h4>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <h4>LEAPS Open Days blog post</h4>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <h4>Personal Statement Guidance</h4>
+                    <p>If you need some help writing your personal statement, have a look at the following:</p>
+
+                    <h4>LEAPS S6 Blog</h4>
+                    <p>Visit our LEAPS S6 Blog for tips and advice on higher education - you might like our recent blog
+                    post about career and course exploration during COVID-19.</p>
+                    
+                    <h4>LEAPS Parents' & Carers' Resources</h4>
+                    <p>Tell your parents and carers about our LEAPS Parents' & Carers' resources. We know they'll have
+                    questions too, and we can help answer them.</p>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <h4>Find LEAPS on Twitter and Instagram @leaps1996</h4>
+                    
+                    <p>Follow us for updates throughout the year as we support you to explore higher education at college and
+                    university by providing impartial information, advice, and guidance.</p>
+                    
+                    <p>Read our Privacy Policy at www.leapssurvey.org/policy to find out how and why we use the information you provide.</p>
+                </td>
+            </tr>
+        </table>
+        
+        <h4>www.leapsonline.org | leaps@ed.ac.uk</h4>
 
     </body>
 </html>

@@ -11,8 +11,7 @@ jQuery(document).ready(function() {
             3: {"sorter": "shortDate" },
             5: {"sorter": false},
             6: {"sorter": false},
-            7: {"sorter": false},
-            8: {"sorter": "shortDate" }
+            7: {"sorter": "shortDate" }
         }
     }); 
 }); 
@@ -41,7 +40,7 @@ jQuery(document).ready(function() {
 
                 {% endif %}
 
-                <p>Hello {% if current_user.perform_interviews != True %}LEAPS staff{% else %}current_user.id{% endif %}</p>
+                <p>Hello {% if current_user.perform_interviews != True %}LEAPS staff{% else %}{{ current_user.id }}{% endif %}</p>
                 <p>Please find listed below the students that you will be scheduled to speak to. You will be able to see
                 their interview PDF, fill out a post interview admin form and fill out an action plan on this page.</p>
                 <p>PLEASE REMEMBER action plans will be sent directly to the student from this platform and may not
@@ -66,8 +65,7 @@ jQuery(document).ready(function() {
                         <th style="width:200px;">School</th>
                         <th></th>
                         <th></th>
-                        <th></th>
-                        {% if current_user.do_admin %}<th>Emailed?</th>{% endif %}
+                        <th>{% if current_user.do_admin %}Emailed?{% endif %}</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -78,10 +76,19 @@ jQuery(document).ready(function() {
                             {% if student.scn_number %}<td>{{ student.scn_number }}</td>{% else %}<td></td>{% endif %}
                             <td>{{ student.date_of_birth }}</td>
                             <td>{{ student.school }}</td>
-                            <td><a target="_blank" href="/interviews/{{ student.id }}.pdf">View interview PDF</a></td>
-                            <td><a target="_blank" href="/interviews/{{ student.id }}/form">Fill in admin form</a></td>
-                            <td><a target="_blank" href="/interviews/{{ student.id }}/plan">Fill in action plan</a></td>
-                            <td></td><!-- emailed date -->
+                            <td><a class="btn btn-info" target="_blank" href="/interviews/{{ student.id }}.pdf">View student PDF</a></td>
+                            <td>
+                                {% if student.interview %}
+                                {% if student.interview.form_date %}
+                                <a class="btn btn-info" href="/interviews/{{ student.id }}/plan.pdf">View student action plan</a>
+                                {% else %}
+                                <a class="btn btn-primary" target="_blank" href="/interviews/{{ student.id }}/form">Fill in interview form</a>
+                                {% endif %}
+                                {% else %}
+                                <a class="btn btn-primary" target="_blank" href="/interviews/{{ student.id }}/form">Fill in interview form</a>
+                                {% endif %}
+                            </td>
+                            <td>{% if current_user.do_admin %}{% if student.interview %}{% if student.interview.emailed_date %}{{ student.interview.emailed_date }}{% endif %}{% endif %}{% endif %}</td>
                         </tr>
                     {% endfor %}
                 </tbody>

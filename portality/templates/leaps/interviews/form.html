@@ -22,6 +22,7 @@ jQuery(document).ready(function() {
         <div class="span12">
             <p style="text-align:right;">
                 <a class="btn" href="/account/logout">Logout</a>
+                <a class="btn" href="/interviews">Back to interviews list</a>
             </p>
         </div>
     </div>
@@ -30,36 +31,42 @@ jQuery(document).ready(function() {
         <div class="span12">
             <h3>Pre-UCAS Interview Administration Form</h3>
 
+            <form action="" method="post">
+
 	        <table>
 	            <tbody>
         	        <tr>
 	                    <td style="text-align:right;padding:6px 10px 0 0;">First name</td>
                 		<td><input type="text" name="first_name"
-                		{% if record %} value="{{record.data.first_name}}"{% endif %}
+                		{% if student %} value="{% if student.data.interview %}{% if student.data.interview.first_name %}{{ student.data.interview.first_name }}{% else %}{{ student.data.first_name }}{% endif %}{% else %}{{student.data.first_name}}{% endif %}"{% endif %}
                 		></td>
 
 	                    <td style="text-align:right;padding:6px 10px 0 100px;">Last name</td>
                 		<td><input type="text" name="last_name"
-                		{% if record %} value="{{record.data.last_name}}"{% endif %}
+                		{% if student %} value="{% if student.data.interview %}{% if student.data.interview.last_name %}{{ student.data.interview.last_name }}{% else %}{{ student.data.last_name }}{% endif %}{% else %}{{student.data.last_name}}{% endif %}"{% endif %}
                 		></td>
                     </tr>
         	        <tr>
+        	            <!--
 	                    <td style="text-align:right;padding:6px 10px 0 0;">Date of birth</td>
                 		<td><input type="text" class="dobdatepicker" name="date_of_birth"
-                		{% if record %} value="{{record.data.date_of_birth}}"{% endif %}
+                		{% if student %} value="{{student.data.date_of_birth}}"{% endif %}
                 		></td>
+                		-->
 
 	                    <td style="text-align:right;padding:6px 10px 0 0;">School</td>
+	                    <td>{% if student %}<p>{{ student.data.school }}</p>{% endif %}</td>
+	                    <!--
                 		<td><select name="school">
                 		    <option></option>
-                		    {% if record %}{% if record.data.school not in selections.schools %}<option style="color:red;" selected="selected">{{record.data.school}}</option>{% endif %}{% endif %}
+                		    {% if student %}{% if student.data.school not in selections.schools %}<option style="color:red;" selected="selected">{{student.data.school}}</option>{% endif %}{% endif %}
                 		    {% for opt in selections.schools %}
                 		        <option
-                		        {% if record %}{% if record.data.school == opt %} selected="selected"{% endif %}{% endif %}
+                		        {% if student %}{% if student.data.school == opt %} selected="selected"{% endif %}{% endif %}
                 		        >{{ opt }}</option>
                 		    {% endfor %}
                 		</select></td>
-
+                		-->
                     </tr>
                 </tbody>
             </table>
@@ -68,7 +75,7 @@ jQuery(document).ready(function() {
                 <tbody>
                     <tr>
                         <td><p>Please provide any missing contact details:</p></td>
-                        <td><textarea name="missing_contact_details"></textarea></td>
+                        <td><textarea name="missing_contact_details">{% if student %}{% if student.data.interview %}{{ student.data.interview.missing_contact_details }}{% endif %}{% endif %}</textarea></td>
                     </tr>
                 </tbody>
             </table>
@@ -85,76 +92,68 @@ jQuery(document).ready(function() {
                     <tr>
                         <td><p>Mothers occupation</p></td>
                         <td>
-                            <input type="text" name="mothers_occupation">
+                            <input type="text" name="mothers_occupation" value="{% if student %}{% if student.data.interview %}{{ student.data.interview.mothers_occupation }}{% endif %}{% endif %}">
                         </td>
                     </tr>
                     <tr>
                         <td><p>Fathers occupation</p></td>
                         <td>
-                            <input type="text" name="fathers_occupation">
+                            <input type="text" name="fathers_occupation" value="{% if student %}{% if student.data.interview %}{{ student.data.interview.fathers_occupation }}{% endif %}{% endif %}">
                         </td>
                     </tr>
                     <tr>
                         <td><p>Main language at home</p></td>
                         <td>
-                            <input type="text" name="main_language_at_home">
+                            <input type="text" name="main_language_at_home" value="{% if student %}{% if student.data.interview %}{{ student.data.interview.main_language_at_home }}{% endif %}{% endif %}">
                         </td>
                     </tr>
                     
                     <tr>
                         <td><p>Law application?</p></td>
                         <td>
-                            <input type="radio" name="law_application" value="yes"> Yes 
-                            <input type="radio" name="law_application" value="no"> No
+                            <input type="radio" name="law_application" value="yes"{% if student %}{% if student.data.interview %}{% if student.data.interview.law_application %}checked{% endif %}{% endif %}{% endif %}> Yes 
                         </td>
                     </tr>
                     <tr>
                         <td><p>Early application?</p></td>
                         <td>
-                            <input type="radio" name="early_application" value="yes"> Yes 
-                            <input type="radio" name="early_application" value="no"> No
+                            <input type="radio" name="early_application" value="yes"{% if student %}{% if student.data.interview %}{% if student.data.interview.early_application %}checked{% endif %}{% endif %}{% endif %}> Yes 
                         </td>
                     </tr>
                     <tr>
                         <td><p>Low income family?</p></td>
                         <td>
-                            <input type="radio" name="low_income_family" value="yes"> Yes 
-                            <input type="radio" name="low_income_family" value="no"> No
+                            <input type="radio" name="low_income_family" value="yes"{% if student %}{% if student.data.interview %}{% if student.data.interview.low_income_family %}checked{% endif %}{% endif %}{% endif %}> Yes 
                         </td>
                     </tr>
                     <tr>
                         <td><p>Care experienced?</p></td>
                         <td>
-                            <input type="radio" name="care_experienced" value="yes"> Yes 
-                            <input type="radio" name="care_experienced" value="no"> No
+                            <input type="radio" name="care_experienced" value="yes"{% if student %}{% if student.data.interview %}{% if student.data.interview.care_experienced %}checked{% endif %}{% endif %}{% endif %}> Yes 
                         </td>
                     </tr>
                     <tr>
                         <td><p>Young carer?</p></td>
                         <td>
-                            <input type="radio" name="young_carer" value="yes"> Yes 
-                            <input type="radio" name="young_carer" value="no"> No
+                            <input type="radio" name="young_carer" value="yes"{% if student %}{% if student.data.interview %}{% if student.data.interview.young_carer %}checked{% endif %}{% endif %}{% endif %}> Yes 
                         </td>
                     </tr>
                     <tr>
                         <td><p>Estranged?</p></td>
                         <td>
-                            <input type="radio" name="estranged" value="yes"> Yes 
-                            <input type="radio" name="estranged" value="no"> No
+                            <input type="radio" name="estranged" value="yes"{% if student %}{% if student.data.interview %}{% if student.data.interview.estranged %}checked{% endif %}{% endif %}{% endif %}> Yes 
                         </td>
                     </tr>
                     <tr>
                         <td><p>HN only candidate?</p></td>
                         <td>
-                            <input type="radio" name="hn_only_candidate" value="yes"> Yes 
-                            <input type="radio" name="hn_only_candidate" value="no"> No
+                            <input type="radio" name="hn_only_candidate" value="yes"{% if student %}{% if student.data.interview %}{% if student.data.interview.hn_only_candidate %}checked{% endif %}{% endif %}{% endif %}> Yes 
                         </td>
                     </tr>
                     <tr>
                         <td><p>Previous S5 interview?</p></td>
                         <td>
-                            <input type="radio" name="previous_s5_interview" value="yes"> Yes 
-                            <input type="radio" name="previous_s5_interview" value="no"> No
+                            <input type="radio" name="previous_s5_interview" value="yes" {% if student %}{% if student.data.interview %}{% if student.data.interview.previous_s5_interview %}checked{% endif %}{% endif %}{% endif %}> Yes 
                         </td>
                     </tr>
 
@@ -165,25 +164,45 @@ jQuery(document).ready(function() {
                 <tbody>
                     <tr>
                         <td><p>Please provide any missing qualifications details:</p></td>
-                        <td><textarea name="missing_qualifications"></textarea></td>
+                        <td><textarea name="missing_qualifications">{% if student %}{% if student.data.interview %}{{ student.data.interview.missing_qualifications }}{% endif %}{% endif %}</textarea></td>
                     </tr>
-                </tbody>
-            </table>
-
-            <table>
-                <tbody>
-                    <p>Courses discussed TODO print a row for every application, and a checkbox for pae required or not?</p>
-                </tbody>
-            </table>
-
-            <table>
-                <tbody>
                     <tr>
-                        <td><p>Additional comments/actions:</p></td>
-                        <td><textarea name="additional_comments"></textarea></td>
+                        <td><p>Summary of discussion / key action points:</p></td>
+                        <td><textarea name="action_points">{% if student %}{% if student.data.interview %}{{ student.data.interview.action_points }}{% endif %}{% endif %}</textarea></td>
+                    </tr>
+                    <tr>
+                        <td><p>Courses discussed:</p></td>
+                        <td><textarea name="courses_discussed">{% if student %}{% if student.data.interview %}{{ student.data.interview.courses_discussed }}{% endif %}{% endif %}</textarea></td>
+                    </tr>
+                    <tr>
+                        <td><p>PAEs required?</p></td>
+                        <!-- TODO check these if already previously checked -->
+                        <td>
+                            {% if student %}
+                            {% for appn in student.data.applications %}
+                            <input type="checkbox" name="pae_for_{{ appn.appid }}" > {{ appn.level }} {{ appn.subject }} at {{ appn.institution }}<br>
+                            {% endfor %}
+                            {% endif %}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><p>Specific subjects required?</p></td>
+                        <td><textarea name="specific_subjects_required">{% if student %}{% if student.data.interview %}{{ student.data.interview.specific_subjects_required }}{% endif %}{% endif %}</textarea></td>
+                    </tr>
+                    <tr>
+                        <td><p>Any other subjects required?</p></td>
+                        <td><textarea name="other_subjects_required">{% if student %}{% if student.data.interview %}{{ student.data.interview.other_subjects_required }}{% endif %}{% endif %}</textarea></td>
+                    </tr>
+                    <tr>
+                        <td><p>HN courses / articulation routes discussed for consideration (if any):</p></td>
+                        <td><textarea name="hn_courses_discussed">{% if student %}{% if student.data.interview %}{{ student.data.interview.hn_courses_discussed }}{% endif %}{% endif %}</textarea></td>
                     </tr>
                 </tbody>
             </table>
+
+            <p><input type="submit" name="submit" class="btn btn-primary" value="Save form and create action plan"></p>
+            
+            </form>
 
         </div>
     </div>

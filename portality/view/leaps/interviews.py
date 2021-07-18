@@ -64,12 +64,6 @@ def interviewForm(sid):
     
     selections={
         "schools": dropdowns('school')
-        #"subjects": dropdowns('subject'),
-        #"advancedsubjects": dropdowns('advancedsubject'),
-        #"levels": dropdowns('level'),
-        #"grades": dropdowns('grade'),
-        #"institutions": dropdowns('institution'),
-        #"advancedlevels": dropdowns('advancedlevel')
     }
 
     if student is None:
@@ -84,29 +78,18 @@ def interviewForm(sid):
         if not student.data.get('interview',False):
             student.data['interview'] = {}
         for field in request.form.keys():
-            student.data['interview'][field] = request.form[field]
+            val = request.form[field]
+            if val == "yes" or val == "on":
+                val = True
+            elf val == "no" or val == "off":
+                val = False
+            student.data['interview'][field] = val
         student.data['interview']['form_date'] = datetime.now().strftime("%Y-%m-%d %H%M")
         student.save()
         flash('The interview admin form data has been saved to the student record')
         return render_template('leaps/interviews/form.html', student=student, selections=selections)
         
-@blueprint.route('/<sid>/plan', methods=['GET', 'POST'])
-def interviewPlan(sid):
-    student = models.Student.pull(sid)
-    interviewer = current_user.perform_interviews
-    if student is None:
-        abort(404)
-    elif interviewer != True and interviewer != student.data.get('interviewer'):
-        abort(401)
-    elif request.method == 'GET':
-        interviewer = current_user.perform_interviews
-        student = models.Student.pull(sid)
-        return render_template('leaps/interviews/plan.html', student=student)
-    else:
-        # save the plan into the student record
-        flash('The interview action plan data has been saved to the student record')
-        return render_template('leaps/interviews/plan.html', student=student)
-    
+
 # print a PAE form for a student
 @blueprint.route('/<sid>/plan.pdf')
 def interviewPlanPDF(sid,giveback=False):
