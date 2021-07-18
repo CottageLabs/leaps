@@ -9,6 +9,7 @@ textarea.bigfield{
 }
 td > p {
     text-align: right;
+    padding-right: 10px;
 }
 </style>
 
@@ -185,10 +186,12 @@ td > p {
                         <td><p>HN courses / articulation routes discussed for consideration (if any):</p></td>
                         <td><textarea class="bigfield" name="hn_courses_discussed">{% if student %}{% if student.data.interview %}{{ student.data.interview.hn_courses_discussed }}{% endif %}{% endif %}</textarea></td>
                     </tr>
+                    <tr>
+                        <td></td>
+                        <td><input type="submit" name="submit" class="btn btn-primary" value="Save form and create action plan"></td>
+                    </tr>
                 </tbody>
             </table>
-
-            <p><input type="submit" name="submit" class="btn btn-primary" value="Save form and create action plan"></p>
             
             </form>
 
