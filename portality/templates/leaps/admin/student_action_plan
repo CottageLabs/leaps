@@ -60,35 +60,35 @@
         <h3>Summary of discussion / key action points</h3>
         <table>
             <tr>
-                <td><p>{{ record.interview.action_points }}</p></td>
+                <td><p>{{ record.interview.action_points.replace('\r\n', '<br>') }}</p></td>
             </tr>
         </table>
 
         <h3>Courses discussed</h3>
         <table>
             <tr>
-                <td><p>{{ record.interview.courses_discussed }}</p></td>
+                <td><p>{{ record.interview.courses_discussed.replace('\r\n', '<br>') }}</p></td>
             </tr>
         </table>
 
         <h3>Specific subjects required</h3>
         <table>
             <tr>
-                <td><p>{{ record.interview.specific_subjects_required }}</p></td>
+                <td><p>{{ record.interview.specific_subjects_required.replace('\r\n', '<br>') }}</p></td>
             </tr>
         </table>
         
         <h3>Any other subject requirements</h3>
         <table>
             <tr>
-                <td><p>{{ record.interview.other_subjects_required }}</p></td>
+                <td><p>{{ record.interview.other_subjects_required.replace('\r\n', '<br>') }}</p></td>
             </tr>
         </table>
         
         <h3>HNC / HND courses / articulation routes discussed, to research</h3>
         <table>
             <tr>
-                <td><p>{{ record.interview.hn_courses_discussed }}</p></td>
+                <td><p>{{ record.interview.hn_courses_discussed.replace('\r\n', '<br>') }}</p></td>
             </tr>
         </table>
 
