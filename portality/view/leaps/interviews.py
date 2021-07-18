@@ -37,13 +37,19 @@ def restrict():
 # view students of the logged-in interviewer
 @blueprint.route('/')
 def index():
+    interviewers = []
+    users = models.Account.query(q={"query":{"query_string":{"query": "perform_interviews:*"}},"sort":{'id.exact':{'order':'asc'}}, "size":100000})
+    if users['hits']['total'] != 0:
+        for i in users['hits']['hits']:
+            if i.get('_source',{}).get('perform_interviews',False): interviewers.append(i['_source']['id'])
+
     interviewer = current_user.perform_interviews
     qry = {'sort':[{'created_date.exact':{'order':'desc'}}],'query':{'bool':{'must':[{'term':{'archive.exact':'current'}}]}},'size':10000}
     if not isinstance(interviewer,bool):
         qry['query']['bool']['must'].append({'term':{'interviewer.exact':school}})
     q = models.Student().query(q=qry)
     students = [i['_source'] for i in q.get('hits',{}).get('hits',[])]
-    return render_template('leaps/interviews/index.html', students=students)
+    return render_template('leaps/interviews/index.html', students=students, interviewers=interviewers)
 
 @blueprint.route('/<sid>.pdf')
 def interviewPDF(sid):
