@@ -104,6 +104,8 @@
                     {{ value }}<br>
                     {% endif %}
                     {% endfor %}
+                    
+                    <br>
             </tr>
             <tr>
                 <td>
