@@ -89,8 +89,10 @@ def interviewForm(sid):
         for field in request.form.keys():
             if field not in ['submit']:
                 val = request.form[field]
-                print(field)
-                print(val)
+                if field.startswith('pae_for_'):
+                    for appn in student.data['applications']:
+                        if appn.appid == field.replace('pae_for_',''):
+                            val = appn.level + ' ' + appn.subject + ' at ' + appn.institution
                 if val == "yes" or val == "on":
                     val = True
                 elif val == "no" or val == "off":
