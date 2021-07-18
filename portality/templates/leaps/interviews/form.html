@@ -29,7 +29,9 @@ jQuery(document).ready(function() {
 
     <div class="row-fluid">
         <div class="span12">
-            <h3>Pre-UCAS Interview Administration Form</h3>
+            <div class="hero-unit">
+                <h3>Pre-UCAS Interview Administration Form</h3>
+            </div>
 
             <form action="" method="post">
 
@@ -68,20 +70,12 @@ jQuery(document).ready(function() {
                 		</select></td>
                 		-->
                     </tr>
-                </tbody>
-            </table>
 
-            <table>
-                <tbody>
                     <tr>
                         <td><p>Please provide any missing contact details:</p></td>
                         <td><textarea name="missing_contact_details">{% if student %}{% if student.data.interview %}{{ student.data.interview.missing_contact_details }}{% endif %}{% endif %}</textarea></td>
                     </tr>
-                </tbody>
-            </table>
 
-            <table>
-                <tbody>
                     <tr>
                         <td><p>First attending university?</p></td>
                         <td>
@@ -157,11 +151,6 @@ jQuery(document).ready(function() {
                         </td>
                     </tr>
 
-                </tbody>
-            </table>
-            
-            <table>
-                <tbody>
                     <tr>
                         <td><p>Please provide any missing qualifications details:</p></td>
                         <td><textarea name="missing_qualifications">{% if student %}{% if student.data.interview %}{{ student.data.interview.missing_qualifications }}{% endif %}{% endif %}</textarea></td>
