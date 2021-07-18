@@ -40,11 +40,11 @@
     <body>
 
         <h3>Lothians Equal Access Programme for Schools</h3>
-        <h2>Pre-UCAS Interview Student Action Plan</h2>
+        <h2 style="margin-top:0px;">Pre-UCAS Interview Student Action Plan</h2>
 
         <table>
             <tr>
-                <td class="title">Date of interview</td> <td>{{ record.interview.form_date }}</td>
+                <td class="title">Date of interview</td> <td>{{ record.interview.form_date.split(' ')[0] }}</td>
                 <td class="title">Name of interviewer</td> <td>{{ record.interviewer }}</td>
             </tr>
             <tr>
@@ -97,10 +97,8 @@
                 <td>
                     <p>Pre-application enquires will be raised on your behalf, for the following 
                     courses, if any:</p>
-                </td>
-            </tr>
-            <tr>
-                <td><p>TODO show the list of PAEs to be raised</p></td>
+
+                    <p>TODO show the list of PAEs to be raised</p>
             </tr>
             <tr>
                 <td>
@@ -151,66 +149,48 @@
             <tr>
                 <td>
                     <p>To help you explore your higher education study options further, we'd suggest you look at:</p>
-                </td>
-            </tr>
-            <tr>
-                <td>
+
                     <h4>UCAS Website</h4>
-                    <p>For general guidance on applying to higher education visit www.ucas.com and use the UCAS
-                    Search tool at https://digital.ucas.com/search to research courses.</p>
-                </td>
-            </tr>
-            <tr>
-                <td>
+                    <p>For general guidance on applying to higher education visit <a href="https://ucas.com">https://ucas.com</a> and use the UCAS
+                    Search tool at <a href="https://digital.ucas.com/search">https://digital.ucas.com/search</a> to research courses.</p>
+
                     <h4>University and College Prospectuses/Websites</h4>
                     <p>Look at university/college websites/prospectuses to research courses and institutions.</p>
-                </td>
-            </tr>
-            <tr>
-                <td>
+
                     <h4>Open Days</h4>
                     <p>You might not be able to attend college/university open days in person just now, but keep an
                     eye out for updates as some might be available as online/virtual events and some might take
                     place on campuses later in the year if they are able to go ahead.</p>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <h4>UCAS Open Days information</h4>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <h4>LEAPS Open Days blog post</h4>
-                </td>
-            </tr>
-            <tr>
-                <td>
+                    <p>UCAS Open Days information:<br><a href="https://www.ucas.com/undergraduate/what-and-where-study/open-days-and-events/open-days-tips">https://www.ucas.com/undergraduate/what-and-where-study/open-days-and-events/open-days-tips</a></p>
+
+                    <p>LEAPS Open Days blog post:<br><a href="https://leapsonline.org/schoolstudents/s5hub/open-days">https://leapsonline.org/schoolstudents/s5hub/open-days</a></p>
+
                     <h4>Personal Statement Guidance</h4>
-                    <p>If you need some help writing your personal statement, have a look at the following:</p>
+                    <p>If you need some help with this, have a look at the following:</p>
+                    <p>Writing your personal statement:<br><a href="https://www.ucas.com/undergraduate/applying-university/writing-personal-statement/introducing-personal-statement-tool">https://www.ucas.com/undergraduate/applying-university/writing-personal-statement/introducing-personal-statement-tool</a></p>
 
                     <h4>LEAPS S6 Blog</h4>
-                    <p>Visit our LEAPS S6 Blog for tips and advice on higher education - you might like our recent blog
-                    post about career and course exploration during COVID-19.</p>
+                    <p>Visit our LEAPS S6 Blog at <a href="https://leapsonline.org/schoolstudents/s6-blog">https://leapsonline.org/schoolstudents/s6-blog</a> 
+                    for tips and advice on higher education - you might like our recent blog
+                    post about career and course exploration during COVID-19:<br>
+                    <a href="https://leapsonline.org/schoolstudents/s6-blog/career-and-course-exploration-during-covid-19">https://leapsonline.org/schoolstudents/s6-blog/career-and-course-exploration-during-covid-19</a></p>
                     
                     <h4>LEAPS Parents' & Carers' Resources</h4>
-                    <p>Tell your parents and carers about our LEAPS Parents' & Carers' resources. We know they'll have
-                    questions too, and we can help answer them.</p>
-                </td>
-            </tr>
-            <tr>
-                <td>
+                    <p>Tell your parents and carers about our LEAPS Parents' & Carers' resources at 
+                    <a href="https://leapsonline.org/parents">https://leapsonline.org/parents</a>. 
+                    We know they'll have questions too, and we can help answer them.</p>
+
                     <h4>Find LEAPS on Twitter and Instagram @leaps1996</h4>
                     
                     <p>Follow us for updates throughout the year as we support you to explore higher education at college and
                     university by providing impartial information, advice, and guidance.</p>
                     
-                    <p>Read our Privacy Policy at www.leapssurvey.org/policy to find out how and why we use the information you provide.</p>
+                    <p>Read our Privacy Policy at <a href="https://leapssurvey.org/policy">https://leapssurvey.org/policy</a> to find out how and why we use the information you provide.</p>
                 </td>
             </tr>
         </table>
         
-        <h4>www.leapsonline.org | leaps@ed.ac.uk</h4>
+        <h4><a href="https://www.leapsonline.org">www.leapsonline.org</a> | <a href="mailto:leaps@ed.ac.uk">leaps@ed.ac.uk</a></h4>
 
     </body>
 </html>
