@@ -21,6 +21,7 @@
             table{
                 margin:0 0 30px 0;
                 width:100%;
+                border-collapse:collapse;
             }
             th{
                 padding:2px;
