@@ -44,7 +44,7 @@
 
         <table>
             <tr>
-                <td class="title">Date of interview</td> <td>{{ record.interview.form_date.split(' ')[0] }}</td>
+                <td class="title">Date of interview</td> <td>{{ record.interview.form_date.split(' ')[0].split('-').reverse().join('/') }}</td>
                 <td class="title">Name of interviewer</td> <td>{{ record.interviewer }}</td>
             </tr>
             <tr>
@@ -52,6 +52,7 @@
                 <td class="title">Student last name</td> <td>{{ record.last_name }}</td>
             </tr>
             <tr>
+                <td class="title">Date of birth</td> <td>{{ record.date_of_birth }}</td>
                 <td class="title">School</td> <td>{{ record.school }}</td>
             </tr>
         </table>
