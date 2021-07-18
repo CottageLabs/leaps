@@ -46,7 +46,7 @@ def index():
     interviewer = current_user.perform_interviews
     qry = {'sort':[{'created_date.exact':{'order':'desc'}}],'query':{'bool':{'must':[{'term':{'archive.exact':'current'}}]}},'size':10000}
     if not isinstance(interviewer,bool):
-        qry['query']['bool']['must'].append({'term':{'interviewer.exact':school}})
+        qry['query']['bool']['must'].append({'term':{'interviewer.exact':interviewer}})
     q = models.Student().query(q=qry)
     students = [i['_source'] for i in q.get('hits',{}).get('hits',[])]
     return render_template('leaps/interviews/index.html', students=students, interviewers=interviewers)
