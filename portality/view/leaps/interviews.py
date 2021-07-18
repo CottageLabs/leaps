@@ -85,6 +85,8 @@ def interviewForm(sid):
             student.data['interview'] = {}
         for field in request.form.keys():
             val = request.form[field]
+            print(field)
+            print(val)
             if val == "yes" or val == "on":
                 val = True
             elif val == "no" or val == "off":
