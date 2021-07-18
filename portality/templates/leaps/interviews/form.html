@@ -30,7 +30,7 @@ jQuery(document).ready(function() {
     <div class="row-fluid">
         <div class="span12">
             <div class="hero-unit">
-                <h3>Pre-UCAS Interview Administration Form</h3>
+                <h2>Pre-UCAS Interview Administration Form</h2>
             </div>
 
             <form action="" method="post">
@@ -48,6 +48,7 @@ jQuery(document).ready(function() {
                 		{% if student %} value="{% if student.data.interview %}{% if student.data.interview.last_name %}{{ student.data.interview.last_name }}{% else %}{{ student.data.last_name }}{% endif %}{% else %}{{student.data.last_name}}{% endif %}"{% endif %}
                 		></td>
                     </tr>
+
         	        <tr>
         	            <!--
 	                    <td style="text-align:right;padding:6px 10px 0 0;">Date of birth</td>
@@ -57,7 +58,7 @@ jQuery(document).ready(function() {
                 		-->
 
 	                    <td style="text-align:right;padding:6px 10px 0 0;">School</td>
-	                    <td>{% if student %}<p>{{ student.data.school }}</p>{% endif %}</td>
+	                    <td>{% if student %}<p style="padding:6px 10px 0 100px;">{{ student.data.school }}</p>{% endif %}</td>
 	                    <!--
                 		<td><select name="school">
                 		    <option></option>
@@ -70,7 +71,11 @@ jQuery(document).ready(function() {
                 		</select></td>
                 		-->
                     </tr>
-
+                </tbody>
+            </table>
+            
+            <table>
+                <tbody>
                     <tr>
                         <td><p>Please provide any missing contact details:</p></td>
                         <td><textarea name="missing_contact_details">{% if student %}{% if student.data.interview %}{{ student.data.interview.missing_contact_details }}{% endif %}{% endif %}</textarea></td>
