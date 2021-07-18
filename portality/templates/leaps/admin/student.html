@@ -1081,15 +1081,15 @@ fieldset{
 				</select>
 				{% if current_user.do_admin %}
 				{% if record %}{% if record.data.interview %}
-				<a class="btn btn-info" style="margin-top:-7px;" target="_blank" href="/interviews/{{ record.data.id }}/form">View interview admin form</a>
+				<a class="btn btn-info" style="margin-top:-10px;" target="_blank" href="/interviews/{{ record.data.id }}/form">View interview admin form</a>
                 {% if record.data.interview.form_date %}
-                <a class="btn btn-info" style="margin-top:-7px;" target="_blank" href="/interviews/{{ record.data.id }}/plan.pdf">View / print action plan</a>
+                <a class="btn btn-info" style="margin-top:-10px;" target="_blank" href="/interviews/{{ record.data.id }}/plan.pdf">View / print action plan</a>
 				{% endif %}
                 {% if record.data.interview.emailed_date %}
                 Action form emailed on {{ record.data.interview.emailed_date }}
                 {% else %}
                 {% if record.data.interview.form_date %}
-                <a class="btn btn-info" style="margin-top:-7px;" href="/interviews/{{ record.data.id }}/email">Email action plan</a>
+                <a class="btn btn-info" style="margin-top:-10px;" href="/interviews/{{ record.data.id }}/email">Email action plan</a>
 `				{% endif %}
 				{% endif %}
 				{% endif %}{% endif %}
