@@ -2,21 +2,16 @@
 
 {% block content %}
 
-<script>
-jQuery(document).ready(function() { 
-    var dobopts = {
-        inline: true,
-        dateFormat: 'dd/mm/yy',
-        changeYear: true,
-        yearRange: "-22:+0",
-        defaultDate: '-17y',
-        minDate: '-22y',
-        maxDate: '-12y'
-    }
-    $('.dobdatepicker').datepicker(dobopts);
-    
-}); 
-</script>
+<style>
+textarea.bigfield{
+    width:350px;
+    height:135px;
+}
+td {
+    text-align: right;
+}
+</style>
+
 
     <div class="row-fluid">
         <div class="span12">
@@ -78,7 +73,7 @@ jQuery(document).ready(function() {
                 <tbody>
                     <tr>
                         <td><p>Please provide any missing contact details:</p></td>
-                        <td><textarea name="missing_contact_details">{% if student %}{% if student.data.interview %}{{ student.data.interview.missing_contact_details }}{% endif %}{% endif %}</textarea></td>
+                        <td><textarea class="bigfield" name="missing_contact_details">{% if student %}{% if student.data.interview %}{{ student.data.interview.missing_contact_details }}{% endif %}{% endif %}</textarea></td>
                     </tr>
 
                     <tr>
@@ -158,15 +153,15 @@ jQuery(document).ready(function() {
 
                     <tr>
                         <td><p>Please provide any missing qualifications details:</p></td>
-                        <td><textarea name="missing_qualifications">{% if student %}{% if student.data.interview %}{{ student.data.interview.missing_qualifications }}{% endif %}{% endif %}</textarea></td>
+                        <td><textarea class="bigfield" name="missing_qualifications">{% if student %}{% if student.data.interview %}{{ student.data.interview.missing_qualifications }}{% endif %}{% endif %}</textarea></td>
                     </tr>
                     <tr>
                         <td><p>Summary of discussion / key action points:</p></td>
-                        <td><textarea name="action_points">{% if student %}{% if student.data.interview %}{{ student.data.interview.action_points }}{% endif %}{% endif %}</textarea></td>
+                        <td><textarea class="bigfield" name="action_points">{% if student %}{% if student.data.interview %}{{ student.data.interview.action_points }}{% endif %}{% endif %}</textarea></td>
                     </tr>
                     <tr>
                         <td><p>Courses discussed:</p></td>
-                        <td><textarea name="courses_discussed">{% if student %}{% if student.data.interview %}{{ student.data.interview.courses_discussed }}{% endif %}{% endif %}</textarea></td>
+                        <td><textarea class="bigfield" name="courses_discussed">{% if student %}{% if student.data.interview %}{{ student.data.interview.courses_discussed }}{% endif %}{% endif %}</textarea></td>
                     </tr>
                     <tr>
                         <td><p>PAEs required?</p></td>
@@ -181,15 +176,15 @@ jQuery(document).ready(function() {
                     </tr>
                     <tr>
                         <td><p>Specific subjects required?</p></td>
-                        <td><textarea name="specific_subjects_required">{% if student %}{% if student.data.interview %}{{ student.data.interview.specific_subjects_required }}{% endif %}{% endif %}</textarea></td>
+                        <td><textarea class="bigfield" name="specific_subjects_required">{% if student %}{% if student.data.interview %}{{ student.data.interview.specific_subjects_required }}{% endif %}{% endif %}</textarea></td>
                     </tr>
                     <tr>
                         <td><p>Any other subjects required?</p></td>
-                        <td><textarea name="other_subjects_required">{% if student %}{% if student.data.interview %}{{ student.data.interview.other_subjects_required }}{% endif %}{% endif %}</textarea></td>
+                        <td><textarea class="bigfield" name="other_subjects_required">{% if student %}{% if student.data.interview %}{{ student.data.interview.other_subjects_required }}{% endif %}{% endif %}</textarea></td>
                     </tr>
                     <tr>
                         <td><p>HN courses / articulation routes discussed for consideration (if any):</p></td>
-                        <td><textarea name="hn_courses_discussed">{% if student %}{% if student.data.interview %}{{ student.data.interview.hn_courses_discussed }}{% endif %}{% endif %}</textarea></td>
+                        <td><textarea class="bigfield" name="hn_courses_discussed">{% if student %}{% if student.data.interview %}{{ student.data.interview.hn_courses_discussed }}{% endif %}{% endif %}</textarea></td>
                     </tr>
                 </tbody>
             </table>
