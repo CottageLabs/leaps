@@ -169,7 +169,8 @@ td > p {
                         <td>
                             {% if student %}
                             {% for appn in student.data.applications %}
-                            <input type="checkbox" name="pae_for_{{ appn.appid }}" > {{ appn.level }} {{ appn.subject }} at {{ appn.institution }}<br>
+                            <input type="checkbox" name="pae_for_{{ appn.appid }}" {% if student %}{% if student.data.interview %}{% if student.data.interview['pae_for_' + appn.appid] %}checked{% endif %}{% endif %}{% endif %}> 
+                            {{ appn.level }} {{ appn.subject }} at {{ appn.institution }}<br>
                             {% endfor %}
                             {% endif %}
                         </td>

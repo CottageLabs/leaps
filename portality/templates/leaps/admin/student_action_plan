@@ -98,8 +98,12 @@
                 <td>
                     <p>Pre-application enquires will be raised on your behalf, for the following 
                     courses, if any:</p>
-
-                    <p>TODO show the list of PAEs to be raised</p>
+                    
+                    {% for key, value in record.interview.items() %}
+                    {% if key.startswith('pae_for_') %}
+                    {{ value }}<br>
+                    {% endif %}
+                    {% endfor %}
             </tr>
             <tr>
                 <td>
