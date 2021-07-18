@@ -13,13 +13,18 @@
                 padding:0;
                 margin:0;
             }
+            h2{
+                padding:2px;
+                margin:10px 0 0 0;
+                background-color:#ccc;
+            }
             h3{
                 padding:2px;
                 margin:10px 0 0 0;
                 background-color:#ccc;
             }
             table{
-                margin:0 0 30px 0;
+                margin:0 0 10px 0;
                 width:100%;
                 border-collapse:collapse;
             }
@@ -34,8 +39,8 @@
     </head>
     <body>
 
-        <h3>Lothians Equal Access Programme for Schools<br />
-        Pre-UCAS Interview Student Action Plan</h3>
+        <h3>Lothians Equal Access Programme for Schools</h3>
+        <h2>Pre-UCAS Interview Student Action Plan</h2>
 
         <table>
             <tr>
@@ -51,55 +56,45 @@
             </tr>
         </table>
         
+        <h3>Summary of discussion / key action points</h3>
         <table>
-            <tr>
-                <td><h3>Summary of discussion / key action points</h3></td>
-            </tr>
             <tr>
                 <td><p>{{ record.interview.action_points }}</p></td>
             </tr>
         </table>
 
+        <h3>Courses discussed</h3>
         <table>
-            <tr>
-                <td><h3>Courses discussed</h3></td>
-            </tr>
             <tr>
                 <td><p>{{ record.interview.courses_discussed }}</p></td>
             </tr>
         </table>
 
+        <h3>Specific subjects required</h3>
         <table>
-            <tr>
-                <td><h3>Specific subjects required</h3></td>
-            </tr>
             <tr>
                 <td><p>{{ record.interview.specific_subjects_required }}</p></td>
             </tr>
         </table>
         
+        <h3>Any other subject requirements</h3>
         <table>
-            <tr>
-                <td><h3>Any other subject requirements</h3></td>
-            </tr>
             <tr>
                 <td><p>{{ record.interview.other_subjects_required }}</p></td>
             </tr>
         </table>
         
+        <h3>HNC / HND courses / articulation routes discussed, to research</h3>
         <table>
-            <tr>
-                <td><h3>HNC / HND courses / articulation routes discussed, to research</h3></td>
-            </tr>
             <tr>
                 <td><p>{{ record.interview.hn_courses_discussed }}</p></td>
             </tr>
         </table>
 
+        <h3>Pre-application enquiries</h3>
         <table>
             <tr>
                 <td>
-                    <h3>Pre-application enquiries</h3>
                     <p>Pre-application enquires will be raised on your behalf, for the following 
                     courses, if any:</p>
                 </td>
@@ -116,10 +111,8 @@
         </table>
         
         {% if record.looked_after_child %}
+        <h3>Experienced Care</h3>
         <table>
-            <tr>
-                <td><h3>Experienced Care</h3></td>
-            </tr>
             <tr>
                 <td>
                     <p>LEAPS will be in touch with you with more information relating to support for students who Experienced Care.</p>
@@ -131,10 +124,8 @@
         {% endif %}
 
         {% if record.young_carer %}
+        <h3>Young carer</h3>
         <table>
-            <tr>
-                <td><h3>Young carer</h3></td>
-            </tr>
             <tr>
                 <td>
                     <p>LEAPS will be in touch with you with more information relating to support for students who are Young Carers.</p>
@@ -145,10 +136,8 @@
         {% endif %}
 
         {% if record.estranged %}
+        <h3>Estranged</h3>
         <table>
-            <tr>
-                <td><h3>Estranged</h3></td>
-            </tr>
             <tr>
                 <td>
                     <p>LEAPS will be in touch with you with more information relating to support for students who are Estranged.</p>
@@ -157,11 +146,10 @@
         </table>
         {% endif %}
             
-        
+        <h3>Further options</h3>
         <table>
             <tr>
                 <td>
-                    <h3>Further options</h3>
                     <p>To help you explore your higher education study options further, we'd suggest you look at:</p>
                 </td>
             </tr>
