@@ -98,7 +98,7 @@ def interviewForm(sid):
                 student.data['interview'][field] = val
         student.data['interview']['form_date'] = datetime.now().strftime("%Y-%m-%d %H%M")
         student.save()
-        flash('The interview admin form data has been saved to the student record')
+        flash('The interview admin form data has been saved to the student record', 'success')
         return render_template('leaps/interviews/form.html', student=student, selections=selections)
         
 
