@@ -83,15 +83,19 @@ def interviewForm(sid):
         # save the form into the student record
         if not student.data.get('interview',False):
             student.data['interview'] = {}
+        else:
+            ni = {"form_date": student.data['interview']['form_date'], "updated_date": datetime.now().strftime("%Y-%m-%d %H%M")}
+            student.data['interview'] = ni
         for field in request.form.keys():
-            val = request.form[field]
-            print(field)
-            print(val)
-            if val == "yes" or val == "on":
-                val = True
-            elif val == "no" or val == "off":
-                val = False
-            student.data['interview'][field] = val
+            if field not in ['submit']:
+                val = request.form[field]
+                print(field)
+                print(val)
+                if val == "yes" or val == "on":
+                    val = True
+                elif val == "no" or val == "off":
+                    val = False
+                student.data['interview'][field] = val
         student.data['interview']['form_date'] = datetime.now().strftime("%Y-%m-%d %H%M")
         student.save()
         flash('The interview admin form data has been saved to the student record')
