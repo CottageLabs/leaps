@@ -81,7 +81,7 @@ def interviewForm(sid):
             val = request.form[field]
             if val == "yes" or val == "on":
                 val = True
-            elf val == "no" or val == "off":
+            elif val == "no" or val == "off":
                 val = False
             student.data['interview'][field] = val
         student.data['interview']['form_date'] = datetime.now().strftime("%Y-%m-%d %H%M")
