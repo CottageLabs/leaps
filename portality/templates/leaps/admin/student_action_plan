@@ -99,6 +99,7 @@
                     <p>Pre-application enquires will be raised on your behalf, for the following 
                     courses, if any:</p>
                     
+                    <p>TODO checking with Alison</p>
                     {% for key, value in record.interview.items() %}
                     {% if key.startswith('pae_for_') %}
                     {{ value }}<br>
@@ -115,7 +116,7 @@
             </tr>
         </table>
         
-        {% if record.looked_after_child %}
+        {% if record.interview.looked_after_child %}
         <h3>Experienced Care</h3>
         <table>
             <tr>
@@ -128,7 +129,7 @@
         </table>
         {% endif %}
 
-        {% if record.young_carer %}
+        {% if record.interview.young_carer %}
         <h3>Young carer</h3>
         <table>
             <tr>
@@ -140,7 +141,7 @@
         </table>
         {% endif %}
 
-        {% if record.estranged %}
+        {% if record.interview.estranged %}
         <h3>Estranged</h3>
         <table>
             <tr>

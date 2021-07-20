@@ -103,18 +103,6 @@ td > p {
                         </td>
                     </tr>
                     <tr>
-                        <td><p>Law application?</p></td>
-                        <td>
-                            <input type="checkbox" name="law_application" value="yes"{% if student %}{% if student.data.interview %}{% if student.data.interview.law_application %}checked{% endif %}{% endif %}{% endif %}>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td><p>Early application?</p></td>
-                        <td>
-                            <input type="checkbox" name="early_application" value="yes"{% if student %}{% if student.data.interview %}{% if student.data.interview.early_application %}checked{% endif %}{% endif %}{% endif %}>
-                        </td>
-                    </tr>
-                    <tr>
                         <td><p>Low income family?</p></td>
                         <td>
                             <input type="checkbox" name="low_income_family" value="yes"{% if student %}{% if student.data.interview %}{% if student.data.interview.low_income_family %}checked{% endif %}{% endif %}{% endif %}>
@@ -156,7 +144,7 @@ td > p {
                         <td><textarea class="bigfield" name="missing_qualifications">{% if student %}{% if student.data.interview %}{{ student.data.interview.missing_qualifications }}{% endif %}{% endif %}</textarea></td>
                     </tr>
                     <tr>
-                        <td><p>Summary of discussion / key action points:</p></td>
+                        <td><p>Summary of discussion / action points to go onto the student action plan:</p></td>
                         <td><textarea class="bigfield" name="action_points">{% if student %}{% if student.data.interview %}{{ student.data.interview.action_points }}{% endif %}{% endif %}</textarea></td>
                     </tr>
                     <tr>
@@ -165,7 +153,8 @@ td > p {
                     </tr>
                     <tr>
                         <td><p>PAEs required?</p></td>
-                        <!-- TODO check these if already previously checked -->
+                        <td>TODO checking with Alison</td>
+                        <!--
                         <td>
                             {% if student %}
                             {% for appn in student.data.applications %}
@@ -174,6 +163,7 @@ td > p {
                             {% endfor %}
                             {% endif %}
                         </td>
+                        -->
                     </tr>
                     <tr>
                         <td><p>Specific subjects required?</p></td>
@@ -187,6 +177,16 @@ td > p {
                         <td><p>HN courses / articulation routes discussed for consideration (if any):</p></td>
                         <td><textarea class="bigfield" name="hn_courses_discussed">{% if student %}{% if student.data.interview %}{{ student.data.interview.hn_courses_discussed }}{% endif %}{% endif %}</textarea></td>
                     </tr>
+                    <tr>
+                        <td><p>Summary of discussion for LEAPS admin team:<br>(This will not be included on the action plan sent to the student)</p></td>
+                        <td><textarea class="bigfield" name="summary_for_leaps">{% if student %}{% if student.data.interview %}{{ student.data.interview.summary_for_leaps }}{% endif %}{% endif %}</textarea></td>
+                    </tr>
+                    {% if current_user.do_admin %}
+                    <tr>
+                        <td><p><b style="color:red;">FOR ADMIN USE ONLY</b><br>LEAPS admin notes:<br>(Not included on the action)</p></td>
+                        <td><textarea class="bigfield" name="leaps_admin_notes">{% if student %}{% if student.data.interview %}{{ student.data.interview.leaps_admin_notes }}{% endif %}{% endif %}</textarea></td>
+                    </tr>
+                    {% endif %}
                     <tr>
                         <td></td>
                         <td><input type="submit" name="submit" class="btn btn-primary" value="Save form and create action plan"></td>

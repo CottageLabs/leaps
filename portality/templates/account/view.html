@@ -6,7 +6,7 @@
 
 {% block content %}
 
-{% if current_user.id == account.id or current_user.is_super %}
+{% if current_user.id == account.id or current_user.is_super or current_user.do_admin %}
 
     <script type="text/javascript">
     jQuery(document).ready(function() {
