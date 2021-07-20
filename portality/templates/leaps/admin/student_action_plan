@@ -116,7 +116,7 @@
             </tr>
         </table>
         
-        {% if record.interview.looked_after_child %}
+        {% if record.interview.care_experienced %}
         <h3>Experienced Care</h3>
         <table>
             <tr>
