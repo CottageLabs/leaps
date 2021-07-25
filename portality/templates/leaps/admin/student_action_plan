@@ -101,7 +101,7 @@
                     
                     {% if record.interview.applications %}
                     {% for app in record.interview.applications %}
-                    {{ app.level }} {{ app.subject }} at {{ app.institution }}<br>
+                    {{ app.level }} {{ app.subject }} at {{ app.institution }}<br><br>
                     {% endfor %}
                     {% endif %}
                     
