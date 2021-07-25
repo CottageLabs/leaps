@@ -99,12 +99,11 @@
                     <p>Pre-application enquires will be raised on your behalf, for the following 
                     courses, if any:</p>
                     
-                    <p>TODO checking with Alison</p>
-                    {% for key, value in record.interview.items() %}
-                    {% if key.startswith('pae_for_') %}
-                    {{ value }}<br>
-                    {% endif %}
+                    {% if record.interview.applications %}
+                    {% for app in record.interview.applications() %}
+                    {{ app.level }} {{ app.subject }} at {{ app.institution }}
                     {% endfor %}
+                    {% endif %}
                     
                     <br>
             </tr>

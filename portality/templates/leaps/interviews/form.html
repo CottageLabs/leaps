@@ -2,6 +2,117 @@
 
 {% block content %}
 
+<script>
+jQuery(document).ready(function() {    
+
+    var addrow = function(event) {
+        event.preventDefault();
+        var row = $(this).closest('tr').prev().clone(true).get(0);
+        $(row).insertBefore($(this).closest('tr'));
+        $(row).find('.delete-row').bind('click',deleterow);
+        $(row).find('input').val("");
+        var subjects = {{ selections.advancedsubjects|tojson|safe }};
+        var stext = '<option></option>';
+	    for ( var i = 0; i < subjects.length; i++ ) stext += '<option>' + subjects[i] + '</option>';
+        $(row).find('.subjectselector').html(stext);
+        $(row).find('.institutionselector').unbind('change',limitsubjects).bind('change',limitsubjects);
+        $(row).find('.subjectselector').unbind('change',limitlevels).bind('change',limitlevels);
+    }
+    $('.add-row').bind('click',addrow);
+		
+    var deleterow = function(event) {
+        event.preventDefault();
+        $(this).closest('tr').remove();
+    }
+    $('.delete-row').bind('click',deleterow);
+
+    var limitlevels = function(event) {
+        var ls = $(this).closest('tr').find('.levelselector');
+        var sv = ls.attr('sv');
+        if (sv) $(this).removeAttr('sv');
+        ls.attr("disabled","disabled");
+        var level = $('option:selected', this).attr('data-level');
+        if ( level ) {
+            ls.html('<option></option><option selected="selected">' + level + '</option>')
+        } else {
+            var levels = {{ selections.advancedlevels|tojson|safe }};
+            var lopts = '<option></option>';
+            for ( var i = 0; i < levels.length; i++ ) {
+                lopts += "<option";
+                if (sv && sv === levels[i]) lopts += ' selected="selected"';
+                lopts += ">" + levels[i] + "</option>";
+            }
+            ls.html(lopts);
+        }
+        ls.removeAttr("disabled");
+    }
+    var limitsubjects = function(event) {
+        var institution = $(this).val();
+        $(this).closest('tr').find('.subjectselector').attr("disabled","disabled");
+        $(this).closest('tr').find('.levelselector').val("").attr("disabled","disabled");
+        if ( institution == "" ) {
+            var subjects = {{ selections.advancedsubjects|tojson|safe }};
+            var opts = '<option></option>';
+            for ( var i = 0; i < subjects.length; i++ ) {
+                opts += "<option>" + subjects[i] + "</option>";
+            }
+            $(this).closest('tr').find('.subjectselector').html(opts).removeAttr("disabled");
+            $(this).closest('tr').find('.levelselector').html(opts).removeAttr("disabled");
+        } else {
+            var qry = {
+                "query": {
+                    "term": {
+                        "name.exact": institution
+                    }
+                }
+            };
+            var url = '/query/institution/_search?source=' + JSON.stringify(qry);
+            $.ajax({
+                method:'GET',
+                datatype:'JSON',
+                url:url,
+                obj:$(this),
+                sv: $(this).closest('tr').find('.subjectselector').attr('sv'),
+                success: function(data) {
+                    if ( data.hits.total == 0 ) {
+                        var subjects = {{ selections.advancedsubjects|tojson|safe }};
+                    } else if ( data.hits.hits[0]._source.subjects !== undefined && data.hits.hits[0]._source.subjects.length > 0 ) {
+                        var subjects = data.hits.hits[0]._source.subjects;
+                    } else {
+                        var subjects = {{ selections.advancedsubjects|tojson|safe }};
+                    }
+                    var opts = '<option></option>';
+                    var slctd = false;
+                    for ( var i = 0; i < subjects.length; i++ ) {
+                        if ( subjects[i].name === undefined ) {
+                            opts += "<option"
+                            if (this.sv === subjects[i]) {
+                                slctd = true;
+                                opts += ' selected="selected"';
+                            }
+                            opts += ">" + subjects[i] + "</option>";
+                        } else {
+                            opts += "<option";
+                            subjects[i].level !== undefined ? opts += ' data-level="' + subjects[i].level + '"' : false;
+                            if (this.sv === subjects[i].name) {
+                                opts += ' selected="selected"';
+                                slctd = true;
+                            }
+                            opts += ">" + subjects[i].name + "</option>";
+                        }
+                    }
+                    this.obj.closest('tr').find('.subjectselector').html(opts).removeAttr("disabled");
+                    this.obj.closest('tr').find('.subjectselector').html(opts).removeAttr("sv");
+                    if (slctd) this.obj.closest('tr').find('.subjectselector').trigger('change');
+                }
+            });
+        }
+    }
+    $('.institutionselector').bind('change',limitsubjects);
+    $('.subjectselector').bind('change',limitlevels);
+});
+</script>
+
 <style>
 textarea.bigfield{
     width:350px;
@@ -46,26 +157,8 @@ td > p {
                     </tr>
 
         	        <tr>
-        	            <!--
-	                    <td style="text-align:right;padding:6px 10px 0 0;">Date of birth</td>
-                		<td><input type="text" class="dobdatepicker" name="date_of_birth"
-                		{% if student %} value="{{student.data.date_of_birth}}"{% endif %}
-                		></td>
-                		-->
-
 	                    <td style="text-align:right;padding:6px 10px 0 0;">School</td>
 	                    <td>{% if student %}<p style="padding:6px 10px 0 100px;">{{ student.data.school }}</p>{% endif %}</td>
-	                    <!--
-                		<td><select name="school">
-                		    <option></option>
-                		    {% if student %}{% if student.data.school not in selections.schools %}<option style="color:red;" selected="selected">{{student.data.school}}</option>{% endif %}{% endif %}
-                		    {% for opt in selections.schools %}
-                		        <option
-                		        {% if student %}{% if student.data.school == opt %} selected="selected"{% endif %}{% endif %}
-                		        >{{ opt }}</option>
-                		    {% endfor %}
-                		</select></td>
-                		-->
                     </tr>
                 </tbody>
             </table>
@@ -151,20 +244,52 @@ td > p {
                         <td><p>Courses discussed:</p></td>
                         <td><textarea class="bigfield" name="courses_discussed">{% if student %}{% if student.data.interview %}{{ student.data.interview.courses_discussed }}{% endif %}{% endif %}</textarea></td>
                     </tr>
+
                     <tr>
                         <td><p>PAEs required?</p></td>
-                        <td>TODO checking with Alison</td>
-                        <!--
-                        <td>
-                            {% if student %}
-                            {% for appn in student.data.applications %}
-                            <input type="checkbox" name="pae_for_{{ appn.appid }}" {% if student %}{% if student.data.interview %}{% if student.data.interview['pae_for_' + appn.appid] %}checked{% endif %}{% endif %}{% endif %}> 
-                            {{ appn.level }} {{ appn.subject }} at {{ appn.institution }}<br>
-                            {% endfor %}
-                            {% endif %}
-                        </td>
-                        -->
                     </tr>
+
+                    <tr>
+                        <td style="min-width:200px;">College / University</td>
+                        <td style="min-width:150px;">Subject</td>
+                        <td style="min-width:100px;">Level of study</td>
+                        <td></td>
+                    </tr>
+
+                    {% if student %}{% if student.data.interview %}{% if student.data.interview.applications %}{% for app in student.data.interview.applications %}
+                    <tr>
+                		<td><input name="application_institution" type="hidden" value="{{app.institution}}" style="min-width:170px;">{{app.institution}}</td>
+                		<td><input name="application_subject" type="hidden" value="{{app.subject}}" style="min-width:170px;">{{app.subject}}</td>
+                		<td><input name="application_level" type="hidden" value="{{app.level}}" style="min-width:100px;">{{app.level}}</td>
+                		<td><a class="btn btn-warning delete-row" style="margin:-10px 47px 0 0;" href="#">delete</a></td>
+                    </tr>
+                    {% endfor %}{% endif %}{% endif %}{% endif %}
+
+                    <tr>
+                		<td><select name="application_institution" class="needselect2 institutionselector">
+                		    <option></option>
+                		    {% for opt in selections.institutions %}
+                		        <option>{{ opt }}</option>
+                		    {% endfor %}
+                		</select></td>
+                		<td><select name="application_subject" class="needselect2 subjectselector">
+                		    <option></option>
+                		    {% for opt in selections.advancedsubjects %}
+                		        <option>{{ opt }}</option>
+                		    {% endfor %}
+                		</select></td>
+                		<td><select name="application_level" class="levelselector" style="min-width:100px;">
+                		    <option></option>
+                		    {% for opt in selections.advancedlevels %}
+                		        <option>{{ opt }}</option>
+                		    {% endfor %}
+                		</select></td>
+                		<td></td>
+                    </tr>
+
+                    <tr><td><a class="btn btn-success add-row" href="#">add another</a><br></td></tr>
+                    
+
                     <tr>
                         <td><p>Specific subjects required?</p></td>
                         <td><textarea class="bigfield" name="specific_subjects_required">{% if student %}{% if student.data.interview %}{{ student.data.interview.specific_subjects_required }}{% endif %}{% endif %}</textarea></td>

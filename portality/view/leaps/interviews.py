@@ -69,7 +69,10 @@ def interviewForm(sid):
     interviewer = current_user.perform_interviews
     
     selections={
-        "schools": dropdowns('school')
+        "schools": dropdowns('school'),
+        "advancedsubjects": dropdowns('advancedsubject'),
+        "institutions": dropdowns('institution'),
+        "advancedlevels": dropdowns('advancedlevel')
     }
 
     if student is None:
@@ -82,23 +85,26 @@ def interviewForm(sid):
     else:
         # save the form into the student record
         if not student.data.get('interview',False):
-            student.data['interview'] = {}
+            student.data['interview'] = {"applications": [], "form_date": datetime.now().strftime("%Y-%m-%d %H%M")}
         else:
-            ni = {"form_date": student.data['interview']['form_date'], "updated_date": datetime.now().strftime("%Y-%m-%d %H%M")}
-            student.data['interview'] = ni
+            student.data['interview'] = {"form_date": student.data['interview']['form_date'], "updated_date": datetime.now().strftime("%Y-%m-%d %H%M")}
+        student.data['interview']['applications'] = [] # reset this each time and refill from the form inputs, which will replicate any previous ones, so deletions can also be tracked easily
+        for k,v in enumerate(request.form.getlist('application_subject')):
+            if v is not None and len(v) > 0 and v != " ":
+                appn = {
+                    "subject": v,
+                    "institution": request.form.getlist('application_institution')[k],
+                    "level": request.form.getlist('application_level')[k]
+                }
+                student.data["interview"]["applications"].append(appn)
         for field in request.form.keys():
-            if field not in ['submit']:
+            if field not in ['submit'] and not field.startswith('application_'):
                 val = request.form[field]
-                if field.startswith('pae_for_'):
-                    for appn in student.data['applications']:
-                        if appn['appid'] == field.replace('pae_for_',''):
-                            val = appn['level'] + ' ' + appn['subject'] + ' at ' + appn['institution']
                 if val == "yes" or val == "on":
                     val = True
                 elif val == "no" or val == "off":
                     val = False
                 student.data['interview'][field] = val
-        student.data['interview']['form_date'] = datetime.now().strftime("%Y-%m-%d %H%M")
         student.save()
         flash('The interview admin form data has been saved to the student record', 'success')
         return render_template('leaps/interviews/form.html', student=student, selections=selections)
