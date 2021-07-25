@@ -245,11 +245,11 @@ td > p {
                         <td><textarea class="bigfield" name="courses_discussed">{% if student %}{% if student.data.interview %}{{ student.data.interview.courses_discussed }}{% endif %}{% endif %}</textarea></td>
                     </tr>
 
-                    <tr>
-                        <td><p>PAEs required?</p></td>
+                    <tr style="border-top:1px solid #ccc;">
+                        <td><h4>PAEs required?</h4></td>
                     </tr>
 
-                    <tr>
+                    <tr style="background-color:#ccc;">
                         <td style="min-width:200px;">College / University</td>
                         <td style="min-width:150px;">Subject</td>
                         <td style="min-width:100px;">Level of study</td>
@@ -258,7 +258,7 @@ td > p {
 
                     {% if student %}{% if student.data.interview %}{% if student.data.interview.applications %}{% for app in student.data.interview.applications %}
                     <tr>
-                		<td><input name="application_institution" type="hidden" value="{{app.institution}}" style="min-width:170px;">{{app.institution}}</td>
+                		<td><input name="application_institution" type="hidden" value="{{app.institution}}" style="min-width:170px;">{{app.institution}}<br></td>
                 		<td><input name="application_subject" type="hidden" value="{{app.subject}}" style="min-width:170px;">{{app.subject}}</td>
                 		<td><input name="application_level" type="hidden" value="{{app.level}}" style="min-width:100px;">{{app.level}}</td>
                 		<td><a class="btn btn-warning delete-row" style="margin:-10px 47px 0 0;" href="#">delete</a></td>
@@ -287,7 +287,7 @@ td > p {
                 		<td></td>
                     </tr>
 
-                    <tr><td><a class="btn btn-success add-row" href="#">add another</a><br></td></tr>
+                    <tr style="border-bottom:1px solid #ccc;"><td><a class="btn btn-success add-row" href="#">add another</a><br></td></tr>
                     
 
                     <tr>

@@ -100,7 +100,7 @@
                     courses, if any:</p>
                     
                     {% if record.interview.applications %}
-                    {% for app in record.interview.applications() %}
+                    {% for app in record.interview.applications %}
                     {{ app.level }} {{ app.subject }} at {{ app.institution }}
                     {% endfor %}
                     {% endif %}
