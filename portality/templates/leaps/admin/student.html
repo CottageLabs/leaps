@@ -1070,8 +1070,8 @@ fieldset{
 	        <p>
 	            Interviewer: 
 				<select name="interviewer">
+			    <option></option>
 				{% for opt in interviewers %}
-				    <option></option>
 					<option
 					{% if record %}
 						{% if record.data.interviewer == opt %} selected="selected"{% endif %}
