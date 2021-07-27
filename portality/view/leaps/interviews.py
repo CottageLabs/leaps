@@ -115,6 +115,8 @@ def interviewForm(sid):
 def interviewPlanPDF(sid,giveback=False):
     if isinstance(sid,str):
         student = models.Student.pull(sid)
+    else:
+        student = sid
     interviewer = current_user.perform_interviews
     if student is None: 
         abort(404)
