@@ -220,8 +220,8 @@ def _email_pae(student, application, flashable=True):
         to = [app.config['LEAPS_EMAIL']]
         #if app.config.get('ADMIN_EMAIL',False):
         #    to.append(app.config['ADMIN_EMAIL'])
-        if 'email' in student:
-            to.append(student['email'])
+        if student.data.get('email', False):
+            to.append(student.data['email'])
 
         try:
             studentname = student.data['first_name'] + " " + student.data['last_name']
