@@ -162,6 +162,9 @@ def _email_interview(student, flashable=True):
         to = [app.config['LEAPS_EMAIL']]
         #if app.config.get('ADMIN_EMAIL',False):
         #    to.append(app.config['ADMIN_EMAIL'])
+        print('email' in student)
+        print(student['email'])
+        print(student.data.get('email',False))
         if student.data.get('email', False):
             to.append(student.data['email'])
 
