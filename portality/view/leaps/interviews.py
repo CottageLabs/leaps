@@ -113,7 +113,8 @@ def interviewForm(sid):
 # print a PAE form for a student
 @blueprint.route('/<sid>/plan.pdf')
 def interviewPlanPDF(sid,giveback=False):
-    student = models.Student.pull(sid)
+    if isinstance(sid,str):
+        student = models.Student.pull(sid)
     interviewer = current_user.perform_interviews
     if student is None: 
         abort(404)
@@ -204,7 +205,7 @@ The LEAPS TEAM'''
         subject = "LEAPS interview action plan"
 
         files = [{
-            'content': interviewPlanPDF(student.data.id,giveback=True), 
+            'content': interviewPlanPDF(student,giveback=True), 
             'filename': 'LEAPS_interview_' + studentname.replace(" ","_") + '_action_plan.pdf'
         }]
 
