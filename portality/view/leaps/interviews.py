@@ -106,7 +106,7 @@ def interviewForm(sid):
                     val = False
                 student.data['interview'][field] = val
         student.save()
-        flash('The post-interview form is complete and has been saved to the student record. The student\'s action plan will now be generated. You don\'t need to take anything further action', 'success')
+        flash('The post-interview form is complete and has been saved to the student record. The student\'s action plan will now be generated. You don\'t need to take any further action', 'success')
         return render_template('leaps/interviews/form.html', student=student, selections=selections)
         
 
