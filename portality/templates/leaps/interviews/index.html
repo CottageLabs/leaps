@@ -40,13 +40,17 @@ jQuery(document).ready(function() {
 
                 {% endif %}
 
-                <p>Please find listed below the students that you will be scheduled to speak to. You will be able to see
-                their interview PDF and fill out a post interview admin form on this page.</p>
-                <p>PLEASE REMEMBER action plans will be sent directly to the student from this platform and may not
-                be checked in advance, so be mindful that you are filling out the correct information in the correct boxes. 
-                Please address your comments in the action plan boxes to the young person and not to LEAPS.</p>
-                <p>If a student is missing from this list please call LEAPS on 0131 650 4676/ 07774336265 as soon as
-                possible.</p>
+                <p>Please find listed below the students you have been scheduled to interview. 
+                For each student, you can access the form they have completed pre-interview (click 'View student PDF') 
+                and you can also complete a post-interview form (click 'Fill in post-interview form'). The post-interview 
+                form allows you to complete administrative information for the LEAPS office, and also an action plan for the student.</p>
+
+                <p>PLEASE REMEMBER action plans will be sent directly to the student from this platform and will likely not 
+                be checked in advance. Please be mindful that you are filling out the correct information in the correct boxes 
+                (i.e. boxes which are administrative for the LEAPS team, and boxes for the student's action plan). Please 
+                address your comments in the action plan boxes to the young person and not to LEAPS.</p>
+                
+                <p>If a student is missing from this list please call LEAPS on 0131 650 4676 / 07774336265 as soon as possible.</p>
             </div>
         </div>
     </div>
@@ -81,10 +85,10 @@ jQuery(document).ready(function() {
                                 {% if student.interview.emailed_date %}
                                 <a class="btn btn-info" href="/interviews/{{ student.id }}/plan.pdf">View student action plan</a>
                                 {% else %}
-                                <a class="btn btn-primary" target="_blank" href="/interviews/{{ student.id }}/form">{% if student.interview.form_date %}Update{% else %}Fill in{% endif %} interview form</a>
+                                <a class="btn btn-primary" target="_blank" href="/interviews/{{ student.id }}/form">{% if student.interview.form_date %}Update{% else %}Fill in{% endif %} post-interview form</a>
                                 {% endif %}
                                 {% else %}
-                                <a class="btn btn-primary" target="_blank" href="/interviews/{{ student.id }}/form">Fill in interview form</a>
+                                <a class="btn btn-primary" target="_blank" href="/interviews/{{ student.id }}/form">Fill in post-interview form</a>
                                 {% endif %}
                             </td>
                             <td>{% if student.interview %}{% if student.interview.emailed_date %}{{ student.interview.emailed_date }}{% endif %}{% endif %}</td>

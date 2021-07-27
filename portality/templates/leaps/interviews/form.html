@@ -137,7 +137,7 @@ td > p {
     <div class="row-fluid">
         <div class="span12">
             <div class="hero-unit">
-                <h2>Pre-UCAS Interview Administration Form</h2>
+                <h2>Post-Interview Form</h2>
             </div>
 
             <form action="" method="post">
@@ -163,6 +163,8 @@ td > p {
                 </tbody>
             </table>
             
+            <h3>Administrative information for LEAPS office</h3>
+
             <table>
                 <tbody>
                     <tr>
@@ -171,13 +173,13 @@ td > p {
                     </tr>
 
                     <tr>
-                        <td><p>Mothers occupation</p></td>
+                        <td><p>Mother's occupation</p></td>
                         <td>
                             <input type="text" name="mothers_occupation" value="{% if student %}{% if student.data.interview %}{{ student.data.interview.mothers_occupation }}{% endif %}{% endif %}">
                         </td>
                     </tr>
                     <tr>
-                        <td><p>Fathers occupation</p></td>
+                        <td><p>Father's occupation</p></td>
                         <td>
                             <input type="text" name="fathers_occupation" value="{% if student %}{% if student.data.interview %}{{ student.data.interview.fathers_occupation }}{% endif %}{% endif %}">
                         </td>
@@ -220,15 +222,15 @@ td > p {
                         </td>
                     </tr>
                     <tr>
-                        <td><p>HN only candidate?</p></td>
+                        <td><p>SIMD 20?</p></td>
                         <td>
-                            <input type="checkbox" name="hn_only_candidate" value="yes"{% if student %}{% if student.data.interview %}{% if student.data.interview.hn_only_candidate %}checked{% endif %}{% endif %}{% endif %}>
+                            <input type="checkbox" name="simd_20" value="yes" {% if student %}{% if student.data.interview %}{% if student.data.interview.simd_20 %}checked{% endif %}{% endif %}{% endif %}>
                         </td>
                     </tr>
                     <tr>
-                        <td><p>Previous S5 interview?</p></td>
+                        <td><p>HN only candidate?</p></td>
                         <td>
-                            <input type="checkbox" name="previous_s5_interview" value="yes" {% if student %}{% if student.data.interview %}{% if student.data.interview.previous_s5_interview %}checked{% endif %}{% endif %}{% endif %}>
+                            <input type="checkbox" name="hn_only_candidate" value="yes"{% if student %}{% if student.data.interview %}{% if student.data.interview.hn_only_candidate %}checked{% endif %}{% endif %}{% endif %}>
                         </td>
                     </tr>
 
@@ -236,6 +238,18 @@ td > p {
                         <td><p>Please provide any missing qualifications details:</p></td>
                         <td><textarea class="bigfield" name="missing_qualifications">{% if student %}{% if student.data.interview %}{{ student.data.interview.missing_qualifications }}{% endif %}{% endif %}</textarea></td>
                     </tr>
+                    <tr>
+                        <td><p>Summary of discussion for LEAPS admin team:</p></td>
+                        <td><textarea class="bigfield" name="summary_for_leaps">{% if student %}{% if student.data.interview %}{{ student.data.interview.summary_for_leaps }}{% endif %}{% endif %}</textarea></td>
+                    </tr>
+                    
+                    <tr>
+                        <td>
+                            <h3>The below fields will be transferred directly on to student action plan</h3>
+                        </td>
+                        <td></td>
+                    </tr>
+
                     <tr>
                         <td><p>Summary of discussion / action points to go onto the student action plan:</p></td>
                         <td><textarea class="bigfield" name="action_points">{% if student %}{% if student.data.interview %}{{ student.data.interview.action_points }}{% endif %}{% endif %}</textarea></td>
@@ -307,10 +321,6 @@ td > p {
                     <tr>
                         <td><p>HN courses / articulation routes discussed for consideration (if any):</p></td>
                         <td><textarea class="bigfield" name="hn_courses_discussed">{% if student %}{% if student.data.interview %}{{ student.data.interview.hn_courses_discussed }}{% endif %}{% endif %}</textarea></td>
-                    </tr>
-                    <tr>
-                        <td><p>Summary of discussion for LEAPS admin team:<br>(This will not be included on the action plan sent to the student)</p></td>
-                        <td><textarea class="bigfield" name="summary_for_leaps">{% if student %}{% if student.data.interview %}{{ student.data.interview.summary_for_leaps }}{% endif %}{% endif %}</textarea></td>
                     </tr>
                     {% if current_user.do_admin %}
                     <tr>
