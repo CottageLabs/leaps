@@ -113,9 +113,9 @@ def interviewForm(sid):
 # print a PAE form for a student
 @blueprint.route('/<sid>/plan.pdf')
 def interviewPlanPDF(sid,giveback=False):
-    if isinstance(sid,dict):
-        student = sid
-    else:
+    try:
+        sidtest = student.data.get('interviewer',False)
+    except:
         student = models.Student.pull(sid)
     interviewer = current_user.perform_interviews
     if student is None: 
