@@ -114,7 +114,8 @@ def interviewForm(sid):
 @blueprint.route('/<sid>/plan.pdf')
 def interviewPlanPDF(sid,giveback=False):
     try:
-        sidtest = student.data.get('interviewer',False)
+        sidtest = sid.data.get('interviewer',False)
+        student = sid
     except:
         student = models.Student.pull(sid)
     interviewer = current_user.perform_interviews
