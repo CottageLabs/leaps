@@ -19,7 +19,7 @@ blueprint = Blueprint('interviews', __name__)
 @blueprint.before_request
 def restrict():
     adminsettings = models.Account.pull(app.config['SUPER_USER'][0]).data.get('settings',{})
-    if not adminsettings.get('schools_unis',False) and not current_user.do_admin:
+    if not adminsettings.get('schools_unis',False) and not current_user.view_admin:
         return render_template('leaps/admin/closed.html')
     if current_user.is_anonymous():
         return redirect('/account/login?next=' + request.path)
@@ -28,7 +28,7 @@ def restrict():
         current_user.data['previously_agreed_policy'] = True
         current_user.data['agreed_policy'] = False
         current_user.save()
-    if not current_user.agreed_policy and not current_user.do_admin:
+    if not current_user.agreed_policy and not current_user.view_admin:
         return redirect('/account/policy?next=' + request.path)
     if not current_user.perform_interviews:
         abort(401)
@@ -57,7 +57,7 @@ def interviewPDF(sid):
     student = models.Student.pull(sid)
     if student is None:
         abort(404)
-    elif interviewer != True and interviewer != student.data.get('interviewer') and not current_user.do_admin:
+    elif interviewer != True and interviewer != student.data.get('interviewer') and not current_user.view_admin:
         abort(401)
     else:
         thepdf = render_template('leaps/admin/student_pdf', students=[student.data])
@@ -77,7 +77,7 @@ def interviewForm(sid):
 
     if student is None:
         abort(404)
-    elif interviewer != True and interviewer != student.data.get('interviewer') and not current_user.do_admin:
+    elif interviewer != True and interviewer != student.data.get('interviewer') and not current_user.view_admin:
         abort(401)
     elif request.method == 'GET':
         student = models.Student.pull(sid)
@@ -121,7 +121,7 @@ def interviewPlanPDF(sid,giveback=False):
     interviewer = current_user.perform_interviews
     if student is None: 
         abort(404)
-    elif interviewer != True and interviewer != student.data.get('interviewer') and not current_user.do_admin:
+    elif interviewer != True and interviewer != student.data.get('interviewer') and not current_user.view_admin:
         abort(401)
     else:
         thepdf = render_template('leaps/admin/student_action_plan', record=student)
