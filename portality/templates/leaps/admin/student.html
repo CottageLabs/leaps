@@ -1080,7 +1080,7 @@ fieldset{
 				{% endfor %}
 				</select>
 				{% if record %}
-				    {% if record.data.interview %}
+				    {% if record.data.interview is defined %}
     		    		<a class="btn btn-info" style="margin-top:-10px;" target="_blank" href="/interviews/{{ record.data.id }}/form">View interview admin form</a>
                         {% if record.data.interview.form_date %}
                             <a class="btn btn-info" style="margin-top:-10px;" target="_blank" href="/interviews/{{ record.data.id }}/plan.pdf">View / print action plan</a>
