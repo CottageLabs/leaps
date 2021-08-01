@@ -228,7 +228,7 @@ def studentassign():
         s = models.Student.query(q=query)
         for i in s.get('hits',{}).get('hits',[]): 
             if len(selected) == 0 or i['_source']['id'] in selected:
-                student = models.Student.pull(uuid)
+                student = models.Student.pull(i['_source']['id'])
                 if student.data.get('interviewer', False) != interviewer:
                     student.data['interviewer'] = interviewer
                     student.save()
