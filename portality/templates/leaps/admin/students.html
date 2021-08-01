@@ -76,13 +76,8 @@ jQuery(document).ready(function() {
         var si = $('#assign').val();
         if (si) {
             var loc = '/admin/student/assign?interviewer=' + si + '&q=' + JSON.stringify(qry);
-            if ( selected.length > 0 ) {
-                loc += '&selected=' + JSON.stringify(selected);
-            }
-            $('#assign').replaceWith('Updating...');
-            alert('Does nothing yet...');
-            console.log(loc);
-            //$.ajax({url: loc, success: function() { location.reload(); }});
+            if ( selected.length > 0 ) loc += '&selected=' + JSON.stringify(selected);
+            window.location = loc;
         }
     }
     $('#assign').bind('change',assign);

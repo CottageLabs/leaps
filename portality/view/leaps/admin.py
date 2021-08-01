@@ -223,17 +223,18 @@ def studentassign():
     interviewer = request.values.get('interviewer')
     query = json.loads(request.values.get('q','{"query":{"match_all":{}}}'))
     selected = json.loads(request.values.get('selected','[]'))
-    if interviewer:
+    counter = 0
+    if interviewer and (request.values.get('q',False) or request.values.get('selected',False)):
         s = models.Student.query(q=query)
-        counter = 0
         for i in s.get('hits',{}).get('hits',[]): 
             if len(selected) == 0 or i['_source']['id'] in selected:
                 student = models.Student.pull(uuid)
                 if student.data.get('interviewer', False) != interviewer:
-                    student.data.interviewer = interviewer
+                    student.data['interviewer'] = interviewer
                     student.save()
                     counter += 1
-    return counter
+    flash(str(counter) + ' selected records were assigned to ' + interviewer, 'success')
+    return redirect('/admin/student')
 
 # move a particular record from one archive to another
 @blueprint.route('/student/<uuid>/archive/<aid>', methods=['GET'])
