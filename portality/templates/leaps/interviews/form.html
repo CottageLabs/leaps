@@ -241,7 +241,7 @@ td > p {
                         <td><textarea class="bigfield" name="missing_qualifications">{% if student %}{% if student.data.interview %}{{ student.data.interview.missing_qualifications }}{% endif %}{% endif %}</textarea></td>
                     </tr>
                     <tr>
-                        <td><p>Summary of discussion for LEAPS admin team:</p></td>
+                        <td><p>Any additional notes:</p></td>
                         <td><textarea class="bigfield" name="summary_for_leaps">{% if student %}{% if student.data.interview %}{{ student.data.interview.summary_for_leaps }}{% endif %}{% endif %}</textarea></td>
                     </tr>
                     
@@ -323,20 +323,31 @@ td > p {
                         <td><p>HN courses / articulation routes discussed for consideration (if any):</p></td>
                         <td><textarea class="bigfield" name="hn_courses_discussed">{% if student %}{% if student.data.interview %}{{ student.data.interview.hn_courses_discussed }}{% endif %}{% endif %}</textarea></td>
                     </tr>
-                    {% if current_user.view_admin %}
-                    <tr>
-                        <td><p>LEAPS admin notes:<br><b style="color:red;">FOR ADMIN USE ONLY</b><br>(Not included on the action plan)</p></td>
-                        <td><textarea class="bigfield" name="leaps_admin_notes">{% if student %}{% if student.data.interview %}{{ student.data.interview.leaps_admin_notes }}{% endif %}{% endif %}</textarea></td>
-                    </tr>
-                    {% endif %}
+
                     <tr>
                         <td></td>
                         <td><input type="submit" name="submit" class="btn btn-primary" value="Save form and create action plan"></td>
                     </tr>
+                    <tr>
+                        <td colspan="2">
+                            <p><br>After you save the form it will be reviewed by LEAPS staff, then the action plan will be sent to the student.</p>
+                        </td>
+                    </tr>
+
+
+                    {% if current_user.view_admin %}<tr>{% else %}<tr style="display: none;">{% endif %}
+                        <td><p>LEAPS admin notes:<br><b style="color:red;">FOR ADMIN USE ONLY</b><br>(Not included on the action plan)</p></td>
+                        <td><textarea class="bigfield" name="leaps_admin_notes">{% if student %}{% if student.data.interview %}{{ student.data.interview.leaps_admin_notes }}{% endif %}{% endif %}</textarea></td>
+                    </tr>
+                    {% if current_user.view_admin %}
+                    <tr>
+                        <td></td>
+                        <td><input type="submit" name="submit" class="btn btn-primary" value="Save form"></td>
+                    </tr>
+                    {% endif %}
+
                 </tbody>
             </table>
-            
-            <p><br>After you save the form it will be reviewed by LEAPS staff, then the action plan will be sent to the student.</p>
             
             </form>
 

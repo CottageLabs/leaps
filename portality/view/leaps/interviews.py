@@ -87,7 +87,12 @@ def interviewForm(sid):
         if not student.data.get('interview',False):
             student.data['interview'] = {"applications": [], "form_date": datetime.now().strftime("%Y-%m-%d %H%M")}
         else:
+            if student.data['interview'].get('emailed_date', False):
+                ed = student.data['interview']['emailed_date']
+            else:
+                ed = False
             student.data['interview'] = {"form_date": student.data['interview']['form_date'], "updated_date": datetime.now().strftime("%Y-%m-%d %H%M")}
+            if ed != False: student.data['interview']['emailed_date'] = ed
         student.data['interview']['applications'] = [] # reset this each time and refill from the form inputs, which will replicate any previous ones, so deletions can also be tracked easily
         for k,v in enumerate(request.form.getlist('application_subject')):
             if v is not None and len(v) > 0 and v != " ":
