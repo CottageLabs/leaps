@@ -27,6 +27,7 @@
                 margin:0 0 10px 0;
                 width:100%;
                 border-collapse:collapse;
+                page-break-inside:auto;
             }
             th{
                 padding:2px;
@@ -34,6 +35,10 @@
             }
             td{
                 border:1px solid #ccc;
+            }
+            tr{
+                page-break-inside:avoid;
+                page-break-after:auto;
             }
         </style>
     </head>
@@ -120,7 +125,7 @@
         <table>
             <tr>
                 <td>
-                    <p>LEAPS will be in touch with you with more information relating to support for students who Experienced Care.</p>
+                    <p>LEAPS will be in touch with you with more information relating to support for students who have experienced care.</p>
                     <p>Please tick the 'Have you been in care?' box on the UCAS form when you apply. Find out more about this UCAS tick 
                     box at <a href="https://www.ucas.com/file/37276/download?token=-o8W4U-c">https://www.ucas.com/file/37276/download?token=-o8W4U-c</a>.</p>
                     <p>More information available at: <a href="https://leapsonline.org/schoolstudents/care-experienced-students">https://leapsonline.org/schoolstudents/care-experienced-students</a></p>
@@ -134,7 +139,7 @@
         <table>
             <tr>
                 <td>
-                    <p>LEAPS will be in touch with you with more information relating to support for students who are Young Carers.</p>
+                    <p>LEAPS will be in touch with you with more information relating to support for students who are young carers.</p>
                     <p>Please note, LEAPS does not require you be registered as a young carer in order for you to be eligible for LEAPS support.</p>
                     <p>More information available at: <a href="https://leapsonline.org/schoolstudents/young-and-student-carers">https://leapsonline.org/schoolstudents/young-and-student-carers</a></p>
                 </td>
@@ -147,7 +152,7 @@
         <table>
             <tr>
                 <td>
-                    <p>LEAPS will be in touch with you with more information relating to support for students who are Estranged.</p>
+                    <p>LEAPS will be in touch with you with more information relating to support for students who are estranged.</p>
                     <p>More information available at: <a href="https://leapsonline.org/schoolstudents/estranged-students">https://leapsonline.org/schoolstudents/estranged-students</a></p>
                 </td>
             </tr>

@@ -263,7 +263,7 @@ def _email_pae(student, application, flashable=True):
     If the university has said yes - great news! However do bear in mind that this is NOT a formal offer of study, nor does it guarantee that you will receive an offer. You still need to apply through UCAS and admissions tutors will take into account all of the information on your application. This includes your personal statement, academic reference and predicted grades. Competition for places will also
     be a factor as demand tends to fluctuate from year-to-year.
 
-    If you have any questions at all regarding your PAE response, please contact us on LEAPS@ed.ac.uk or 0131 650 4676. We have copied this email to your school so that you can also discuss any concerns with your guidance teacher or UCAS co-ordinator.
+    If you have any questions at all regarding your PAE response, please contact us on LEAPS@ed.ac.uk or 07774 336265. We have copied this email to your school so that you can also discuss any concerns with your guidance teacher or UCAS co-ordinator.
 
     Kind regards,
     The LEAPS team
