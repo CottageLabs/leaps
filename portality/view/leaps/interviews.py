@@ -2,6 +2,8 @@
 from flask import Blueprint, request, flash, abort, render_template, redirect
 from flask.ext.login import current_user
 
+import time
+
 from flask_weasyprint import HTML, render_pdf
 
 from portality.core import app
