@@ -75,6 +75,8 @@ def generate_password(length=8):
 
 
 def send_mail(to, fro, subject, text, files=[], bcc=[]):
+    print('sending mail')
+    print(to)
     assert type(to)==list
     assert type(files)==list
     if bcc and not isinstance(bcc, list):
