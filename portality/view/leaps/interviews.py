@@ -166,9 +166,7 @@ def interviewEmail(sid):
            
 
 def _email_interview(student, flashable=True):
-    print(student)
-    #try:
-    if 1==1:
+    try:
         fro = app.config['LEAPS_EMAIL']
         to = [app.config['LEAPS_EMAIL']]
         #if app.config.get('ADMIN_EMAIL',False):
@@ -232,8 +230,8 @@ The LEAPS TEAM'''
 
         if flashable:
             flash('Interview action plan has been emailed to ' + ",".join(to), "success")
-    #except:
-    #    flash('There was an error processing the email. Please check and try again.')
+    except:
+        flash('There was an error processing the email. Please check and try again.')
 
 
 
@@ -250,6 +248,9 @@ def _get_interviews_awaiting_email():
                     }
                 ],
                 'must_not':[
+                    {'term':
+                        {'school'+app.config['FACET_FIELD']:'TEST'}
+                    },
                     {'query_string':
                         {'query':'*','default_field':'interview.emailed_date'}
                     }
