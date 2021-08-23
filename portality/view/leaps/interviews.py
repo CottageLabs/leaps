@@ -147,8 +147,9 @@ def interviewEmail(sid):
             # get all the interviews that have action plans completed but not yet emailed
             interviews = _get_interviews_awaiting_email()
             if 's' in request.values: interviews = interviews[0:int(request.values['s'])]
-            for student in interviews:
+            for sn in interviews:
                 time.sleep(1)
+                student = models.Student.pull(sn['id'])
                 _email_interview(student, False)
             time.sleep(1)
             flash(str(len(interviews)) + ' interviews were emailed','success')
