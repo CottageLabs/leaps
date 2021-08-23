@@ -220,12 +220,10 @@ The LEAPS TEAM'''
             'filename': 'LEAPS_interview_' + studentname.replace(" ","_") + '_action_plan.pdf'
         }]
 
-        #util.send_mail(to=to, fro=fro, subject=subject, text=text, files=files)
-        print(to)
-        print(text.split('\n')[0])
+        util.send_mail(to=to, fro=fro, subject=subject, text=text, files=files)
 
         student.data['interview']['emailed_date'] = datetime.now().strftime("%d/%m/%Y")
-        #student.save()
+        student.save()
 
         if flashable:
             flash('Interview action plan has been emailed to ' + ",".join(to), "success")
