@@ -222,11 +222,10 @@ The LEAPS TEAM'''
 
         #util.send_mail(to=to, fro=fro, subject=subject, text=text, files=files)
         print(to)
-        print text.split('\n')[0]
+        print(text.split('\n')[0])
 
         student.data['interview']['emailed_date'] = datetime.now().strftime("%d/%m/%Y")
         #student.save()
-        print(student.data['interview'])
 
         if flashable:
             flash('Interview action plan has been emailed to ' + ",".join(to), "success")
