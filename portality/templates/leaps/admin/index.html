@@ -32,7 +32,7 @@
             <p><span style="font-size:24px;">{{stats.number_of_action_plans_awaiting_email}}</span> action plans have not been emailed.</p>
             {% if current_user.do_admin %}
             {% if stats.number_of_action_plans_awaiting_email != 0 %}
-            <p><a class="btn btn-info" href="/interview/unemailed/email">Email the {{stats.number_of_action_plans_awaiting_email}} action plans</a></p>
+            <p><a class="btn btn-info" href="/interviews/unemailed/email">Email the {{stats.number_of_action_plans_awaiting_email}} action plans</a></p>
             {% endif %}
             {% endif %}
         </div>
