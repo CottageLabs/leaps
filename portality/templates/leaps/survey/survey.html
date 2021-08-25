@@ -134,7 +134,7 @@ jQuery(document).ready(function() {
             });
             $(this).html("");
             for ( var o in opts ) {
-                $(this).append('<option' + (opts[o].value !== undefined ? ' value="' + opts[o].value + '"' : '') + (opts[o].disabled ? ' disabled="disabled"' : '') + '>' + opts[o].name + '</option>');
+                $(this).append('<option' + (opts[o].value !== undefined ? ' value="' + opts[o].value + '"' : '') + (opts[o].disabled ? ' disabled="disabled" selected="selected"' : '') + '>' + opts[o].name + '</option>');
             }
         });
         $(row).find('input').val("");
