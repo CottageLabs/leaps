@@ -130,11 +130,11 @@ jQuery(document).ready(function() {
             $(this).val("");
             var opts = [];
             $(this).find('option').each(function() {
-               opts.push({value:$(this).attr('value'),name:$(this).html()}); 
+               opts.push({disabled: $(this).attr('disabled'), value: $(this).attr('value'), name: $(this).html()});
             });
             $(this).html("");
             for ( var o in opts ) {
-                $(this).append('<option' + (opts[o].value !== undefined && opts[o].value.length ? ' value="' + opts[o].value + '"' : '') + '>' + opts[o].name + '</option>');
+                $(this).append('<option' + (opts[o].value !== undefined ? ' value="' + opts[o].value + '"' : '') + (opts[o].disabled ? ' disabled="disabled"' : '') + '>' + opts[o].name + '</option>');
             }
         });
         $(row).find('input').val("");
