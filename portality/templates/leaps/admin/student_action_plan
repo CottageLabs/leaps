@@ -55,11 +55,9 @@
                 <td class="title">Date of birth</td> <td>{{ record.date_of_birth }}</td>
                 <td class="title">School</td> <td>{{ record.school }}</td>
             </tr>
-        </table>
-        
-        <h3>Summary of discussion / key action points</h3>
-        <table>
+
             <tr>
+                <h3>Summary of discussion / key action points</h3>
                 <td><p>{{ record.interview.action_points.replace('\r\n', '<br>') }}</p></td>
             </tr>
         </table>
