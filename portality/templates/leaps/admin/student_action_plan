@@ -27,7 +27,6 @@
                 margin:0 0 10px 0;
                 width:100%;
                 border-collapse:collapse;
-                page-break-inside:auto;
             }
             th{
                 padding:2px;
@@ -35,10 +34,6 @@
             }
             td{
                 border:1px solid #ccc;
-            }
-            tr{
-                page-break-inside:avoid;
-                page-break-after:auto;
             }
         </style>
     </head>
@@ -63,11 +58,7 @@
         </table>
         
         <h3>Summary of discussion / key action points</h3>
-        <table>
-            <tr>
-                <td>{{ record.interview.action_points.replace('\r\n', '<br>') }}</td>
-            </tr>
-        </table>
+        {{ record.interview.action_points.replace('\r\n', '<br>') }}
 
         <h3>Courses discussed</h3>
         <table>
