@@ -37,7 +37,7 @@
                 border:1px solid #ccc;
             }
             tr{
-                page-break-inside:avoid;
+                /*page-break-inside:avoid;*/
                 page-break-after:auto;
             }
         </style>
