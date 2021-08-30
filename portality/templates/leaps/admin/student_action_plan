@@ -27,7 +27,6 @@
                 margin:0 0 10px 0;
                 width:100%;
                 border-collapse:collapse;
-                page-break-inside:auto;
             }
             th{
                 padding:2px;
@@ -35,10 +34,6 @@
             }
             td{
                 border:1px solid #ccc;
-            }
-            tr{
-                /*page-break-inside:avoid;*/
-                page-break-after:auto;
             }
         </style>
     </head>
