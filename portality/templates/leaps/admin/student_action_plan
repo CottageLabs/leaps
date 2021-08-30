@@ -27,6 +27,7 @@
                 margin:0 0 10px 0;
                 width:100%;
                 border-collapse:collapse;
+                page-break-inside:auto;
             }
             th{
                 padding:2px;
@@ -34,6 +35,10 @@
             }
             td{
                 border:1px solid #ccc;
+            }
+            tr{
+                page-break-inside:avoid;
+                page-break-after:auto;
             }
         </style>
     </head>
@@ -55,12 +60,12 @@
                 <td class="title">Date of birth</td> <td>{{ record.date_of_birth }}</td>
                 <td class="title">School</td> <td>{{ record.school }}</td>
             </tr>
-
+        </table>
+        
+        <h3>Summary of discussion / key action points</h3>
+        <table>
             <tr>
-                <td>
-                    <h3>Summary of discussion / key action points</h3>
-                    <p>{{ record.interview.action_points.replace('\r\n', '<br>') }}</p>
-                </td>
+                <td>{{ record.interview.action_points.replace('\r\n', '<br>') }}</td>
             </tr>
         </table>
 
