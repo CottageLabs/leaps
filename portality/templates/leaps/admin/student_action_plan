@@ -57,8 +57,10 @@
             </tr>
 
             <tr>
-                <h3>Summary of discussion / key action points</h3>
-                <td><p>{{ record.interview.action_points.replace('\r\n', '<br>') }}</p></td>
+                <td>
+                    <h3>Summary of discussion / key action points</h3>
+                    <p>{{ record.interview.action_points.replace('\r\n', '<br>') }}</p>
+                </td>
             </tr>
         </table>
 
