@@ -46,7 +46,7 @@ def index():
             if i.get('_source',{}).get('perform_interviews',False): interviewers.append(i['_source']['id'])
 
     interviewer = current_user.perform_interviews
-    qry = {'sort':[{'created_date.exact':{'order':'desc'}}],'query':{'bool':{'must':[{'term':{'archive.exact':'current'}}]}},'size':10000}
+    qry = {'sort':[{'created_date.exact':{'order':'desc'}}],'query':{'bool':{'must':[{'term':{'archive.exact':'current'}}, {'term':{'status.exact':'new'}}]}},'size':10000}
     if not isinstance(interviewer,bool):
         qry['query']['bool']['must'].append({'term':{'interviewer.exact':interviewer}})
     q = models.Student().query(q=qry)
