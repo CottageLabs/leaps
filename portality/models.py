@@ -235,7 +235,7 @@ class Student(DomainObject):
                         appn['qid'] = request.form.getlist('application_qid')[k]
                     except:
                         pass
-                    try:
+                    if 1==1: #try:
                         if request.form.getlist('application_pae_requested')[k] == "Yes":
                             qid = uuid.uuid4().hex
                             rec['paequals'].append({'qid': qid, qualifications: rec['qualifications']})
@@ -279,8 +279,8 @@ class Student(DomainObject):
                                 rec['status'] = 'paes_requested'
                         elif request.form.getlist('application_pae_requested')[k] != "No" and request.form.getlist('application_pae_requested')[k] != "":
                             appn['pae_requested'] = request.form.getlist('application_pae_requested')[k]
-                    except:
-                        pass
+                    #except:
+                    #    pass
                     rec["applications"].append(appn)
                 except:
                     pass
