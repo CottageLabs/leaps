@@ -334,11 +334,18 @@ def _get_student_for_appn(appid):
                 elif dec < 10:
                     dec = dec * 10
                 student['simd_pc'] = str(dec)
-            if 'paequals' in student and 'qid' in application and application['qid'] in student['paequals']:
-                student['qualifications'] = student['paequals'][application['qid']]
-            if 'paelocs' in student and 'qid' in application and application['qid'] in student['paelocs']:
-                for key in student['paelocs'][application['qid']]:
-                    student[key] = student['paelocs'][application['qid']][key]
+            if 'paequals' in student and 'qid' in application:
+                for qset in student['paequals']:
+                    if qset['qid'] == application['qid']:
+                        student['qualifications'] = qset['qualifications']
+                        break
+            if 'paelocs' in student and 'qid' in application:
+                for qloc in student['paelocs']:
+                    if qloc['qid'] == application['qid']:
+                        for key in qloc:
+                            if key != 'qid':
+                                student[key] = qloc[key]
+                        break
             return student, application
 
     except:
@@ -419,11 +426,18 @@ def _get_students(institution):
         if len(allowedapps) > 0:
             for a in allowedapps:
                 s = deepcopy(student)
-                if 'paequals' in s and 'qid' in a and a['qid'] in s['paequals']:
-                    s['qualifications'] = s['paequals'][a['qid']]
-                if 'paelocs' in s and 'qid' in a and a['qid'] in s['paelocs']:
-                    for key in s['paelocs'][a['qid']]:
-                        s[key] = s['paelocs'][a['qid']][key]
+                if 'paequals' in s and 'qid' in a:
+                    for qsa in s['paequals']:
+                        if qsa['qid'] == a['qid']:
+                            s['qualifications'] = qsa['qualifications']
+                            break
+                if 'paelocs' in s and 'qid' in a:
+                    for qla in s['paelocs']:
+                        if qla['qid'] == a['qid']:
+                            for key in ql:
+                                if key != 'qid':
+                                    s[key] = qla[key]
+                            break
                 s['applications'] = [a]
                 s['pae_requested'] = a.get('pae_requested','')
                 matchedstudents.append(s)

@@ -17,7 +17,7 @@ When using portality in your own flask app, perhaps better to make your own mode
 
 
 class Student(DomainObject):
-    __type__ = 'student'
+    __type__ = 'students'
 
     @classmethod
     def prep(cls, rec):
@@ -130,11 +130,11 @@ class Student(DomainObject):
         if 'paequals' in self.data:
             rec['paequals'] = self.data['paequals']
         else:
-            rec['paequals'] = {}
+            rec['paequals'] = []
         if 'paelocs' in self.data:
             rec['paelocs'] = self.data['paelocs']
         else:
-            rec['paelocs'] = {}
+            rec['paelocs'] = []
         if 'interview' in self.data:
             rec['interview'] = self.data['interview']
         else:
@@ -238,7 +238,7 @@ class Student(DomainObject):
                     try:
                         if request.form.getlist('application_pae_requested')[k] == "Yes":
                             qid = uuid.uuid4().hex
-                            rec['paequals'][qid] = rec['qualifications']
+                            rec['paequals'].append({'qid': qid, qualifications: rec['qualifications']})
                             locset = {}
                             locset['post_code'] = self.data['post_code']
                             s = Simd.pull_by_post_code(request.form['post_code'])
@@ -266,7 +266,8 @@ class Student(DomainObject):
                             locset['low_income_family'] = rec.get('low_income_family',False)
                             locset['estranged'] = rec.get('estranged',False)
                             locset['young_carer'] = rec.get('young_carer',False)
-                            rec['paelocs'][qid] = locset
+                            locset['qid'] = qid
+                            rec['paelocs'].append(locset)
                             appn['qid'] = qid
                             if 'pae_requested' not in appn:
                                 appn['pae_requested'] = datetime.now().strftime("%d/%m/%Y")
