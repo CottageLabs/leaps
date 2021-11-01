@@ -196,7 +196,7 @@ class Student(DomainObject):
                     pass
         for k,v in enumerate(request.form.getlist('application_subject')):
             if v is not None and len(v) > 0 and v != " ":
-                if 1==1: #try:
+                try:
                     appn = {
                         "subject": v,
                         "institution": request.form.getlist('application_institution')[k],
@@ -235,10 +235,10 @@ class Student(DomainObject):
                         appn['qid'] = request.form.getlist('application_qid')[k]
                     except:
                         pass
-                    if 1==1: #try:
+                    try:
                         if request.form.getlist('application_pae_requested')[k] == "Yes":
                             qid = uuid.uuid4().hex
-                            rec['paequals'].append({'qid': qid, qualifications: rec['qualifications']})
+                            rec['paequals'].append({'qid': qid, 'qualifications': rec['qualifications']})
                             locset = {}
                             locset['post_code'] = self.data['post_code']
                             s = Simd.pull_by_post_code(request.form['post_code'])
@@ -279,11 +279,11 @@ class Student(DomainObject):
                                 rec['status'] = 'paes_requested'
                         elif request.form.getlist('application_pae_requested')[k] != "No" and request.form.getlist('application_pae_requested')[k] != "":
                             appn['pae_requested'] = request.form.getlist('application_pae_requested')[k]
-                    #except:
-                    #    pass
+                    except:
+                        pass
                     rec["applications"].append(appn)
-                #except:
-                #    pass
+                except:
+                    pass
         for k,v in enumerate(request.form.getlist('experience_title')):
             if v is not None and len(v) > 0 and v != " ":
                 try:
