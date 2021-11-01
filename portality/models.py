@@ -196,7 +196,7 @@ class Student(DomainObject):
                     pass
         for k,v in enumerate(request.form.getlist('application_subject')):
             if v is not None and len(v) > 0 and v != " ":
-                try:
+                if 1==1: #try:
                     appn = {
                         "subject": v,
                         "institution": request.form.getlist('application_institution')[k],
@@ -282,8 +282,8 @@ class Student(DomainObject):
                     #except:
                     #    pass
                     rec["applications"].append(appn)
-                except:
-                    pass
+                #except:
+                #    pass
         for k,v in enumerate(request.form.getlist('experience_title')):
             if v is not None and len(v) > 0 and v != " ":
                 try:
