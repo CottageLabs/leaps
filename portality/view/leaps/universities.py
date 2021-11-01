@@ -434,7 +434,7 @@ def _get_students(institution):
                 if 'paelocs' in s and 'qid' in a:
                     for qla in s['paelocs']:
                         if qla['qid'] == a['qid']:
-                            for key in ql:
+                            for key in qla:
                                 if key != 'qid':
                                     s[key] = qla[key]
                             break
