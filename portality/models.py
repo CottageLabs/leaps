@@ -17,7 +17,7 @@ When using portality in your own flask app, perhaps better to make your own mode
 
 
 class Student(DomainObject):
-    __type__ = 'students'
+    __type__ = 'student'
 
     @classmethod
     def prep(cls, rec):
