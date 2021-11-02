@@ -129,10 +129,12 @@ class Student(DomainObject):
         }
         if 'paequals' in self.data:
             rec['paequals'] = self.data['paequals']
+            if isinstance(rec['paequals'], dict) and not rec['paequals']: rec['paequals'] = []
         else:
             rec['paequals'] = []
         if 'paelocs' in self.data:
             rec['paelocs'] = self.data['paelocs']
+            if isinstance(rec['paelocs'], dict) and not rec['paelocs']: rec['paelocs'] = []
         else:
             rec['paelocs'] = []
         if 'interview' in self.data:
