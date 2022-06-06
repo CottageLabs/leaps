@@ -225,9 +225,9 @@ future LEAPS pupils. You can complete the questionnaire here:
 
 https://edinburgh.onlinesurveys.ac.uk/post-leaps-interview-questionnaire
 
-(You might have completed a questionnaire before your interview – if so, thank you! We
+(You might have completed a questionnaire before your interview - if so, thank you! We
 ask you to also complete this questionnaire so we can find out more about the impact of
-your interview. Don't worry if you didn't complete a previous questionnaire – we still ask
+your interview. Don't worry if you didn't complete a previous questionnaire - we still ask
 you to complete this one!).
 
 Please remember LEAPS is always available should you need any more help as you go forward,
