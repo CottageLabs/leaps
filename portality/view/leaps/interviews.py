@@ -113,7 +113,7 @@ def interviewForm(sid):
                 elif val == "no" or val == "off":
                     val = False
                 student.data['interview'][field] = val
-            else if field in ['submit'] and request.form[field] == "submit_and_send":
+            elif field in ['submit'] and request.form[field] == "submit_and_send":
                 send_aswell = True
         student.save()
         if send_aswell:
