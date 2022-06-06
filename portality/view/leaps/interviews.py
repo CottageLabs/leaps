@@ -104,6 +104,7 @@ def interviewForm(sid):
                     "level": request.form.getlist('application_level')[k]
                 }
                 student.data["interview"]["applications"].append(appn)
+        send_aswell = False
         for field in request.form.keys():
             if field not in ['submit'] and not field.startswith('application_'):
                 val = request.form[field]
@@ -112,8 +113,14 @@ def interviewForm(sid):
                 elif val == "no" or val == "off":
                     val = False
                 student.data['interview'][field] = val
+            else if field in ['submit'] and request.form[field] == "submit_and_send":
+                send_aswell = True
         student.save()
-        flash('The post-interview form is complete and has been saved to the student record. The student\'s action plan will now be generated. You don\'t need to take any further action', 'success')
+        if send_aswell:
+            _email_interview(student, False)
+            flash('The post-interview form has been saved and the student\'s action plan has been emailed.', 'success')
+        else:
+            flash('The post-interview form has been saved.', 'success')
         return render_template('leaps/interviews/form.html', student=student, selections=selections)
         
 
@@ -207,6 +214,22 @@ attached a copy of the action plan that your interviewer has prepared for you. I
 conversation that you had in your interview, and give you some steps to help you move forward with
 your plans.
 
+LEAPS want to explore the effectiveness of the LEAPS Pre-UCAS 1:1 Interview,
+and we ask for your help to do this! We invite you to complete this short online questionnaire to help us gather a sense of
+how LEAPS-eligible pupils feel about applying to university shortly after their LEAPS
+Pre-UCAS Interview.
+
+The questionnaire should take no more than 5 minutes to complete. Completing the
+questionnaire allows us to make sure LEAPS support is as effective as possible for
+future LEAPS pupils. You can complete the questionnaire here: 
+
+https://edinburgh.onlinesurveys.ac.uk/post-leaps-interview-questionnaire
+
+(You might have completed a questionnaire before your interview – if so, thank you! We
+ask you to also complete this questionnaire so we can find out more about the impact of
+your interview. Don’t worry if you didn’t complete a previous questionnaire – we still ask
+you to complete this one!).
+
 Please remember LEAPS is always available should you need any more help as you go forward,
 
 Good luck and best wishes
@@ -223,12 +246,14 @@ The LEAPS TEAM'''
         util.send_mail(to=to, fro=fro, subject=subject, text=text, files=files)
 
         student.data['interview']['emailed_date'] = datetime.now().strftime("%d/%m/%Y")
+        student.data['status'] = 'interviewed'
         student.save()
 
         if flashable:
             flash('Interview action plan has been emailed to ' + ",".join(to), "success")
     except:
-        flash('There was an error processing the email. Please check and try again.')
+        if flashable:
+            flash('There was an error processing the email. Please check and try again.')
 
 
 

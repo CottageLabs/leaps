@@ -119,7 +119,7 @@
         </table>
         
         {% if record.interview.care_experienced %}
-        <h3>Experienced Care</h3>
+        <h3>Care Experienced</h3>
         <table>
             <tr>
                 <td>
@@ -139,6 +139,8 @@
                 <td>
                     <p>LEAPS will be in touch with you with more information relating to support for students who are young carers.</p>
                     <p>Please note, LEAPS does not require you be registered as a young carer in order for you to be eligible for LEAPS support.</p>
+                    <p>Please tick the ’Do you have any caring responsibilities?' box in the 'Background information' section of the UCAS form when you apply. 
+                    Find out more about this UCAS tick box at <a href="https://leapsonline.org/schoolstudents/blogs/support-young-carers">https://leapsonline.org/schoolstudents/blogs/support-young-carers</a>.</p>
                     <p>More information available at: <a href="https://leapsonline.org/schoolstudents/young-and-student-carers">https://leapsonline.org/schoolstudents/young-and-student-carers</a></p>
                 </td>
             </tr>
@@ -151,6 +153,9 @@
             <tr>
                 <td>
                     <p>LEAPS will be in touch with you with more information relating to support for students who are estranged.</p>
+                    <p>Please tick the 'Would you consider yourself estranged from your parents (i.e. you are not in contact
+                    with and supported by your parents)?' box in the 'Background information' section of the UCAS form when you apply. 
+                    Find out more about this UCAS tick box at <a href="https://leapsonline.org/schoolstudents/blogs/support-estranged-students">https://leapsonline.org/schoolstudents/blogs/support-estranged-students</a>.</p>
                     <p>More information available at: <a href="https://leapsonline.org/schoolstudents/estranged-students">https://leapsonline.org/schoolstudents/estranged-students</a></p>
                 </td>
             </tr>
@@ -189,6 +194,14 @@
                     <h4>Personal Statement Guidance</h4>
                     <p>If you need some help getting started with and/or editing your personal statement, have a look at the following: 
                     <a href="https://www.leapsonline.org/about/leaps-news/writing-your-ucas-personal-statement">www.leapsonline.org/writingpersonalstatement</a>.</p>
+
+                    {% if record.interview.taking_leaps_transition_course %}
+                    <p>We ask all students who are taking the LEAPS Transitions Course to note this on their UCAS personal statement. 
+                    This helps demonstrate your commitment to university study to univeristy admissions teams. We suggest adding the following: <br>
+                    <b>I am completing the LEAPS Transitions Course, focusing on developing key academic skills and practical learning strategies to 
+                    help me make a positive transition into higher education. The course is credit rated for 20 credits (SCQF Level 7). 
+                    <a href="https://www.leapsonline.org/leaps-transitions-course-admissions-briefing">www.leapsonline.org/transitions-admissions</a></b></p>
+                    {% endif %}
                 </td>
             </tr>
             
@@ -203,6 +216,7 @@
                 </td>
             </tr>
             
+            {% if not record.interview.estranged %}
             <tr>
                 <td>
                     <h4>LEAPS Parents' & Carers' Resources</h4>
@@ -211,7 +225,8 @@
                     We know they'll have questions too, and we can help answer them.</p>
                 </td>
             </tr>
-            
+            {% endif %}
+
             <tr>
                 <td>
                     <h4>Find LEAPS on Twitter and Instagram @leaps1996</h4>

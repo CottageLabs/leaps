@@ -42,17 +42,25 @@
                 {% if account.data.institution %}
                     <p><input name="institution" type="text" value="{{account.data.institution}}" disabled="disabled"></p>
                 {% endif %}
-                {% if account.data.perform_interviews %}
+                {% if account.data.perform_interviews or account.data.perform_and_manage_interviewers %}
                     <p>This account can perform perform interviews.</p>
-                    {% if current_user.do_admin or current_user.is_super %}
+                    {% if account.data.perform_and_manage_interviewers %}
+                    <p>This account can also manage interviewers.</p>
+                    {% endif %}
+                    {% if current_user.do_admin or current_user.is_super or current_user.perform_and_manage_interviewers %}
                     <form action="" method="post">
                 	    <input id="disable_interview" class="btn btn-info" type="submit" name="submit" value="Remove this account from interview capability">
                 	</form>
                 	{% endif %}
                 {% else %}
-                    {% if current_user.do_admin or current_user.is_super or current_user.edit_students %}
+                    {% if current_user.do_admin or current_user.is_super or current_user.edit_students or current_user.perform_and_manage_interviewers %}
                     <form action="" method="post">
                 	    <input id="enable_interview" class="btn btn-primary" type="submit" name="submit" value="Add interview capability to this account">
+                	</form>
+                	{% endif %}
+                    {% if current_user.do_admin or current_user.is_super or current_user.edit_students %}
+                    <form action="" method="post">
+                	    <input id="enable_manage_interviewers" class="btn btn-primary" type="submit" name="submit" value="Add interviewer management to this account (allows doing interviews and also assigning interview ability to other users, and assigning interviewers to students to interview)">
                 	</form>
                 	{% endif %}
                 {% endif %}

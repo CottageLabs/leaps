@@ -142,6 +142,10 @@ td > p {
         <div class="span12">
             <div class="hero-unit">
                 <h2>Post-Interview Form</h2>
+                {% if student %}{% if student.data.interview %}{% if student.data.interview.emailed_date %}
+                {% set dontsave = 1 %}
+                <p>(The action plan for this interview has already been sent - information is available here for reference only, changes can no longer be saved.)</p>
+                {% endif %}{% endif %}{% endif %}
             </div>
 
             <form action="" method="post">
@@ -170,31 +174,7 @@ td > p {
             <table>
                 <tbody>
                     <tr>
-                        <td><p>Please provide any missing contact details:</p></td>
-                        <td><textarea class="bigfield" name="missing_contact_details">{% if student %}{% if student.data.interview %}{{ student.data.interview.missing_contact_details }}{% endif %}{% endif %}</textarea></td>
-                    </tr>
-
-                    <tr>
-                        <td><p>Mother's occupation</p></td>
-                        <td>
-                            <input type="text" name="mothers_occupation" value="{% if student %}{% if student.data.interview %}{{ student.data.interview.mothers_occupation }}{% endif %}{% endif %}">
-                        </td>
-                    </tr>
-                    <tr>
-                        <td><p>Father's occupation</p></td>
-                        <td>
-                            <input type="text" name="fathers_occupation" value="{% if student %}{% if student.data.interview %}{{ student.data.interview.fathers_occupation }}{% endif %}{% endif %}">
-                        </td>
-                    </tr>
-                    <tr>
-                        <td><p>Main language at home</p></td>
-                        <td>
-                            <input type="text" name="main_language_at_home" value="{% if student %}{% if student.data.interview %}{{ student.data.interview.main_language_at_home }}{% endif %}{% endif %}">
-                        </td>
-                    </tr>
-                    
-                    <tr>
-                        <td><p>First attending university?</p></td>
+                        <td><p>First in family?</p></td>
                         <td>
                             <input type="checkbox" name="first_attending_university" value="yes"{% if student %}{% if student.data.interview %}{% if student.data.interview.first_attending_university %}checked{% endif %}{% endif %}{% endif %}>
                         </td>
@@ -230,6 +210,18 @@ td > p {
                         </td>
                     </tr>
                     <tr>
+                        <td><p>Main language at home</p></td>
+                        <td>
+                            <input type="text" name="main_language_at_home" value="{% if student %}{% if student.data.interview %}{{ student.data.interview.main_language_at_home }}{% endif %}{% endif %}">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><p>Currently taking LEAPS Transition Course?</p></td>
+                        <td>
+                            <input type="checkbox" name="taking_leaps_transition_course" value="yes"{% if student %}{% if student.data.interview %}{% if student.data.interview.taking_leaps_transition_course %}checked{% endif %}{% endif %}{% endif %}>
+                        </td>
+                    </tr>
+                    <tr>
                         <td><p>HN only candidate?</p></td>
                         <td>
                             <input type="checkbox" name="hn_only_candidate" value="yes"{% if student %}{% if student.data.interview %}{% if student.data.interview.hn_only_candidate %}checked{% endif %}{% endif %}{% endif %}>
@@ -237,17 +229,39 @@ td > p {
                     </tr>
 
                     <tr>
-                        <td><p>Please provide any missing qualifications details:</p></td>
-                        <td><textarea class="bigfield" name="missing_qualifications">{% if student %}{% if student.data.interview %}{{ student.data.interview.missing_qualifications }}{% endif %}{% endif %}</textarea></td>
+                        <td><p>Please provide any missing contact details:</p></td>
+                        <td><textarea class="bigfield" name="missing_contact_details">{% if student %}{% if student.data.interview %}{{ student.data.interview.missing_contact_details }}{% endif %}{% endif %}</textarea></td>
                     </tr>
                     <tr>
-                        <td><p>Any additional notes:</p></td>
+                        <td><p>Please provide details of any missing qualifications:</p></td>
+                        <td><textarea class="bigfield" name="missing_qualifications">{% if student %}{% if student.data.interview %}{{ student.data.interview.missing_qualifications }}{% endif %}{% endif %}</textarea></td>
+                    </tr>
+
+                    <!--
+                    <tr>
+                        <td><p>Mother's occupation</p></td>
+                        <td>
+                            <input type="text" name="mothers_occupation" value="{% if student %}{% if student.data.interview %}{{ student.data.interview.mothers_occupation }}{% endif %}{% endif %}">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><p>Father's occupation</p></td>
+                        <td>
+                            <input type="text" name="fathers_occupation" value="{% if student %}{% if student.data.interview %}{{ student.data.interview.fathers_occupation }}{% endif %}{% endif %}">
+                        </td>
+                    </tr>
+                    -->
+
+                    <tr>
+                        <!--<td><p>Any additional notes:</p></td>-->
+                        <td><p>Interviewer's summary of interview (internal to LEAPS)</p></td>
                         <td><textarea class="bigfield" name="summary_for_leaps">{% if student %}{% if student.data.interview %}{{ student.data.interview.summary_for_leaps }}{% endif %}{% endif %}</textarea></td>
                     </tr>
                     
                     <tr>
                         <td colspan="2">
                             <h3>The below fields will be transferred directly on to student action plan</h3>
+                            <p>(Please complete this section addressing the student as the reader)</p>
                         </td>
                     </tr>
 
@@ -315,35 +329,49 @@ td > p {
                         <td><p>Specific subjects required?</p></td>
                         <td><textarea class="bigfield" name="specific_subjects_required">{% if student %}{% if student.data.interview %}{{ student.data.interview.specific_subjects_required }}{% endif %}{% endif %}</textarea></td>
                     </tr>
+                    
+                    <!--
                     <tr>
                         <td><p>Any other subjects required?</p></td>
                         <td><textarea class="bigfield" name="other_subjects_required">{% if student %}{% if student.data.interview %}{{ student.data.interview.other_subjects_required }}{% endif %}{% endif %}</textarea></td>
                     </tr>
+                    -->
+                    
                     <tr>
-                        <td><p>HN courses / articulation routes discussed for consideration (if any):</p></td>
+                        <td><p>HN courses / articulation routes (if relevant):</p></td> <!-- discussed for consideration (if any) -->
                         <td><textarea class="bigfield" name="hn_courses_discussed">{% if student %}{% if student.data.interview %}{{ student.data.interview.hn_courses_discussed }}{% endif %}{% endif %}</textarea></td>
                     </tr>
 
+
+                    {% if dontsave == 1 %}
+                    <p>(The action plan for this interview has already been sent - information is available here for reference only, changes can no longer be saved.)</p>
+                    {% else %}
                     <tr>
-                        <td></td>
-                        <td><input type="submit" name="submit" class="btn btn-primary" value="Save form and create action plan"></td>
-                    </tr>
-                    <tr>
-                        <td colspan="2">
-                            <p><br>After you save the form it will be reviewed by LEAPS staff, then the action plan will be sent to the student.</p>
+                        <td>
+                            <p>Click 'Save' to allow you (the interviewer) to save the changes you have made so far and to allow you
+                            to come back to complete the form later.</p>
+                            <p>Click 'Save and send action plan' only when you (the interviewer) are satisfied the form is complete.
+                            You won't be able to make any further changes after pressing this button, and the student's action
+                            plan will be sent.</p>
                         </td>
                     </tr>
-
+                    <tr>
+                        <td><input type="submit" name="submit" class="btn btn-primary" value="Save"></td>
+                        <td><input type="submit" name="submit_and_send" class="btn btn-primary" value="Save and send action plan"></td>
+                    </tr>
+                    {% endif %}
 
                     {% if current_user.view_admin %}<tr>{% else %}<tr style="display: none;">{% endif %}
-                        <td><p>LEAPS admin notes:<br><b style="color:red;">FOR ADMIN USE ONLY</b><br>(Not included on the action plan)</p></td>
+                        <td><p><b style="color:red;">FOR ADMIN USE ONLY (Not to be completed by interviewers)</b><br>LEAPS interview forms processing notes:</p></td>
                         <td><textarea class="bigfield" name="leaps_admin_notes">{% if student %}{% if student.data.interview %}{{ student.data.interview.leaps_admin_notes }}{% endif %}{% endif %}</textarea></td>
                     </tr>
                     {% if current_user.view_admin %}
+                    {% if dontsave != 1 %}
                     <tr>
                         <td></td>
-                        <td><input type="submit" name="submit" class="btn btn-primary" value="Save form"></td>
+                        <td><input type="submit" name="submit" class="btn btn-primary" value="Save"></td>
                     </tr>
+                    {% endif %}
                     {% endif %}
 
                 </tbody>
