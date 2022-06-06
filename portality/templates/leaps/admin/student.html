@@ -1102,10 +1102,10 @@ fieldset{
 	        <table>
 	            <tbody>
 	                <tr>
-	                    <td><input type="text" name="transition_course_taking"{% if record %} value="{{ record.data.transition_course_taking }}"{% endif %}> Transitions course - currently taking</td>
-	                    <td><input type="text" name="transition_course_withdrawn"{% if record %} value="{{ record.data.transition_course_withdrawn }}"{% endif %}> Transitions course - withdrawal</td>
-	                    <td><input type="text" name="transition_course_credits"{% if record %} value="{{ record.data.transition_course_credits }}"{% endif %}> Transitions course - completed with credits</td>
-	                    <td><input type="text" name="transition_course_no_credits"{% if record %} value="{{ record.data.transition_course_no_credits }}"{% endif %}> Transitions course - finished without credits</td>
+	                    <td><input type="checkbox" name="transition_course_taking"{% if record %}{% if record.data.transition_course_taking %} checked="checked"{% endif %}{% endif %}> Transitions course - currently taking</td>
+	                    <td><input type="checkbox" name="transition_course_withdrawn"{% if record %}{% if record.data.transition_course_withdrawn %} checked="checked"{% endif %}{% endif %}> Transitions course - withdrawal</td>
+	                    <td><input type="checkbox" name="transition_course_credits"{% if record %}{% if record.data.transition_course_credits %} checked="checked"{% endif %}{% endif %}> Transitions course - completed with credits</td>
+	                    <td><input type="checkbox" name="transition_course_no_credits"{% if record %}{% if record.data.transition_course_no_credits %} checked="checked"{% endif %}{% endif %}> Transitions course - finished without credits</td>
 	                </tr>
         	        <tr>
         	            {% if record %}<input type="hidden" name="claimed_first_attending_university" value="{{record.data.claimed_first_attending_university}}">{% endif %}
