@@ -155,8 +155,11 @@ jQuery(document).ready(function() {
             {% if student.estranged %}
                 This student is currently estranged<br>
             {% endif %}
-            {% if student.transition_course %}
-                This student is undertaking the LEAPS Transition Course
+            {% if record.transition_course_taking %}
+                This student is taking the LEAPS Transitions Course, credit-rated for 20 credits (SCQF Level 7), 
+                focusing on developing key academic skills and practical learning strategies required for a 
+                positive transition into higher education. For more information please visit 
+                www.leapsonline.org/transitions-admissions
             {% endif %}
             {% if student.additional_comments != "" %}
                 <strong>LEAPS staff comments:</strong> {{ student.additional_comments|safe }}
