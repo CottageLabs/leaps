@@ -28,7 +28,8 @@
     </div>
     <div class="span3">
         <div class="alert alert-info" style="min-height:110px;">
-            <p><span style="font-size:24px;">{{stats.number_of_interviews_done}}</span> admin forms have been done.</p>
+            <p><span style="font-size:24px;">{{stats.number_of_interviews_done}}</span> admin forms have been saved but not completed.</p>
+            <p><span style="font-size:24px;">{{stats.number_of_interviews_completed}}</span> admin forms have been completed, ready to email.</p>
             <p><span style="font-size:24px;">{{stats.number_of_action_plans_awaiting_email}}</span> action plans have not been emailed.</p>
             {% if current_user.do_admin %}
             {% if stats.number_of_action_plans_awaiting_email != 0 %}

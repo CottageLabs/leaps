@@ -89,13 +89,13 @@ def interviewForm(sid):
         if not student.data.get('interview',False):
             student.data['interview'] = {"applications": [], "form_date": datetime.now().strftime("%Y-%m-%d %H%M")}
         else:
-            if student.data['interview'].get('emailed_date', False):
-                ed = student.data['interview']['emailed_date']
-            else:
-                ed = False
+            ed = student.data['interview'].get('emailed_date', False)
+            cd = student.data['interview'].get('completed_date', False)
             student.data['interview'] = {"form_date": student.data['interview']['form_date'], "updated_date": datetime.now().strftime("%Y-%m-%d %H%M")}
             if ed != False: student.data['interview']['emailed_date'] = ed
-        student.data['interview']['applications'] = [] # reset this each time and refill from the form inputs, which will replicate any previous ones, so deletions can also be tracked easily
+            if cd != False: student.data['interview']['completed_date'] = cd
+        # reset this each time and refill from the form inputs, which will replicate any previous ones, so deletions can also be tracked easily
+        student.data['interview']['applications'] = []
         for k,v in enumerate(request.form.getlist('application_subject')):
             if v is not None and len(v) > 0 and v != " ":
                 appn = {
@@ -104,7 +104,6 @@ def interviewForm(sid):
                     "level": request.form.getlist('application_level')[k]
                 }
                 student.data["interview"]["applications"].append(appn)
-        send_aswell = False
         for field in request.form.keys():
             if field not in ['submit'] and not field.startswith('application_'):
                 val = request.form[field]
@@ -113,14 +112,10 @@ def interviewForm(sid):
                 elif val == "no" or val == "off":
                     val = False
                 student.data['interview'][field] = val
-            elif field in ['submit'] and request.form[field] == "submit_and_send":
-                send_aswell = True
+            elif field in ['submit'] and request.form[field] == "submit_and_complete" and not student.data['interview'].get('completed_date', False):
+                student.data['interview']['completed_date'] = datetime.now().strftime("%d/%m/%Y")
         student.save()
-        if send_aswell:
-            _email_interview(student, False)
-            flash('The post-interview form has been saved and the student\'s action plan has been emailed.', 'success')
-        else:
-            flash('The post-interview form has been saved.', 'success')
+        flash('The post-interview form has been saved.', 'success')
         return render_template('leaps/interviews/form.html', student=student, selections=selections)
         
 
@@ -266,7 +261,7 @@ def _get_interviews_awaiting_email():
                         {'archive'+app.config['FACET_FIELD']:'current'}
                     },
                     {'query_string':
-                        {'query':'*','default_field':'interview.form_date'}
+                        {'query':'*','default_field':'interview.completed_date'}
                     }
                 ],
                 'must_not':[
@@ -279,7 +274,7 @@ def _get_interviews_awaiting_email():
                 ]
             }
         },
-        "sort":[{"interview.form_date"+app.config['FACET_FIELD']:{"order":"desc"}}],
+        "sort":[{"interview.completed_date"+app.config['FACET_FIELD']:{"order":"desc"}}],
         'size':10000
     }
 

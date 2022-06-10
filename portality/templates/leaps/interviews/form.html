@@ -142,9 +142,9 @@ td > p {
         <div class="span12">
             <div class="hero-unit">
                 <h2>Post-Interview Form</h2>
-                {% if student %}{% if student.data.interview %}{% if student.data.interview.emailed_date %}
+                {% if student %}{% if student.data.interview %}{% if student.data.interview.completed_date %}
                 {% set dontsave = 1 %}
-                <p>(The action plan for this interview has already been sent - information is available here for reference only, changes can no longer be saved.)</p>
+                <p>(This form has already been completed - information is available here for reference only, changes can no longer be saved.)</p>
                 {% endif %}{% endif %}{% endif %}
             </div>
 
@@ -344,34 +344,31 @@ td > p {
 
 
                     {% if dontsave == 1 %}
-                    <p>(The action plan for this interview has already been sent - information is available here for reference only, changes can no longer be saved.)</p>
+                    <p>(This interview has already been completed - information is available here for reference only, changes can no longer be saved.)</p>
                     {% else %}
                     <tr>
                         <td>
                             <p>Click 'Save' to allow you (the interviewer) to save the changes you have made so far and to allow you
                             to come back to complete the form later.</p>
-                            <p>Click 'Save and send action plan' only when you (the interviewer) are satisfied the form is complete.
-                            You won't be able to make any further changes after pressing this button, and the student's action
-                            plan will be sent.</p>
+                            <p>Click 'Save and complete' only when you (the interviewer) are satisfied the form is complete.
+                            You won't be able to make any further changes after pressing this button.</p>
                         </td>
                     </tr>
                     <tr>
                         <td><input type="submit" name="submit" class="btn btn-primary" value="Save"></td>
-                        <td><input type="submit" name="submit_and_send" class="btn btn-primary" value="Save and send action plan"></td>
+                        <td><input type="submit" name="submit_and_complete" class="btn btn-primary" value="Save and complete action plan"></td>
                     </tr>
                     {% endif %}
 
                     {% if current_user.view_admin %}<tr>{% else %}<tr style="display: none;">{% endif %}
-                        <td><p><b style="color:red;">FOR ADMIN USE ONLY (Not to be completed by interviewers)</b><br>LEAPS interview forms processing notes:</p></td>
-                        <td><textarea class="bigfield" name="leaps_admin_notes">{% if student %}{% if student.data.interview %}{{ student.data.interview.leaps_admin_notes }}{% endif %}{% endif %}</textarea></td>
+                        <td><br><br><p><b style="color:red;">FOR ADMIN USE ONLY (Not to be completed by interviewers)</b><br>LEAPS interview forms processing notes:</p></td>
+                        <td><br><br><textarea class="bigfield" name="leaps_admin_notes">{% if student %}{% if student.data.interview %}{{ student.data.interview.leaps_admin_notes }}{% endif %}{% endif %}</textarea></td>
                     </tr>
                     {% if current_user.view_admin %}
-                    {% if dontsave != 1 %}
                     <tr>
                         <td></td>
-                        <td><input type="submit" name="submit" class="btn btn-primary" value="Save"></td>
+                        <td><input type="submit" name="submit" class="btn btn-primary" value="Save checker notes"></td>
                     </tr>
-                    {% endif %}
                     {% endif %}
 
                 </tbody>
