@@ -268,6 +268,7 @@ class Student(DomainObject):
                             locset['low_income_family'] = rec.get('low_income_family',False)
                             locset['estranged'] = rec.get('estranged',False)
                             locset['young_carer'] = rec.get('young_carer',False)
+                            locset['transition_course_taking'] = rec.get('transition_course_taking',False)
                             locset['qid'] = qid
                             rec['paelocs'].append(locset)
                             appn['qid'] = qid
