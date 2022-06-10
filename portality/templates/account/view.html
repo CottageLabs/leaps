@@ -60,7 +60,7 @@
                 	{% endif %}
                     {% if current_user.do_admin or current_user.is_super or current_user.edit_students %}
                     <form action="" method="post">
-                	    <input id="enable_manage_interviewers" class="btn btn-primary" type="submit" name="submit" value="Add interviewer management to this account (allows doing interviews and also assigning interview ability to other users, and assigning interviewers to students to interview)">
+                	    <input id="enable_manage_interviewers" class="btn btn-primary" type="submit" name="submit" value="Add interviewer management to this account">
                 	</form>
                 	{% endif %}
                 {% endif %}
