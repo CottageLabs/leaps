@@ -49,7 +49,7 @@ def index():
             elif acc.data.get('view_admin',False):
                 userstats["view_admin"] += 1
             if acc.data.get('perform_and_manage_interviews',False):
-                userstats["perform_and_manageinterviews"] += 1
+                userstats["perform_and_manage_interviews"] += 1
             elif acc.data.get('perform_interviews',False):
                 userstats["perform_interviews"] += 1
             if acc.data.get('school',"") != "": userstats["school_users"] += 1

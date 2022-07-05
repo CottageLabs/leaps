@@ -105,7 +105,7 @@ def interviewForm(sid):
                 }
                 student.data["interview"]["applications"].append(appn)
         for field in request.form.keys():
-            if field not in ['submit'] and not field.startswith('application_'):
+            if not field.startsWith('submit') and not field.startswith('application_'):
                 val = request.form[field]
                 if val == "yes" or val == "on":
                     val = True
