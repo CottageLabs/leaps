@@ -113,7 +113,7 @@ def interviewForm(sid):
                 elif val == "no" or val == "off":
                     val = False
                 student.data['interview'][field] = val
-            elif field in ['submit'] and request.form[field] == "submit_and_complete" and not student.data['interview'].get('completed_date', False):
+            elif field in ['submit_and_complete'] and not student.data['interview'].get('completed_date', False):
                 student.data['interview']['completed_date'] = datetime.now().strftime("%d/%m/%Y")
                 student.data['interview']['status'] = 'complete'
         student.save()
