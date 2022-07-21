@@ -18,6 +18,16 @@
             {% endfor %}
             </select>
             {% endif %}
+            {% if current_user.do_admin %}
+            <a id="archives" class="btn btn-primary" href="/admin/archive">Archive records</a>
+            <select id="archive" style="display: none;">
+                <option></option>
+            {% for name in selections.archives %}
+                <option>{{ name }}</option>
+            {% endfor %}
+            </select>
+
+            {% endif %}
 {% endblock %}
 
 
@@ -81,6 +91,40 @@ jQuery(document).ready(function() {
         }
     }
     $('#assign').bind('change',assign);
+
+    var archives = function(event) {
+        event.preventDefault();
+        var selected = false;
+        $('.selectthis').each(function() {
+            if ($(this).is(':checked')) selected = true;
+        });
+        if (selected) {
+            $('#archive').toggle();
+            $('#archives').toggle();
+        }
+    }
+    $('#archives').bind('click',archives);
+    var archive = function(event) {
+        event.preventDefault();
+        var selected = [];
+        var qry = $.parseJSON($.fn.facetview.options.querystring);
+        delete qry.fields;
+        if ( $('#selecttotal').is(':checked') ) {
+            qry.size = $.fn.facetview.options.rawdata.hits.total;
+        } else if ( $('#selectall').is(':checked') ) {
+        } else {
+            $('.selectthis').each(function() {
+                if ($(this).is(':checked')) selected.push($(this).attr('name').replace("select_",""));
+            });
+        }
+        var si = $('#archive').val();
+        if (si) {
+            var loc = '/admin/archive?archive=' + si + '&q=' + JSON.stringify(qry);
+            if ( selected.length > 0 ) loc += '&selected=' + JSON.stringify(selected);
+            window.location = loc;
+        }
+    }
+    $('#archive').bind('change',archive);
     
     var post = function() {
         if ( $('#default_current').length == 0 ) {
@@ -121,6 +165,7 @@ jQuery(document).ready(function() {
             {'field':'leaps_category.exact', 'display': 'LEAPS category', 'size':1000},
             {'field':'simd_decile.exact', 'display': 'SIMD decile', 'size':1000},
             {'field':'status.exact', 'display': 'status', 'size':1000},
+            {'field':'interview.status.exact', 'display': 'Interview status', 'size':1000},
             {'field':'applications.institution.exact', 'display': 'Application institutions', 'size':1000},
             {'field':'summer_school.exact', 'display': 'Summer school'},
             {'field':'interviewer.exact', 'display': 'Interviewer', 'size':100}

@@ -200,6 +200,56 @@
             
             <tr>
                 <td>
+                    <h4>How to identify yourself as a LEAPS student on the UCAS form</h4>
+
+                    {% if record.transition_course_taking %}
+                    <p>If you are on the LEAPS Transitions Course, you have an additional activity to add:
+                    On your UCAS form, in the Extra Activities section, you will see a question: Have you attended an
+                    activity to prepare you for higher education? Here's how to fill this in as a Transitions Course
+                    student:</p>
+                    <ul>
+                    <li>Type of activity?<br>
+                    Choose: "Skills and attainment raising activity" from the drop down menu.</li>
+                    <li>Activity provider?<br>
+                    Choose: "LEAPS Transitions Course" from the drop down menu.</li>
+                    <li>Name of activity/programme?<br>
+                    Type: "LEAPS Transitions Course: LEAPS is a widening participation programme. I am a LEAPS-eligible
+                    student taking the LEAPS Transitions Course, focusing on developing key academic skills and
+                    practical learning strategies to help me make a positive transition into higher education. The course
+                    is credit-rated for 20 credits (SCQF Level 7). 
+                    <a href="https://www.leapsonline.org/transitions-admissions">www.leapsonline.org/transitions-admissions</a>"</li>
+                    <li>Start date:<br>
+                    Select 29/08/2022 (this is to demonstrate the start of the course)</li>
+                    <li>End date:<br>
+                    Select 31/03/2023 (this is the demonstrate the end of the course)</li>
+                    </ul>
+                    <p>For more information, follow our guide which shows you how to identify yourself as a LEAPS
+                    Transitions Course student on your UCAS application at 
+                    <a href="https://www.leapsonline.org/leaps-ucas-application">www.leapsonline.org/leaps-ucas-application</a>.</p>
+                    {% else %}
+                    <p>On your UCAS form, in the Extra Activities section, you will see a question: Have you attended an
+                    activity to prepare you for higher education? Here's how to fill this in as a LEAPS student:</p>
+                    <ul>
+                    <li>Type of activity?<br>
+                    Choose: "Information, advice and guidance" from the drop down menu.</li>
+                    <li>Activity provider?<br>
+                    Choose: "LEAPS" from the drop down menu.</li>
+                    <li>Name of activity/programme?<br>
+                    Type: "LEAPS: LEAPS is a widening participation programme and I am a LEAPS-eligible student.
+                    Please see www.leapsonline.org for further information about LEAPS."</li>
+                    <li>Start date:<br>
+                    Select 16/08/2021 (this is to demonstrate the start of your S5)</li>
+                    <li>End date:<br>
+                    Select 01/06/2023 (this is to demonstrate the end of your S6)</li>
+                    </ul>
+                    <p>For more information, follow our guide which shows you how to identify yourself as a LEAPS student
+                    on your UCAS application at <a href="https://www.leapsonline.org/leaps-ucas-application">www.leapsonline.org/leaps-ucas-application</a>.</p>
+                    {% endif %}
+                </td>
+            </tr>
+
+            <tr>
+                <td>
 
                     <h4>LEAPS S6 Blog</h4>
                     <p>Visit our LEAPS S6 Blog at <a href="https://leapsonline.org/schoolstudents/s6-blog">https://leapsonline.org/schoolstudents/s6-blog</a> 

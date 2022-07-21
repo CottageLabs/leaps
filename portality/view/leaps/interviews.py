@@ -87,11 +87,12 @@ def interviewForm(sid):
     else:
         # save the form into the student record
         if not student.data.get('interview',False):
-            student.data['interview'] = {"applications": [], "form_date": datetime.now().strftime("%Y-%m-%d %H%M")}
+            student.data['interview'] = {"status": "saved", "applications": [], "form_date": datetime.now().strftime("%Y-%m-%d %H%M")}
         else:
             ed = student.data['interview'].get('emailed_date', False)
             cd = student.data['interview'].get('completed_date', False)
-            student.data['interview'] = {"form_date": student.data['interview']['form_date'], "updated_date": datetime.now().strftime("%Y-%m-%d %H%M")}
+            st = student.data['interview'].get('status', 'saved')
+            student.data['interview'] = {"status": st, "form_date": student.data['interview']['form_date'], "updated_date": datetime.now().strftime("%Y-%m-%d %H%M")}
             if ed != False: student.data['interview']['emailed_date'] = ed
             if cd != False: student.data['interview']['completed_date'] = cd
         # reset this each time and refill from the form inputs, which will replicate any previous ones, so deletions can also be tracked easily
@@ -105,7 +106,7 @@ def interviewForm(sid):
                 }
                 student.data["interview"]["applications"].append(appn)
         for field in request.form.keys():
-            if not field.startsWith('submit') and not field.startswith('application_'):
+            if not field.startswith('submit') and not field.startswith('application_'):
                 val = request.form[field]
                 if val == "yes" or val == "on":
                     val = True
@@ -114,6 +115,7 @@ def interviewForm(sid):
                 student.data['interview'][field] = val
             elif field in ['submit'] and request.form[field] == "submit_and_complete" and not student.data['interview'].get('completed_date', False):
                 student.data['interview']['completed_date'] = datetime.now().strftime("%d/%m/%Y")
+                student.data['interview']['status'] = 'complete'
         student.save()
         flash('The post-interview form has been saved.', 'success')
         return render_template('leaps/interviews/form.html', student=student, selections=selections)

@@ -35,7 +35,7 @@ jQuery(document).ready(function() {
         <div class="span12">
             <p style="text-align:right;">
                 <a id="export" class="btn btn-primary" href="/universities/export{% if current_user.view_admin and current_user.is_institution != True %}?institution={{current_user.is_institution}}{% endif %}">Export PAEs</a>
-                {% if current_user.is_institution in ['University of Edinburgh','Edinburgh Napier University','Heriot-Watt University','Queen Margaret University','SRUC- Scotlands Rural College'] %}<a class="btn btn-info" href="/universities/subjects">Manage subjects</a>{% endif %}
+                <a class="btn btn-info" href="/universities/subjects">Manage subjects</a>
                 <a class="btn" href="/account/logout">Logout</a>
             </p>
         </div>

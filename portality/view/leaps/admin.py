@@ -365,45 +365,44 @@ def data(model=None,uuid=None):
 # do archiving
 @blueprint.route('/archive', methods=['GET','POST'])
 def archives():
-    if request.method == "POST":
-        if ('q' in request.values or 'selected' in request.values) and 'archive' in request.values:
-            query = json.loads(request.values.get('q','{"query":{"match_all":{}}}'))
-            selected = json.loads(request.values.get('selected','[]'))
-            s = models.Student.query(q=query)
-            moved = 0
-            for i in s.get('hits',{}).get('hits',[]): 
-                if len(selected) == 0 or i['_source']['id'] in selected:
-                    mr = models.Student.pull(i['_source']['id'])
-                    mr.data["archive"] = request.values['archive']
-                    mr.save()
-                    moved += 1
-            time.sleep(1)
-            flash(str(moved) + ' records moved to archive ' + request.values['archive'])
+    if ('q' in request.values or 'selected' in request.values) and 'archive' in request.values:
+        query = json.loads(request.values.get('q','{"query":{"match_all":{}}}'))
+        selected = json.loads(request.values.get('selected','[]'))
+        s = models.Student.query(q=query)
+        moved = 0
+        for i in s.get('hits',{}).get('hits',[]): 
+            if len(selected) == 0 or i['_source']['id'] in selected:
+                mr = models.Student.pull(i['_source']['id'])
+                mr.data["archive"] = request.values['archive']
+                mr.save()
+                moved += 1
+        time.sleep(1)
+        flash(str(moved) + ' records moved to archive ' + request.values['archive'])
 
-        else:
-            action = request.values['submit']
-            if action == "Create":
-                a = models.Archive( name=request.values['archive'] )
-                a.save()
-                flash('New archive named ' + a.data["name"] + ' created')
-            elif action == "Move":
-                a = models.Archive.pull_by_name(request.values['move_from'])
-                b = models.Archive.pull_by_name(request.values['move_to'])
-                if a is None or b is None:
-                    flash('Sorry. One of the archives you specified could not be identified...')
-                else:
-                    lena = len(a)
-                    for i in a.children(justids=True):
-                        ir = models.Student.pull(i)
-                        ir.data["archive"] = b.data["name"]
-                        ir.save()
-                    time.sleep(1)
-                    flash(str(lena) + ' records moved from archive ' + a.data["name"] + ' to archive ' + b.data["name"] + ', which now contains ' + str(len(b)) + ' records. Archive ' + a.data["name"] + ' still exists, but is now empty. Feel free to delete it if you wish, or use it to put more records in.')
-            elif action == "Delete":
-                a = models.Archive.pull_by_name(request.values['delete'])
-                length = len(a)
-                a.delete()
-                flash('Archive ' + a.data["name"] + ' deleted, along with all ' + str(length) + ' records it contained.')
+    elif request.method == "POST":
+        action = request.values['submit']
+        if action == "Create":
+            a = models.Archive( name=request.values['archive'] )
+            a.save()
+            flash('New archive named ' + a.data["name"] + ' created')
+        elif action == "Move":
+            a = models.Archive.pull_by_name(request.values['move_from'])
+            b = models.Archive.pull_by_name(request.values['move_to'])
+            if a is None or b is None:
+                flash('Sorry. One of the archives you specified could not be identified...')
+            else:
+                lena = len(a)
+                for i in a.children(justids=True):
+                    ir = models.Student.pull(i)
+                    ir.data["archive"] = b.data["name"]
+                    ir.save()
+                time.sleep(1)
+                flash(str(lena) + ' records moved from archive ' + a.data["name"] + ' to archive ' + b.data["name"] + ', which now contains ' + str(len(b)) + ' records. Archive ' + a.data["name"] + ' still exists, but is now empty. Feel free to delete it if you wish, or use it to put more records in.')
+        elif action == "Delete":
+            a = models.Archive.pull_by_name(request.values['delete'])
+            length = len(a)
+            a.delete()
+            flash('Archive ' + a.data["name"] + ' deleted, along with all ' + str(length) + ' records it contained.')
 
         time.sleep(1)
 
