@@ -145,7 +145,7 @@ def student(uuid=None):
             if i.get('_source',{}).get('perform_interviews',False): interviewers.append(i['_source']['id'])
 
     if uuid is None:
-        return render_template('leaps/admin/students.html', interviewers=interviewers)
+        return render_template('leaps/admin/students.html', interviewers=interviewers, archives=dropdowns('archive','name'))
 
     if uuid == "new":
         student = models.Student()
