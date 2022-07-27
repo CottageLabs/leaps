@@ -126,7 +126,7 @@
                 This student is taking the LEAPS Transitions Course, credit-rated for 20 credits (SCQF Level 7), 
                 focusing on developing key academic skills and practical learning strategies required for a 
                 positive transition into higher education. For more information please visit 
-                <a href="https://www.leapsonline.org/transitions-admissions">www.leapsonline.org/transitions-admissions</a>
+                www.leapsonline.org/transitions-admissions
             {% endif %}
         </p>
         {% if application.notes != "" %}

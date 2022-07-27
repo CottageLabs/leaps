@@ -189,6 +189,7 @@
                     <a href="https://www.leapsonline.org/about/leaps-news/writing-your-ucas-personal-statement">www.leapsonline.org/writingpersonalstatement</a>.</p>
 
                     {% if record.interview.taking_leaps_transition_course %}
+                    <h4>LEAPS Transitions Course</h4>
                     <p>We ask all students who are taking the LEAPS Transitions Course to note this on their UCAS personal statement. 
                     This helps demonstrate your commitment to university study to univeristy admissions teams. We suggest adding the following: <br>
                     <b>I am completing the LEAPS Transitions Course, focusing on developing key academic skills and practical learning strategies to 
