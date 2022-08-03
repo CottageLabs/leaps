@@ -84,6 +84,14 @@ def interviewForm(sid):
     elif request.method == 'GET':
         student = models.Student.pull(sid)
         return render_template('leaps/interviews/form.html', student=student, selections=selections)
+    elif request.form.get('submit_checker_notes', False):
+        if student.data.get('interview',False):
+            student.data['interview']['leaps_admin_notes'] = request.form['submit_checker_notes']
+            student.save()
+            flash('The admin notes have been saved.', 'success')
+        else:
+            flash('Admin notes cannot be added until some data is saved above.', 'success')
+        return render_template('leaps/interviews/form.html', student=student, selections=selections)
     else:
         # save the form into the student record
         if not student.data.get('interview',False):

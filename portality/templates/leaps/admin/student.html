@@ -1091,7 +1091,7 @@ fieldset{
                             {% else %}
                                 {% if record.data.interview.completed_date %}
                                     {% if current_user.do_admin %}
-                                        <a class="btn btn-info" style="margin-top:-10px;" href="/interviews/{{ record.data.id }}/email">Email action plan</a>
+                                        <!--<a class="btn btn-info" style="margin-top:-10px;" href="/interviews/{{ record.data.id }}/email">Email action plan</a>-->
             				        {% endif %}
         				        {% endif %}
         				    {% endif %}
@@ -1168,11 +1168,11 @@ fieldset{
 						<td></td>
                     </tr>
 
-        	        <tr>
+        	        <tr style="display:none;">
 	                    <td style="text-align:right;padding:6px 10px 0 0;">Mothers occupation</td>
 	                    <td><input type="text" name="mothers_occupation"{% if record %} value="{{ record.data.mothers_occupation }}"{% endif %}></td>
                     </tr>
-        	        <tr>
+        	        <tr style="display:none;">
 	                    <td style="text-align:right;padding:6px 10px 0 0;">Fathers occupation</td>
 	                    <td><input type="text" name="fathers_occupation"{% if record %} value="{{ record.data.fathers_occupation }}"{% endif %}></td>
                     </tr>

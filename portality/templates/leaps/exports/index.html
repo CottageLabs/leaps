@@ -78,13 +78,13 @@ jQuery(document).ready(function() {
 	                    <td><input type="checkbox" name="gender"> Gender</td>
                         <td><input type="checkbox" name="shep_school"> SHEP school</td>
 	                    <td><input type="checkbox" name="had_recent_careers_interview"> Had recent careers interview</td>
-	                    <td><input type="checkbox" name="mothers_occupation"> Mothers occupation</td>
+	                    <td><!--<input type="checkbox" name="mothers_occupation"> Mothers occupation--></td>
                     </tr>
         	        <tr>
 	                    <td><input type="checkbox" name="address"> Address</td>
 	                    <td><input type="checkbox" name="simd_decile"> SIMD decile</td>
                         <td><input type="checkbox" name="additional_qualifications"> Additional qualifications</td>
-	                    <td><input type="checkbox" name="fathers_occupation"> Fathers occupation</td>
+	                    <td><!--<input type="checkbox" name="fathers_occupation"> Fathers occupation--></td>
                     </tr>
         	        <tr>
 	                    <td><input type="checkbox" name="post_code"> Post code</td>
@@ -138,7 +138,13 @@ jQuery(document).ready(function() {
 	                    <td></td>
 	                    <td></td>
 	                    <td><input type="checkbox" name="last_updated"> Last updated</td>
-	                    <td><input type="checkbox" name="transition_course"> LEAPS transition course</td>
+	                    <td>
+		                    <input type="checkbox" name="transition_course_taking"> Transitions course - currently taking<br>
+		                    <input type="checkbox" name="transition_course_withdrawn"> Transitions course - withdrawal<br>
+		                    <input type="checkbox" name="transition_course_credits"> Transitions course - completed with credits<br>
+		                    <input type="checkbox" name="transition_course_no_credits"> Transitions course - finished without credits<br>
+		                    <input type="checkbox" name="interview_taking_leaps_transition_course"> Transitions course - interview confirmed taking<br>
+	                    </td>
                     </tr>
 
         	        <tr>

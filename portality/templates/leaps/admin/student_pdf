@@ -298,12 +298,14 @@
                     <td style="width:30%;">Early application?</td> 
                     <td>{% if record.early_application %}{% if record.early_application %}Yes{% else %}No{% endif %}{% else %}Yes/No{% endif %}</td>
                 </tr>
+                <!--
                 <tr>
                     <td style="width:30%;">Mothers occupation</td> <td>{{ record.mothers_occupation }}</td>
                 </tr>
                 <tr>
                     <td style="width:30%;">Fathers occupation</td> <td>{{ record.fathers_occupation }}</td>
                 </tr>
+                -->
                 <tr>
                     <td style="width:30%;">Main language at home</td> <td>{{ record.main_language_at_home }}</td>
                 </tr>

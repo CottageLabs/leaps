@@ -214,6 +214,14 @@ def download_csv(recordlist,keys):
                     else:
                         tidykey = record.get(key,'')
                     tidykey += '","' + fixify(record.get('gender_other','').replace('"',''))
+                elif key == 'interview_taking_leaps_transition_course':
+                    if record.get('interview',False):
+                        if record['interview'].get('taking_leaps_transition_course'):
+                            tidykey = "true"
+                        else:
+                            tidykey = "false"
+                    else:
+                        tidykey = "unknown"
                 elif key not in ['gender_other']:
                     if isinstance(record[key],bool):
                         if record[key]:
