@@ -245,7 +245,7 @@ def assignstudent(uuid=None,iid=None):
     if student.data.get('interviewer', False) != iid:
         student.data['interviewer'] = iid
         student.save()
-    return student.data
+    return iid
 
 # move a particular record from one archive to another
 @blueprint.route('/student/<uuid>/archive/<aid>', methods=['GET'])
