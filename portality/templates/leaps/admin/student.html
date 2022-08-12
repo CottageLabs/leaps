@@ -212,7 +212,6 @@ jQuery(document).ready(function() {
             };
             var url = '/query/institution/_search?source=' + JSON.stringify(qry);
             $.ajax({
-                method:'GET',
                 datatype:'JSON',
                 url:url,
                 obj:$(this),
@@ -255,9 +254,10 @@ jQuery(document).ready(function() {
     $('.institutionselector').bind('change',limitsubjects);
     $('.subjectselector').bind('change',limitlevels);
 
-    var interviewer = function() {
+    var interviewer = function(event) {
+        event.preventDefault();
 		$.ajax({
-			method: 'POST',
+			type: 'POST',
 			url: '/admin/student/{{record.id}}/assign/' + $('#interviewer').val(),
 			success: function() {
 			    $('#interviewer_saved').show();
@@ -297,8 +297,7 @@ jQuery(document).ready(function() {
 				var archive = $('#archiveselection').val();
 				var url = window.location.pathname + '/archive/' + archive.replace('/','______');
 				$.ajax({
-						method:'GET',
-						url:url
+					url:url
 				});
 				alert('Record move to ' + archive + '. Please exit this record and go back to manage supporting data.');
 				//setTimeout(function() { window.location = url; }, 2000);
