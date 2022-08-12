@@ -37,7 +37,7 @@ def edit_students(user):
 
 # a user that can login to the admin area and view all content
 def view_admin(user):
-    if user.data.get('view_admin',False) or user.data.get('edit_students',False) or user.data.get('do_admin',False):
+    if user.data.get('view_admin',False) or user.data.get('perform_and_manage_interviewers',False) or user.data.get('edit_students',False) or user.data.get('do_admin',False):
         return True
     else:
         return is_super(user)

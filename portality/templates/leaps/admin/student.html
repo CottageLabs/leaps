@@ -255,6 +255,17 @@ jQuery(document).ready(function() {
     $('.institutionselector').bind('change',limitsubjects);
     $('.subjectselector').bind('change',limitlevels);
 
+    var interviewer = function() {
+		$.ajax({
+			method: 'POST',
+			url: '/admin/student/{{record.id}}/assign/' + $('#interviewer').val(),
+			success: function() {
+			    $('#interviewer_saved').show();
+			    setTimeout(function() { $('#interviewer_saved').hide(); }, 3000);
+			}
+		});
+    }
+    $('#interviewer').bind('change',interviewer);
 
     var promptsave = function() {
         $('#triggersave').removeClass('btn-success').addClass('btn-warning');
@@ -270,7 +281,7 @@ jQuery(document).ready(function() {
         confirm('Are you sure you want to delete this student record?') ? $('#delete').trigger('click') : false;
     };
     $('#triggerdelete').bind('click',triggerdelete);
-    $('input, textarea, select').bind('change',promptsave);
+    $('input, textarea, select').not('#interviewer').bind('change',promptsave);
 
     var paenotes = function(e) {
         e.preventDefault();
@@ -1069,7 +1080,7 @@ fieldset{
 	    <div class="span12">
 	        <p>
 	            Interviewer: 
-				<select name="interviewer">
+				<select name="interviewer" id="interviewer">
 			    <option></option>
 				{% for opt in interviewers %}
 					<option
@@ -1099,6 +1110,7 @@ fieldset{
     				{% endif %}
     			{% endif %}
 	        </p>
+	        <p id="interviewer_saved" style="display: none;">Success, this student has been assigned to the selected interviewer.</p>
 	        <table>
 	            <tbody>
 	                <tr>

@@ -22,7 +22,7 @@ blueprint = Blueprint('admin', __name__)
 def restrict():
     if current_user.is_anonymous():
         return redirect('/account/login?next=' + request.path)
-    elif request.method == 'POST' and not ( ( current_user.edit_students and 'student/' in request.path ) or current_user.do_admin):
+    elif request.method == 'POST' and not ( ( current_user.edit_students and 'student/' in request.path ) or (current_user.perform_and_manage_interviewers and '/assign/' in request.path) or current_user.do_admin):
         abort(401)
     elif request.method == 'DELETE' and not current_user.do_admin:
         abort(401)
@@ -236,6 +236,16 @@ def studentassign():
                     counter += 1
     flash(str(counter) + ' selected records were assigned to ' + interviewer, 'success')
     return redirect('/admin/student')
+
+@blueprint.route('/student/<uuid>/assign/<iid>', methods=['POST'])
+def assignstudent(uuid=None,iid=None):
+    if uuid is None or iid is None: abort(404)
+    student = models.Student.pull(uuid)
+    if student is None: abort(404)
+    if student.data.get('interviewer', False) != iid:
+        student.data['interviewer'] = iid
+        student.save()
+    return student.data
 
 # move a particular record from one archive to another
 @blueprint.route('/student/<uuid>/archive/<aid>', methods=['GET'])

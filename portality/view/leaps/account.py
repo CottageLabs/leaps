@@ -28,7 +28,7 @@ def index():
     userstats = {
         "super_user": 0,
         "perform_interviews": 0,
-        "perform_and_manage_interviews": 0,
+        "perform_and_manage_interviewers": 0,
         "do_admin": 0,
         "edit_students": 0,
         "view_admin": 0,
@@ -48,8 +48,8 @@ def index():
                 userstats["edit_students"] += 1
             elif acc.data.get('view_admin',False):
                 userstats["view_admin"] += 1
-            if acc.data.get('perform_and_manage_interviews',False):
-                userstats["perform_and_manage_interviews"] += 1
+            if acc.data.get('perform_and_manage_interviewers',False):
+                userstats["perform_and_manage_interviewers"] += 1
             elif acc.data.get('perform_interviews',False):
                 userstats["perform_interviews"] += 1
             if acc.data.get('school',"") != "": userstats["school_users"] += 1
@@ -58,7 +58,7 @@ def index():
             user = {'id':acc.id}
             if 'created_date' in acc.data:
                 user['created_date'] = acc.data['created_date']
-            if request.values.get('users',False) == False or (request.values['users'] == 'perform_and_manage_interviews' and acc.data.get('perform_and_manage_interviews','') != '') or (request.values['users'] == 'perform_interviews' and acc.data.get('perform_interviews','') != '') or (request.values['users'] == 'school' and acc.data.get('school','') != '') or (request.values['users'] == 'institution' and acc.data.get('institution','') != '') or (request.values['users'] == 'super' and acc.id in app.config['SUPER_USER']) or (request.values['users'] not in ['school','institution','super'] and acc.data.get(request.values['users'],False)):
+            if request.values.get('users',False) == False or (request.values['users'] == 'perform_and_manage_interviewers' and acc.data.get('perform_and_manage_interviewers','') != '') or (request.values['users'] == 'perform_interviews' and acc.data.get('perform_interviews','') != '') or (request.values['users'] == 'school' and acc.data.get('school','') != '') or (request.values['users'] == 'institution' and acc.data.get('institution','') != '') or (request.values['users'] == 'super' and acc.id in app.config['SUPER_USER']) or (request.values['users'] not in ['school','institution','super'] and acc.data.get(request.values['users'],False)):
                 users.append(user)
     if util.request_wants_json():
         resp = make_response( json.dumps(users, sort_keys=True, indent=4) )
@@ -82,8 +82,8 @@ def username(username):
         acc.save()
         flash("Account updated", "success")
         return render_template('account/view.html', account=acc)
-    elif (current_user.do_admin or current_user.perform_and_manage_interviews) and ( ( request.method == 'POST' and request.values.get('submit','') == "Add interviewer management to this account" ) ):
-        acc.data['perform_and_manage_interviews'] = True
+    elif (current_user.do_admin or current_user.perform_and_manage_interviewers) and ( ( request.method == 'POST' and request.values.get('submit','') == "Add interviewer management to this account" ) ):
+        acc.data['perform_and_manage_interviewers'] = True
         acc.save()
         flash("Account updated", "success")
         return render_template('account/view.html', account=acc)
@@ -249,7 +249,7 @@ class RegisterForm(Form):
     school = SelectField('School', choices=[(i,i) for i in [""]+dropdowns('school')])
     institution = SelectField('Institution', choices=[(i,i) for i in [""]+dropdowns('institution')])
     perform_interviews = BooleanField('Perform interviews')
-    perform_and_manage_interviews = BooleanField('Perform and manage interviews')
+    perform_and_manage_interviewers = BooleanField('Perform and manage interviews')
     view_admin = BooleanField('View admin area')
     edit_students = BooleanField('Edit students')
     do_admin = BooleanField('Do admin')
@@ -268,7 +268,7 @@ def register():
             school = form.school.data,
             institution = form.institution.data,
             perform_interviews = form.perform_interviews.data,
-            perform_and_manage_interviews = form.perform_and_manage_interviews.data,
+            perform_and_manage_interviewers = form.perform_and_manage_interviewers.data,
             view_admin = form.view_admin.data,
             edit_students = form.edit_students.data,
             do_admin = form.do_admin.data
