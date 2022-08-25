@@ -239,8 +239,8 @@ def existscheck(form, field):
         raise ValidationError('Taken! Please try another.')
 
 class RegisterForm(Form):
-    w = TextField('Username', [validators.Length(min=3, max=25),existscheck], description="usernames")
-    n = TextField('Email Address', [validators.Length(min=3, max=35), validators.Email(message='Must be a valid email address')])
+    w = TextField('Username', [validators.Length(min=3, max=100),existscheck], description="usernames")
+    n = TextField('Email Address', [validators.Length(min=3, max=100), validators.Email(message='Must be a valid email address')])
     s = PasswordField('Password', [
         validators.Required(),
         validators.EqualTo('c', message='Passwords must match')
