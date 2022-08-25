@@ -581,6 +581,10 @@ class Account(DomainObject, UserMixin):
     @property
     def perform_interviews(self):
         return auth.user.perform_interviews(self)
+
+    @property
+    def perform_and_manage_interviewers(self):
+        return auth.user.perform_and_manage_interviewers(self)
             
     @property
     def agreed_policy(self):
