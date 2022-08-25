@@ -305,6 +305,19 @@ jQuery(document).ready(function() {
  		$('#move').bind('click',movearchive);
 {% elif current_user.perform_and_manage_interviewers %}
     $('input, select, textarea').not('#interviewer').attr('disabled','disabled');
+    var interviewer = function(event) {
+        event.preventDefault();
+		$.ajax({
+			type: 'POST',
+			url: '/admin/student/{{record.id}}/assign/' + $('#interviewer').val(),
+			success: function() {
+			    $('#interviewer_saved').show();
+			    setTimeout(function() { $('#interviewer_saved').hide(); }, 3000);
+			}
+		});
+    }
+    $('#interviewer').bind('change',interviewer);
+
 {% else %}
     $('input, select, textarea').attr('disabled','disabled');
 
