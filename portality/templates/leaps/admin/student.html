@@ -303,6 +303,8 @@ jQuery(document).ready(function() {
 				//setTimeout(function() { window.location = url; }, 2000);
 		}
  		$('#move').bind('click',movearchive);
+{% elif current_user.perform_and_manage_interviewers %}
+    $('input, select, textarea').not('#interviewer').attr('disabled','disabled');
 {% else %}
     $('input, select, textarea').attr('disabled','disabled');
 

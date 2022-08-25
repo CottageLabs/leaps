@@ -86,7 +86,7 @@ def interviewForm(sid):
         return render_template('leaps/interviews/form.html', student=student, selections=selections)
     elif request.form.get('submit_checker_notes', False):
         if student.data.get('interview',False):
-            student.data['interview']['leaps_admin_notes'] = request.form['submit_checker_notes']
+            student.data['interview']['leaps_admin_notes'] = request.form['leaps_admin_notes']
             student.save()
             flash('The admin notes have been saved.', 'success')
         else:
