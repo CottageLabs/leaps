@@ -8,7 +8,7 @@
             <a id="export" class="btn" href="/admin/export">Export selected</a>
             {% endif %}
             <a id="print" class="btn" href="/admin/student/selected.pdf">Print selected</a>
-            {% if current_user.edit_students %}
+            {% if current_user.edit_students or current_user.perform_and_manage_interviewers %}
             <br>
             <a id="interviewers" class="btn btn-primary" href="/admin/assign">Assign interviewer</a>
             <select id="assign" style="display: none;">
