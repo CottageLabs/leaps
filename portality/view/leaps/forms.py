@@ -78,7 +78,7 @@ def student():
             return render_template('leaps/survey/closed.html')
 
     if request.method == 'POST':
-        if adminsettings.get('survey',False) or current_user.view_admin:
+        if adminsettings.get('survey',False) or (not current_user.is_anonymous() and current_user.view_admin):
             student = models.Student()
             student.save_from_form(request)
 
