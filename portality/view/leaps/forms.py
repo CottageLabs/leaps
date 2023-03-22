@@ -40,6 +40,7 @@ def complete():
 def student():
 
     # for forms requiring auth, add an auth check here
+    adminsettings = models.Account.pull(app.config['SUPER_USER'][0]).data.get('settings',{})
     
     if request.method == 'GET':
         # TODO: if people are logged in it may be necessary to render a form with previously submitted data
@@ -56,39 +57,43 @@ def student():
         r = models.School().query(q={'query':{'match_all':{}},'size': 1000})
         for s in r['hits']['hits']:
             selections['school_categories'][re.sub('[^a-z]+', '', s['_source']['name'].lower())] = s['_source']['leaps_category']
-            
-        if current_user.is_anonymous() or not current_user.do_admin:
-            if 'TEST' in selections['schools']:
-                selections['schools'] = [i for i in selections['schools'] if i != 'TEST']
-            if 'TEST' in selections['institutions']:
-                selections['institutions'] = [i for i in selections['institutions'] if i != 'TEST']
-        response = make_response(
-            render_template(
-                'leaps/survey/survey.html', 
-                selections = selections,
-                data={}
+
+        if adminsettings.get('survey',False) or current_user.view_admin:
+            if current_user.is_anonymous() or not current_user.do_admin:
+                if 'TEST' in selections['schools']:
+                    selections['schools'] = [i for i in selections['schools'] if i != 'TEST']
+                if 'TEST' in selections['institutions']:
+                    selections['institutions'] = [i for i in selections['institutions'] if i != 'TEST']
+            response = make_response(
+                render_template(
+                    'leaps/survey/survey.html', 
+                    selections = selections,
+                    data={}
+                )
             )
-        )
-        response.headers['Cache-Control'] = 'public, no-cache, no-store, max-age=0'
-        response.headers['Pragma'] = 'no-cache'
-        return response
+            response.headers['Cache-Control'] = 'public, no-cache, no-store, max-age=0'
+            response.headers['Pragma'] = 'no-cache'
+            return response
+        else:
+            return render_template('leaps/survey/closed.html')
 
     if request.method == 'POST':
-        student = models.Student()
-        student.save_from_form(request)
+        if adminsettings.get('survey',False) or current_user.view_admin:
+            student = models.Student()
+            student.save_from_form(request)
 
-        try:
-            to = [app.config['LEAPS_EMAIL']]
-            #if app.config.get('ADMIN_EMAIL',False):
-            #    to.append(app.config['ADMIN_EMAIL'])
-            fro = app.config['LEAPS_EMAIL']
-            subject = "New student survey submitted"
-            text = 'A student has just submitted a survey. View it in the admin interfacet at '
-            text += '<a href="http://leapssurvey.org/admin/student/' + student.id
-            text += '">http://leapssurvey.org/admin/student/' + student.id + '</a>.'
-            util.send_mail(to=to, fro=fro, subject=subject, text=text)
-        except:
-            flash('Email failed.')
+            try:
+                to = [app.config['LEAPS_EMAIL']]
+                #if app.config.get('ADMIN_EMAIL',False):
+                #    to.append(app.config['ADMIN_EMAIL'])
+                fro = app.config['LEAPS_EMAIL']
+                subject = "New student survey submitted"
+                text = 'A student has just submitted a survey. View it in the admin interfacet at '
+                text += '<a href="http://leapssurvey.org/admin/student/' + student.id
+                text += '">http://leapssurvey.org/admin/student/' + student.id + '</a>.'
+                util.send_mail(to=to, fro=fro, subject=subject, text=text)
+            except:
+                flash('Email failed.')
                 
         return redirect(url_for('.complete'))
 
