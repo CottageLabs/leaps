@@ -59,7 +59,7 @@ def student():
             selections['school_categories'][re.sub('[^a-z]+', '', s['_source']['name'].lower())] = s['_source']['leaps_category']
 
         if adminsettings.get('survey',False) or not current_user.is_anonymous(): #current_user.view_admin:
-            if not current_user.do_admin: # or current_user.is_anonymous()
+            if current_user.is_anonymous() or not current_user.do_admin:
                 if 'TEST' in selections['schools']:
                     selections['schools'] = [i for i in selections['schools'] if i != 'TEST']
                 if 'TEST' in selections['institutions']:
