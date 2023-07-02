@@ -51,7 +51,7 @@ jQuery.extend({
         for ( var i = 0; i < hashes.length; i++ ) {
             hash = hashes[i].split('=');
             if ( hash.length > 1 ) {
-                if ( hash[1].replace(/%22/gi,"")[0] == "[" || hash[1].replace(/%22/gi,"")[0] == "{" ) {
+                if ( hash[1] == "[" || hash[1] == "{" || hash hash[1].replace(/%22/gi,"")[0] == "[" || hash[1].replace(/%22/gi,"")[0] == "{" ) {
                     hash[1] = hash[1].replace(/^%22/,"").replace(/%22$/,"");
                     var newval = JSON.parse(unescape(hash[1].replace(/%22/gi,'"')));
                 } else {
@@ -1160,8 +1160,6 @@ search box - the end user will not know they are happening.
         
         // parse any source params out for an initial search
         var parsesource = function() {
-            console.log(typeof(options.source));
-            console.log(options.source);
             if ( 'sort' in options.source ) options.sort = options.source.sort;
             var qrystr = options.source.query;
             if ( 'bool' in qrystr ) {
