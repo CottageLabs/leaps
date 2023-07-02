@@ -1,4 +1,4 @@
-import json, time, urllib
+import json, time
 from copy import deepcopy
 
 from flask import Blueprint, request, flash, abort, make_response, render_template, redirect, url_for
@@ -237,7 +237,9 @@ def studentassign():
                     counter += 1
     flash(str(counter) + ' selected records were assigned to ' + interviewer, 'success')
     rdu = '/admin/student'
-    if request.values.get('q',False): rdu += '?source=' + urllib.quote(json.dumps(request.values.get('q')).replace('\\', '').strip('"'))
+    if request.values.get('q',False):
+        if not query.get('fields', False): query["fields"] = ["last_name","first_name","date_of_birth","post_code","simd_decile","school","status","archive","id"]
+        rdu += '?source=' + json.dumps(query)
     return redirect(rdu)
 
 @blueprint.route('/student/<uuid>/assign/<iid>', methods=['POST'])
