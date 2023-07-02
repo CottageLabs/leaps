@@ -237,7 +237,7 @@ def studentassign():
                     counter += 1
     flash(str(counter) + ' selected records were assigned to ' + interviewer, 'success')
     rdu = '/admin/student'
-    if request.values.get('q',False): rdu += '?q=' + request.values.get('q')
+    if request.values.get('q',False): rdu += '?q=' + json.dumps(request.values.get('q'))
     return redirect(rdu)
 
 @blueprint.route('/student/<uuid>/assign/<iid>', methods=['POST'])
