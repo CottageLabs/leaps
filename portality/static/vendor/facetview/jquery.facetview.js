@@ -51,7 +51,7 @@ jQuery.extend({
         for ( var i = 0; i < hashes.length; i++ ) {
             hash = hashes[i].split('=');
             if ( hash.length > 1 ) {
-                if ( hash[1] == "[" || hash[1] == "{" || hash hash[1].replace(/%22/gi,"")[0] == "[" || hash[1].replace(/%22/gi,"")[0] == "{" ) {
+                if ( hash[1] == "[" || hash[1] == "{" || hash[1].replace(/%22/gi,"")[0] == "[" || hash[1].replace(/%22/gi,"")[0] == "{" ) {
                     hash[1] = hash[1].replace(/^%22/,"").replace(/%22$/,"");
                     var newval = JSON.parse(unescape(hash[1].replace(/%22/gi,'"')));
                 } else {
