@@ -144,7 +144,10 @@
                     {% if record.claimed_low_income_family %}Low income family<br>{% endif %}
                     {% if record.claimed_young_carer %}Young carer<br>{% endif %}
                     {% if record.claimed_looked_after_child %}Care experienced<br>{% endif %}
-                    {% if record.claimed_estranged %}Estranged<br>{% endif %}
+                    {% if record.claimed_estranged %}Estranged
+                    {% if record.claimed_estranged_age %}. At age {{ record.claimed_estranged_age }}{% endif %}
+                    {% if record.claimed_estranged_cared_for %}. {{ record.claimed_estranged_cared_for }} cared for{% endif %}
+                    <br>{% endif %}
                 </td></tr>
             </table>
 

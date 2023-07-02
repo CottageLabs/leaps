@@ -622,13 +622,13 @@ fieldset{
                     <tr>
 	                    <td style="text-align:right;padding:6px 10px 0 0;">Status</td>
                 		<td><select name="status">
-                		    {% if record %}{% if record.data.status not in ["new", "not_eligible_interviewed", "not_eligible_not_interviewed", "not_applying_interviewed", "not_applying_not_interviewed", "awaiting_interview", "interviewed", "absent", "query", "paes_requested", "paes_in_progress", "paes_complete", "complete"] %}<option style="color:red;" selected="selected">{{record.data.status}}</option>{% endif %}{% endif %}
+                		    {% if record %}{% if record.data.status not in ["new", "not_eligible_interviewed", "not_eligible_not_interviewed", "not_applying_interviewed", "not_applying_not_interviewed", "allocated_to_interviewer", "interviewed", "absent", "query", "paes_requested", "paes_in_progress", "paes_complete", "complete"] %}<option style="color:red;" selected="selected">{{record.data.status}}</option>{% endif %}{% endif %}
                 		    <option>new</option>
               		        <option{% if record %}{% if record.data.status == "not_eligible_interviewed" %} selected="selected"{% endif %}{% endif %}>not_eligible_interviewed</option>
               		        <option{% if record %}{% if record.data.status == "not_eligible_not_interviewed" %} selected="selected"{% endif %}{% endif %}>not_eligible_not_interviewed</option>
               		        <option{% if record %}{% if record.data.status == "not_applying_interviewed" %} selected="selected"{% endif %}{% endif %}>not_applying_interviewed</option>
               		        <option{% if record %}{% if record.data.status == "not_applying_not_interviewed" %} selected="selected"{% endif %}{% endif %}>not_applying_not_interviewed</option>
-              		        <option{% if record %}{% if record.data.status == "awaiting_interview" %} selected="selected"{% endif %}{% endif %}>awaiting_interview</option>
+              		        <option{% if record %}{% if record.data.status == "allocated_to_interviewer" %} selected="selected"{% endif %}{% endif %}>allocated_to_interviewer</option>
               		        <option{% if record %}{% if record.data.status == "interviewed" %} selected="selected"{% endif %}{% endif %}>interviewed</option>
               		        <option{% if record %}{% if record.data.status == "absent" %} selected="selected"{% endif %}{% endif %}>absent</option>
               		        <option{% if record %}{% if record.data.status == "query" %} selected="selected"{% endif %}{% endif %}>query</option>
@@ -1094,7 +1094,7 @@ fieldset{
 	    <div class="span12">
 	        <p>
 	            Interviewer: 
-				<select name="interviewer" id="interviewer">
+				<select name="interviewer" id="interviewer" {% if record.interview.emailed_date %}disabled="disabled"{% endif %}>
 			    <option></option>
 				{% for opt in interviewers %}
 					<option

@@ -264,7 +264,12 @@ jQuery(document).ready(function() {
 	   if ( $('#gender').val() == 'Other' ) $('#show_gender_other').show();
 	});
 	
-	$('select').bind('change', function() { $(this).closest('.pregrey').removeClass('pregrey'); $(this).css({color: '#555'}); })
+	$('select').bind('change', function() { $(this).closest('.pregrey').removeClass('pregrey'); $(this).css({color: '#555'}); });
+
+	$('#claimed_estranged').bind('change', function() {
+	   $('#more_estranged').hide();
+	   if ( $('#claimed_estranged').is(':checked') ) $('#more_estranged').show();
+	});
 });
 </script>
 
@@ -880,9 +885,28 @@ p.pregrey > span > span > span > span.select2-selection__rendered {
           Care experienced (any student who has been, or is currently, in care.)
       		<br><br>
 
-          <input type="checkbox" name="claimed_estranged" style="margin-top:-3px;">
-          Estranged (a young person who currently has little or no contact with either of their parents and/or
-          their legal guardian)
+          <input type="checkbox" id="claimed_estranged" name="claimed_estranged" style="margin-top:-3px;">
+          Are you estranged from both your parents? (a young person who currently has little or no contact with either of their parents and/or
+          their legal guardian) If you are unsure what this means then please head to the What is LEAPS presentation / LEAPS Online video for 
+		  more information.
+
+		  <div id="more_estranged" style="display:none;">
+		  <select name="claimed_estranged_age">
+			<option></option>
+			<option>Under 16</option>
+			<option>16</option>
+			<option>17</option>
+			<option>18</option>
+		  </select>
+		  How old were you when you became estranged?
+
+		  <select name="claimed_estranged_cared_for">
+			<option></option>
+			<option>Yes</option>
+			<option>No</option>
+		  </select>
+		  Have you ever been cared for by another member of your family, friends, or local authorities?
+		  </div>
 
 	    </div>
 	</div>

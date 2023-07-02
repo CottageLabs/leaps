@@ -156,11 +156,13 @@ td > p {
 	                    <td style="text-align:right;padding:6px 10px 0 0;">First name</td>
                 		<td><input type="text" name="first_name"
                 		{% if student %} value="{% if student.data.interview %}{% if student.data.interview.first_name %}{{ student.data.interview.first_name }}{% else %}{{ student.data.first_name }}{% endif %}{% else %}{{student.data.first_name}}{% endif %}"{% endif %}
-                		></td>
+                        {% if student %}{% if student.data.interview %}{% if student.data.interview.emailed_date %} disabled="disabled"{% endif %}{% endif %}{% endif %}
+                        ></td>
 
 	                    <td style="text-align:right;padding:6px 10px 0 100px;">Last name</td>
                 		<td><input type="text" name="last_name"
                 		{% if student %} value="{% if student.data.interview %}{% if student.data.interview.last_name %}{{ student.data.interview.last_name }}{% else %}{{ student.data.last_name }}{% endif %}{% else %}{{student.data.last_name}}{% endif %}"{% endif %}
+                        {% if student %}{% if student.data.interview %}{% if student.data.interview.emailed_date %} disabled="disabled"{% endif %}{% endif %}{% endif %}
                 		></td>
 
 	                    <td style="text-align:right;padding:6px 10px 0 0;">School</td>
@@ -176,65 +178,87 @@ td > p {
                     <tr>
                         <td><p>First in family?</p></td>
                         <td>
-                            <input type="checkbox" name="first_attending_university" value="yes"{% if student %}{% if student.data.interview %}{% if student.data.interview.first_attending_university %}checked{% endif %}{% endif %}{% endif %}>
+                            <input type="checkbox" name="first_attending_university" value="yes"{% if student %}{% if student.data.interview %}{% if student.data.interview.first_attending_university %}checked{% endif %}{% endif %}{% endif %}
+                            {% if student %}{% if student.data.interview %}{% if student.data.interview.emailed_date %} disabled="disabled"{% endif %}{% endif %}{% endif %}
+                            >
                         </td>
                     </tr>
                     <tr>
                         <td><p>Low income family?</p></td>
                         <td>
-                            <input type="checkbox" name="low_income_family" value="yes"{% if student %}{% if student.data.interview %}{% if student.data.interview.low_income_family %}checked{% endif %}{% endif %}{% endif %}>
+                            <input type="checkbox" name="low_income_family" value="yes"{% if student %}{% if student.data.interview %}{% if student.data.interview.low_income_family %}checked{% endif %}{% endif %}{% endif %}
+                            {% if student %}{% if student.data.interview %}{% if student.data.interview.emailed_date %} disabled="disabled"{% endif %}{% endif %}{% endif %}
+                            >
                         </td>
                     </tr>
                     <tr>
                         <td><p>Care experienced?</p></td>
                         <td>
-                            <input type="checkbox" name="care_experienced" value="yes"{% if student %}{% if student.data.interview %}{% if student.data.interview.care_experienced %}checked{% endif %}{% endif %}{% endif %}>
+                            <input type="checkbox" name="care_experienced" value="yes"{% if student %}{% if student.data.interview %}{% if student.data.interview.care_experienced %}checked{% endif %}{% endif %}{% endif %}
+                            {% if student %}{% if student.data.interview %}{% if student.data.interview.emailed_date %} disabled="disabled"{% endif %}{% endif %}{% endif %}
+                            >
                         </td>
                     </tr>
                     <tr>
                         <td><p>Young carer?</p></td>
                         <td>
-                            <input type="checkbox" name="young_carer" value="yes"{% if student %}{% if student.data.interview %}{% if student.data.interview.young_carer %}checked{% endif %}{% endif %}{% endif %}>
+                            <input type="checkbox" name="young_carer" value="yes"{% if student %}{% if student.data.interview %}{% if student.data.interview.young_carer %}checked{% endif %}{% endif %}{% endif %}
+                            {% if student %}{% if student.data.interview %}{% if student.data.interview.emailed_date %} disabled="disabled"{% endif %}{% endif %}{% endif %}
+                            >
                         </td>
                     </tr>
                     <tr>
                         <td><p>Estranged?</p></td>
                         <td>
-                            <input type="checkbox" name="estranged" value="yes"{% if student %}{% if student.data.interview %}{% if student.data.interview.estranged %}checked{% endif %}{% endif %}{% endif %}>
+                            <input type="checkbox" name="estranged" value="yes"{% if student %}{% if student.data.interview %}{% if student.data.interview.estranged %}checked{% endif %}{% endif %}{% endif %}
+                            {% if student %}{% if student.data.interview %}{% if student.data.interview.emailed_date %} disabled="disabled"{% endif %}{% endif %}{% endif %}
+                            >
                         </td>
                     </tr>
                     <tr>
                         <td><p>SIMD 20?</p></td>
                         <td>
-                            <input type="checkbox" name="simd_20" value="yes" {% if student %}{% if student.data.interview %}{% if student.data.interview.simd_20 %}checked{% endif %}{% endif %}{% endif %}>
+                            <input type="checkbox" name="simd_20" value="yes" {% if student %}{% if student.data.interview %}{% if student.data.interview.simd_20 %}checked{% endif %}{% endif %}{% endif %}
+                            {% if student %}{% if student.data.interview %}{% if student.data.interview.emailed_date %} disabled="disabled"{% endif %}{% endif %}{% endif %}
+                            >
                         </td>
                     </tr>
                     <tr>
                         <td><p>Main language at home</p></td>
                         <td>
-                            <input type="text" name="main_language_at_home" value="{% if student %}{% if student.data.interview %}{{ student.data.interview.main_language_at_home }}{% endif %}{% endif %}">
+                            <input type="text" name="main_language_at_home" value="{% if student %}{% if student.data.interview %}{{ student.data.interview.main_language_at_home }}{% endif %}{% endif %}"
+                            {% if student %}{% if student.data.interview %}{% if student.data.interview.emailed_date %} disabled="disabled"{% endif %}{% endif %}{% endif %}
+                            >
                         </td>
                     </tr>
                     <tr>
                         <td><p>Currently taking LEAPS Transition Course?</p></td>
                         <td>
-                            <input type="checkbox" name="taking_leaps_transition_course" value="yes"{% if student %}{% if student.data.interview %}{% if student.data.interview.taking_leaps_transition_course %}checked{% endif %}{% endif %}{% endif %}>
+                            <input type="checkbox" name="taking_leaps_transition_course" value="yes"{% if student %}{% if student.data.interview %}{% if student.data.interview.taking_leaps_transition_course %}checked{% endif %}{% endif %}{% endif %}
+                            {% if student %}{% if student.data.interview %}{% if student.data.interview.emailed_date %} disabled="disabled"{% endif %}{% endif %}{% endif %}
+                            >
                         </td>
                     </tr>
                     <tr>
                         <td><p>HN only candidate?</p></td>
                         <td>
-                            <input type="checkbox" name="hn_only_candidate" value="yes"{% if student %}{% if student.data.interview %}{% if student.data.interview.hn_only_candidate %}checked{% endif %}{% endif %}{% endif %}>
+                            <input type="checkbox" name="hn_only_candidate" value="yes"{% if student %}{% if student.data.interview %}{% if student.data.interview.hn_only_candidate %}checked{% endif %}{% endif %}{% endif %}
+                            {% if student %}{% if student.data.interview %}{% if student.data.interview.emailed_date %} disabled="disabled"{% endif %}{% endif %}{% endif %}
+                            >
                         </td>
                     </tr>
 
                     <tr>
                         <td><p>Please provide any missing contact details:</p></td>
-                        <td><textarea class="bigfield" name="missing_contact_details">{% if student %}{% if student.data.interview %}{{ student.data.interview.missing_contact_details }}{% endif %}{% endif %}</textarea></td>
+                        <td><textarea class="bigfield" name="missing_contact_details"
+                            {% if student %}{% if student.data.interview %}{% if student.data.interview.emailed_date %} disabled="disabled"{% endif %}{% endif %}{% endif %}
+                            >{% if student %}{% if student.data.interview %}{{ student.data.interview.missing_contact_details }}{% endif %}{% endif %}</textarea></td>
                     </tr>
                     <tr>
                         <td><p>Please provide details of any missing qualifications:</p></td>
-                        <td><textarea class="bigfield" name="missing_qualifications">{% if student %}{% if student.data.interview %}{{ student.data.interview.missing_qualifications }}{% endif %}{% endif %}</textarea></td>
+                        <td><textarea class="bigfield" name="missing_qualifications"
+                            {% if student %}{% if student.data.interview %}{% if student.data.interview.emailed_date %} disabled="disabled"{% endif %}{% endif %}{% endif %}
+                            >{% if student %}{% if student.data.interview %}{{ student.data.interview.missing_qualifications }}{% endif %}{% endif %}</textarea></td>
                     </tr>
 
                     <!--
@@ -267,11 +291,15 @@ td > p {
 
                     <tr>
                         <td><p>Summary of discussion / action points to go onto the student action plan:</p></td>
-                        <td><textarea class="bigfield" name="action_points">{% if student %}{% if student.data.interview %}{{ student.data.interview.action_points }}{% endif %}{% endif %}</textarea></td>
+                        <td><textarea class="bigfield" name="action_points"
+                            {% if student %}{% if student.data.interview %}{% if student.data.interview.emailed_date %} disabled="disabled"{% endif %}{% endif %}{% endif %}
+                            >{% if student %}{% if student.data.interview %}{{ student.data.interview.action_points }}{% endif %}{% endif %}</textarea></td>
                     </tr>
                     <tr>
                         <td><p>Courses discussed:</p></td>
-                        <td><textarea class="bigfield" name="courses_discussed">{% if student %}{% if student.data.interview %}{{ student.data.interview.courses_discussed }}{% endif %}{% endif %}</textarea></td>
+                        <td><textarea class="bigfield" name="courses_discussed"
+                            {% if student %}{% if student.data.interview %}{% if student.data.interview.emailed_date %} disabled="disabled"{% endif %}{% endif %}{% endif %}
+                            >{% if student %}{% if student.data.interview %}{{ student.data.interview.courses_discussed }}{% endif %}{% endif %}</textarea></td>
                     </tr>
 
                     <tr style="background-color:#ccc">
@@ -299,20 +327,24 @@ td > p {
                     <tr><td><br></td></tr>
                     {% endfor %}{% endif %}{% endif %}{% endif %}
 
+                    {% if not student or not student.data.interview or not student.data.interview.emailed_date %}
                     <tr>
-                		<td><select name="application_institution" class="needselect2 institutionselector">
+                		<td><select name="application_institution" class="needselect2 institutionselector"
+                            {% if student %}{% if student.data.interview %}{% if student.data.interview.emailed_date %} disabled="disabled"{% endif %}{% endif %}{% endif %}>
                 		    <option></option>
                 		    {% for opt in selections.institutions %}
                 		        <option>{{ opt }}</option>
                 		    {% endfor %}
                 		</select></td>
-                		<td><select name="application_subject" class="needselect2 subjectselector">
+                		<td><select name="application_subject" class="needselect2 subjectselector"
+                            {% if student %}{% if student.data.interview %}{% if student.data.interview.emailed_date %} disabled="disabled"{% endif %}{% endif %}{% endif %}>
                 		    <option></option>
                 		    {% for opt in selections.advancedsubjects %}
                 		        <option>{{ opt }}</option>
                 		    {% endfor %}
                 		</select></td>
-                		<td><select name="application_level" class="levelselector" style="min-width:100px;">
+                		<td><select name="application_level" class="levelselector" style="min-width:100px;"
+                            {% if student %}{% if student.data.interview %}{% if student.data.interview.emailed_date %} disabled="disabled"{% endif %}{% endif %}{% endif %}>
                 		    <option></option>
                 		    {% for opt in selections.advancedlevels %}
                 		        <option>{{ opt }}</option>
@@ -322,12 +354,14 @@ td > p {
                     </tr>
 
                     <tr><td><a class="btn btn-success add-row" href="#">add another</a><br></td></tr>
+                    {% endif %}
                     <tr style="border-top:1px solid #ccc;"><td><br></td></tr>
                     
 
                     <tr>
                         <td><p>Specific subjects required?</p></td>
-                        <td><textarea class="bigfield" name="specific_subjects_required">{% if student %}{% if student.data.interview %}{{ student.data.interview.specific_subjects_required }}{% endif %}{% endif %}</textarea></td>
+                        <td><textarea class="bigfield" name="specific_subjects_required"
+                            {% if student %}{% if student.data.interview %}{% if student.data.interview.emailed_date %} disabled="disabled"{% endif %}{% endif %}{% endif %}>{% if student %}{% if student.data.interview %}{{ student.data.interview.specific_subjects_required }}{% endif %}{% endif %}</textarea></td>
                     </tr>
                     
                     <!--
@@ -339,7 +373,8 @@ td > p {
                     
                     <tr>
                         <td><p>HN courses / articulation routes (if relevant):</p></td> <!-- discussed for consideration (if any) -->
-                        <td><textarea class="bigfield" name="hn_courses_discussed">{% if student %}{% if student.data.interview %}{{ student.data.interview.hn_courses_discussed }}{% endif %}{% endif %}</textarea></td>
+                        <td><textarea class="bigfield" name="hn_courses_discussed"
+                            {% if student %}{% if student.data.interview %}{% if student.data.interview.emailed_date %} disabled="disabled"{% endif %}{% endif %}{% endif %}>{% if student %}{% if student.data.interview %}{{ student.data.interview.hn_courses_discussed }}{% endif %}{% endif %}</textarea></td>
                     </tr>
 
 

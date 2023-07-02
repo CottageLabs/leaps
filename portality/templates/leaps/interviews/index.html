@@ -21,6 +21,7 @@ jQuery(document).ready(function() {
         <div class="span12">
             <p style="text-align:right;">
                 <a class="btn" href="/account/logout">Logout</a>
+                <a class="btn" href="/interviews/allocate">Allocate students</a>
             </p>
         </div>
     </div>
@@ -89,6 +90,7 @@ jQuery(document).ready(function() {
                                 {% endif %}
                                 {% else %}
                                 <a class="btn btn-primary" target="_blank" href="/interviews/{{ student.id }}/form">Fill in post-interview form</a>
+                                <a class="btn btn-info" target="_blank" href="/interviews/{{ student.id }}/absent">Move to absent</a>
                                 {% endif %}
                             </td>
                             <td>{% if student.interview %}{% if student.interview.emailed_date %}{{ student.interview.emailed_date }}{% endif %}{% endif %}</td>
