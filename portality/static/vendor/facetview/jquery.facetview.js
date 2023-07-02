@@ -60,6 +60,9 @@ jQuery.extend({
                 params[hash[0]] = newval;
             }
         }
+        try {
+            params.source = JSON.parse(params.source);
+        } catch(e) {}
         return params;
     },
     getUrlVar: function(name){
