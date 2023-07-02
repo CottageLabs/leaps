@@ -1159,7 +1159,9 @@ search box - the end user will not know they are happening.
         };
         
         // parse any source params out for an initial search
-        var parsesource = function() {
+        var parsesource = function() {]
+            console.log(typeof(options.source));
+            console.log(options.source);
             if ( 'sort' in options.source ) options.sort = options.source.sort;
             var qrystr = options.source.query;
             if ( 'bool' in qrystr ) {
