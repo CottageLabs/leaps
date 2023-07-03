@@ -17,13 +17,13 @@ jQuery(document).ready(function() {
 
     var allocate = function(event) {
         event.preventDefault();
-        var selected = [];
+        var students = [];
         $('.allocatethis').each(function() {
-            $(this).is(':checked') && $(this).val() ? selected.push($(this).val()) : false;
+            $(this).is(':checked') && $(this).val() ? students.push($(this).val()) : false;
         });
         var loc = $(this).attr('href');
-        if ( selected.length > 0 ) {
-            loc += '?selected=' + selected.join(',');
+        if ( students.length > 0 ) {
+            loc += '?students=' + selected.join(',');
             window.location = loc;
         }
     }
