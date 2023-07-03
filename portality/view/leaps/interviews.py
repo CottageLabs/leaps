@@ -83,7 +83,7 @@ def allocate():
         qry['query']['bool']['must_not'] = [{'term':{'interviewer.exact':interviewer}}]
     q = models.Student().query(q=qry)
     students = [i['_source'] for i in q.get('hits',{}).get('hits',[])]
-    return render_template('interviews/allocate.html', students=students, schools=dropdowns('school'), selected_school=request.values.get('school',False))
+    return render_template('leaps/interviews/allocate.html', students=students, schools=dropdowns('school'), selected_school=request.values.get('school',False))
 
 @blueprint.route('/<sid>.pdf')
 def interviewPDF(sid):
