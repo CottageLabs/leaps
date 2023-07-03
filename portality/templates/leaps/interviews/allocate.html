@@ -23,7 +23,7 @@ jQuery(document).ready(function() {
         });
         var loc = $(this).attr('href');
         if ( students.length > 0 ) {
-            loc += '?students=' + selected.join(',');
+            loc += '?students=' + students.join(',');
             window.location = loc;
         }
     }
