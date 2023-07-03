@@ -266,7 +266,7 @@ attached a copy of the action plan that your interviewer has prepared for you. I
 conversation that you had in your interview, and give you some steps to help you move forward with
 your plans.
 
-Your help please - complete below survey on how you feel about applying to uni / college (and enter prize draw for ten pound Amazon voucher!)
+Your help please - complete below survey on how you feel about applying to uni / college (and enter prize draw for ten pound Love2Shop voucher!)
 
 LEAPS want to explore the effectiveness of the LEAPS Pre-UCAS 1:1 Interview,
 and we ask for your help to do this! We invite you to complete this short online questionnaire to help us gather a sense of
@@ -277,7 +277,7 @@ The questionnaire should take no more than 5 minutes to complete. Completing the
 questionnaire allows us to make sure LEAPS support is as effective as possible for
 future LEAPS pupils. You can complete the questionnaire here: 
 
-https://edinburgh.onlinesurveys.ac.uk/post-leaps-interview-questionnaire
+https://edinburgh.onlinesurveys.ac.uk/leaps-pre-ucas-interviews-2023-post-interview1
 
 (You might have completed a questionnaire before your interview - if so, thank you! We
 ask you to also complete this questionnaire so we can find out more about the impact of
