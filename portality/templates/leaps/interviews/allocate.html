@@ -47,7 +47,7 @@ jQuery(document).ready(function() {
                 <p>Filter to school: <form><select name="school">
                     <option></option>
                     {% for school in schools %}
-                    <option {% if school is selected_school %}selected="selected"{% endif %}
+                    <option {% if school == selected_school %}selected="selected"{% endif %}
                     >{{school}}</option>
                     {% endfor %}
                 </select> <input type="submit"></form></p>
