@@ -57,7 +57,7 @@ def index():
 def allocate():
     counter = 0
     if request.values.get('students', False):
-        if (current_user.perform_interviews or request.values.get('interviewer',False)):
+        if (isinstance(current_user.perform_interviews, str) or request.values.get('interviewer',False)):
             interviewer = request.values.get('interviewer', current_user.perform_interviews)
             if not isinstance(interviewer,bool):
                 for sid in request.values['students'].split(','):
