@@ -19,7 +19,7 @@ jQuery(document).ready(function() {
         event.preventDefault();
         var selected = [];
         $('.allocatethis').each(function() {
-            $(this).is(':checked') ? selected.push($(this).attr('name')) : false;
+            $(this).is(':checked') && $(this).val() ? selected.push($(this).val()) : false;
         });
         var loc = $(this).attr('href');
         if ( selected.length > 0 ) {
