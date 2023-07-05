@@ -190,11 +190,22 @@
 
                     {% if record.interview.taking_leaps_transition_course %}
                     <h4>LEAPS Transitions Course</h4>
-                    <p>We ask all students who are taking the LEAPS Transitions Course to note this on their UCAS personal statement. 
-                    This helps demonstrate your commitment to university study to univeristy admissions teams. We suggest adding the following: <br>
-                    <b>I am completing the LEAPS Transitions Course, focusing on developing key academic skills and practical learning strategies to 
-                    help me make a positive transition into higher education. The course is credit rated for 20 credits (SCQF Level 7). 
-                    <a href="https://www.leapsonline.org/leaps-transitions-course-admissions-briefing">www.leapsonline.org/transitions-admissions</a></b></p>
+
+                    <p>If you are taking the LEAPS Transitions Course, you should add this as one of your qualifications as you would any 
+                        other subject you are taking in school. Here's how to add this to your UCAS qualifications:</p>
+
+                    <ul>
+                        <li>In the Education section, click 'Add qualification' under your school.</li>
+                        <li>Scroll down and in the Search by name box, type in 'LEAPS', and select the LEAPS Transition Course.</li>
+                        <li>Under Title, type in 'LEAPS Transitions Course: 20 credits, SCQF Level 7'.</li>
+                        <li>The qualification date is '06/2024'.</li>
+                        <li>The awarding organisation is 'LEAPS'.</li>
+                        <li>Leave the grade, and module/unit boxes blank.</li>
+                        <li>Scroll down and click Save qualifications.</li>
+                    </ul>
+
+                    <p>For more information, follow our guide which shows you how to identify yourself as a LEAPS Transitions 
+                        Course student on your UCAS application at www.leapsonline.org/leaps-ucas</p>
                     {% endif %}
                 </td>
             </tr>
