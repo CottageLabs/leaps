@@ -139,10 +139,10 @@ def settings():
 @blueprint.route('/student/<uuid>', methods=['GET','POST','DELETE'])
 def student(uuid=None):
     interviewers = []
-    users = models.Account.query(q={"query":{"query_string":{"query": "perform_interviews:*"}},"sort":{'id.exact':{'order':'asc'}}, "size":100000})
+    users = models.Account.query(q={"query":{"query_string":{"query": "perform_interviews:* OR perform_and_manage_interviewers:*"}},"sort":{'id.exact':{'order':'asc'}}, "size":100000})
     if users['hits']['total'] != 0:
         for i in users['hits']['hits']:
-            if i.get('_source',{}).get('perform_interviews',False): interviewers.append(i['_source']['id'])
+            if i.get('_source',{}).get('perform_interviews',i.get('_source',{}).get('perform_and_manage_interviewers',False)): interviewers.append(i['_source']['id'])
 
     if uuid is None:
         return render_template('leaps/admin/students.html', interviewers=interviewers, archives=dropdowns('archive','name'))
@@ -249,6 +249,7 @@ def assignstudent(uuid=None,iid=None):
     if student is None: abort(404)
     if student.data.get('interviewer', False) != iid:
         student.data['interviewer'] = iid
+        student.data['status'] = 'allocated_to_interviewer'
         student.save()
     return iid
 

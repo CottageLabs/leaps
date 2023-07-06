@@ -56,18 +56,18 @@ def index():
 @blueprint.route('/allocate')
 def allocate():
     counter = 0
+    interviewer = current_user.perform_interviews
     if request.values.get('students', False):
-        if (isinstance(current_user.perform_interviews, str) or request.values.get('interviewer',False)):
-            interviewer = request.values.get('interviewer', current_user.perform_interviews)
-            if not isinstance(interviewer,bool):
-                for sid in request.values['students'].split(','):
-                    student = models.Student.pull(sid)
-                    if student is not None:
-                        student.data['interviewer'] = interviewer
-                        student.data['status'] = 'allocated_to_interviewer'
-                        student.save()
-                        counter += 1
-            flash(str(counter) + ' additional students have been allocated to you.', 'success')
+        if request.values.get('interviewer',False): interviewer = request.values['interviewer']
+        if interviewer and not isinstance(interviewer,bool):
+            for sid in request.values['students'].split(','):
+                student = models.Student.pull(sid)
+                if student is not None:
+                    student.data['interviewer'] = interviewer
+                    student.data['status'] = 'allocated_to_interviewer'
+                    student.save()
+                    counter += 1
+            flash(str(counter) + ' additional students have been allocated to ' + interviewer, 'success')
             return redirect('/interviews')
         else:
             flash('You are not logged in as a user who can perform and/or manage interviews', 'success')
@@ -78,7 +78,6 @@ def allocate():
     for s in ["new", "absent", "not_applying_interviewed", "not_applying_not_interviewed"]:
         qry['query']['bool']['should'].append({'term':{'status.exact':s}})
     if request.values.get('school',False): qry['query']['bool']['must'].append({'term':{'school.exact': request.values['school']}})
-    interviewer = current_user.perform_interviews
     if not isinstance(interviewer,bool):
         qry['query']['bool']['must_not'] = [{'term':{'interviewer.exact':interviewer}}]
     q = models.Student().query(q=qry)
