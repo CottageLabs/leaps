@@ -147,8 +147,8 @@
                     {% if record.claimed_estranged %}Estranged
                     {% if record.claimed_estranged_age %}. At age {{ record.claimed_estranged_age }}{% endif %}
                     {% if record.claimed_estranged_cared_for %}. 
-                        {{ if record.claimed_estranged_cared_for == "Yes" }} Care experienced{% endif %}
-                        {{ if record.claimed_estranged_cared_for == "No" }} not care experienced{% endif %}
+                        {% if record.claimed_estranged_cared_for == "Yes" %} Care experienced{% endif %}
+                        {% if record.claimed_estranged_cared_for == "No" %} not care experienced{% endif %}
                     {% endif %}
                     <br>{% endif %}
                 </td></tr>
