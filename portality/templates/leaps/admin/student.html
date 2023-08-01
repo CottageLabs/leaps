@@ -1173,6 +1173,8 @@ fieldset{
                 		> Young carer</td>
 
         	            {% if record %}<input type="hidden" name="claimed_estranged" value="{{record.data.claimed_estranged}}">{% endif %}
+        	            {% if record %}<input type="hidden" name="claimed_estranged" value="{{record.data.claimed_estranged_age}}">{% endif %}
+        	            {% if record %}<input type="hidden" name="claimed_estranged" value="{{record.data.claimed_estranged_cared_for}}">{% endif %}
                         <!--<td{% if record %}{% if record.data.claimed_estranged %} style="text-decoration:underline;font-weight:bold;"{% endif %}{% endif %}><input type="checkbox" name="estranged"-->
                         <td><input type="checkbox" name="estranged"
             		    {% if record %}{% if record.data.estranged %} checked="checked"{% endif %}{% endif %}
