@@ -141,6 +141,8 @@ class Student(DomainObject):
             rec['interview'] = self.data['interview']
         else:
             rec['interview'] = {}
+        if 'interviewer' in self.data:
+            rec['interviewer'] = self.data['interviewer']
         
         for key in request.form.keys():
             if not key.startswith("qualification_") and not key.startswith("interest_") and not key.startswith("application_") and not key.startswith("experience_") and key not in ['submit']:
