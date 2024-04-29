@@ -622,13 +622,14 @@ fieldset{
                     <tr>
 	                    <td style="text-align:right;padding:6px 10px 0 0;">Status</td>
                 		<td><select name="status">
-                		    {% if record %}{% if record.data.status not in ["new", "not_eligible_interviewed", "not_eligible_not_interviewed", "not_applying_interviewed", "not_applying_not_interviewed", "allocated_to_interviewer", "interviewed", "absent", "query", "paes_requested", "paes_in_progress", "paes_complete", "complete"] %}<option style="color:red;" selected="selected">{{record.data.status}}</option>{% endif %}{% endif %}
+                		    {% if record %}{% if record.data.status not in ["new", "not_eligible_interviewed", "not_eligible_not_interviewed", "not_applying_interviewed", "not_applying_not_interviewed", "allocated_to_interviewer", "awaiting_interview", "interviewed", "absent", "query", "paes_requested", "paes_in_progress", "paes_complete", "complete"] %}<option style="color:red;" selected="selected">{{record.data.status}}</option>{% endif %}{% endif %}
                 		    <option>new</option>
               		        <option{% if record %}{% if record.data.status == "not_eligible_interviewed" %} selected="selected"{% endif %}{% endif %}>not_eligible_interviewed</option>
               		        <option{% if record %}{% if record.data.status == "not_eligible_not_interviewed" %} selected="selected"{% endif %}{% endif %}>not_eligible_not_interviewed</option>
               		        <option{% if record %}{% if record.data.status == "not_applying_interviewed" %} selected="selected"{% endif %}{% endif %}>not_applying_interviewed</option>
               		        <option{% if record %}{% if record.data.status == "not_applying_not_interviewed" %} selected="selected"{% endif %}{% endif %}>not_applying_not_interviewed</option>
               		        <option{% if record %}{% if record.data.status == "allocated_to_interviewer" %} selected="selected"{% endif %}{% endif %}>allocated_to_interviewer</option>
+              		        <option{% if record %}{% if record.data.status == "awaiting_interview" %} selected="selected"{% endif %}{% endif %}>awaiting_interview</option>
               		        <option{% if record %}{% if record.data.status == "interviewed" %} selected="selected"{% endif %}{% endif %}>interviewed</option>
               		        <option{% if record %}{% if record.data.status == "absent" %} selected="selected"{% endif %}{% endif %}>absent</option>
               		        <option{% if record %}{% if record.data.status == "query" %} selected="selected"{% endif %}{% endif %}>query</option>
@@ -1148,7 +1149,7 @@ fieldset{
 
                         <td style="width:230px;"><input type="checkbox" name="hn_only_candidate"
                 		{% if record %}{% if record.data.hn_only_candidate %} checked="checked"{% endif %}{% endif %}
-                		> HN only candidate</td>
+                		> HN considered candidate</td>
 
                         <td style="display:none;"><input type="checkbox" name="transition_course"
             		    {% if record %}{% if record.data.transition_course %} checked="checked"{% endif %}{% endif %}
@@ -1193,7 +1194,12 @@ fieldset{
 						{% if record %}{% if record.data.simd40 %} checked="checked"{% endif %}{% endif %}
 						> SIMD 40</td>
 						
-						<td></td>
+        	            {% if record %}<input type="hidden" name="claimed_asylum_refugee" value="{{record.data.claimed_asylum_refugee}}">{% endif %}
+						<td><input type="checkbox" name="asylum_refugee"
+						{% if record %}{% if record.data.asylum_refugee %} checked="checked"{% endif %}{% endif %}
+						> Asylum / refugee
+						</td>
+
 						<td></td>
                     </tr>
 

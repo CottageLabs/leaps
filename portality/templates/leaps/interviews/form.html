@@ -118,6 +118,10 @@ textarea.bigfield{
     width:350px;
     height:135px;
 }
+textarea.biggerfield{
+    width:90%;
+    height:100px;
+}
 td > p {
     text-align: right;
     padding-right: 10px;
@@ -140,15 +144,27 @@ td > p {
 
     <div class="row-fluid">
         <div class="span12">
+            <form action="" method="post">
+
             <div class="hero-unit">
                 <h2>Post-Interview Form</h2>
+
                 {% if student %}{% if student.data.interview %}{% if student.data.interview.completed_date %}
                 {% set dontsave = 1 %}
-                <p>(This form has already been completed - information is available here for reference only, changes can no longer be saved.)</p>
+                <p>(This form has already been completed - information is available below for reference only, changes can no longer be saved.)</p>
                 {% endif %}{% endif %}{% endif %}
-            </div>
 
-            <form action="" method="post">
+                {% if dontsave != 1 %}
+                <p>Reference notes (for LEAPS staff to share additional details that may be relevant at interview):</p>
+                <textarea class="biggerfield" name="pre_interview_notes" {% if not current_user.view_admin %}disabled="disabled"{% endif %}>
+                    {% if student %}{% if student.data.pre_interview_notes %}{{ student.data.pre_interview_notes }}{% endif %}{% endif %}
+                </textarea>
+                {% if current_user.view_admin %}
+                <br><input type="submit" name="submit_reference_notes" class="btn btn-primary" value="Save reference notes">
+                {% endif %}
+                {% endif %}
+
+            </div>
 
 	        <table>
 	            <tbody>
@@ -216,6 +232,15 @@ td > p {
                         </td>
                     </tr>
                     <tr>
+                        <td><p>Asylum / refugee?</p></td>
+                        <td>
+                            <input type="checkbox" name="asylum_refugee" value="yes"{% if student %}{% if student.data.interview %}{% if student.data.interview.asylum_refugee %}checked{% endif %}{% endif %}{% endif %}
+                            {% if student %}{% if student.data.interview %}{% if student.data.interview.emailed_date %} disabled="disabled"{% endif %}{% endif %}{% endif %}
+                            >
+                        </td>
+                    </tr>
+
+                    <tr>
                         <td><p>SIMD 20?</p></td>
                         <td>
                             <input type="checkbox" name="simd_20" value="yes" {% if student %}{% if student.data.interview %}{% if student.data.interview.simd_20 %}checked{% endif %}{% endif %}{% endif %}
@@ -240,7 +265,7 @@ td > p {
                         </td>
                     </tr>
                     <tr>
-                        <td><p>HN only candidate?</p></td>
+                        <td><p>HN considered candidate?</p></td>
                         <td>
                             <input type="checkbox" name="hn_only_candidate" value="yes"{% if student %}{% if student.data.interview %}{% if student.data.interview.hn_only_candidate %}checked{% endif %}{% endif %}{% endif %}
                             {% if student %}{% if student.data.interview %}{% if student.data.interview.emailed_date %} disabled="disabled"{% endif %}{% endif %}{% endif %}
@@ -393,7 +418,7 @@ td > p {
                     </tr>
                     <tr>
                         <td><input type="submit" name="submit" class="btn btn-primary" value="Save"></td>
-                        <td><input type="submit" name="submit_and_complete" class="btn btn-primary" value="Save and complete action plan"></td>
+                        <td><input type="submit" name="submit_and_complete" class="btn btn-secondary" value="Save and complete action plan"></td>
                     </tr>
                     {% endif %}
 

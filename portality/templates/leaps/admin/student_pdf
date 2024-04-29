@@ -120,7 +120,7 @@
                 </tr>
             </table>
 
-            <h2>EXTRA ACADEMIC AND CAREER INFORMATION</h2>
+            <h2>EXTRA ACADEMIC / CAREER INFO, AND RELEVANT CRITERIA</h2>
             <table style="page-break-after:always">
                 {% if record.late_decision_to_apply %}<tr>
                     <td style="width:30%;">Late decision to apply?</td>
@@ -151,6 +151,7 @@
                         {% if record.claimed_estranged_cared_for == "No" %} not care experienced{% endif %}
                     {% endif %}
                     <br>{% endif %}
+                    {% if record.claimed_asylum_refugee %}Asylum / refugee<br>{% endif %}
                 </td></tr>
             </table>
 

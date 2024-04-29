@@ -110,6 +110,9 @@
             {% if record.young_carer %}
                 This student is a young carer<br />
             {% endif %}
+            {% if record.asylum_refugee %}
+                This student is an asylum seeker and/or refugee<br />
+            {% endif %}
             {% if record.law_application %}
                 This student is making a law application<br />
             {% endif %}
@@ -138,18 +141,9 @@
         <br><br>
 
         <h3>Course enquiry</h3>
-        <table>
-            <tr>
-                <th>Level</th>
-                <th>Subject</th>
-                <th style="width:50%;">Would you consider this student, and if so please detail the likely offer **</th>
-            </tr>
-            <tr>
-                <td>{{ application.level }}</td>
-                <td>{{ application.subject }}</td>
-                <td>{{ application.consider }} {{ application.conditions }}</td>
-            </tr>
-        </table> 
+        <h4>{{ application.level }} - {{ application.subject }}</h4>
+        <p><b>Would you consider this student, and if so please detail the likely offer **</b></p>
+        <p>{{ application.consider }}. {{ application.conditions }}</p>
 
         <!--
         <p><strong>Would you consider LEAPS Summer School reports as an indication of potential to succeed, should the student fail to meet the conditions set?</strong>

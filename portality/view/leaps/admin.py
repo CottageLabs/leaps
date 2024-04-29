@@ -222,10 +222,11 @@ def studentfix(uuid=None):
 @blueprint.route('/student/assign', methods=['GET'])
 def studentassign():
     interviewer = request.values.get('interviewer')
+    status = request.values.get('status')
     query = json.loads(request.values.get('q','{"query":{"match_all":{}}}'))
     selected = json.loads(request.values.get('selected','[]'))
     counter = 0
-    if interviewer and (request.values.get('q',False) or request.values.get('selected',False)):
+    if (interviewer or status) and (request.values.get('q',False) or request.values.get('selected',False)):
         s = models.Student.query(q=query)
         for i in s.get('hits',{}).get('hits',[]): 
             if len(selected) == 0 or i['_source']['id'] in selected:
@@ -235,7 +236,12 @@ def studentassign():
                     student.data['status'] = 'allocated_to_interviewer'
                     student.save()
                     counter += 1
-    flash(str(counter) + ' selected records were assigned to ' + interviewer, 'success')
+                elif student.data.get('status', False) != status:
+                    student.data['status'] = status
+                    student.save()
+                    counter += 1
+
+    flash(str(counter) + ' selected records were assigned to ' + (interviewer if interviewer else status), 'success')
     rdu = '/admin/student'
     if request.values.get('q',False):
         if not query.get('fields', False): query["fields"] = ["last_name","first_name","date_of_birth","post_code","simd_decile","school","status","archive","id"]

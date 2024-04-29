@@ -115,6 +115,11 @@ def interviewForm(sid):
     elif request.method == 'GET':
         student = models.Student.pull(sid)
         return render_template('leaps/interviews/form.html', student=student, selections=selections)
+    elif request.form.get('submit_reference_notes', False):
+        student.data['pre_interview_notes'] = request.form['pre_interview_notes']
+        student.save()
+        flash('The pre-interview notes have been saved.', 'success')
+        return render_template('leaps/interviews/form.html', student=student, selections=selections)
     elif request.form.get('submit_checker_notes', False):
         if student.data.get('interview',False):
             student.data['interview']['leaps_admin_notes'] = request.form['leaps_admin_notes']

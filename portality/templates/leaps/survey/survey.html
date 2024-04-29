@@ -156,8 +156,10 @@ jQuery(document).ready(function() {
         $(this).children().last().append('<p class="hidden-xs">&nbsp;</p><p style="display:none;"><a class="btn btn-block btn-warning delete-row" href="#">delete</a></p><p><a class="btn btn-block btn-success add-row" href="#">add</a></p>');
     });
 
+	var prevopts = ''; // for qualification selector, see below
     var addrow = function(event) {
         event.preventDefault();
+		prevopts = '';
         var maxrows = 6;
         $(this).closest('.row').hasClass('manyrows') ? maxrows = 30 : false;
         $(this).closest('.row').siblings('.row').length == (maxrows - 1) ? $(this).hide() : false;
@@ -179,6 +181,16 @@ jQuery(document).ready(function() {
         $(this).closest('.row').remove();
     }
     $('.delete-row').bind('click',deleterow);
+
+	// auto-add four rows each for fourth fifth and sixth year to quals section
+	for (var y of ['Fourth', 'Fifth', 'Sixth']) {
+		var qualscount = 0;
+		while (qualscount < 4) {
+			$('.manyrows').last().find('.qualificationselector').last().val(y + ' year');
+			$('.manyrows').last().find('.add-row').trigger('click');
+			qualscount++;
+		}
+	};
 
     var triggersave = function(event) {
         if ( !$('#survey').parsley('validate') ) {
@@ -251,6 +263,19 @@ jQuery(document).ready(function() {
     $('.institutionselector').bind('change',limitsubjects);
     $('.subjectselector').bind('change',limitlevels);
     
+    var limitqualifications = function(event) {
+		var yr = $(this).val();
+		var qs = $(this).closest('.row').find('.qualificationselector');
+		if (yr == 'Sixth year') {
+			prevopts = qs.html();
+			qs.html('<option value="" disabled="disabled" selected="selected">select Level of qualification</option><option>Currently sitting</option><option>Resit</option>');
+		} else if (prevopts) {
+			qs.html(prevopts);
+		}
+    }
+    $('.qualificationselector').bind('change',limitqualifications);
+
+
 	function checkKeys(e){
 		 e = e || event;
 		 var txtArea = /textarea/i.test((e.target || e.srcElement).tagName);
@@ -331,7 +356,7 @@ p.pregrey > span > span > span > span.select2-selection__rendered {
 
 	<div class="row">
 	    <div class="col-sm-12">
-	        <p>You must complete all of the six parts below. 
+	        <p>You must complete all of the seven parts below. 
 	        It should take no more than 30 minutes to complete, if you prepare in advance.
           Please have details of your qualifications, personal 
 	        interests, work experience, and possible University or College applications to hand before you start.
@@ -605,10 +630,10 @@ p.pregrey > span > span > span > span.select2-selection__rendered {
 	
     <div> <!-- need divs round each year quals set for row add/remove to work well-->
 
-    	<div class="row multi manyrows">
+    	<div class="row multi manyrows forquals">
     	    <div class="col-sm-2">
                 <p class="hidden-xs">School year</p>
-        		<p class="pregrey"><select name="qualification_year" class="form-control" style="color: #999;">
+        		<p class="pregrey"><select name="qualification_year" class="form-control qualificationselector" style="color: #999;">
         		    <option value="" disabled="disabled" selected="selected">select School year</option>
         		    <option>Third year</option>
         		    <option>Fourth year</option>
@@ -846,70 +871,90 @@ p.pregrey > span > span > span > span.select2-selection__rendered {
 	    </div>
 	</div>
 
+</div>
+
+
+
+<!-- the student details page -->
+<div class="part criteria">
+
 	<div class="row">
-	    <div class="col-sm-4">
-          <p>Please indicate which of these criteria you think applies to make you LEAPS eligible. These will be discussed
-          and confirmed at your interview.</p>
-          <p id="can_claim_simd" style="display: none;">(Your SIMD eligibility has already been set for you, based on the post code you provided above.)</p>
-          <p id="can_claim_school" style="display: none;">(Your school group has already been set for you, based on the school you provided above.)</p>
-	    </div>
-	    <div class="col-sm-8">
-          <input type="checkbox" id="claimed_simd20" name="claimed_simd20" style="margin-top:-3px;">
-          SIMD 20 (this is based on your post code and would be automatically checked if appropriate)
-
-      		<br><br>
-          <input type="checkbox" id="claimed_group_school" name="claimed_group_school" style="margin-top:-3px;">
-          Attend a Group 1 or Group 1+ school (Alloa, Bannockburn, Castlebrae, Craigroyston,
-          Drummond, Eyemouth, Forrester, Gracemount, Hawick, Liberton, Lornshill, Newbattle, Preston Lodge, Ross, 
-          Tynecastle, Wester Hailes)
-
-      		<br><br>
-      		<input type="checkbox" name="claimed_first_attending_university" style="margin-top:-3px;">
-      		Student who is first generation in family to apply to higher education (this includes students
-          whose parents do not already have a degree and students whose parents may have briefly
-          participated in higher education but did not achieve a degree.)
-          <br><br>
-
-      		<input type="checkbox" name="claimed_low_income_family" style="margin-top:-3px;">
-          Student from a low income background (for instance where a student is entitled to EMA, free meals
-          in school, or where the family is entitled to a benefit such as Universal Credit)
-      		<br><br>
-
-      		<input type="checkbox" name="claimed_young_carer" style="margin-top:-3px;">
-          Young carer (Anyone who provides unpaid care, for a friend, partner or family member, who due to
-          illness, frailty, disability, a mental health problem or an addiction cannot cope without their
-          support.)
-      		<br><br>
-
-      		<input type="checkbox" name="claimed_looked_after_child" style="margin-top:-3px;">
-          Care experienced (any student who has been, or is currently, in care.)
-      		<br><br>
-
-          <input type="checkbox" id="claimed_estranged" name="claimed_estranged" style="margin-top:-3px;">
-          Are you estranged from both your parents? (a young person who currently has little or no contact with either of their parents and/or
-          their legal guardian) If you are unsure what this means then please head to the What is LEAPS presentation / LEAPS Online video for 
-		  more information.
-
-		  <div id="more_estranged" style="display:none;">
-		  <select id="claimed_estranged_age" name="claimed_estranged_age">
-			<option></option>
-			<option>Under 16</option>
-			<option>16</option>
-			<option>17</option>
-			<option>18</option>
-		  </select>
-		  How old were you when you became estranged?
-
-		  <select id="claimed_estranged_cared_for" name="claimed_estranged_cared_for">
-			<option></option>
-			<option>Yes</option>
-			<option>No</option>
-		  </select>
-		  Have you ever been cared for by another member of your family, friends, or local authorities?
-		  </div>
-
+	    <div class="col-sm-12">
+	        <div class="well">
+	            <h2>7. Relevant criteria</h2>
+	            <p>Please indicate which of these criteria you think applies to make you LEAPS eligible. 
+					These will be discussed and confirmed at your interview.</p>
+	        </div>
 	    </div>
 	</div>
+
+	<div class="row">
+	    <div class="col-sm-6">
+
+			<input type="checkbox" id="claimed_simd20" name="claimed_simd20" style="margin-top:-3px;">
+			SIMD 20 (this is based on your post code and would be automatically checked if appropriate)
+			<span id="can_claim_simd" style="display: none;"><br>(Your SIMD eligibility has already been set for you, based on the post code you provided above.)</span>
+	
+				<br><br>
+			<input type="checkbox" id="claimed_group_school" name="claimed_group_school" style="margin-top:-3px;">
+			Attend a Group 1 or Group 1+ school (Alloa, Bannockburn, Castlebrae, Craigroyston,
+			Drummond, Eyemouth, Forrester, Gracemount, Hawick, Liberton, Lornshill, Newbattle, Preston Lodge, Ross, 
+			Tynecastle, Wester Hailes)
+			<span id="can_claim_school" style="display: none;"><br>(Your school group has already been set for you, based on the school you provided above.)</span>
+	
+				<br><br>
+				<input type="checkbox" name="claimed_first_attending_university" style="margin-top:-3px;">
+				Student who is first generation in family to apply to higher education (this includes students
+			whose parents do not already have a degree and students whose parents may have briefly
+			participated in higher education but did not achieve a degree.)
+			<br><br>
+	
+				<input type="checkbox" name="claimed_low_income_family" style="margin-top:-3px;">
+			Student from a low income background (for instance where a student is entitled to EMA, free meals
+			in school, or where the family is entitled to a benefit such as Universal Credit)
+				<br><br>
+
+        </div>
+	    <div class="col-sm-6">		
+
+			<input type="checkbox" name="claimed_young_carer" style="margin-top:-3px;">
+			Young carer (Anyone who provides unpaid care, for a friend, partner or family member, who due to
+			illness, frailty, disability, a mental health problem or an addiction cannot cope without their
+			support.)
+				<br><br>
+	
+				<input type="checkbox" name="claimed_looked_after_child" style="margin-top:-3px;">
+			Care experienced (any student who has been, or is currently, in care.)
+				<br><br>
+	
+			<input type="checkbox" id="claimed_estranged" name="claimed_estranged" style="margin-top:-3px;">
+			Are you estranged from both your parents? (a young person who currently has little or no contact with either of their parents and/or
+			their legal guardian) If you are unsure what this means then please head to the What is LEAPS presentation / LEAPS Online video for 
+			more information.
+	
+			<div id="more_estranged" style="display:none;">
+			<select id="claimed_estranged_age" name="claimed_estranged_age">
+				<option></option>
+				<option>Under 16</option>
+				<option>16</option>
+				<option>17</option>
+				<option>18</option>
+			</select>
+			How old were you when you became estranged?
+	
+			<select id="claimed_estranged_cared_for" name="claimed_estranged_cared_for">
+				<option></option>
+				<option>Yes</option>
+				<option>No</option>
+			</select>
+			Have you ever been cared for by another member of your family, friends, or local authorities?
+			</div>
+
+			<input type="checkbox" name="claimed_asylum_refugee" style="margin-top:-3px;">
+			Are you an asylum seeker or a refugee?
+
+        </div>
+    </div>
 
 </div>
 

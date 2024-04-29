@@ -114,7 +114,11 @@ class Student(DomainObject):
         if rec.get('simd_pc',False) == 1:
             rec['simd_pc'] = True
         if rec.get('simd_pc',False) == 0:
-            rec['simd_pc'] = False          
+            rec['simd_pc'] = False
+        
+        for n in ['first_name', 'last_name']:
+            if n in rec:
+                rec[n] = rec[n].capitalize()
 
         return rec
 
