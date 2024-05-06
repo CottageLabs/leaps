@@ -183,7 +183,7 @@ jQuery(document).ready(function() {
     $('.delete-row').bind('click',deleterow);
 
 	// auto-add four rows each for fourth fifth and sixth year to quals section
-	for (var y of ['Fourth', 'Fifth', 'Sixth']) {
+	/*for (var y of ['Fourth', 'Fifth', 'Sixth']) {
 		var qualscount = 0;
 		while (qualscount < 4) {
 			$('.manyrows').last().find('.qualificationselector').last().val(y + ' year');
@@ -191,7 +191,14 @@ jQuery(document).ready(function() {
 			$('.manyrows').last().find('.add-row').trigger('click');
 			qualscount++;
 		}
-	};
+	};*/
+	for (var i = 0; i < 12; i++) {
+		$('.manyrows').last().find('.add-row').trigger('click');
+	}
+	$('.qualificationselector').forEach(function (qs, i) {
+		$(qs).val(['Fourth', 'Fifth', 'Sixth'][i < 4 ? 0 : i < 8 ? 1 : 2] + ' year');
+		if (i > 7) $(qs).trigger('change');
+	});
 
     var triggersave = function(event) {
         if ( !$('#survey').parsley('validate') ) {
