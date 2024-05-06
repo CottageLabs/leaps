@@ -265,7 +265,7 @@ jQuery(document).ready(function() {
     
     var limitqualifications = function(event) {
 		var yr = $(this).val();
-		var qs = $(this).closest('.row').find('.qualificationselector');
+		var qs = $(this).closest('.row').find('.qualificationlevels');
 		if (yr == 'Sixth year') {
 			prevopts = qs.html();
 			qs.html('<option value="" disabled="disabled" selected="selected">select Level of qualification</option><option>Currently sitting</option><option>Resit</option>');
@@ -652,7 +652,7 @@ p.pregrey > span > span > span > span.select2-selection__rendered {
         	</div>
     	    <div class="col-sm-3">
                 <p class="hidden-xs">Level of qualification</p>
-        		<p class="pregrey"><select name="qualification_level" class="form-control select2this" style="color: #999;">
+        		<p class="pregrey"><select name="qualification_level" class="form-control qualificationlevels select2this" style="color: #999;">
         		    <option value="" disabled="disabled" selected="selected">select Level of qualification</option>
         		    {% for opt in selections.levels %}
         		        <option>{{ opt }}</option>
@@ -949,6 +949,8 @@ p.pregrey > span > span > span > span.select2-selection__rendered {
 			</select>
 			Have you ever been cared for by another member of your family, friends, or local authorities?
 			</div>
+
+			<br><br>
 
 			<input type="checkbox" name="claimed_asylum_refugee" style="margin-top:-3px;">
 			Are you an asylum seeker or a refugee?
