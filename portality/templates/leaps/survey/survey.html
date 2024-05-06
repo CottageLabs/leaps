@@ -156,10 +156,8 @@ jQuery(document).ready(function() {
         $(this).children().last().append('<p class="hidden-xs">&nbsp;</p><p style="display:none;"><a class="btn btn-block btn-warning delete-row" href="#">delete</a></p><p><a class="btn btn-block btn-success add-row" href="#">add</a></p>');
     });
 
-	var prevopts = ''; // for qualification selector, see below
     var addrow = function(event) {
         event.preventDefault();
-		prevopts = '';
         var maxrows = 6;
         $(this).closest('.row').hasClass('manyrows') ? maxrows = 30 : false;
         $(this).closest('.row').siblings('.row').length == (maxrows - 1) ? $(this).hide() : false;
@@ -253,25 +251,16 @@ jQuery(document).ready(function() {
     $('.institutionselector').bind('change',limitsubjects);
     $('.subjectselector').bind('change',limitlevels);
     
+	var allgrades = ''
     var limitqualifications = function(event) {
 		var yr = $(this).val();
 		var qs = $(this).closest('.row').find('.qualificationgrades').last();
-		var qsh = qs.html();
-		var qshp = qsh.split('</option>');
 		if (yr == 'Sixth year') {
-			qshp[0] = qshp[0].replace(' disabled="disabled"', '');
-			for (var p of qshp) {
-				if (parseInt(p) > 0) {
-					if (qshp[p].indexOf('Currently sitting' === -1 && qshp[p].indexOf('Resit') === -1) ) qshp[p] = qshp[p].replace('">', ' disabled="disabled">');
-				}
-			}
-		} else if (qshp[0].indexOf('"disabled"') === -1) {
-			for (var p of qshp) {
-				qshp[p] = qshp[p].replace(' disabled="disabled">', '">');
-			}
-			qshp[0] = qshp[0].replace('">', ' disabled="disabled">');
+			if (allgrades === '') allgrades = qs.html();
+			qs.html('<option value="" disabled="disabled" selected="selected">select Grade</option><option value="Currently sitting">Currently sitting</option><option value="Resit">Resit</option>');
+		} else if (allgrades) {
+			qs.html(allgrades);
 		}
-		qs.html(qshp.join('</option>'));
     }
     $('.qualificationselector').bind('change',limitqualifications);
 
