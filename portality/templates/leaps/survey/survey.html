@@ -186,7 +186,8 @@ jQuery(document).ready(function() {
 	for (var y of ['Fourth', 'Fifth', 'Sixth']) {
 		var qualscount = 0;
 		while (qualscount < 4) {
-			$('.manyrows').last().find('.qualificationselector').last().val(y + ' year').trigger('change');
+			$('.manyrows').last().find('.qualificationselector').last().val(y + ' year');
+			$('.manyrows').last().find('.qualificationselector').last().trigger('change');
 			$('.manyrows').last().find('.add-row').trigger('click');
 			qualscount++;
 		}
