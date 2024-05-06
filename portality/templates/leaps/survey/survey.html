@@ -182,22 +182,6 @@ jQuery(document).ready(function() {
     }
     $('.delete-row').bind('click',deleterow);
 
-	// auto-add four rows each for fourth fifth and sixth year to quals section
-	for (var i = 0; i < 11; i++) {
-		$('.manyrows').last().find('.add-row').trigger('click');
-	}
-	$('.qualificationselector').each(function (i) {
-		console.log(i, typeof(i));
-		var yr = i < 4 ? 'Fourth' : i < 8 ? 'Fifth' : 'Sixth'
-		var oh = $(this).html();
-		oh = oh.replace(' selected="selected"', '').replace('"' + yr + ' year"', '"' + yr + ' year" selected="selected"');
-		$(this).html(oh);
-		if (i > 7) {
-			console.log('change');
-			$(this).trigger('change');
-		}
-	});
-
     var triggersave = function(event) {
         if ( !$('#survey').parsley('validate') ) {
             event.preventDefault(); // this also focuses the first wrong element
@@ -282,6 +266,22 @@ jQuery(document).ready(function() {
     }
     $('.qualificationselector').bind('change',limitqualifications);
 
+
+	// auto-add four rows each for fourth fifth and sixth year to quals section
+	for (var i = 0; i < 11; i++) {
+		$('.manyrows').last().find('.add-row').trigger('click');
+	}
+	$('.qualificationselector').each(function (i) {
+		console.log(i, typeof(i));
+		var yr = i < 4 ? 'Fourth' : i < 8 ? 'Fifth' : 'Sixth'
+		var oh = $(this).html();
+		oh = oh.replace(' selected="selected"', '').replace('"' + yr + ' year"', '"' + yr + ' year" selected="selected"');
+		$(this).html(oh);
+		if (i > 7) {
+			console.log('change');
+			$(this).trigger('change');
+		}
+	});
 
 	function checkKeys(e){
 		 e = e || event;
