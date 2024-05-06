@@ -196,7 +196,8 @@ jQuery(document).ready(function() {
 		$('.manyrows').last().find('.add-row').trigger('click');
 	}
 	$('.qualificationselector').each(function (qs, i) {
-		$(qs).val(['Fourth', 'Fifth', 'Sixth'][i < 4 ? 0 : i < 8 ? 1 : 2] + ' year');
+		$(qs).val(i < 4 ? 'Fourth' : i < 8 ? 'Fifth' : 'Sixth') + ' year');
+		console.log(qs)
 		if (i > 7) $(qs).trigger('change');
 	});
 
