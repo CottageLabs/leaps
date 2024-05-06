@@ -188,7 +188,10 @@ jQuery(document).ready(function() {
 	}
 	$('.qualificationselector').each(function (i) {
 		console.log(i);
-		$(this).val((i < 4 ? 'Fourth' : i < 8 ? 'Fifth' : 'Sixth') + ' year');
+		var yr = i < 4 ? 'Fourth' : i < 8 ? 'Fifth' : 'Sixth'
+		$(this).html('<option value="' + yr + ' year" selected="selected">' + yr + ' year</option>');
+		console.log($(this).val());
+		if (i > 7) $(this).change();
 	});
 
     var triggersave = function(event) {
@@ -633,7 +636,7 @@ p.pregrey > span > span > span > span.select2-selection__rendered {
     	    <div class="col-sm-2">
                 <p class="hidden-xs">School year</p>
         		<p class="pregrey"><select name="qualification_year" class="form-control qualificationselector" style="color: #999;">
-        		    <option value="" disabled="disabled">select School year</option>
+        		    <option value="" disabled="disabled" selected="selected">select School year</option>
         		    <option>Third year</option>
         		    <option>Fourth year</option>
         		    <option>Fifth year</option>
