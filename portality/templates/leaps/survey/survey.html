@@ -183,23 +183,14 @@ jQuery(document).ready(function() {
     $('.delete-row').bind('click',deleterow);
 
 	// auto-add four rows each for fourth fifth and sixth year to quals section
-	/*for (var y of ['Fourth', 'Fifth', 'Sixth']) {
-		var qualscount = 0;
-		while (qualscount < 4) {
-			$('.manyrows').last().find('.qualificationselector').last().val(y + ' year');
-			$('.manyrows').last().find('.qualificationselector').last().trigger('change');
-			$('.manyrows').last().find('.add-row').trigger('click');
-			qualscount++;
-		}
-	};*/
-	for (var i = 0; i < 12; i++) {
+	for (var i = 0; i < 11; i++) {
 		$('.manyrows').last().find('.add-row').trigger('click');
 	}
 	$('.qualificationselector').each(function (i) {
 		console.log(i);
 		$(this).val((i < 4 ? 'Fourth' : i < 8 ? 'Fifth' : 'Sixth') + ' year');
 		console.log($(this));
-		if (i > 7) $(this).trigger('change');
+		if (i > 7) $(this).change();
 	});
 
     var triggersave = function(event) {
