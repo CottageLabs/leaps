@@ -186,7 +186,7 @@ jQuery(document).ready(function() {
 	for (var y of ['Fourth', 'Fifth', 'Sixth']) {
 		var qualscount = 0;
 		while (qualscount < 4) {
-			$('.manyrows').last().find('.qualificationselector').last().val(y + ' year');
+			$('.manyrows').last().find('.qualificationselector').last().val(y + ' year').trigger('change');
 			$('.manyrows').last().find('.add-row').trigger('click');
 			qualscount++;
 		}
@@ -933,7 +933,7 @@ p.pregrey > span > span > span > span.select2-selection__rendered {
 			more information.
 	
 			<div id="more_estranged" style="display:none;">
-				How old were you when you became estranged? <select id="claimed_estranged_age" name="claimed_estranged_age" style="width:150px">
+				How old were you when you became estranged? <select id="claimed_estranged_age" name="claimed_estranged_age" style="width:100px">
 				<option></option>
 				<option>Under 16</option>
 				<option>16</option>
@@ -943,7 +943,7 @@ p.pregrey > span > span > span > span.select2-selection__rendered {
 			<br>
 	
 			Have you ever been cared for by another member of your family, friends, or local authorities?
-			<select id="claimed_estranged_cared_for" name="claimed_estranged_cared_for" style="width:150px">
+			<select id="claimed_estranged_cared_for" name="claimed_estranged_cared_for" style="width:100px">
 				<option></option>
 				<option>Yes</option>
 				<option>No</option>
