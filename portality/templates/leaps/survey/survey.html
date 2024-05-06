@@ -187,7 +187,7 @@ jQuery(document).ready(function() {
 		$('.manyrows').last().find('.add-row').trigger('click');
 	}
 	$('.qualificationselector').each(function (i) {
-		console.log(i);
+		console.log(i, typeof(i));
 		var yr = i < 4 ? 'Fourth' : i < 8 ? 'Fifth' : 'Sixth'
 		var oh = $(this).html();
 		oh = oh.replace(' selected="selected"', '').replace('"' + yr + ' year"', '"' + yr + ' year" selected="selected"');
@@ -272,7 +272,7 @@ jQuery(document).ready(function() {
 		var qs = $(this).closest('.row').find('.qualificationgrades').last();
 		if (yr == 'Sixth year') {
 			prevopts = qs.html();
-			qs.html('<option value="" disabled="disabled" selected="selected">select Level of qualification</option><option value="Currently sitting">Currently sitting</option><option value="Resit">Resit</option>');
+			qs.html('<option value="" disabled="disabled" selected="selected">select Grade</option><option value="Currently sitting">Currently sitting</option><option value="Resit">Resit</option>');
 		} else if (prevopts) {
 			qs.html(prevopts);
 		}
