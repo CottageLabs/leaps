@@ -192,8 +192,6 @@ jQuery(document).ready(function() {
 		var oh = $(this).html();
 		oh = oh.replace(' selected="selected"', '').replace('"' + yr + ' year"', '"' + yr + ' year" selected="selected"');
 		$(this).html(oh);
-		console.log($(this).val());
-		if (i > 7) $(this).change();
 	});
 
     var triggersave = function(event) {
@@ -269,10 +267,11 @@ jQuery(document).ready(function() {
     
     var limitqualifications = function(event) {
 		var yr = $(this).val();
-		var qs = $(this).closest('.row').find('.qualificationlevels');
+		console.log(yr);
+		var qs = $(this).closest('.row').find('.qualificationgrades').last();
 		if (yr == 'Sixth year') {
 			prevopts = qs.html();
-			qs.html('<option value="" disabled="disabled" selected="selected">select Level of qualification</option><option>Currently sitting</option><option>Resit</option>');
+			qs.html('<option value="" disabled="disabled" selected="selected">select Level of qualification</option><option value="Currently sitting">Currently sitting</option><option value="Resit">Resit</option>');
 		} else if (prevopts) {
 			qs.html(prevopts);
 		}
@@ -665,7 +664,7 @@ p.pregrey > span > span > span > span.select2-selection__rendered {
         	</div>
     	    <div class="col-sm-2">
                 <p class="hidden-xs">Grade</p>
-        		<p class="pregrey"><select name="qualification_grade" class="form-control select2this" style="color: #999;">
+        		<p class="pregrey"><select name="qualification_grade" class="form-control qualificationgrades select2this" style="color: #999;">
         		    <option value="" disabled="disabled" selected="selected">select Grade</option>
         		    {% for opt in selections.grades %}
         		        <option>{{ opt }}</option>
