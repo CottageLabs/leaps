@@ -195,11 +195,11 @@ jQuery(document).ready(function() {
 	for (var i = 0; i < 12; i++) {
 		$('.manyrows').last().find('.add-row').trigger('click');
 	}
-	$('.qualificationselector').each(function (qs, i) {
+	$('.qualificationselector').each(function (i) {
 		console.log(i);
-		$(qs).val((i < 4 ? 'Fourth' : i < 8 ? 'Fifth' : 'Sixth') + ' year');
-		console.log($(qs));
-		if (i > 7) $(qs).trigger('change');
+		$(this).val((i < 4 ? 'Fourth' : i < 8 ? 'Fifth' : 'Sixth') + ' year');
+		console.log($(this));
+		if (i > 7) $(this).trigger('change');
 	});
 
     var triggersave = function(event) {
