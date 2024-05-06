@@ -255,14 +255,23 @@ jQuery(document).ready(function() {
     
     var limitqualifications = function(event) {
 		var yr = $(this).val();
-		console.log(yr);
 		var qs = $(this).closest('.row').find('.qualificationgrades').last();
+		var qsh = qs.html();
+		var qshp = qsh.split('</option>');
 		if (yr == 'Sixth year') {
-			prevopts = qs.html();
-			qs.html('<option value="" disabled="disabled" selected="selected">select Grade</option><option value="Currently sitting">Currently sitting</option><option value="Resit">Resit</option>');
-		} else if (prevopts) {
-			qs.html(prevopts);
+			qshp[0] = qshp[0].replace(' disabled="disabled"', '');
+			for (var p of qshp) {
+				if (parseInt(p) > 0) {
+					if (qshp[p].indexOf('Currently sitting' === -1 && qshp[p].indexOf('Resit') === -1) ) qshp[p] = qshp[p].replace('">', ' disabled="disabled">');
+				}
+			}
+		} else if (qshp[0].indexOf('"disabled"') === -1) {
+			for (var p of qshp) {
+				qshp[p] = qshp[p].replace(' disabled="disabled">', '">');
+			}
+			qshp[0] = qshp[0].replace('">', ' disabled="disabled">');
 		}
+		qs.html(qshp.join('</option>'));
     }
     $('.qualificationselector').bind('change',limitqualifications);
 
@@ -272,15 +281,11 @@ jQuery(document).ready(function() {
 		$('.manyrows').last().find('.add-row').trigger('click');
 	}
 	$('.qualificationselector').each(function (i) {
-		console.log(i, typeof(i));
 		var yr = i < 4 ? 'Fourth' : i < 8 ? 'Fifth' : 'Sixth'
 		var oh = $(this).html();
 		oh = oh.replace(' selected="selected"', '').replace('"' + yr + ' year"', '"' + yr + ' year" selected="selected"');
 		$(this).html(oh);
-		if (i > 7) {
-			console.log('change');
-			$(this).trigger('change');
-		}
+		if (i > 7) $(this).trigger('change');
 	});
 
 	function checkKeys(e){
