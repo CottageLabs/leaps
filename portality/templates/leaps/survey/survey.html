@@ -196,9 +196,9 @@ jQuery(document).ready(function() {
 		$('.manyrows').last().find('.add-row').trigger('click');
 	}
 	$('.qualificationselector').each(function (qs, i) {
-		$(qs).val(i < 4 ? 'Fourth' : i < 8 ? 'Fifth' : 'Sixth') + ' year');
-		console.log(qs)
-		if (i > 7) $(qs).trigger('change');
+		qs.val((i < 4 ? 'Fourth' : i < 8 ? 'Fifth' : 'Sixth') + ' year');
+		console.log(qs);
+		if (i > 7) qs.trigger('change');
 	});
 
     var triggersave = function(event) {
