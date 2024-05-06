@@ -189,7 +189,9 @@ jQuery(document).ready(function() {
 	$('.qualificationselector').each(function (i) {
 		console.log(i);
 		var yr = i < 4 ? 'Fourth' : i < 8 ? 'Fifth' : 'Sixth'
-		$(this).html('<option value="' + yr + ' year" selected="selected">' + yr + ' year</option>');
+		var oh = $(this).html();
+		oh = oh.replace(' selected="selected"', '').replace('"' + yr + ' year"', '"' + yr + ' year" selected="selected"');
+		$(this).html(oh);
 		console.log($(this).val());
 		if (i > 7) $(this).change();
 	});
