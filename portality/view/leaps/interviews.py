@@ -270,7 +270,7 @@ attached a copy of the action plan that your interviewer has prepared for you. I
 conversation that you had in your interview, and give you some steps to help you move forward with
 your plans.
 
-Your help please - complete below survey on how you feel about applying to uni / college (and enter a prize draw for £30 Love2Shop voucher!)
+Your help please - complete below survey on how you feel about applying to uni / college (and enter prize draw for £30 Love2Shop voucher!)
 
 LEAPS want to explore the effectiveness of the LEAPS Pre-UCAS 1:1 Interview,
 and we ask for your help to do this! We invite you to complete this short online questionnaire to help us gather a sense of
