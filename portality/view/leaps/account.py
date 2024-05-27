@@ -92,6 +92,18 @@ def username(username):
         acc.save()
         flash("Account updated", "success")
         return render_template('account/view.html', account=acc)
+
+    elif current_user.do_admin and ( ( request.method == 'POST' and request.values.get('submit','') == "Add system administrator ability to this account" ) ):
+        acc.data['do_admin'] = True
+        acc.save()
+        flash("Account updated", "success")
+        return render_template('account/view.html', account=acc)
+    elif current_user.do_admin and ( ( request.method == 'POST' and request.values.get('submit','') == "Add ability to edit students to this account" ) ):
+        acc.data['edit_students'] = True
+        acc.save()
+        flash("Account updated", "success")
+        return render_template('account/view.html', account=acc)
+
     elif request.method == 'POST':
         if not auth.user.update(acc,current_user):
             abort(401)

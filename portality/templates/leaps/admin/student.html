@@ -1200,6 +1200,7 @@ fieldset{
 						> Asylum / refugee
 						</td>
 
+        	            {% if record %}<input type="hidden" name="claimed_s5_interviewed" value="{{record.data.claimed_s5_interviewed}}">{% endif %}
 						<td><input type="checkbox" name="had_s5_interview"
 						{% if record %}{% if record.data.had_s5_interview %} checked="checked"{% endif %}{% endif %}
 						> Had S5 interview

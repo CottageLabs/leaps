@@ -66,14 +66,27 @@
                 {% endif %}
                 {% if account.data.do_admin %}
                 <p>This account can perform admin area actions.</p>
+                {% else %}
+                    {% if current_user.do_admin or current_user.is_super %}
+                    <form action="" method="post">
+                	    <input id="enable_do_admin" class="btn btn-primary" type="submit" name="submit" value="Add system administrator ability to this account">
+                	</form>
+                    {% endif %}
                 {% endif %}
                 {% if account.data.edit_students %}
                 <p>This account can edit student records.</p>
+                {% else %}
+                    {% if current_user.do_admin or current_user.is_super %}
+                    <form action="" method="post">
+                	    <input id="enable_edit_students" class="btn btn-primary" type="submit" name="submit" value="Add ability to edit students to this account">
+                	</form>
+                    {% endif %}
+                {% endif %}
                 {% endif %}
                 {% if account.data.view_admin %}
-                <p>This account can access the admin area.</p>
+                <p>This account can view the admin area.</p>
                 {% endif %}
-        	    {% if current_user.do_admin %}
+        	    {% if current_user.do_admin or current_user.is_super %}
                 <form action="" method="post">
             	    <input id="delete" class="btn btn-danger span2" type="submit" name="submit" value="Delete account">
             	</form>

@@ -44,11 +44,13 @@ jQuery(document).ready(function() {
     var checkschool = function() {
         var school = $('#school').val().toLowerCase().replace(/[^a-z]/g,'');
         $('#can_claim_school').hide();
+		$('#can_claim_interviewed').hide();
         $('#claimed_group_school').prop("checked", false);
         $('#claimed_group_school').attr("disabled", false);
         var schools = {{ selections.school_categories|tojson|safe }};
         if (school && (schools[school] === "1" || schools[school] === "1+")) {
             $('#can_claim_school').show();
+            $('#can_claim_interviewed').show();
             $('#claimed_group_school').prop("checked", true);
             $('#claimed_group_school').attr("disabled", true);
         }
@@ -957,6 +959,12 @@ p.pregrey > span > span > span > span.select2-selection__rendered {
 			<input type="checkbox" name="claimed_asylum_refugee" style="margin-top:-3px;">
 			Are you an asylum seeker or a refugee?
 
+			<br><br>
+
+			<span id="can_claim_interviewed" style="display: none;">
+				<input type="checkbox" name="claimed_s5_interviewed" style="margin-top:-3px;">
+				Have you had an S5 interview?
+			</span>
         </div>
     </div>
 
