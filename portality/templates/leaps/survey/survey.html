@@ -656,7 +656,7 @@ p.pregrey > span > span > span > span.select2-selection__rendered {
         	</div>
     	    <div class="col-sm-3">
                 <p class="hidden-xs">Level of qualification</p>
-        		<p class="pregrey"><select name="qualification_level" class="form-control qualificationlevels select2this" style="color: #999;">
+        		<p class="pregrey"><select name="qualification_level" class="form-control qualificationlevels" style="color: #999;">
         		    <option value="" disabled="disabled" selected="selected">select Level of qualification</option>
         		    {% for opt in selections.levels %}
         		        <option>{{ opt }}</option>
@@ -665,7 +665,7 @@ p.pregrey > span > span > span > span.select2-selection__rendered {
         	</div>
     	    <div class="col-sm-2">
                 <p class="hidden-xs">Grade</p>
-        		<p class="pregrey"><select name="qualification_grade" class="form-control qualificationgrades select2this" style="color: #999;">
+        		<p class="pregrey"><select name="qualification_grade" class="form-control qualificationgrades" style="color: #999;">
         		    <option value="" disabled="disabled" selected="selected">select Grade</option>
         		    {% for opt in selections.grades %}
         		        <option>{{ opt }}</option>

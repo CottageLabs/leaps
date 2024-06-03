@@ -265,6 +265,14 @@ td > p {
                         </td>
                     </tr>
                     <tr>
+                        <td><p>Had an S5 interview?</p></td>
+                        <td>
+                            <input type="checkbox" name="had_s5_interview" value="yes"{% if student %}{% if student.data.interview %}{% if student.data.interview.had_s5_interview %}checked{% endif %}{% endif %}{% endif %}
+                            {% if student %}{% if student.data.interview %}{% if student.data.interview.emailed_date %} disabled="disabled"{% endif %}{% endif %}{% endif %}
+                            >
+                        </td>
+                    </tr>
+                    <tr>
                         <td><p>HN considered candidate?</p></td>
                         <td>
                             <input type="checkbox" name="hn_only_candidate" value="yes"{% if student %}{% if student.data.interview %}{% if student.data.interview.hn_only_candidate %}checked{% endif %}{% endif %}{% endif %}
