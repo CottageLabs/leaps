@@ -77,8 +77,11 @@ jQuery(document).ready(function() {
         <div class="span12">
             <div class="well">
                 <h2>File upload</h2>
-                <p>CSV files can be saved from Microsoft Excel, for example. The name of the file you upload must end with the .csv extension - not .xls or anything else. NOTE that such files must be correctly formatted - you must have a first column containing subject levels (e.g. MA, BA, BSc), a second column containing subject names, and a third column containing subject course codes. Subject names are mandatory but levels and course codes are optional - e.g. you could leave those cells blank in your spreadsheet, but you should still maintain the columns even if they are empty. The first line of your file must contain the following column headers in correct order - "level", "name", "coursecode".</p>
-                <p>JSON format is also acceptable, if you know how to provide one. End the filename with .json, and ensure the file contains a JSON list of objects, where each object must have a "name" key and can optionally also have a "level" and "coursecode".</p>
+                <p>CSV files can be saved from Microsoft Excel, for example. The name of the file you upload must end with the .csv extension - not .xls or anything else. 
+                    NOTE that such files must be correctly formatted - 
+                    the first line of your file must contain the following column headers in correct order - "level", "name", "coursecode".
+                    Subject names are mandatory but levels (e.g. MA, BA, BSc) and course codes are optional - 
+                    you could leave those cells blank in your spreadsheet, but you should still keep the columns present even if they are empty. </p>
 
                 <form action="/admin/import/subjects" method="POST" enctype="multipart/form-data">
                 <p><input type="hidden" name="deleteall" value="true"></p>

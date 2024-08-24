@@ -85,9 +85,9 @@ jQuery(document).ready(function($) {
                         {% if record %}
                         <input class="btn btn-danger" type="submit" name="submit" value="Delete">
                         {% if model == 'institution' %}
-                        <a class="btn" style="margin-top:5px;" href="/universities?institution={{record.data.name}}">View institutional PAEs page</a>
+                        <a class="btn" href="/universities?institution={{record.data.name}}">View institutional PAEs page</a>
                         {% else %}
-                        <a class="btn" style="margin-top:5px;" href="/schools?school={{record.data.name}}">View school submissions page</a>
+                        <a class="btn" href="/schools?school={{record.data.name}}">View school submissions page</a>
                         {% endif %}
                         {% endif %}
             		</td>
@@ -342,6 +342,9 @@ jQuery(document).ready(function($) {
 
         {% if model in ["institution"] %}
         <h3>List of subjects available at this institution <small>as approved by the institution (if they have provided any)</small></h3>
+        {% if current_user.do_admin %}
+        <p><a class="btn" href="/admin/import/subjects?institution={{record.data.name}}">Bulk upload institution subjects</a> (note that doing so will overwrite any subjects shown above with what is provided in the upload file).</p>
+        {% endif %}
         <table class="multi">
             <thead>
                 <tr>
