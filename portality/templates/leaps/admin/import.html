@@ -41,7 +41,7 @@ jQuery(document).ready(function() {
         <p><select name="institution" id="institution">
             <option></option>
             {% for subject in subjects %}
-            <option>{{subject}}</option>
+            <option value="{{subject}}">{{subject}}</option>
             {% endfor %}
         </select> Choose the institution to upload these subjects to (deletes any other subjects for that institution).</p>
         <p>CSV files can be saved from Microsoft Excel, for example. The name of the file you upload must end with the .csv extension - not .xls or anything else. 
