@@ -151,19 +151,16 @@ td > p {
 
                 {% if student %}{% if student.data.interview %}{% if student.data.interview.completed_date %}
                 {% set dontsave = 1 %}
-                <p>(This form has already been completed - information is available below for reference only, changes can no longer be saved.)</p>
+                <p>(This form has already been completed - information is available below for reference only, saving changes will have no effect except for specific changes to LEAPS pre-interview or checker notes.)</p>
                 {% endif %}{% endif %}{% endif %}
 
                 <p>Reference notes (for LEAPS staff to share additional details that may be relevant at interview):</p>
-                {% if dontsave != 1 %}
-                    <textarea class="biggerfield" name="pre_interview_notes" {% if not current_user.view_admin %}disabled="disabled"{% endif %}>
-                        {% if student %}{% if student.data.pre_interview_notes %}{{ student.data.pre_interview_notes }}{% endif %}{% endif %}
-                    </textarea>
-                    {% if current_user.view_admin %}
-                    <br><input type="submit" name="submit_reference_notes" class="btn btn-primary" value="Save reference notes">
-                    {% endif %}
-                {% else %}
-                    {% if student.data.pre_interview_notes %}{{ student.data.pre_interview_notes }}{% else %}No reference notes{% endif %}
+                <textarea class="biggerfield" name="pre_interview_notes" {% if not current_user.view_admin %}disabled="disabled"{% endif %}>
+                    {% if student %}{% if student.data.pre_interview_notes %}{{ student.data.pre_interview_notes }}{% endif %}{% endif %}
+                </textarea>
+                {% if current_user.view_admin %}
+                <br><input type="submit" name="submit_reference_notes" class="btn btn-primary" value="Save reference notes">
+                {% endif %}
                 {% endif %}
 
             </div>
