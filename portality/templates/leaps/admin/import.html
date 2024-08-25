@@ -45,9 +45,9 @@ jQuery(document).ready(function() {
             {% endfor %}
         </select> Choose the institution to upload these subjects to (deletes any other subjects for that institution).</p>
         <p>CSV files can be saved from Microsoft Excel, for example. The name of the file you upload must end with the .csv extension - not .xls or anything else. 
-            NOTE that such files must be correctly formatted - 
+            <br>NOTE that such files must be correctly formatted - 
             the first line of your file must contain the following column headers in correct order - "level", "name", "coursecode".
-            Subject names are mandatory but levels (e.g. MA, BA, BSc) and course codes are optional - 
+            <br>Subject names are mandatory but levels (e.g. MA, BA, BSc) and course codes are optional - 
             you could leave those cells blank in your spreadsheet, but you should still keep the columns present even if they are empty. </p>
         {% else %}
         <p><input type="checkbox" name="deleteall"> Check this box if you wish to remove all current data before importing the new data.</p>
