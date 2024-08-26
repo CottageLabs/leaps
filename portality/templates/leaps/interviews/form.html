@@ -150,7 +150,6 @@ td > p {
                 <h2>Post-Interview Form</h2>
 
                 {% if student %}{% if student.data.interview %}{% if student.data.interview.completed_date %}
-                {% set dontsave = 1 %}
                 <p>(This form has already been completed - information is available below for reference only, saving changes will have no effect except for specific changes to LEAPS pre-interview or checker notes.)</p>
                 {% endif %}{% endif %}{% endif %}
 
@@ -409,7 +408,7 @@ td > p {
                     </tr>
 
 
-                    {% if dontsave == 1 %}
+                    {% if student %}{% if student.data.interview %}{% if student.data.interview.completed_date %}
                     <p>(This interview has already been completed - information is available here for reference only, changes can no longer be saved.)</p>
                     {% else %}
                     <tr>
