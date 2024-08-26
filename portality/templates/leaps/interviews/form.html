@@ -410,8 +410,12 @@ td > p {
 
                     {% if student %}{% if student.data.interview %}{% if student.data.interview.completed_date %}
                     <p>(This interview has already been completed - information is available here for reference only, changes can no longer be saved.)</p>
+                    {% endif %}
+                    {% if student %}{% if student.data.interview %}{% if student.data.interview.completed_date %}
+                    <tr style="display: none;">
                     {% else %}
                     <tr>
+                    {% endif %}
                         <td>
                             <p style="text-align:left;color:red;"><b>Click 'Save' to allow you (the interviewer) to save the changes you have made so far and to allow you
                             to come back to complete the form later.</b></p>
