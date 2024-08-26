@@ -425,7 +425,11 @@ td > p {
                             You won't be able to make any further changes after pressing this button.</b></p>
                         </td>
                     </tr>
+                    {% if student %}{% if student.data.interview %}{% if student.data.interview.completed_date %}
+                    <tr style="display: none;">
+                    {% else %}
                     <tr>
+                    {% endif %}
                         <td><input type="submit" name="submit" class="btn btn-primary" value="Save"></td>
                         <td><input type="submit" name="submit_and_complete" class="btn btn-secondary" value="Save and complete action plan"></td>
                     </tr>
