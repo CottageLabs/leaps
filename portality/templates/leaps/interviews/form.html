@@ -410,12 +410,12 @@ td > p {
 
                     {% if student %}{% if student.data.interview %}{% if student.data.interview.completed_date %}
                     <p>(This interview has already been completed - information is available here for reference only, changes can no longer be saved.)</p>
-                    {% endif %}
+                    {% endif %}{% endif %}{% endif %}
                     {% if student %}{% if student.data.interview %}{% if student.data.interview.completed_date %}
                     <tr style="display: none;">
-                    {% else %}
-                    <tr>
-                    {% endif %}
+                    {% else %}<tr>{% endif %}
+                    {% else %}<tr>{% endif %}
+                    {% else %}<tr>{% endif %}
                         <td>
                             <p style="text-align:left;color:red;"><b>Click 'Save' to allow you (the interviewer) to save the changes you have made so far and to allow you
                             to come back to complete the form later.</b></p>
@@ -427,14 +427,13 @@ td > p {
                     </tr>
                     {% if student %}{% if student.data.interview %}{% if student.data.interview.completed_date %}
                     <tr style="display: none;">
-                    {% else %}
-                    <tr>
-                    {% endif %}
+                    {% else %}<tr>{% endif %}
+                    {% else %}<tr>{% endif %}
+                    {% else %}<tr>{% endif %}
                         <td><input type="submit" name="submit" class="btn btn-primary" value="Save"></td>
                         <td><input type="submit" name="submit_and_complete" class="btn btn-secondary" value="Save and complete action plan"></td>
                     </tr>
-                    {% endif %}
-
+        
                     {% if current_user.view_admin %}<tr>{% else %}<tr style="display: none;">{% endif %}
                         <td><br><br><p><b style="color:red;">FOR ADMIN USE ONLY (Not to be completed by interviewers)</b><br>LEAPS interview forms processing notes:</p></td>
                         <td><br><br><textarea class="bigfield" name="leaps_admin_notes">{% if student %}{% if student.data.interview %}{{ student.data.interview.leaps_admin_notes }}{% endif %}{% endif %}</textarea></td>
