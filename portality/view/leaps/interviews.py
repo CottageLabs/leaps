@@ -62,7 +62,7 @@ def allocate():
         if interviewer and not isinstance(interviewer,bool):
             for sid in request.values['students'].split(','):
                 student = models.Student.pull(sid)
-                if student is not None:
+                if student is not None and student.data.get('interviewer', False) != interviewer and not student.data.get('interview', {}).get('status', False):
                     student.data['interviewer'] = interviewer
                     student.data['status'] = 'allocated_to_interviewer'
                     student.save()
@@ -113,15 +113,17 @@ def interviewForm(sid):
     elif interviewer != True and interviewer != student.data.get('interviewer') and not current_user.view_admin:
         abort(401)
     elif request.method == 'GET':
-        student = models.Student.pull(sid)
         return render_template('leaps/interviews/form.html', student=student, selections=selections)
     elif request.form.get('submit_reference_notes', False):
-        student.data['pre_interview_notes'] = request.form['pre_interview_notes']
+        if not student.data.get('interview',False): student.data['interview'] = {}
+        student.data['interview']['pre_interview_notes'] = request.form['pre_interview_notes']
+        #student.data['pre_interview_notes'] = request.form['pre_interview_notes']
         student.save()
         flash('The pre-interview notes have been saved.', 'success')
         return render_template('leaps/interviews/form.html', student=student, selections=selections)
     elif request.form.get('submit_checker_notes', False):
-        if student.data.get('interview',False):
+        #if student.data.get('interview',False):
+        if student.data.get('interview',{}).get('status',False):
             student.data['interview']['leaps_admin_notes'] = request.form['leaps_admin_notes']
             student.save()
             flash('The admin notes have been saved.', 'success')
@@ -130,7 +132,7 @@ def interviewForm(sid):
         return render_template('leaps/interviews/form.html', student=student, selections=selections)
     else:
         # save the form into the student record
-        if not student.data.get('interview',False):
+        '''if not student.data.get('interview',False):
             student.data['interview'] = {"status": "saved", "applications": [], "form_date": datetime.now().strftime("%Y-%m-%d %H%M")}
         else:
             ed = student.data['interview'].get('emailed_date', False)
@@ -138,7 +140,13 @@ def interviewForm(sid):
             st = student.data['interview'].get('status', 'saved')
             student.data['interview'] = {"status": st, "form_date": student.data['interview']['form_date'], "updated_date": datetime.now().strftime("%Y-%m-%d %H%M")}
             if ed != False: student.data['interview']['emailed_date'] = ed
-            if cd != False: student.data['interview']['completed_date'] = cd
+            if cd != False: student.data['interview']['completed_date'] = cd'''
+        if not student.data.get('interview',False): student.data['interview'] = {}
+        if not student.data['interview'].get('status',False): student.data['interview']['status'] = 'saved'
+        if not student.data['interview'].get('form_date',False): 
+            student.data['interview']['form_date'] = datetime.now().strftime("%Y-%m-%d %H%M")
+        else:
+            student.data['interview']['updated_date'] = datetime.now().strftime("%Y-%m-%d %H%M")
         # reset this each time and refill from the form inputs, which will replicate any previous ones, so deletions can also be tracked easily
         student.data['interview']['applications'] = []
         for k,v in enumerate(request.form.getlist('application_subject')):
@@ -176,7 +184,7 @@ def interviewAbsent(sid):
         student.data['status'] = 'absent'
         del student.data['interviewer']
         student.save()
-        flash('The student has been record as absent', 'success')
+        flash('The student has been recorded as absent', 'success')
         return redirect('/interviews')
 
 

@@ -1095,7 +1095,7 @@ fieldset{
 	    <div class="span12">
 	        <p>
 	            Interviewer: 
-				<select name="interviewer" id="interviewer" {% if record.data.interview and record.data.interview.emailed_date %}disabled="disabled"{% endif %}>
+				<select name="interviewer" id="interviewer" {% if record.data.interviewer and record.data.interview and record.data.interview.emailed_date %}readonly{% endif %}>
 			    <option></option>
 				{% if record %}{% if record.data.interviewer %}{% if record.data.interviewer not in interviewers %}<option style="color:red;" selected="selected">{{record.data.interviewer}}</option>{% endif %}{% endif %}{% endif %}
 				{% for opt in interviewers %}

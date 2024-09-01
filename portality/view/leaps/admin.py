@@ -231,12 +231,12 @@ def studentassign():
         for i in s.get('hits',{}).get('hits',[]): 
             if len(selected) == 0 or i['_source']['id'] in selected:
                 student = models.Student.pull(i['_source']['id'])
-                if student.data.get('interviewer', False) != interviewer and not student.data.get('interview', {}).get('emailed_date', False):
+                if interviewer and student.data.get('interviewer', False) != interviewer and not student.data.get('interview', {}).get('status', False):
                     student.data['interviewer'] = interviewer
                     student.data['status'] = 'allocated_to_interviewer'
                     student.save()
                     counter += 1
-                elif student.data.get('status', False) != status:
+                elif status and student.data.get('status', False) != status:
                     student.data['status'] = status
                     student.save()
                     counter += 1
