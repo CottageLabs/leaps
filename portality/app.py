@@ -1,9 +1,12 @@
 
-from flask import Flask, request, abort, render_template
+from flask import Flask, request, abort, render_template, make_response
 from flask.views import View
 from flask.ext.login import login_user, current_user
 
+import json, subprocess
+
 import portality.models as models
+import portality.util as util
 from portality.core import app, login_manager
 
 from portality.view.leaps.account import blueprint as account
@@ -81,6 +84,16 @@ def default():
 def policy():
     return render_template('leaps/policy.html')
 
+@app.route('/upd_fr_rp_at')
+@util.jsonp
+def upd_fr_rp_at():
+    res = {"success": False}
+    if request.values.get('key') == app.config.get('UPDATE_KEY', False):
+        subprocess.call(['./update.sh'])
+        res["success"] = True
+    resp = make_response( json.dumps(res) )
+    resp.mimetype = "application/json"
+    return resp
 
 if __name__ == "__main__":
     app.run(host='0.0.0.0', debug=app.config['DEBUG'], port=app.config['PORT'])
