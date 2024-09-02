@@ -126,6 +126,14 @@ td > p {
     text-align: right;
     padding-right: 10px;
 }
+td > p.big {
+    text-align: left;
+    padding-right: 10px;
+    margin-bottom: 10px;
+    width: 90%;
+    min-height: 100px;
+    border: 1px solid #ccc;
+}
 .alert-success {
     font-size: 1.8em !important;
     line-height:1.2em !important;
@@ -173,7 +181,7 @@ td > p {
 	                    <td style="text-align:right;padding:6px 10px 0 0;">First name</td>
                 		<td>
                         {% if completed %}
-                            <p style="padding:6px 10px 0 100px;">{{ student.data.interview.first_name }}</p>
+                            <p style="padding: 5px 60px 2px 5px; border: 1px solid #ccc; min-width: 150px; text-align: left;">{{ student.data.interview.first_name }}</p>
                         {% else %}
                             <input type="text" name="first_name"
                             {% if student %} value="{% if student.data.interview %}{% if student.data.interview.first_name %}{{ student.data.interview.first_name }}{% else %}{{ student.data.first_name }}{% endif %}{% else %}{{student.data.first_name}}{% endif %}"{% endif %}>
@@ -183,7 +191,7 @@ td > p {
                         <td style="text-align:right;padding:6px 10px 0 100px;">Last name</td>
                 		<td>
                         {% if completed %}
-                            <p style="padding:6px 10px 0 100px;">{{ student.data.interview.last_name }}</p>
+                            <p style="padding: 5px 60px 2px 5px; border: 1px solid #ccc; min-width: 150px; text-align: left;">{{ student.data.interview.last_name }}</p>
                         {% else %}
                             <input type="text" name="last_name"
                             {% if student %} value="{% if student.data.interview %}{% if student.data.interview.last_name %}{{ student.data.interview.last_name }}{% else %}{{ student.data.last_name }}{% endif %}{% else %}{{student.data.last_name}}{% endif %}"{% endif %}>
@@ -191,7 +199,7 @@ td > p {
                         </td>
 
 	                    <td style="text-align:right;padding:6px 10px 0 0;">School</td>
-	                    <td>{% if student %}<p style="padding:6px 10px 0 100px;">{{ student.data.school }}</p>{% endif %}</td>
+	                    <td>{% if student %}<p style="padding:6px 10px 0 60px;">{{ student.data.school }}</p>{% endif %}</td>
                     </tr>
                 </tbody>
             </table>
@@ -275,7 +283,9 @@ td > p {
                         <td><p>Main language at home</p></td>
                         <td>
                             {% if completed %}
-                                {% if student.data.interview.main_language_at_home %}{{ student.data.interview.main_language_at_home }}{% endif %}
+                                {% if student.data.interview.main_language_at_home %}
+                                    <p style="padding: 5px 5px 2px 5px; border: 1px solid #ccc; min-width: 150px; text-align: left;">{{ student.data.interview.main_language_at_home }}</p>
+                                {% endif %}
                             {% else %}
                                 <input type="text" name="main_language_at_home" value="{% if student %}{% if student.data.interview %}{{ student.data.interview.main_language_at_home }}{% endif %}{% endif %}">
                             {% endif %}
@@ -316,7 +326,7 @@ td > p {
                         <td><p>Please provide any missing contact details:</p></td>
                         <td>
                             {% if completed %}
-                                {% if student.data.interview.missing_contact_details %}{{ student.data.interview.missing_contact_details }}{% endif %}
+                                {% if student.data.interview.missing_contact_details %}<p class="big">{{ student.data.interview.missing_contact_details }}</p>{% endif %}
                             {% else %}
                                 <textarea class="bigfield" name="missing_contact_details"
                                 >{% if student %}{% if student.data.interview %}{% if student.data.interview.missing_contact_details %}{{ student.data.interview.missing_contact_details }}{% endif %}{% endif %}{% endif %}</textarea>
@@ -327,7 +337,7 @@ td > p {
                         <td><p>Please provide details of any missing qualifications:</p></td>
                         <td>
                             {% if completed %}
-                                {% if student.data.interview.missing_qualifications %}{{ student.data.interview.missing_qualifications }}{% endif %}
+                                {% if student.data.interview.missing_qualifications %}<p class="big">{{ student.data.interview.missing_qualifications }}</p>{% endif %}
                             {% else %}
                                 <textarea class="bigfield" name="missing_qualifications"
                                 >{% if student %}{% if student.data.interview %}{% if student.data.interview.missing_qualifications %}{{ student.data.interview.missing_qualifications }}{% endif %}{% endif %}{% endif %}</textarea>
@@ -339,7 +349,7 @@ td > p {
                         <td><p>Interviewer's summary of interview (internal to LEAPS)</p></td>
                         <td>
                             {% if completed %}
-                                {% if student.data.interview.summary_for_leaps %}{{ student.data.interview.summary_for_leaps }}{% endif %}
+                                {% if student.data.interview.summary_for_leaps %}<p class="big">{{ student.data.interview.summary_for_leaps }}</p>{% endif %}
                             {% else %}
                                 <textarea class="bigfield" name="summary_for_leaps">{% if student %}{% if student.data.interview %}{% if student.data.interview.summary_for_leaps %}{{ student.data.interview.summary_for_leaps }}{% endif %}{% endif %}{% endif %}</textarea>
                             {% endif %}
@@ -357,7 +367,7 @@ td > p {
                         <td><p>Summary of discussion / action points to go onto the student action plan:</p></td>
                         <td>
                             {% if completed %}
-                                {% if student.data.interview.action_points %}{{ student.data.interview.action_points }}{% endif %}
+                                {% if student.data.interview.action_points %}<p class="big">{{ student.data.interview.action_points }}</p>{% endif %}
                             {% else %}
                                 <textarea class="bigfield" name="action_points"
                                 >{% if student %}{% if student.data.interview %}{% if student.data.interview.action_points %}{{ student.data.interview.action_points }}{% endif %}{% endif %}{% endif %}</textarea>
@@ -368,7 +378,7 @@ td > p {
                         <td><p>Courses discussed:</p></td>
                         <td>
                             {% if completed %}
-                                {% if student.data.interview.courses_discussed %}{{ student.data.interview.courses_discussed }}{% endif %}
+                                {% if student.data.interview.courses_discussed %}<p class="big">{{ student.data.interview.courses_discussed }}</p>{% endif %}
                             {% else %}
                                 <textarea class="bigfield" name="courses_discussed"
                                 >{% if student %}{% if student.data.interview %}{% if student.data.interview.courses_discussed %}{{ student.data.interview.courses_discussed }}{% endif %}{% endif %}{% endif %}</textarea>
@@ -433,7 +443,7 @@ td > p {
                         <td><p>Specific subjects required?</p></td>
                         <td>
                             {% if completed %}
-                                {% if student.data.interview.specific_subjects_required %}{{ student.data.interview.specific_subjects_required }}{% endif %}
+                                {% if student.data.interview.specific_subjects_required %}<p class="big">{{ student.data.interview.specific_subjects_required }}</p>{% endif %}
                             {% else %}
                                 <textarea class="bigfield" name="specific_subjects_required"
                                 >{% if student %}{% if student.data.interview %}{% if student.data.interview.specific_subjects_required %}{{ student.data.interview.specific_subjects_required }}{% endif %}{% endif %}{% endif %}</textarea>
@@ -445,7 +455,7 @@ td > p {
                         <td><p>HN courses / articulation routes (if relevant):</p></td>
                         <td>
                             {% if completed %}
-                                {% if student.data.interview.hn_courses_discussed %}{{ student.data.interview.hn_courses_discussed }}{% endif %}
+                                {% if student.data.interview.hn_courses_discussed %}<p class="big">{{ student.data.interview.hn_courses_discussed }}</p>{% endif %}
                             {% else %}
                                 <textarea class="bigfield" name="hn_courses_discussed"
                                 >{% if student %}{% if student.data.interview %}{% if student.data.interview.hn_courses_discussed %}{{ student.data.interview.hn_courses_discussed }}{% endif %}{% endif %}{% endif %}</textarea>
