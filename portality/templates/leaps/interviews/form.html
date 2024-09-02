@@ -275,7 +275,7 @@ td > p {
                         <td><p>Main language at home</p></td>
                         <td>
                             {% if completed %}
-                                {% if student.data.interview.main_language_at_home %}{{ if student.data.interview.main_language_at_home }}{% endif %}
+                                {% if student.data.interview.main_language_at_home %}{{ student.data.interview.main_language_at_home }}{% endif %}
                             {% else %}
                                 <input type="text" name="main_language_at_home" value="{% if student %}{% if student.data.interview %}{{ student.data.interview.main_language_at_home }}{% endif %}{% endif %}">
                             {% endif %}
