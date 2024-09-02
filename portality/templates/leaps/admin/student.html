@@ -1098,17 +1098,22 @@ fieldset{
 	    <div class="span12">
 	        <p>
 	            Interviewer: 
-				<select name="interviewer" id="interviewer" {% if record.data.interviewer and record.data.interview and record.data.interview.emailed_date %}readonly{% endif %}>
-			    <option></option>
-				{% if record %}{% if record.data.interviewer %}{% if record.data.interviewer not in interviewers %}<option style="color:red;" selected="selected">{{record.data.interviewer}}</option>{% endif %}{% endif %}{% endif %}
-				{% for opt in interviewers %}
-					<option
-					{% if record %}
-						{% if record.data.interviewer == opt %} selected="selected"{% endif %}
-					{% endif %}
-					>{{ opt }}</option>
-				{% endfor %}
-				</select>
+							{% if record.data.interviewer and record.data.interview and record.data.interview.completed_date %}
+								<input type="hidden" name="interviewer" value="{{ record.data.interviewer }}">
+								{{ record.data.interviewer }}
+							{% else %}
+								<select name="interviewer" id="interviewer">
+									<option></option>
+								{% if record %}{% if record.data.interviewer %}{% if record.data.interviewer not in interviewers %}<option style="color:red;" selected="selected">{{record.data.interviewer}}</option>{% endif %}{% endif %}{% endif %}
+								{% for opt in interviewers %}
+									<option
+									{% if record %}
+										{% if record.data.interviewer == opt %} selected="selected"{% endif %}
+									{% endif %}
+									>{{ opt }}</option>
+								{% endfor %}
+								</select>
+							{% endif %}
 				{% if record %}
 				    {% if record.data.interviewer %}
     		    		<a class="btn btn-info" style="margin-top:-10px;" target="_blank" href="/interviews/{{ record.data.id }}/form">View interview admin form</a>
