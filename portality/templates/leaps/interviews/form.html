@@ -156,14 +156,14 @@ td > p {
 
                 {% if current_user.view_admin %}
                 <p>Reference notes (for LEAPS staff to share additional details that may be relevant at interview):</p>
-                <textarea class="biggerfield" name="pre_interview_notes">{% if student %}{% if student.data.pre_interview_notes %}{{ student.data.pre_interview_notes }}{% endif %}{% endif %}</textarea>
+                <textarea class="biggerfield" name="pre_interview_notes">{% if student %}{% if student.data.interview %}{% if student.data.interview.pre_interview_notes %}{{ student.data.interview.pre_interview_notes }}{% endif %}{% endif %}{% endif %}</textarea>
                 <br><input type="submit" name="submit_reference_notes" class="btn btn-primary" value="Save reference notes">
                 {% else %}
-                    {% if student %}{% if student.data.pre_interview_notes %}
+                    {% if student %}{% if student.data.interview %}{% if student.data.interview.pre_interview_notes %}
                     <p>Reference notes (for LEAPS staff to share additional details that may be relevant at interview):</p>
-                    <input type="hidden" name="pre_interview_notes" value="{{ student.data.pre_interview_notes }}">
-                    <p>{{ student.data.pre_interview_notes }}</p>
-                    {% endif %}{% endif %}>
+                    <input type="hidden" name="pre_interview_notes" value="{{ student.data.interview.pre_interview_notes }}">
+                    <p>{{ student.data.interview.pre_interview_notes }}</p>
+                    {% endif %}{% endif %}{% endif %}
                 {% endif %}
             </div>
 
