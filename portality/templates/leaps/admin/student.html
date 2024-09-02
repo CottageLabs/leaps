@@ -1121,13 +1121,14 @@ fieldset{
                             <a class="btn btn-info" style="margin-top:-10px;" target="_blank" href="/interviews/{{ record.data.id }}/plan.pdf">View / print action plan</a>
         				{% endif %}{% endif %}
         				{% if record.data.interview is defined %}
-                            {% if record.data.interview.emailed_date %}
-                                Action plan emailed on {{ record.data.interview.emailed_date }}
-                            {% else %}
-                                {% if record.data.interview.completed_date %}
-                                    {% if current_user.do_admin %}
-                                        <!--<a class="btn btn-info" style="margin-top:-10px;" href="/interviews/{{ record.data.id }}/email">Email action plan</a>-->
-            				        {% endif %}
+										{% if record.data.interview.emailed_date %}
+												Action plan emailed on {{ record.data.interview.emailed_date }}
+										{% else %}
+												Completed on {{ record.data.interview.completed_date }}
+												{% if record.data.interview.completed_date %}
+														{% if current_user.do_admin %}
+																<!--<a class="btn btn-info" style="margin-top:-10px;" href="/interviews/{{ record.data.id }}/email">Email action plan</a>-->
+														{% endif %}
         				        {% endif %}
         				    {% endif %}
         				{% endif %}
